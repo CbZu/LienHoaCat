@@ -1,0 +1,473 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Karmo - Responsive Creative HTML Template</title>
+    &lt;!&ndash; META TAGS &ndash;&gt;
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <meta name="description" content="KARMO is a creative and modern template for digital agencies">
+
+    &lt;!&ndash; STYLES &ndash;&gt;
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/flexslider.css">
+    <link rel="stylesheet" href="assets/css/animsition.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.css">
+    <link rel="stylesheet" href="assets/css/owl.theme.css">
+
+    &lt;!&ndash; Fontawesome &ndash;&gt;
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+</head>
+
+<body class="animsition">
+&lt;!&ndash; Border &ndash;&gt;
+<span class="frame-line top-frame visible-lg"></span>
+<span class="frame-line right-frame visible-lg"></span>
+<span class="frame-line bottom-frame visible-lg"></span>
+<span class="frame-line left-frame visible-lg"></span>
+&lt;!&ndash; HEADER  &ndash;&gt;
+<header class="main-header">
+    <div class="container-fluid">
+        &lt;!&ndash; box header &ndash;&gt;
+        <div class="box-header">
+            <div class="box-logo">
+                <a href="/"><img src="assets/img/logo.png" width="80" alt="Logo"></a>
+            </div>
+            &lt;!&ndash; box-nav &ndash;&gt;
+            <a class="box-primary-nav-trigger" href="#0">
+                <span class="box-menu-icon"></span>
+            </a>
+            &lt;!&ndash; box-primary-nav-trigger &ndash;&gt;
+        </div>
+        &lt;!&ndash; end box header &ndash;&gt;
+
+        &lt;!&ndash; nav &ndash;&gt;
+        <nav>
+            <ul class="box-primary-nav">
+                <li class="box-label">KARMO</li>
+
+                <li><a href="/">Home</a> <i class="lnr lnr-home"></i></li>
+                <li><a href="services.html">services</a></li>
+                <li><a href="single-project.html">single project</a></li>
+                <li><a href="contact.html">contact</a></li>
+                <li><a href="/users/login">login</a></li>
+                <li><a href="/users/test">test</a></li>
+
+                <li class="box-label">SOCIAL</li>
+
+                <li class="box-social"><a href="#0"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                <li class="box-social"><a href="#0"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+                <li class="box-social"><a href="#0"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                <li class="box-social"><a href="#0"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+            </ul>
+        </nav>
+        &lt;!&ndash; end nav &ndash;&gt;
+
+        &lt;!&ndash; box-intro &ndash;&gt;
+        <section class="box-intro bg-film">
+            <div class="table-cell">
+
+                <h3 class="box-headline letters rotate-2">
+                                        <span class="box-words-wrapper">
+                                                <b class="is-visible">CLEAN &nbsp;&amp;&nbsp; CREATIVE.</b>
+                                                <b>&nbsp;SIMPLE &nbsp;&amp;&nbsp; POWERFUL.</b>
+                                        </span>
+                </h3>
+                <h1>WE ARE KARMO</h1>
+
+            </div>
+
+            <div class="mouse">
+                <div class="scroll"></div>
+            </div>
+        </section>
+        &lt;!&ndash; end box-intro &ndash;&gt;
+    </div>
+</header>-->
+
+<% include partials/index_Header.ejs %>
+
+<!-- PORTFOLIO -->
+<section class="portfolio">
+    <div class="top-right-separator hidden-xs"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <div class="row center">
+                    <div class="section-title mb-100">
+                        <div class="process-numbers">03</div>
+                        <h2>portfolio</h2>
+                        <p class="module-subtitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- categories  -->
+        <div class="row">
+            <div class="row categories-grid">
+                <nav class="categories">
+                    <ul class="portfolio_filter">
+                        <li class="col-md-2"><a href="" class="active" data-filter="*">Home</a></li>
+                        <li class="col-md-2"><a href="" data-filter=".web">Xem Tuổi và Mệnh</a></li>
+                        <li class="col-md-2"><a href="" data-filter=".logo">Phong Thủy</a></li>
+                        <li class="col-md-2"><a href="" data-filter=".graphics">Thời Cúng</a></li>
+                        <li class="col-md-2"><a href="" data-filter=".ads">Đời Sống</a></li>
+                        <li class="col-md-2"><a href="" data-filter=".fashion">Dịch Vụ</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- all works -->
+        <div class="row">
+            <div class="row portfolio_container">
+                <!-- single work -->
+                <div class="col-md-4 photography">
+                    <a href="single-project.html" class="portfolio_item work-grid">
+                        <img src="assets/img/work-1.jpg" alt="image">
+                        <div class="portfolio_item_hover">
+                            <div class="item_info">
+                                <span>Brave man</span>
+                                <em>photography</em>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- end single work -->
+
+                <!-- single work -->
+                <div class="col-md-4 fashion logo">
+                    <a href="single-project.html" class="portfolio_item work-grid">
+                        <img src="assets/img/work-2.jpg" alt="image">
+                        <div class="portfolio_item_hover">
+                            <div class="item_info">
+                                <span>super man</span>
+                                <em>photography</em>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- end single work -->
+
+                <!-- single work -->
+                <div class="col-md-4 ads graphics">
+                    <a href="single-project.html" class="portfolio_item work-grid">
+                        <img src="assets/img/work-5.jpg" alt="image">
+                        <div class="portfolio_item_hover">
+                            <div class="item_info">
+                                <span>bat man</span>
+                                <em>photography</em>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- end single work -->
+
+                <!-- single work -->
+                <div class="col-md-4 fashion ads">
+                    <a href="single-project.html" class="portfolio_item work-grid">
+                        <img src="assets/img/work-4.jpg" alt="image">
+                        <div class="portfolio_item_hover">
+                            <div class="item_info">
+                                <span>spider man</span>
+                                <em>photography</em>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- end single work -->
+
+                <!-- single work -->
+                <div class="col-md-4 graphics ads">
+                    <a href="single-project.html" class="portfolio_item work-grid">
+                        <img src="assets/img/work-3.jpg" alt="image">
+                        <div class="portfolio_item_hover">
+                            <div class="item_info">
+                                <span>iron man</span>
+                                <em>photography</em>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- end single work -->
+
+                <!-- single work -->
+                <div class="col-md-4 logo web photography">
+                    <a href="single-project.html" class="portfolio_item work-grid">
+                        <img src="assets/img/xemtuoivamenh1.jpg" alt="image">
+                        <div class="portfolio_item_hover">
+                            <div class="item_info">
+                                <span>iron man</span>
+                                <em>photography</em>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- end single work -->
+
+                <!-- single work -->
+                <div class="col-md-4 ads graphics">
+                    <a href="single-project.html" class="portfolio_item work-grid">
+                        <img src="assets/img/work-2.jpg" alt="image">
+                        <div class="portfolio_item_hover">
+                            <div class="item_info">
+                                <span>iron man</span>
+                                <em>photography</em>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- end single work -->
+
+                <!-- single work -->
+                <div class="col-md-4 web fashion photography">
+                    <a href="single-project.html" class="portfolio_item work-grid">
+                        <img src="assets/img/xemtuoivamenh2.jpg" alt="image">
+                        <div class="portfolio_item_hover">
+                            <div class="item_info">
+                                <span>iron man</span>
+                                <em>photography</em>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- end single work -->
+
+                <!-- single work -->
+                <div class="col-md-4 fashion logo">
+                    <a href="single-project.html" class="portfolio_item work-grid">
+                        <img src="assets/img/work-1.jpg" alt="image">
+                        <div class="portfolio_item_hover">
+                            <div class="item_info">
+                                <span>iron man</span>
+                                <em>photography</em>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- end single work -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- all works end -->
+    </div>
+    <!-- end container -->
+</section>
+<!-- portfolio -->
+
+<!-- Contact -->
+<section id="contact" class="contact mbr-box mbr-section mbr-section--relative mbr-section--bg-adapted">
+    <div class="container">
+        <div class="col-md-6 col-sm-12">
+            <div class="row">
+                <h4> let's work together</h4>
+                <p class="libre-text mt-50">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua.Far far away, behind the word mountains, far from the countries Vokalia and Consonantia,
+                    there live the blind texts.
+                </p>
+
+                <a href="contact.html" class="default-btn"> Get in touch <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+            </div>
+        </div>
+
+        <!-- Subscribe block -->
+        <div class=" col-md-offset-1 col-md-5 col-sm-12">
+            <div class="row center">
+                <div class="newsletter">
+                    <h4>SUBSCRIBE</h4>
+                    <p class="libre-text mb-50">
+                        Stay informed with our newsletter
+                    </p>
+                    <form action="#" method="post">
+                        <div class="input_1">
+                            <input type="text" name="email">
+                            <span>Enter your email adress</span>
+                        </div>
+                        <button id="submit_btn" class="default-btn"> Send <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Footer -->
+<footer class="main-footer">
+    <svg preserveAspectRatio="none" viewBox="0 0 100 102" height="100" width="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" class="svgcolor-light">
+        <path d="M0 0 L50 100 L100 0 Z" fill="#fff" stroke="#fff"></path>
+    </svg>
+    <div class="container">
+        <div class="row mt-100 mb-50 footer-widgets">
+            <!-- Start Contact Widget -->
+            <div class="col-md-6 col-xs-12">
+                <div class="footer-widget contact-widget">
+                    <img src="assets/img/footerlogo.png" class="logo-footer img-responsive" alt="Footer Logo" />
+                    <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
+                    <ul class="social-icons">
+                        <li>
+                            <a class="facebook" href="#"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li>
+                            <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li>
+                            <a class="google" href="#"><i class="fa fa-google-plus"></i></a>
+                        </li>
+                        <li>
+                            <a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a>
+                        </li>
+                        <li>
+                            <a class="linkdin" href="#"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                        <li>
+                            <a class="flickr" href="#"><i class="fa fa-flickr"></i></a>
+                        </li>
+                        <li>
+                            <a class="tumblr" href="#"><i class="fa fa-tumblr"></i></a>
+                        </li>
+                        <li>
+                            <a class="instgram" href="#"><i class="fa fa-instagram"></i></a>
+                        </li>
+                        <li>
+                            <a class="vimeo" href="#"><i class="fa fa-vimeo-square"></i></a>
+                        </li>
+                        <li>
+                            <a class="skype" href="#"><i class="fa fa-skype"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- .col-md-3 -->
+            <!-- End Contact Widget -->
+
+            <!-- Start Twitter Widget -->
+            <div class="col-md-3 col-xs-12">
+                <div class="footer-widget twitter-widget">
+                    <h4>Twitter</h4>
+                    Email: somecompany@example.com <br>
+                    Phone: +1 234 567 89 10
+                </div>
+            </div><!-- .col-md-3 -->
+            <!-- End Twitter Widget -->
+
+            <!-- Start Flickr Widget -->
+            <div class="col-md-3 col-xs-12">
+                <div class="footer-widget company-links">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Our Products</a></li>
+                        <li><a href="#">Our Culture</a></li>
+                        <li><a href="#">Team</a></li>
+                    </ul>
+                </div>
+            </div><!-- .col-md-3 -->
+            <!-- End Flickr Widget -->
+        </div><!-- .row -->
+
+        <!-- Start Copyright -->
+        <div class="copyright-section">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; 2016 Karmo -  All Rights Reserved <a href="#">Tanislav Robert</a> </p>
+                </div><!-- .col-md-6 -->
+            </div><!-- .row -->
+        </div>
+        <!-- End Copyright -->
+    </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script type="text/javascript" src="assets/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="assets/js/animated-headline.js"></script>
+<script type="text/javascript" src="assets/js/menu.js"></script>
+<script type="text/javascript" src="assets/js/modernizr.js"></script>
+<script type="text/javascript" src="assets/js/isotope.pkgd.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.flexslider-min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.animsition.min.js"></script>
+<script type="text/javascript" src="assets/js/init.js"></script>
+<script type="text/javascript" src="assets/js/main.js"></script>
+<script type="text/javascript" src="assets/js/smooth-scroll.js"></script>
+<script type="text/javascript" src="assets/js/numscroller.js"></script>
+<script type="text/javascript" src="assets/js/wow.min.js"></script>
+<script type="text/javascript" src="assets/js/owl.carousel.min.js"></script>
+
+<script type="text/javascript">
+    $(window).load(function() {
+        new WOW().init();
+
+        // initialise flexslider
+        $('.flexslider').flexslider({
+            animation: "fade",
+            directionNav: true,
+            controlNav: false,
+            keyboardNav: true,
+            slideToStart: 0,
+            animationLoop: true,
+            pauseOnHover: false,
+            slideshowSpeed: 4000,
+        });
+
+        smoothScroll.init();
+
+        // initialize isotope
+        var $container = $('.portfolio_container');
+        $container.isotope({
+            filter: '*',
+        });
+
+        $('.portfolio_filter a').click(function(){
+            $('.portfolio_filter .active').removeClass('active');
+            $(this).addClass('active');
+
+            var selector = $(this).attr('data-filter');
+            $container.isotope({
+                filter: selector,
+                animationOptions: {
+                    duration: 500,
+                    animationEngine : "jquery"
+                }
+            });
+            return false;
+        });
+    });
+
+
+    var data = new Array();
+    $.ajax({
+        type:'GET',
+        url: 'users/getPhotographyUrl',
+        success: (response)=>{
+            data = response;
+            console.log(data[0].url);
+            let insert = '';
+            insert += "<div class=\"col-md-4 photography\">";
+            insert += "<a href=\"single-project.html\" class=\"portfolio_item work-grid\">";
+            insert += "<img src=\"" + data[0].url + "\" alt=\"image\">";
+            insert += "<div class=\"portfolio_item_hover\">";
+            insert += "<div class=\"item_info\">";
+            insert += "<span>Brave man</span>";
+            insert += "<span>Brave man</span>";
+            insert += "<em>photography</em>";
+            insert += "</div>";
+            insert += "</div>";
+            insert += "</a>";
+            insert += " </div;>";
+            console.log(insert);
+            $('.row.portfolio_container').after(insert);
+            //$(insert).insertAfter('.row portfolio_container');
+
+        }
+
+    });
+    console.log(data);
+
+</script>
+</body>
+</html>

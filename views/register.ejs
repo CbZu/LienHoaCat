@@ -1,0 +1,222 @@
+﻿<!DOCTYPE HTML>
+<html>
+
+<% include partials/index_Header.ejs %>
+
+<body>
+
+<!-- FACEBOOK WIDGET -->
+<div id="fb-root"></div>
+<script>
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+<!-- /FACEBOOK WIDGET -->
+<div class="global-wrap">
+    <div class="gap"></div>
+
+    <div class="container">
+
+        <div class="row">
+            <ol class="breadcrumb">
+                <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="/maintenance">Account Maintenance</a> / <a href="/#">Sign Up</a>
+            </ol>
+            <%if (data.status == 'success'){%>
+            <div class="alert alert-success">
+                <strong>Success!</strong>
+            </div>
+            <%}%>
+        </div>
+
+        <div class="row" data-gutter="60">
+            <div class="col-md-4">
+                <h1>Sign up</h1>
+
+                <form action="signup" novalidate method="post" enctype="multipart/form-data" id="frmId">
+                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <label>Email</label>
+                        <input class="form-control" type="text" name="email" id="email" required>
+                    </div>
+                    <div class="input-daterange" data-date-format="mm/dd/yyyy">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group form-group-icon-left"><i class="fa fa-calendar input-icon input-icon-hightlight"></i>
+                                    <label>Date Of Birth</label>
+                                    <input class="form-control" name="dob" type="text" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <label>First Name</label>
+                        <input class="form-control" type="text" name="firstname" required>
+                    </div>
+
+                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <label>Last Name</label>
+                        <input class="form-control" type="text" name="lastname" required>
+                    </div>
+                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <label>User Name</label>
+                        <input class="form-control" type="text" name="username" id="username" required>
+                    </div>
+                    <div class="form-group form-group-icon-left" id = "passwordRow"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <label>Password</label>
+                        <input class="form-control" type="password" name="password" id="password" required>
+
+                    </div>
+                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <label>Phone</label>
+                        <input class="form-control" type="text" name="phone" id="phone" required>
+                    </div>
+
+                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <label>Country</label>
+                        <input class="form-control" type="text" name="country" id="country" required>
+                    </div>
+
+                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <label>City</label>
+                        <input class="form-control" type="text" name="city" id="city" required>
+                    </div>
+
+                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <label>Address</label>
+                        <input class="form-control" type="text" name="address" id="address" required>
+                    </div>
+
+                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <label>Bank</label>
+                        <input class="form-control" type="text" name="bank" id="bank" required>
+                    </div>
+                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <label>Bank Account</label>
+                        <input class="form-control" type="text" name="bank_account" id="bank_account" required>
+                    </div>
+                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <label>Bank Address</label>
+                        <input class="form-control" type="text" name="bank_address" id="bank_address" required>
+                    </div>
+
+                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <label>User Type</label>
+                        <select name="type" id="type" >
+                            <option value="2" selected>User</option>
+                            <option value="1" >Admin</option>
+
+                        </select>
+                    </div>
+
+                    <input class="btn btn-primary center-block" type="submit" value="Đăng kí" >
+                </form>
+
+            </div>
+            <!--<div class="col-md-4">
+                <h1>Login</h1>
+
+                <form action="login" method="post">
+                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <label>Username or email</label>
+                        <input class="form-control" placeholder="e.g. johndoe@gmail.com" type="text" name="email"
+                               required/>
+                    </div>
+                    <div class="form-group form-group-icon-left"><i class="fa fa-lock input-icon input-icon-show"></i>
+                        <label>Password</label>
+                        <input class="form-control" type="password" placeholder="my secret password" name="password"
+                               required/>
+                    </div>
+                    <input class="btn btn-primary" type="submit" value="Sign in"/>
+                </form>
+            </div>-->
+        </div>
+    </div>
+</div>
+</body>
+<% include partials/index_Footer.ejs %>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#email').keyup(function () {
+            $(".error").remove();
+            var obj = $(this);
+            $.ajax({
+                type: "POST",
+                url: "./ajax/checkEmail",
+                data: "mode=check_email&email=" + obj.val(),
+                success: function (msg) {
+                    //alert(msg);
+                    data = msg;
+                    if (data.status == 'exist') {
+                        obj.after("<label class='error'>Email Id Aleady Exist</label>");
+                        $("#frmId .btn").attr('disabled', 'disabled');
+                    }
+                    else {
+                        $("#frmId .btn").removeAttr('disabled');
+                    }
+                }
+            });
+        });
+        $('#frmId').submit(function () {
+            if ($(this).find('.error').length == 0) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+    });
+    $(document).ready(function () {
+        $('#username').keyup(function () {
+            $(".error").remove();
+            var obj = $(this);
+            $.ajax({
+                type: "POST",
+                url: "./ajax/checkUser",
+                data: "mode=check_email&username=" + obj.val(),
+                success: function (msg) {
+                    //alert(msg);
+                    data = msg;
+                    if (data.status == 'exist') {
+                        obj.after("<label class='error'>User Name Aleady Exist</label>");
+                        $("#frmId .btn").attr('disabled', 'disabled');
+                    }
+                    else {
+                        $("#frmId .btn").removeAttr('disabled');
+                    }
+                }
+            });
+        });
+        $('#frmId').submit(function () {
+            if ($(this).find('.error').length == 0) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+    });
+	$(document).ready(function () {
+        $('#type').change(function () {
+           var typeVal = document.getElementById('type').value;
+		   if(typeVal == '3'){
+				document.getElementById("password").value = '0';
+				document.getElementById("passwordRow").style.display = "none";
+				
+				document.getElementById("salary").value = '0';
+				document.getElementById("salaryRow").style.display = "none";
+		   }else{
+				document.getElementById("passwordRow").style.display = "block";
+				
+				document.getElementById("salaryRow").style.display = "block";
+		   }
+        });
+       
+    });
+</script>
+</html>
+

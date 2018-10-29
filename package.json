@@ -1,0 +1,21 @@
+{
+	"name": "todo",
+	"version": "0.0.1",
+	"private": true,
+	"description": "test todo list project",
+	"scripts": {
+		"start": "node app"
+	},
+	"dependencies": {
+		"MD5": "*",
+		"connect-redis": "1.4.7",
+		"dateformat": "*",
+		"ejs": "0.8.5",
+		"ejs-locals": "1.0.2",
+		"excel-export": "*",
+		"express": "3.x",
+		"just-mvc": "*",
+		"mysql": "^2.15.0",
+		"nodemailer": "^4.6.0"
+	}
+}
