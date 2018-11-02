@@ -59,10 +59,17 @@ CREATE TABLE IF NOT EXISTS `lhc`.`cart` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lhc`.`category` (
   `cat_id` INT NOT NULL AUTO_INCREMENT,
+  `folder_id` INT NOT NULL,
   `cat_name` VARCHAR(255) character set utf8 NOT NULL,
   `image` VARCHAR(255) NULL,
   PRIMARY KEY (`cat_id`),
   UNIQUE INDEX `cat_name_UNIQUE` (`cat_name` ASC));
+
+CREATE TABLE IF NOT EXISTS `lhc`.`treefolder` (
+  `folder_id` INT NOT NULL AUTO_INCREMENT,
+  `folder_name` VARCHAR(255) character set utf8 NOT NULL,
+  PRIMARY KEY (`folder_id`),
+  UNIQUE INDEX `cat_name_UNIQUE` (`folder_name` ASC));
 
 
 -- -----------------------------------------------------
@@ -86,6 +93,18 @@ CREATE TABLE IF NOT EXISTS `lhc`.`product` (
   `size` VARCHAR(10) NULL,
   `image` VARCHAR(255) NULL,
   `description` VARCHAR(3) character set utf8 NULL,
+  `code` VARCHAR(20) NULL,
+  `disct_price` DOUBLE NULL,
+  PRIMARY KEY (`product_id`));
+  
+  -- -----------------------------------------------------
+-- Table `lhc`.`product`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `lhc`.`size` (
+  `product_id` INT NOT NULL AUTO_INCREMENT,
+  `create_time` INT NULL,
+  `price` DOUBLE NULL,
+  `size` VARCHAR(10) NULL,
   `code` VARCHAR(20) NULL,
   `disct_price` DOUBLE NULL,
   PRIMARY KEY (`product_id`));

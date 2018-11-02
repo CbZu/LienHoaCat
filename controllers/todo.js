@@ -73,7 +73,8 @@ module.exports.add_category = function(req, res){
 
         var data={
             cat_name:input.description,
-            image:input.image
+            image:input.image,
+            folder_id: input.folder
         };
         req.models.category.create(data,function(err,row1s) {
             if (err) {
@@ -1072,7 +1073,7 @@ module.exports.create_prd=function(req,res){
 
 };
 module.exports.maintenance_prd = function(req, res){
-    if(typeof req.session.user_id=='undefined'){
+    if(!typeof req.session.user_id=='undefined'){
         var sql = '';
         sql += '\n' +
             'select name,product_id,cat_id,image, \n' +
@@ -1125,7 +1126,7 @@ module.exports.maintenance_prd = function(req, res){
 module.exports.maintenance_cat = function(req, res){
     if(typeof req.session.user_id!='undefined'){
         var sql = '';
-        sql += 'select * from category;';
+        sql += 'select * from lhc.treefolder order by folder_id asc';
 
        /* var where = '';
         if(req.query.catflt != undefined && req.query.catflt != '' ){
@@ -1147,8 +1148,14 @@ module.exports.maintenance_cat = function(req, res){
                 var data = {status: 'error', code: '300',error: err};
                 res.json(data);
             }else{
-                var data = {status: 'success', code: '200',result:rows};
-                res.render('categories',data);
+                sql = 'select *,\n' +
+                    '(select folder_name from treefolder where folder_id = c.folder_id) as folder_name\n' +
+                    'from lhc.category c order by folder_id asc';
+                con.query(sql, function (err, row1s) {
+                    var data = {status: 'success', code: '200',tree:rows, result:row1s};
+                    res.render('categories',data);
+                });
+
             }
 
         });
