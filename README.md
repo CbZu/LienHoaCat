@@ -6,6 +6,9 @@ goto todo-list folder and type bellow syntext
 npm install 
 npm install mysql
 npm install nodemailer
+npm install --save express-fileupload
+npm install --save express
+npm install node-mv -g
 $ node server
 
 and go to your browser and open http://localhost:8080

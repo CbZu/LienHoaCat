@@ -109,30 +109,51 @@
             <div class="col-md-4">
                 <h1>Detail</h1>
 
-                <form action="add-noti?id=<%=id%>" novalidate method="post" enctype="multipart/form-data" id="frmId">
+                <form action='/PetMart/add-category' novalidate method='POST' enctype="multipart/form-data">
                     <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
                         <label>Title</label>
-                        <input class="form-control" type="text" name="title" id="title" required>
+                        <select class="form-control" name="newFolder">
+
+                            <option value="1">ABC</option>
+
+
+                        </select>
                     </div>
 
 
                     <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
                         <label>Description</label>
-                        <textarea style="height: 400px;width: 1200px" id="description" name = "description">
-                        </textarea>
+                        <input class="form-control" name="newCat" value="">
                     </div>
                     <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
                         <label>Avatar</label>
-                        <input class="form-control" type="text" name="avatar" id="avatar" required>
+                        <input type=file  name="upfile" value="">
                     </div>
 
 
 					 </br>
+                    <input type=file  name="upfile" value="">
                         <input class="btn btn-primary" type="submit" value="Ok" >
 
                 </form>
 
+                <!--<form action='/PetMart/add-category' novalidate method='POST' enctype="multipart/form-data">
+                    <div class="col-md-4">
+                        <select class="form-control" name="newFolder">
 
+                            <option value="1">ABC</option>
+
+
+                        </select></div>
+                    <div class="col-md-4"><input class="form-control" name="newCat" value=""></div>
+
+
+                    <div class="col-md-4">
+                        <input type="file" class="form-control" name="upfile" value="">
+                    </div>
+                    </br>
+                    <button class="btn btn-danger" id='Ok' style="display: block" type='submit'>Ok</button>
+                </form>-->
             </div>
             <!--<div class="col-md-4">
                 <h1>Login</h1>

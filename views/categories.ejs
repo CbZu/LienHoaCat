@@ -8,12 +8,13 @@
     <div class="row" data-gutter="60">
         <h3><a href="/">Home</a></h3>
     </div>
-
-
-    <br/>
     <div class="row">
         <button class="btn btn-danger" id='InsertBtn' onclick="insert()">Add Category</button>
     </div>
+
+    <br/>
+
+
     <div class="row" id='rowInsert' style="display: none">
         <div class="row">
             <h4 class="col-md-4">
@@ -28,29 +29,30 @@
 
                 Avarta </h4>
         </div>
+
         <div class="row">
-            <div class="col-md-4">
-                <select class="form-control" id="newFolder">
-                    <% for(i = 0 ; i < tree.length ; i++) { %>
-                    <option value="<%= tree[i].folder_id %>"><%= tree[i].folder_name %></option>
-                    <% } %>
+            <form action='/PetMart/add-category' class="fileupload" method='POST' enctype="multipart/form-data">
+                <div class="col-md-4">
+                    <select class="form-control" name="newFolder">
+                        <% for(i = 0 ; i < tree.length ; i++) { %>
+                        <option value="<%= tree[i].folder_id %>"><%= tree[i].folder_name %></option>
+                        <% } %>
 
-                </select></div>
-            <div class="col-md-4"><input class="form-control" id="newCat" value=""></div>
-
-
-            <div class="col-md-4">
-                    <input class="form-control" type="file" name="filetoupload" id="newImg"><br>
-            </div>
+                    </select></div>
+                <div class="col-md-4"><input class="form-control" name="newCat" value=""></div>
 
 
+                <div class="col-md-4">
+                    <input type="file" class="form-control" name="upfile" value="">
+                </div>
+                </br>
+                <button class="btn btn-danger" id='Ok' style="display: none" type='submit'>Ok</button>
+            </form>
         </div>
-        <br>
-        <button class="btn btn-danger" id="InsertBtn" onclick="insert()" style="display: none;">Add Category</button>
+
+
     </div>
-    <div class="row">
-        <button class="btn btn-danger" id='Ok' onclick="OK()" style="display: none">Ok</button>
-    </div>
+
     <div class="row">
 
         <div class="row">
@@ -104,6 +106,37 @@
 <script type="text/javascript" src="assets/js/wow.min.js"></script>
 <script type="text/javascript" src="assets/js/owl.carousel.min.js"></script>
 <script>
+
+    $("form").submit(function (evt) {
+        evt.preventDefault();
+        var formData = new FormData($(this)[0]);
+        $.ajax({
+            url: './PetMart/add-category',
+            type: 'POST',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                $.ajax({
+                    type: "POST",
+                    url: "./PetMart/remove",
+                    data: "path=" + response.path + "&name=" + response.name,
+                    success: function (msg) {
+                        //alert(msg);
+                        data = msg;
+
+                        location.reload();
+
+                    }
+                });
+            }
+        });
+        return false;
+    });
+
     function insert() {
 
         document.getElementById('rowInsert').style.display = 'block';
@@ -112,7 +145,7 @@
     }
 
     function OK() {
-        var allElements = document.getElementsByTagName("input");
+        /*var allElements = document.getElementsByTagName("input");
         var cats = new Array();
         var images = new Array();
         var folders = new Array();
@@ -142,8 +175,12 @@
                 location.reload();
 
             }
-        });
+        });*/
+
+
     }
+
+
 </script>
 </div>
 </body>

@@ -6,6 +6,7 @@ var mysql = require('mysql');
 var config=iniparser.parseSync('./config.ini');
 var fs=require('fs');
 var connection  = require('express-myconnection');
+var upload = require('express-fileupload');
 
 var app=express();
 
@@ -31,7 +32,7 @@ app.use(
 );
 /*****************************************/
 var routes=require('./routes')(app);
-
+app.use(upload());
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + '/public'));

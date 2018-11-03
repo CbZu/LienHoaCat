@@ -1,6 +1,10 @@
 ﻿var nodemailer = require('nodemailer');
 var dateFormat = require('dateformat');
-var formidable = require('formidable');
+var path = require('path');
+/*var fs = require('fs');*/
+
+var fs=require('fs');
+
 //add project
 
 
@@ -71,12 +75,84 @@ module.exports.add_category = function(req, res){
     var day  = date.getDate();
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
+    var formidable = require('formidable');
 
-    var form = new formidable.IncomingForm();
+    var form = new formidable.IncomingForm({
+        keepExtensions: true
+    });
+
+
+    form.on('fileBegin', function (name, file){
+        file.path = __dirname + '/data/' + file.name;
+
+    });
+
+    form.on('file', function (name, file){
+        console.log('Uploaded ' + file.name);
+    });
+
+    form.parse(req);
+
+
+    var data={
+        cat_name:input.newCat,
+        image:req.files.upfile.path.split("\\")[ req.files.upfile.path.split("\\").length-1],
+        folder_id: input.newFolder
+    };
+    req.models.category.create(data,function(err,row1s) {
+        if (err) {
+            var data = {status: 'fail', code: '300', description : err.message};
+            res.json(data);
+        } else {
+            res.json(200, {
+                    path: req.files.upfile.path,
+                    name:req.files.upfile.name
+                }
+            );
+        }
+    });
+
+
+    /*if(req.files.upfile){
+        var file = req.files.upfile;
+        console.log(file);
+        var  name = file.name;
+        var  type = file.mimetype;
+        var uploadpath = __dirname + '/public/assets/img/' + name;
+        file.mv(uploadpath,function(err){
+            if(err){
+                console.log("File Upload Failed",name,err);
+            }
+            else {
+                console.log("File Uploaded",name);
+                var data={
+                    cat_name:input.description,
+                    image:img,
+                    folder_id: input.folder
+                };
+                req.models.category.create(data,function(err,row1s) {
+                    if (err) {
+                        var data = {status: 'fail', code: '300', description : err.message};
+                        res.json(data);
+                    } else {
+
+                    }
+                });
+
+                var data = {status: 'success', code: '200'};
+                res.render('maintenance-cat');
+            }
+        });
+    }*/
+
+
+   /* var form = new formidable.IncomingForm();
     var img = '';
     form.parse(req, function (err, fields, files) {
+
+        console.log(path.dirname(require.main.filename));
         var oldpath = files.filetoupload.path;
-        var newpath = 'D:\\Huy\\FreeLance\\LienHoaCat-Vu\\public\\assets\\img\\' + files.filetoupload.name;
+        var newpath = 'F:\\Nodejs\\LienHoaCat\\public\\assets\\img\\' + files.filetoupload.name;
         img = files.filetoupload.name;
         fs.rename(oldpath, newpath, function (err) {
             if (err) throw err;
@@ -84,23 +160,53 @@ module.exports.add_category = function(req, res){
             res.end();
         });
 
+    });*/
 
-        var data={
-            cat_name:input.description,
-            image:img,
-            folder_id: input.folder
-        };
-        req.models.category.create(data,function(err,row1s) {
-            if (err) {
-                var data = {status: 'fail', code: '300', description : err.message};
-                res.json(data);
-            } else {
 
-            }
+
+};
+
+module.exports.remove = function(req, res){
+    var input=JSON.parse(JSON.stringify(req.body));
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    var year = date.getUTCFullYear();
+    var formidable = require('formidable');
+
+    var oldpath = input.path;
+    var newpath = 'F:\\Nodejs\\LienHoaCat\\public\\assets\\img\\' + oldpath.split("\\")[ oldpath.split("\\").length-1];
+
+    fs.readFile(oldpath, function (err, data) {
+        if (err) throw err;
+        console.log('File read!');
+
+// Write the file
+        fs.writeFile(newpath, data, function (err) {
+            if (err) throw err;
+            res.write('File uploaded and moved!');
+            res.end();
+            console.log('File written!');
         });
 
-    var data = {status: 'success', code: '200'};
-    res.json(data);
+// Delete the file
+        fs.unlink(oldpath, function (err) {
+            if (err) throw err;
+            console.log('File deleted!');
+        });
+    });
+
+
+
+  /*  var oldpath = input.path;
+    var newpath = 'F:\\Nodejs\\LienHoaCat\\public\\assets\\img\\' + input.name;
+    fs.rename(oldpath, newpath, function (err) {
+        if (err) throw err;
+        res.redirect('maintenance-cat');
+    });*/
 
 };
 module.exports.get_product = function(req, res){
@@ -1138,7 +1244,7 @@ module.exports.maintenance_prd = function(req, res){
     }
 };
 module.exports.maintenance_cat = function(req, res){
-    if(typeof req.session.user_id!='undefined'){
+   /* if(typeof req.session.user_id!='undefined'){*/
         var sql = '';
         sql += 'select * from lhc.treefolder order by folder_id asc';
 
@@ -1174,11 +1280,11 @@ module.exports.maintenance_cat = function(req, res){
 
         });
 
-    }
+    /*}
     else{
         data={title:'login|signup'};
         res.render('index',data);
-    }
+    }*/
 };
 module.exports.show_noti=function(req,res) {
     var sql = 'select * from notification where user_id = '+ req.query.id +';'

@@ -4,6 +4,29 @@ module.exports=function(app,controllers){
         app.post('/PetMart/get-user',controllers.account.get_user);
     	app.post('/PetMart/add-product',controllers.todo.add_product);
     	app.post('/PetMart/add-category',controllers.todo.add_category);
+         app.post('/PetMart/remove',controllers.todo.remove);
+   /* app.post('/PetMart/add-category', function (req, res){
+        var formidable = require('formidable');
+        var form = new formidable.IncomingForm();
+        form.uploadDir = __dirname + '/data/';
+
+
+        form.on('fileBegin', function (name, file){
+            file.path = __dirname + '/data/' + file.name;
+        });
+
+        form.on('file', function (name, file){
+            console.log('Uploaded ' + file.name);
+        });
+        form.parse(req);
+        res.json(200, {
+            result: 'Upload Success'
+        });
+    });*/
+
+
+
+
     	app.post('/PetMart/get-product',controllers.todo.get_product);
         app.post('/PetMart/get-product-by-name',controllers.todo.get_product_by_name);
     	app.post('/PetMart/get-category',controllers.todo.get_category);
