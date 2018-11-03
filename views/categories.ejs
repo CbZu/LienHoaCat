@@ -39,7 +39,9 @@
             <div class="col-md-4"><input class="form-control" id="newCat" value=""></div>
 
 
-            <div class="col-md-4"><input class="form-control" id="newImg" value=""></div>
+            <div class="col-md-4">
+                    <input class="form-control" type="file" name="filetoupload" id="newImg"><br>
+            </div>
 
 
         </div>
@@ -51,39 +53,37 @@
     </div>
     <div class="row">
 
-                <div class="row">
-                    <div class="col-md-4">
-                        <h4>Thư Mục</h4>
-                    </div>
-                    <div class="col-md-4">
-                        <h4>Nhóm Sản Phẩm</h4>
-                    </div>
+        <div class="row">
+            <div class="col-md-4">
+                <h4>Thư Mục</h4>
+            </div>
+            <div class="col-md-4">
+                <h4>Nhóm Sản Phẩm</h4>
+            </div>
 
 
-                </div>
-                <% for(i = 0;i < result.length;i++){ %>
+        </div>
+        <% for(i = 0;i < result.length;i++){ %>
 
-                    <div class="row">
-                        <div class="col-md-4">
-                            <input class="form-control" id='folder<%= result.folder_id %>'
-                                   value='<%= result[i].folder_name %>'></input>
-                        </div>
-                        <div class="col-md-4">
-                            <input class="form-control" id='cat<%= result.cat_id %>'
-                                   value='<%= result[i].cat_name %>'></input>
-                        </div>
-                        <div class="col-md-1">
-                            <button class="form-control">OK</button>
-                        </div>
-                        <div class="col-md-2">
-                            <a class="btn btn-success form-control"
-                               href="/maintenance-prd?catflt=<%= result[i].cat_name %>&catId=<%= result[i].cat_id %>">Products</a>
-                        </div>
-                    </div>
+        <div class="row">
+            <div class="col-md-4">
+                <input class="form-control" id='folder<%= result.folder_id %>'
+                       value='<%= result[i].folder_name %>'></input>
+            </div>
+            <div class="col-md-4">
+                <input class="form-control" id='cat<%= result.cat_id %>'
+                       value='<%= result[i].cat_name %>'></input>
+            </div>
+            <div class="col-md-1">
+                <button class="form-control">OK</button>
+            </div>
+            <div class="col-md-2">
+                <a class="btn btn-success form-control"
+                   href="/maintenance-prd?catflt=<%= result[i].cat_name %>&catId=<%= result[i].cat_id %>">Products</a>
+            </div>
+        </div>
 
-
-
-                <% } %>
+        <% } %>
 
     </div>
     <div class="gap"></div>

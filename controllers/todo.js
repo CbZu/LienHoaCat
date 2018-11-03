@@ -1,5 +1,6 @@
 ﻿var nodemailer = require('nodemailer');
 var dateFormat = require('dateformat');
+var formidable = require('formidable');
 //add project
 
 
@@ -71,9 +72,22 @@ module.exports.add_category = function(req, res){
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
 
+    var form = new formidable.IncomingForm();
+    var img = '';
+    form.parse(req, function (err, fields, files) {
+        var oldpath = files.filetoupload.path;
+        var newpath = 'D:\\Huy\\FreeLance\\LienHoaCat-Vu\\public\\assets\\img\\' + files.filetoupload.name;
+        img = files.filetoupload.name;
+        fs.rename(oldpath, newpath, function (err) {
+            if (err) throw err;
+            res.write('File uploaded and moved!');
+            res.end();
+        });
+
+
         var data={
             cat_name:input.description,
-            image:input.image,
+            image:img,
             folder_id: input.folder
         };
         req.models.category.create(data,function(err,row1s) {
