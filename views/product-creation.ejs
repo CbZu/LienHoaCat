@@ -2,118 +2,185 @@
 <html lang="en">
 <% include partials/index_Header.ejs %>
 <body>
-    <div class="container body-content">
-        <div class="row product-info">
-            <div class="col-md-4">
-                <img class="img-responsive" src="img/01/001.jpg" alt="">
-            </div>
-            <div class="col-md-8">
-                <div class="ditem">
-                    <div class="row">
-                        <div class="col-md-8"><h3>Tên Sản Phẩm</h3></div>
-                    </div>
-                    <div class="row center-block">
-                        <div class="col-md-1"><h4 style="text-align: center;">Size</h4></div>
-                        <div class="col-md-3"><h4 style="text-align: center;">Giá sản phẩm</h4></div>
-                        <div class="col-md-3"><h4 style="text-align: center;">Giá giảm</h4></div>
-                        <div class="col-md-3"><h4 style="text-align: center;">Mã giảm giá</h4></div>
-                    </div>
+<div class="container body-content">
+    <div class="row">
+        <ol class="breadcrumb">
+            <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="/maintenance-prd?catflt=<%=catflt%>"> <%=catflt%></a> / <a href="#">Tạo Sản Phẩm</a>
+        </ol>
 
-                    <div class="row" id = "rowInsertBtn">
-                        <div class="col-md-2">
-                            <button class="btn btn-danger"  id = 'insertBtn' onclick='insert()'>+</button>
-                        </div>
-                    </div>
-                </div>
-                <div>
-
-                    <textarea style="width: 100%" id="description" name = "description">
-
-                    </textarea>
+    </div>
+    <div class="row product-info">
+        <div class="col-md-4">
+            <img class="img-responsive" src="assets/img/testimonial3.jpg" alt="">
+        </div>
+        <div class="col-md-8">
+            <div class="ditem">
+                <div class="row">
+                    <div class="col-md-8"><h3>Tên Sản Phẩm</h3></div>
                 </div>
                 <div class="row">
-                    <div class="col-md-2">
-                        <button class="btn btn-primary"   onclick="Add()">Add</button>
-                    </div>
-                    <div class="col-md-2">
-                        <a class="btn btn-primary" href = "/" >Cancel</a>
-                    </div>
+                    <input class="col-md-8 form-control" type="text" id="name" value=""></input>
                 </div>
+                <div class="row center-block">
+                    <div class="col-md-1"><h4 style="text-align: center;">Size</h4></div>
+                    <div class="col-md-2"><h4 style="text-align: center;">Giá sản phẩm</h4></div>
+                    <div class="col-md-2"><h4 style="text-align: center;">Giá giảm</h4></div>
+                    <div class="col-md-3"><h4 style="text-align: center;">Mã Sản Phẩm</h4></div>
+                    <div class="col-md-2"><h4 style="text-align: center;">Avarta</h4></div>
+                </div>
+                    <div class="row" id="rowInsertBtn">
+                        <div class="col-md-2">
+                            <button class="btn btn-danger" id='insertBtn' onclick='insert()'>+</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <button class="btn btn-primary"  onclick="Add()">Add</button>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-primary" href = "/" >Cancel</a>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 text-center">
-                <img class="img-responsive text-center detailImageItem" src="img/01/20180608_001316.jpg" style="margin: auto;">
+            <div>
+
+                <textarea style="width: 100%" id="description" name="description"></textarea>
             </div>
+
+
         </div>
     </div>
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <img class="img-responsive text-center detailImageItem" src="img/01/20180608_001316.jpg"
+                 style="margin: auto;">
+        </div>
+    </div>
+</div>
 </body>
 <% include partials/index_Footer.ejs %>
 
-
 <script>
-        function insert(){
-            var element = '<div class="row center-block">\n' +
-                '                            \n' +
-                '                            <input class="col-md-1" id = \'newSize\' value = \'\'>\n' +
-                '\n' +
-                '                            </input>\n' +
-                '                            \n' +
-                '\n' +
-                '                            <input class="col-md-3" id = \'newPrice\' value = \'\'>\n' +
-                '\n' +
-                '                            </input>\n' +
-                '                            <input class="col-md-3" id = \'newDisc\' value = \'\'>\n' +
-                '\n' +
-                '                            </input>\n' +
-                '\n' +
-                '                            <input class="col-md-3" id = \'newCode\' value = \'\'>\n' +
-                '\n' +
-                '                            </input>\n' +
-                '                        </div><br>';
-            $(element).insertBefore($('#rowInsertBtn'));
+
+    function insert() {
+        var element = '<div class="row center-block">\n' +
+            '                            \n' +
+            '                            <div class="col-md-1"><input  id = \'newSize\' value = \'\'>\n' +
+            '\n' +
+            '                            </input></div>\n' +
+            '                            \n' +
+            '\n' +
+            '                            <div class="col-md-2"><input  id = \'newPrice\' value = \'\'>\n' +
+            '\n' +
+            '                            </input></div>\n' +
+            '                            <div class="col-md-2" ><input id = \'newDisc\' value = \'\'>\n' +
+            '\n' +
+            '                            </input></div>\n' +
+            '\n' +
+            '                           <div class="col-md-3"><input id = \'newCode\' value = \'\'>\n' +
+            '\n' +
+            '                            </input></div>\n' +
+            '\n' +
+            '                            <div  class="col-md-4"><input class="form-control newImg"  id = \'newImg\' type = \'file\' value = \'\'>\n' +
+            '\n' +
+            '                            </input></div>\n' +
+            '                        </div><br>';
+        $(element).insertBefore($('#rowInsertBtn'));
+    }
+
+    function Add() {
+        var input = document.getElementsByClassName("form-control newImg")
+        var formdata = new FormData()
+        for (var i = 0; i < input.length; i++) {
+            formdata.append('upfiles', input[i].files[0]);
+
         }
-        
-        function Add(){
-            var allElements = document.getElementsByTagName("input");
-            var sizes = new Array();
-            var prices = new Array();
-            var disct_prices = new Array();
-            var codes = new Array();
-            var description = document.getElementById("description").value;
-            var name = document.getElementById("name").value;
-            var category = document.getElementById("category").value;
-            for(var i=0; i<allElements.length; i++) {
-                if(allElements[i].id == 'newSize'){
-                    sizes.push(allElements[i].value);
-                }
-                if(allElements[i].id == 'newPrice'){
-                    prices.push(allElements[i].value);
-                }
-                if(allElements[i].id == 'newDisc'){
-                    disct_prices.push(allElements[i].value);
-                }
-                if(allElements[i].id == 'newCode'){
-                    codes.push(allElements[i].value);
-                }
+        var allElements = document.getElementsByTagName("input");
+        var sizes = new Array();
+        var prices = new Array();
+        var disct_prices = new Array();
+        var codes = new Array();
+        var description = document.getElementById("description").value;
+        formdata.append('description', description);
+        var name = document.getElementById("name").value;
+        formdata.append('name', name);
+        var category = '<%= catId %>';
+        formdata.append('category', category);
+        for (var i = 0; i < allElements.length; i++) {
+            if (allElements[i].id == 'newSize') {
+                sizes.push(allElements[i].value);
             }
-            $.ajax({
-                type: "POST",
-                url: "./ajax/addProduct",
-                data: "mode=update&Sizes=" + sizes+"&Prices="+prices+"&Discounts="+disct_prices+"&description="+description+"&name="+name+"&category="+category+"&Codes="+codes,
-                success: function (msg) {
-                    //alert(msg);
-                    data = msg;
-
-                    location.reload();
-
-                }
-            });
+            if (allElements[i].id == 'newPrice') {
+                prices.push(allElements[i].value);
+            }
+            if (allElements[i].id == 'newDisc') {
+                disct_prices.push(allElements[i].value);
+            }
+            if (allElements[i].id == 'newCode') {
+                codes.push(allElements[i].value);
+            }
         }
+        formdata.append('Sizes', sizes);
+        formdata.append('Prices', prices);
+        formdata.append('Discounts', disct_prices);
+        formdata.append('Codes', codes);
 
-        if('<%=catflt%>' != 'undefined'){
-            $("#category").val('<%=catId%>').change();
-        }
+
+        $.ajax({
+            url: './ajax/addProduct',
+            type: 'POST',
+            data: formdata,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                $.ajax({
+                    type: "POST",
+                    url: "./PetMart/remove",
+                    data: "path=" + response.path,
+                    success: function (msg) {
+                        //alert(msg);
+                        data = msg;
+
+                        location.reload();
+
+                    }
+                });
+            }
+        });
+
+
+        /*$.ajax({
+            type: "POST",
+            url: "./ajax/addProduct",
+            data: "mode=data&Sizes=" + sizes+"&Prices="+prices+"&Discounts="+disct_prices+"&description="+description+"&name="+name+"&category="+category+"&Codes="+codes+"&Images="+images,
+            success: function (msg) {
+                //alert(msg);
+                data = msg;
+                $.ajax({
+                    type: "POST",
+                    url: "./ajax/addProduct",
+                    data: "mode=data&Ids="+data.ids+"&Images="+images,
+                    success: function (msg) {
+                        //alert(msg);
+                        data = msg;
+
+                        location.reload();
+
+                    }
+                });
+                location.reload();
+
+            }
+        });*/
+    }
+
+    if ('<%= catflt %>' != 'undefined') {
+        $("#category").val('<%= catId %>').change();
+    }
 </script>
 
 </html>

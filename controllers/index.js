@@ -52,7 +52,12 @@ module.exports.home = function(req, res){
 		data={title:'login|signup'};
 		res.render('index',data);
 	}*/
-    var sql = '';
+
+
+
+
+	/*get payment*/
+   /* var sql = '';
     var sql = 'select p.payment_id,title,pay_type,p.user_id,\n' +
         '(select concat(firstname,\' \',lastname) from user where user_id = p.user_id) as name,\n' +
         '(select email from user where user_id = p.user_id) as email,\n' +
@@ -95,7 +100,18 @@ module.exports.home = function(req, res){
             userid:req.session.user_id};
         res.render('home',data);
 
+    });*/
+    var con = req.db.driver.db;
+    sql = 'select *,\n' +
+        '(select folder_name from treefolder where folder_id = c.folder_id) as folder_name from category  c order by folder_id asc;'
+    con.query(sql, function (err, rows) {
+        if(err){
+            console.log(err);
+        }
+
+        data={title:'login|signup', result:rows };
+        res.render('index',data);
     });
-	data={title:'login|signup'};
-	res.render('index',data);
+
+
 };

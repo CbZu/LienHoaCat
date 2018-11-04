@@ -24,11 +24,19 @@
                 <nav class="categories">
                     <ul class="portfolio_filter">
                         <li class="col-md-1"><a href="" class="active" data-filter="*">Home</a></li>
-                        <li class="col-md-2"><a href="" data-filter=".menh">Xem Tuổi và Mệnh</a></li>
-                        <li class="col-md-2"><a href="" data-filter=".phongthuy">Phong Thủy</a></li>
-                        <li class="col-md-2"><a href="" data-filter=".thocung">Thờ Cúng</a></li>
-                        <li class="col-md-2"><a href="" data-filter=".doisong">Đời Sống</a></li>
-                        <li class="col-md-1"><a href="" data-filter=".dichvu">Dịch Vụ</a></li>
+                       <!-- <% var folder= '';
+                        for(i = 0 ; i <  result.length ; i++) {%>
+                            <%if(result[i].folder_name != folder){%>
+                                <li class="col-md-2"><a href="" data-filter=".folder<%=result[i].folder_id%>"><%=result[i].folder_name%></a></li>
+                            <% folder = result[i].folder_name;}%>
+                        <%}%>-->
+                        <li class="col-md-2"><a href="" data-filter=".folder1">Xem Tuổi và Mệnh</a></li>
+                        <li class="col-md-2"><a href="" data-filter=".folder2">Phong Thủy</a></li>
+                        <li class="col-md-2"><a href="" data-filter=".folder3">Thờ Cúng</a></li>
+                        <li class="col-md-2"><a href="" data-filter=".folder4">Đời Sống</a></li>
+                        <li class="col-md-2"><a href="" data-filter=".folder5">Dịch Vụ</a></li>
+                    </ul>
+                    <ul class="portfolio_filter">
                         <li class="col-md-2"><a href="" data-filter=".admin">Administrator</a></li>
                     </ul>
                 </nav>
@@ -38,7 +46,25 @@
         <!-- all works -->
         <div class="row">
             <div class="row portfolio_container">
-                <!-- single work -->
+
+                <%for(var j = 0 ; j < result.length ; j++){%>
+
+                    <div class="col-md-4 folder<%=result[j].folder_id%>">
+                        <a href="single-project.html" class="portfolio_item work-grid">
+                            <img src="assets/img/<%=result[j].image%>" alt="image">
+                            <div class="portfolio_item_hover">
+                                <div class="item_info">
+                                    <span><%=result[j].cat_name%></span>
+                                    <em>photography</em>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                <%}%>
+
+
+                <!--&lt;!&ndash; single work &ndash;&gt;
                 <div class="col-md-4 phongthuy">
                     <a href="single-project.html" class="portfolio_item work-grid">
                         <img src="assets/img/chuoihat.jpg" alt="image">
@@ -50,9 +76,9 @@
                         </div>
                     </a>
                 </div>
-                <!-- end single work -->
+                &lt;!&ndash; end single work &ndash;&gt;
 
-                <!-- single work -->
+                &lt;!&ndash; single work &ndash;&gt;
                 <div class="col-md-4 phongthuy">
                     <a href="single-project.html" class="portfolio_item work-grid">
                         <img src="assets/img/vongtay.jpg" alt="image">
@@ -64,9 +90,9 @@
                         </div>
                     </a>
                 </div>
-                <!-- end single work -->
+                &lt;!&ndash; end single work &ndash;&gt;
 
-                <!-- single work -->
+                &lt;!&ndash; single work &ndash;&gt;
                 <div class="col-md-4 phongthuy">
                     <a href="single-project.html" class="portfolio_item work-grid">
                         <img src="assets/img/matda.jpg" alt="image">
@@ -78,9 +104,9 @@
                         </div>
                     </a>
                 </div>
-                <!-- end single work -->
+                &lt;!&ndash; end single work &ndash;&gt;
 
-                <!-- single work -->
+                &lt;!&ndash; single work &ndash;&gt;
                 <div class="col-md-4 phongthuy">
                     <a href="single-project.html" class="portfolio_item work-grid">
                         <img src="assets/img/vatphamphongthuy.jpg" alt="image">
@@ -92,9 +118,9 @@
                         </div>
                     </a>
                 </div>
-                <!-- end single work -->
+                &lt;!&ndash; end single work &ndash;&gt;
 
-                <!-- single work -->
+                &lt;!&ndash; single work &ndash;&gt;
                 <div class="col-md-4 thocung">
                     <a href="single-project.html" class="portfolio_item work-grid">
                         <img src="assets/img/tuongphat.jpg" alt="image">
@@ -106,9 +132,9 @@
                         </div>
                     </a>
                 </div>
-                <!-- end single work -->
+                &lt;!&ndash; end single work &ndash;&gt;
 
-                <!-- single work -->
+                &lt;!&ndash; single work &ndash;&gt;
                 <div class="col-md-4 thocung">
                     <a href="single-project.html" class="portfolio_item work-grid">
                         <img src="assets/img/nhangtram.jpg" alt="image">
@@ -120,9 +146,9 @@
                         </div>
                     </a>
                 </div>
-                <!-- end single work -->
+                &lt;!&ndash; end single work &ndash;&gt;
 
-                <!-- single work -->
+                &lt;!&ndash; single work &ndash;&gt;
                 <div class="col-md-4 thocung">
                     <a href="single-project.html" class="portfolio_item work-grid">
                         <img src="assets/img/banhmut.jpg" alt="image">
@@ -134,9 +160,9 @@
                         </div>
                     </a>
                 </div>
-                <!-- end single work -->
+                &lt;!&ndash; end single work &ndash;&gt;
 
-                <!-- single work -->
+                &lt;!&ndash; single work &ndash;&gt;
                 <div class="col-md-4 thocung">
                     <a href="single-project.html" class="portfolio_item work-grid">
                         <img src="assets/img/vatdungthocung.jpg" alt="image">
@@ -148,9 +174,9 @@
                         </div>
                     </a>
                 </div>
-                <!-- end single work -->
+                &lt;!&ndash; end single work &ndash;&gt;
 
-                <!-- single work -->
+                &lt;!&ndash; single work &ndash;&gt;
                 <div class="col-md-4 doisong">
                     <a href="single-project.html" class="portfolio_item work-grid">
                         <img src="assets/img/dacsan3mien.jpg" alt="image">
@@ -162,9 +188,9 @@
                         </div>
                     </a>
                 </div>
-                <!-- end single work -->
+                &lt;!&ndash; end single work &ndash;&gt;
                 
-                <!-- single work -->
+                &lt;!&ndash; single work &ndash;&gt;
                 <div class="col-md-4 doisong">
                     <a href="single-project.html" class="portfolio_item work-grid">
                         <img src="assets/img/kheotayhaylam.jpg" alt="image">
@@ -176,9 +202,9 @@
                         </div>
                     </a>
                 </div>
-                <!-- end single work -->
+                &lt;!&ndash; end single work &ndash;&gt;
                 
-                <!-- single work -->
+                &lt;!&ndash; single work &ndash;&gt;
                 <div class="col-md-4 dichvu">
                     <a href="single-project.html" class="portfolio_item work-grid">
                         <img src="assets/img/kettocseto.jpg" alt="image">
@@ -190,8 +216,8 @@
                         </div>
                     </a>
                 </div>
-                <!-- end single work -->
-                <!-- single work -->
+                &lt;!&ndash; end single work &ndash;&gt;
+                &lt;!&ndash; single work &ndash;&gt;
                 <div class="col-md-4 dichvu">
                     <a href="single-project.html" class="portfolio_item work-grid">
                         <img src="assets/img/metronconvuong.jpg" alt="image">
@@ -202,7 +228,7 @@
                             </div>
                         </div>
                     </a>
-                </div>
+                </div>-->
                 <!-- end single work -->
 
                  <!-- single work -->
@@ -249,7 +275,7 @@
                 </div>
                 <div class="col-md-4 admin">
                     <a href="/maintenance-cat" class="portfolio_item work-grid">
-                        <img src="assets/img/11392-tchj2c.op8f.png" alt="image">
+                        <img src="assets/img/AddIcon-2 (2).jpg" alt="image">
                         <div class="portfolio_item_hover">
                             <div class="item_info">
                                 <span>Thư Mục</span>

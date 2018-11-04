@@ -6,13 +6,9 @@
     <div class="container">
         <div class="row">
             <ol class="breadcrumb">
-                <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="/maintenance">Account Maintenance</a> / <a href="/#">Sign Up</a>
+                <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="#"> <%=cat%></a>
             </ol>
-            <%if (data.status == 'success'){%>
-            <div class="alert alert-success">
-                <strong>Success!</strong>
-            </div>
-            <%}%>
+
         </div>
 
         <form action = '/maintenance-prd' method = 'get'>
@@ -57,7 +53,7 @@
             <br/>
         </form>
 
-        <div class="container-fluid row">
+        <!--<div class="container-fluid row">
             <div class="col-md-2">
                 <div class="nav">
                     <ul class="slimmenu" id="slimmenu">
@@ -96,63 +92,27 @@
                     </ul>
                 </div> 
             </div>
-        </div>
+        </div>-->
         
         <br/>
         <div class="row">
-                    </br>
-                    <div class="row center-block">
-                        <div class="col-md-2"><h4 style="text-align: center;">Category</h4></div>
-                        <div class="col-md-2"><h4 style="text-align: center;">Tên Sản Phẩm</h4></div>
-                        <div class="col-md-2"><h4 style="text-align: center;">Kích thước</h4></div>
-                        <div class="col-md-2"><h4 style="text-align: center;">Giá</h4></div>
-                        <div class="col-md-2"><h4 style="text-align: center;">Giảm giá</h4></div>
-                    </div>
-                    <% for(i = 0;i < result.length;i++){ %>
-
-
-                    <li>
-                        <a class="booking-item" href="/product-detail?id=<%= result[i].product_id%>">
-                            <div class="row">
-
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <h5 class="booking-item-title"><%= result[i].cat_name %></h5>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <p class="booking-item-description">
-                                            <%=result[i].name%>
-                                        </p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p class="booking-item-description">
-                                            <%for (j = 0 ; j < result[i].sizes.split(',').length ; j++){%>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <p class="booking-item-description"> <%= result[i].sizes.split(',')[j]%></p>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <p class="booking-item-description">
-                                                        <%= result[i].prices.split(',')[j]%>
-                                                    </p>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <p class="booking-item-description">
-                                                        <%= result[i].disct_prices.split(',')[j] %>
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                        <%}%>
-                                        </p>
-                                    </div>
-                                </div>
-
+            <div class="row portfolio_container">
+            <% for(j = 0;j < result.length;j++){ %>
+                <div class="col-md-4">
+                    <a href="/product-detail?id=<%= result[j].product_id%>" class="portfolio_item work-grid">
+                        <img src="assets/img/<%=result[j].image%>" alt="image">
+                        <div class="portfolio_item_hover">
+                            <div class="item_info">
+                                <span><%=result[j].description%></span>
+                                <em>photography</em>
                             </div>
-                        </a>
-                    </li>
-                    <% } %>
-        </div>
+                        </div>
+                    </a>
+                    </br>
+                    <label><%=result[j].prices.split(';')[0]%></label>
+                </div>
+            <% } %>
+
         <div class="gap"></div>
     </div>
     <script src="js/jquery.js"></script>

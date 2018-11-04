@@ -17,54 +17,59 @@ module.exports.add_product = function(req, res){
     var day  = date.getDate();
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
+    var product_id = new Array();
+    if(input.mode == 'data'){
+        var data={
+            cat_id:input.category_id
+        };
+        req.models.category.find(data,function(err,row1s) {
+            if (row1s.length == 0) {
+                var data = {status: 'fail', code: '200', description: "Category not found"};
+                res.json(data);
+            } else {
+                for( var i = 0; i < input.name.length ; i++){
+                    var data={
+                        description : input.descriptin[i]
+                    };
+                    req.models.description.create(data,function(err,row2s){
+                        if(err){
+                            var data={status:'fail',code:'300',description:err.message};
+                            res.json(data);
+                        }
+                        else{
+                            var data={
+                                cat_id:input.category_id,
+                                create_time:parseInt(year+''+month+''+day),
+                                name:input.name[i],
+                                price:input.price[i],
+                                size:input.size[i],
+                                image:input.image[i],
+                                code:input.code[i],
+                                description : row2s.insertId
+                            };
+                            req.models.product.create(data,function(err,rows){
+                                if(err){
+                                    var data={status:'fail',code:'300',description:err.message};
+                                    res.json(data);
+                                }
+                                else{
+                                    product_id.push(rows.product_id);
+                                }
+                            });
+                        }
+                    });
 
-    var data={
-        cat_id:input.category_id
-    };
-    req.models.category.find(data,function(err,row1s) {
-        if (row1s.length == 0) {
-            var data = {status: 'fail', code: '200', description: "Category not found"};
-            res.json(data);
-        } else {
-            for( var i = 0; i < input.name.length ; i++){
-                var data={
-                    description : input.descriptin[i]
-                };
-                req.models.description.create(data,function(err,row2s){
-                    if(err){
-                        var data={status:'fail',code:'300',description:err.message};
-                        res.json(data);
-                    }
-                    else{
-                        var data={
-                            cat_id:input.category_id,
-                            create_time:parseInt(year+''+month+''+day),
-                            name:input.name[i],
-                            price:input.price[i],
-                            size:input.size[i],
-                            image:input.image[i],
-                            code:input.code[i],
-                            description : row2s.insertId
-                        };
-                        req.models.product.create(data,function(err,rows){
-                            if(err){
-                                var data={status:'fail',code:'300',description:err.message};
-                                res.json(data);
-                            }
-                            else{
+                }
 
-                            }
-                        });
-                    }
-                });
 
             }
+        });
+        var data={status:'success',code:'200',ids:product_id};
+        res.json(data);
+    } else{
 
+    }
 
-        }
-    });
-    var data={status:'success',code:'200'};
-    res.json(data);
 };
 module.exports.add_category = function(req, res){
     var input=JSON.parse(JSON.stringify(req.body));
@@ -111,59 +116,6 @@ module.exports.add_category = function(req, res){
             );
         }
     });
-
-
-    /*if(req.files.upfile){
-        var file = req.files.upfile;
-        console.log(file);
-        var  name = file.name;
-        var  type = file.mimetype;
-        var uploadpath = __dirname + '/public/assets/img/' + name;
-        file.mv(uploadpath,function(err){
-            if(err){
-                console.log("File Upload Failed",name,err);
-            }
-            else {
-                console.log("File Uploaded",name);
-                var data={
-                    cat_name:input.description,
-                    image:img,
-                    folder_id: input.folder
-                };
-                req.models.category.create(data,function(err,row1s) {
-                    if (err) {
-                        var data = {status: 'fail', code: '300', description : err.message};
-                        res.json(data);
-                    } else {
-
-                    }
-                });
-
-                var data = {status: 'success', code: '200'};
-                res.render('maintenance-cat');
-            }
-        });
-    }*/
-
-
-   /* var form = new formidable.IncomingForm();
-    var img = '';
-    form.parse(req, function (err, fields, files) {
-
-        console.log(path.dirname(require.main.filename));
-        var oldpath = files.filetoupload.path;
-        var newpath = 'F:\\Nodejs\\LienHoaCat\\public\\assets\\img\\' + files.filetoupload.name;
-        img = files.filetoupload.name;
-        fs.rename(oldpath, newpath, function (err) {
-            if (err) throw err;
-            res.write('File uploaded and moved!');
-            res.end();
-        });
-
-    });*/
-
-
-
 };
 
 module.exports.remove = function(req, res){
@@ -176,30 +128,33 @@ module.exports.remove = function(req, res){
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
     var formidable = require('formidable');
-
-    var oldpath = input.path;
-    var newpath = 'F:\\Nodejs\\LienHoaCat\\public\\assets\\img\\' + oldpath.split("\\")[ oldpath.split("\\").length-1];
-
-    fs.readFile(oldpath, function (err, data) {
-        if (err) throw err;
-        console.log('File read!');
+    var i = 0;
+    input.path.split(';').forEach(function (element){
+        var oldpath = element;
+        var newpath = 'F:\\Nodejs\\LienHoaCat\\public\\assets\\img\\' + oldpath.split("\\")[ oldpath.split("\\").length-1];
+        console.log(__dirname.replace(__dirname.split('\\')[__dirname.split('\\').length-1],'public\\assets\\img\\'+oldpath.split("\\")[ oldpath.split("\\").length-1]));
+        fs.readFile(oldpath, function (err, data) {
+            if (err) throw err;
+            console.log('File read!');
 
 // Write the file
-        fs.writeFile(newpath, data, function (err) {
-            if (err) throw err;
-            res.write('File uploaded and moved!');
-            res.end();
-            console.log('File written!');
-        });
+            fs.writeFile(newpath, data, function (err) {
+                if (err) throw err;
+
+                console.log('File written!');
+            });
 
 // Delete the file
-        fs.unlink(oldpath, function (err) {
-            if (err) throw err;
-            console.log('File deleted!');
+            fs.unlink(oldpath, function (err) {
+                if (err) throw err;
+                console.log('File deleted!');
+            });
         });
+        i++;
     });
 
-
+    var data = {status: 'success', code: '200'};
+    res.json(data);
 
   /*  var oldpath = input.path;
     var newpath = 'F:\\Nodejs\\LienHoaCat\\public\\assets\\img\\' + input.name;
@@ -1193,7 +1148,7 @@ module.exports.create_prd=function(req,res){
 
 };
 module.exports.maintenance_prd = function(req, res){
-    if(!typeof req.session.user_id=='undefined'){
+    if(typeof req.session.user_id=='undefined'){
         var sql = '';
         sql += '\n' +
             'select name,product_id,cat_id,image, \n' +

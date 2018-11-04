@@ -235,11 +235,22 @@ exports.addProduct=function(req,res){
     var date = new Date();
     var month = date.getMonth() + 1;
     month = (month < 10 ? "0" : "") + month;
-
+    var formidable = require('formidable');
+    var form = new formidable.IncomingForm({
+        keepExtensions: true
+    });
+    form.parse(req);
     var day  = date.getDate();
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
-
+    var path = '';
+    for(j = 0 ; j < req.files.upfiles.length ; j++){
+        if(path == ''){
+            path = req.files.upfiles[j].path;
+        }else{
+            path += ';' +  req.files.upfiles[j].path;
+        }
+    }
     var sql = 'insert into description(description) value (\''+input.description+'\');';
     con.query(sql, function (err, rows) {
         if(err){
@@ -256,8 +267,10 @@ exports.addProduct=function(req,res){
                     size:element,
                     image:'',
                     code:input.Codes.split(',')[i],
-                    description : rows.insertId
+                    description : rows.insertId,
+                    image:req.files.upfiles[i].path.split("\\")[ req.files.upfiles[i].path.split("\\").length-1],
                 };
+
                 req.models.product.create(data,function(err,row1s){
                     if(err){
                         var data={status:'fail',code:'300',description:err.message};
@@ -272,7 +285,7 @@ exports.addProduct=function(req,res){
             });
         }
     })
-    var data={status:'success',code:'400'};
+    var data={status:'success',code:'400',path:path};
     res.json(data);
 };
 exports.addSizeToCart=function(req,res){
