@@ -29,7 +29,9 @@ module.exports=function(app,controllers){
 
         app.get('/',controllers.index.home);
         app.post('/ajax/checkEmail',controllers.ajax.checkEmail);
-        app.post('/login',controllers.account.login_admin);
+    app.post('/ajax/checkProduct',controllers.ajax.checkProduct);
+
+    app.post('/login',controllers.account.login_admin);
         app.get('/payment-detail',controllers.todo.payment_detail);
         app.post('/ajax/updateSizeId',controllers.ajax.updateSizeId);
         app.post('/ajax/deleteSizeId',controllers.ajax.deleteSizeId);

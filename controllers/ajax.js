@@ -20,7 +20,33 @@ exports.checkEmail=function(req,res){
 							res.json(data);
 		});
 };
+exports.checkProduct=function(req,res){
+    var input = JSON.parse(JSON.stringify(req.body));
+    console.log(input);
+    var data={
+        name:input.name
+    };
 
+    var sql = 'select * from product where name = \''+input.name+'\';';
+    var con = req.db.driver.db;
+    con.query(sql, function (err, rows) {
+        if (err){
+            data={status:'error',code:'200'};
+        }
+        else{
+            if(rows.length>0){
+                data={status:'exist',code:'300'};
+
+            }
+            else{
+                data={status:'success',code:'400'};
+
+            }
+            res.json(data);
+        }
+    });
+
+};
 exports.updateSizeId=function(req,res){
     var input = JSON.parse(JSON.stringify(req.body));
     console.log(input);
@@ -257,8 +283,8 @@ exports.addProduct=function(req,res){
                 }
             }
         }
-
-        var sql = 'insert into description(description) value (\''+input.description+'\');';
+        var desc = input.description;
+        var sql = 'insert into description(description) value (\''+desc.replace('\n','<br>')+'\');';
         con.query(sql, function (err, rows) {
             if(err){
                 console.log(err);
@@ -276,8 +302,8 @@ exports.addProduct=function(req,res){
                         cat_id:input.category,
                         create_time:parseInt(year+''+month+''+day),
                         name:input.name,
-                        price:input.Prices.split(',')[i],
-                        disct_price:input.Discounts.split(',')[i],
+                        price:input.Prices.split(',')[i]?input.Prices.split(',')[i].trim()=='':0,
+                        disct_price:input.Discounts.split(',')[i]?input.Discounts.split(',')[i].trim()=='':0,
                         size:element,
                         image:'',
                         code:input.Codes.split(',')[i],

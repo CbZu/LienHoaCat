@@ -1182,7 +1182,7 @@ module.exports.maintenance_prd = function(req, res){
                 res.json(data);
             }else{
                 if(req.query.catflt != undefined && req.query.catflt != '' ){
-                    var data = {status: 'success', code: '200',result:rows,cat:req.query.catflt,catId:req.query.catId};
+                    var data = {status: 'success', code: '200',result:rows,catflt:req.query.catflt,catId:req.query.catId};
                     res.render('products',data);
                 }else{
                     var data = {status: 'success', code: '200',result:rows,cat:'undefined',catId:'undefined'};

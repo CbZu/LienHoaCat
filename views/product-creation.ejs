@@ -19,7 +19,7 @@
                     <div class="col-md-8"><h3>Tên Sản Phẩm</h3></div>
                 </div>
                 <div class="row">
-                    <input class="col-md-8 form-control" type="text" id="name" value=""></input>
+                    <input class="col-md-8 form-control" type="text" id="name" onkeyup="CheckPrd()" value=""></input>
                 </div>
                 <div class="row center-block">
                     <div class="col-md-1"><h4 style="text-align: center;">Size</h4></div>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2">
-                            <button class="btn btn-primary"  onclick="Add()">Add</button>
+                            <button class="btn btn-primary" id = "add" onclick="Add()">Add</button>
                         </div>
                         <div class="col-md-2">
                             <a class="btn btn-primary" href = "/" >Cancel</a>
@@ -107,7 +107,7 @@
                         //alert(msg);
                         data = msg;
                         var description = document.getElementById("description").value;
-                        description += description + '<br>'+'<img border=0 hspace="0" alt="" src="assets/img/'+response.image+'" align="baseline" class="img-responsive">' + '<br>';
+                        description +=  '<br>'+'<img border=0 hspace="0" alt="" src="assets/img/'+response.image+'" align="baseline" class="img-responsive">' + '<br>';
                         document.getElementById("description").value = description;
                         document.getElementById('myModal').style.display = 'none';
 
@@ -145,6 +145,26 @@
     }
 
     function Add() {
+        var obj =$("#name");
+        $(".error").remove();
+        $.ajax({
+            type: "POST",
+            url: "./ajax/checkProduct",
+            data: "mode=check_email&name=" + obj.val(),
+            success: function (msg) {
+                //alert(msg);
+                data = msg;
+                if (data.status == 'exist') {
+                    obj.after("<label class='error'>Product Name Aleady Exist</label>");
+                    document.getElementById('add').style.display = 'none'
+                    return;
+                }
+                else {
+                    document.getElementById('add').style.display = 'block'
+                }
+            }
+        });
+
         var input = document.getElementsByClassName("form-control newImg")
         for (var i = input.length-1; i < input.length; i++) {
             formdata.append('upfiles', input[i].files[0]);
@@ -241,6 +261,28 @@
 
 </script>
 <script>
+
+     function CheckPrd() {
+            var obj =$("#name");
+         $(".error").remove();
+            $.ajax({
+                type: "POST",
+                url: "./ajax/checkProduct",
+                data: "mode=check_email&name=" + obj.val(),
+                success: function (msg) {
+                    //alert(msg);
+                    data = msg;
+                    if (data.status == 'exist') {
+                        obj.after("<label class='error'>Product Name Aleady Exist</label>");
+                        document.getElementById('add').style.display = 'none'
+                    }
+                    else {
+                        document.getElementById('add').style.display = 'block'
+                    }
+                }
+            });
+        }
+
 
 
 </script>

@@ -6,53 +6,16 @@
     <div class="container">
         <div class="row">
             <ol class="breadcrumb">
-                <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="#"> <%=cat%></a>
+                <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="#"> <%=catflt%></a>
             </ol>
 
         </div>
 
-        <form action = '/maintenance-prd' method = 'get'>
-            <h2>Filtered By </h2>
-            <div class="booking-item-dates-change mb30">
-                <div class="container row">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group form-group-icon-left">
-                                <label>Category : </label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group form-group-icon-left">
-                                <label>Product : </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group form-group-icon-left">
-                                <input class="typeahead-cat form-control" name = 'catflt' id = 'catflt' value=""  type="text" />
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group form-group-icon-left">
-                                <input class="typeahead-prd form-control" name = 'prdflt' id = 'prdflt' value=""  type="text" />
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary">Tìm</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-3">
-                    <a class="btn btn-primary" href = '/create-prd?cat=<%=cat%>&catId=<%=catId%>'>Add Product</a>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-md-3">
+                <a class="btn btn-primary" href = '/create-prd?cat=<%=catflt%>&catId=<%=catId%>'>Add Product</a>
             </div>
-            <br/>
-        </form>
-
+        </div>
         <!--<div class="container-fluid row">
             <div class="col-md-2">
                 <div class="nav">
@@ -101,15 +64,23 @@
                 <div class="col-md-4">
                     <a href="/product-detail?id=<%= result[j].product_id%>" class="portfolio_item work-grid">
                         <img src="assets/img/<%=result[j].image%>" alt="image">
+                        <h3>
+                            <%if(result[j].disct_prices.split(';')[0] == '0'){%>
+                            <label style=" text-align: right"><font color="red"><%=result[j].prices.split(';')[0]%></font></label>
+                            <% } else {%>
+                            <label style="text-decoration:line-through ; text-align: right"><font color="red"><%=result[j].prices.split(';')[0]%></font></label>
+                            ->
+                            <label style=" text-align: right"><font color="red"><%=result[j].disct_prices.split(';')[0]%></font></label>
+                            <%}%>
+
+                        </h3>
                         <div class="portfolio_item_hover">
                             <div class="item_info">
-                                <span><%=result[j].description%></span>
-                                <em>photography</em>
+                                <span><%=result[j].name%></span>
                             </div>
                         </div>
                     </a>
-                    </br>
-                    <label><%=result[j].prices.split(';')[0]%></label>
+
                 </div>
             <% } %>
 
@@ -135,8 +106,8 @@
     <script src="js/gridrotator.js"></script>
     <script src="js/custom.js"></script>
     <script>
-        if('<%=cat%>'!='undefined'){
-            document.getElementById('catflt').value = '<%=cat%>';
+        if('<%=catflt%>'!='undefined'){
+            document.getElementById('catflt').value = '<%=catflt%>';
         }
     </script>
 </div>

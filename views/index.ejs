@@ -50,7 +50,7 @@
                 <%for(var j = 0 ; j < result.length ; j++){%>
 
                     <div class="col-md-4 folder<%=result[j].folder_id%>">
-                        <a href="single-project.html" class="portfolio_item work-grid">
+                        <a href="/maintenance-prd?catflt=<%= result[j].cat_name %>&catId=<%= result[j].cat_id %>" class="portfolio_item work-grid">
                             <img src="assets/img/<%=result[j].image%>" alt="image">
                             <div class="portfolio_item_hover">
                                 <div class="item_info">
