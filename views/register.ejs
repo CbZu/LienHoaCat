@@ -35,17 +35,37 @@
         </div>
 
         <div class="row" data-gutter="60">
-            <div class="col-md-4">
-                <h1>Sign up</h1>
+            <div class="col-md-12">
+                <h2><span class="label label-success center-block">Đăng kí tài khoản</span></h2>
 
                 <form action="signup" novalidate method="post" enctype="multipart/form-data" id="frmId">
-                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>Email</label>
-                        <input class="form-control" type="text" name="email" id="email" required>
+                    <div class="row">
+                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                            <label>Tên tài khoản</label>
+                            <input class="form-control" type="text" name="username" id="username" required>
+                        </div>
                     </div>
+                    <div class="row">
+                        <div class="form-group form-group-icon-left col-md-6" id = "passwordRow"><i class="fa fa-user input-icon input-icon-show"></i>
+                            <label>Mật khẩu</label>
+                            <input class="form-control" type="password" name="password" id="password" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                            <label>Tên</label>
+                            <input class="form-control" type="text" name="firstname" required>
+                        </div>
+                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                            <label>Họ</label>
+                            <input class="form-control" type="text" name="lastname" required>
+                        </div>
+                    </div>
+
                     <div class="input-daterange" data-date-format="mm/dd/yyyy">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-2">
                                 <div class="form-group form-group-icon-left"><i class="fa fa-calendar input-icon input-icon-hightlight"></i>
                                     <label>Date Of Birth</label>
                                     <input class="form-control" name="dob" type="text" />
@@ -53,54 +73,43 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>First Name</label>
-                        <input class="form-control" type="text" name="firstname" required>
+                    
+                    <div class="row">
+                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                            <label>Email</label>
+                            <input class="form-control" type="text" name="email" id="email" required>
+                        </div>
+                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                            <label>Số điện thoại</label>
+                            <input class="form-control" type="text" name="phone" id="phone" required>
+                        </div>
                     </div>
 
                     <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>Last Name</label>
-                        <input class="form-control" type="text" name="lastname" required>
-                    </div>
-                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>User Name</label>
-                        <input class="form-control" type="text" name="username" id="username" required>
-                    </div>
-                    <div class="form-group form-group-icon-left" id = "passwordRow"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>Password</label>
-                        <input class="form-control" type="password" name="password" id="password" required>
-
-                    </div>
-                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>Phone</label>
-                        <input class="form-control" type="text" name="phone" id="phone" required>
-                    </div>
-
-                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>Country</label>
-                        <input class="form-control" type="text" name="country" id="country" required>
-                    </div>
-
-                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>City</label>
-                        <input class="form-control" type="text" name="city" id="city" required>
-                    </div>
-
-                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>Address</label>
+                        <label>Địa chỉ</label>
                         <input class="form-control" type="text" name="address" id="address" required>
                     </div>
-
+                    <div class="row">
+                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                            <label>Thành phố</label>
+                            <input class="form-control" type="text" name="city" id="city" required>
+                        </div>
+                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                            <label>Quốc gia</label>
+                            <input class="form-control" type="text" name="country" id="country" required>
+                        </div>
+                    </div>
+                    
                     <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>Bank</label>
+                        <label>Ngân hàng</label>
                         <input class="form-control" type="text" name="bank" id="bank" required>
                     </div>
                     <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>Bank Account</label>
+                        <label>Số tài khoản</label>
                         <input class="form-control" type="text" name="bank_account" id="bank_account" required>
                     </div>
                     <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>Bank Address</label>
+                        <label>Chi nhánh</label>
                         <input class="form-control" type="text" name="bank_address" id="bank_address" required>
                     </div>
 
@@ -113,7 +122,7 @@
                         </select>
                     </div>
 
-                    <input class="btn btn-primary center-block" type="submit" value="Đăng kí" >
+                    <input class="btn btn-success center-block" type="submit" value="Đăng kí" >
                 </form>
 
             </div>
