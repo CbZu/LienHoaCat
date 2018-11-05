@@ -48,7 +48,8 @@ module.exports=function(app,controllers){
         app.post('/ajax/updateProduct',controllers.ajax.updateProduct);
         app.post('/ajax/updateProductOk',controllers.ajax.updateProductOk);
         app.post('/ajax/addProduct',controllers.ajax.addProduct);
-        app.post('/ajax/add-to-cart-admin',controllers.ajax.addSizeToCart);
+    app.post('/ajax/addProductImages',controllers.ajax.addProductImages);
+    app.post('/ajax/add-to-cart-admin',controllers.ajax.addSizeToCart);
         app.get('/show-cart',controllers.todo.show_cart);
 
         app.post('/ajax/updateProductImage',controllers.ajax.updateProductImage);

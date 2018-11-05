@@ -131,7 +131,7 @@ module.exports.remove = function(req, res){
     var i = 0;
     input.path.split(';').forEach(function (element){
         var oldpath = element;
-        var newpath = 'F:\\Nodejs\\LienHoaCat\\public\\assets\\img\\' + oldpath.split("\\")[ oldpath.split("\\").length-1];
+        var newpath = __dirname.replace(__dirname.split('\\')[__dirname.split('\\').length-1],'public\\assets\\img\\'+oldpath.split("\\")[ oldpath.split("\\").length-1]);
         console.log(__dirname.replace(__dirname.split('\\')[__dirname.split('\\').length-1],'public\\assets\\img\\'+oldpath.split("\\")[ oldpath.split("\\").length-1]));
         fs.readFile(oldpath, function (err, data) {
             if (err) throw err;
@@ -1092,8 +1092,9 @@ module.exports.payment_detail = function(req, res){
 };
 
 module.exports.product_detail = function(req, res){
-    if(typeof req.session.user_id!='undefined'){
-        var sql = 'select * from product where name = (select name from product where product_id = '+req.query.id+');';
+    if(typeof req.session.user_id=='undefined'){
+        var sql = 'select *, (select cat_name from category where cat_id = p.cat_id) as catflt' +
+            ' from product p where name = (select name from product where product_id = '+req.query.id+');';
 
         var con = req.db.driver.db;
         con.query(sql, function (err, rows) {

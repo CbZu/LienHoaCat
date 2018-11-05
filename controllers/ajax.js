@@ -243,50 +243,114 @@ exports.addProduct=function(req,res){
     var day  = date.getDate();
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
-    var path = '';
-    for(j = 0 ; j < req.files.upfiles.length ; j++){
-        if(path == ''){
-            path = req.files.upfiles[j].path;
-        }else{
-            path += ';' +  req.files.upfiles[j].path;
+    var prdId = '';
+
+        var path = '';
+        if(req.files.upfiles.length == undefined){
+            path = req.files.upfiles.path;
+        } else{
+            for(j = 0 ; j < req.files.upfiles.length ; j++){
+                if(path == ''){
+                    path = req.files.upfiles[j].path;
+                }else{
+                    path += ';' +  req.files.upfiles[j].path;
+                }
+            }
         }
-    }
-    var sql = 'insert into description(description) value (\''+input.description+'\');';
-    con.query(sql, function (err, rows) {
-        if(err){
-            console.log(err);
-        }else{
-            var i = 0;
-            input.Sizes.split(',').forEach(function (element){
-                var data={
-                    cat_id:input.category,
-                    create_time:parseInt(year+''+month+''+day),
-                    name:input.name,
-                    price:input.Prices.split(',')[i],
-                    disct_price:input.Discounts.split(',')[i],
-                    size:element,
-                    image:'',
-                    code:input.Codes.split(',')[i],
-                    description : rows.insertId,
-                    image:req.files.upfiles[i].path.split("\\")[ req.files.upfiles[i].path.split("\\").length-1],
-                };
 
-                req.models.product.create(data,function(err,row1s){
-                    if(err){
-                        var data={status:'fail',code:'300',description:err.message};
-                        res.json(data);
-                    }
-                    else{
+        var sql = 'insert into description(description) value (\''+input.description+'\');';
+        con.query(sql, function (err, rows) {
+            if(err){
+                console.log(err);
+            }else{
+                var i = 0;
+                input.Sizes.split(',').forEach(function (element){
 
+                    var img = '';
+                    if(req.files.upfiles.length == undefined){
+                        img = req.files.upfiles.path.split("\\")[ req.files.upfiles.path.split("\\").length-1]
+                    } else{
+                        img=req.files.upfiles[i].path.split("\\")[ req.files.upfiles[i].path.split("\\").length-1];
                     }
+                    var data={
+                        cat_id:input.category,
+                        create_time:parseInt(year+''+month+''+day),
+                        name:input.name,
+                        price:input.Prices.split(',')[i],
+                        disct_price:input.Discounts.split(',')[i],
+                        size:element,
+                        image:'',
+                        code:input.Codes.split(',')[i],
+                        description : rows.insertId,
+                        image:img,
+                    };
+
+                    req.models.product.create(data,function(err,row1s){
+                        if(err){
+                            var data={status:'fail',code:'300',description:err.message};
+                            res.json(data);
+                        }
+                        else{
+                            if(prdId == ''){
+                                var sql = 'update image set product_id = '+row1s.product_id+' where product_id = 0 ;';
+                                con.query(sql);
+                            }
+                            prdId = row1s.product_id;
+
+                        }
+                    });
+
+                    i++
                 });
 
-                i++
-            });
-        }
-    })
-    var data={status:'success',code:'400',path:path};
-    res.json(data);
+
+            }
+        });
+
+        var data={status:'success',code:'400',path:path};
+        res.json(data);
+
+
+};
+
+exports.addProductImages=function(req,res){
+    var input = JSON.parse(JSON.stringify(req.body));
+    var con = req.db.driver.db;
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+    var formidable = require('formidable');
+    var form = new formidable.IncomingForm({
+        keepExtensions: true
+    });
+    form.parse(req);
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    var year = date.getUTCFullYear();
+    var prdId = '';
+
+    var path = req.files.images.path;
+        var img = '';
+        img=req.files.images.path.split("\\")[ req.files.images.path.split("\\").length-1];
+        var data={
+            product_id:0,
+            url:img,
+            type:''
+        };
+
+        req.models.image.create(data,function(err,row2s){
+            if(err){
+                var data={status:'fail',code:'300',description:err.message};
+                res.json(data);
+            }
+            else{
+                var data={status:'success',code:'400',path:path,image:img};
+                res.json(data);
+            }
+        });
+
+
+
 };
 exports.addSizeToCart=function(req,res){
     var input=JSON.parse(JSON.stringify(req.body));

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <% include partials/index_Header.ejs %>
 <body>
 <div class="container body-content">
@@ -43,26 +43,81 @@
                     </div>
                 </form>
             </div>
-            <div>
 
-                <textarea style="width: 100%" id="description" name="description"></textarea>
+        </div>
+    </div>
+
+    <button  onclick="OpenModal()">
+        <i class="fa fa-image" ></i></button>
+    <!-- Modal -->
+    <div id="myModal" class="modal-dialog" style="display: none" role="dialog">
+
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Thêm Hình</h4>
             </div>
+            <div class="modal-body">
+                <input class="form-control newImgModal"  id = 'newImgModal' type = 'file' value = ''>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="CloseModal()" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
 
-
+    </div>
+    <div class="row product-info">
+        <div>
+            <textarea style="width: 100%" id="description" name="description"></textarea>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-12 text-center">
-            <img class="img-responsive text-center detailImageItem" src="img/01/20180608_001316.jpg"
-                 style="margin: auto;">
-        </div>
+
     </div>
-</div>
+
+
 </body>
 <% include partials/index_Footer.ejs %>
 
 <script>
+    var formdata = new FormData()
+    function CloseModal(){
+        var formdata1 = new FormData()
+        var input = document.getElementsByClassName("form-control newImgModal")
+        for (var i = 0; i < input.length; i++) {
+            formdata1.append('images', input[i].files[0]);
 
+        }
+        $.ajax({
+            url: './ajax/addProductImages',
+            type: 'POST',
+            data: formdata1,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                $.ajax({
+                    type: "POST",
+                    url: "./PetMart/remove",
+                    data: "path=" + response.path,
+                    success: function (msg) {
+                        //alert(msg);
+                        data = msg;
+                        var description = document.getElementById("description").value;
+                        description += description + '<br>'+'<img border=0 hspace="0" alt="" src="assets/img/'+response.image+'" align="baseline" class="img-responsive">' + '<br>';
+                        document.getElementById("description").value = description;
+                        document.getElementById('myModal').style.display = 'none';
+
+                    }
+                });
+
+            }
+        });
+
+    }
     function insert() {
         var element = '<div class="row center-block">\n' +
             '                            \n' +
@@ -91,8 +146,7 @@
 
     function Add() {
         var input = document.getElementsByClassName("form-control newImg")
-        var formdata = new FormData()
-        for (var i = 0; i < input.length; i++) {
+        for (var i = input.length-1; i < input.length; i++) {
             formdata.append('upfiles', input[i].files[0]);
 
         }
@@ -181,6 +235,13 @@
     if ('<%= catflt %>' != 'undefined') {
         $("#category").val('<%= catId %>').change();
     }
-</script>
+    function OpenModal(){
+        document.getElementById('myModal').style.display = 'block';
+    }
 
+</script>
+<script>
+
+
+</script>
 </html>
