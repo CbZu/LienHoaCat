@@ -3,21 +3,44 @@
 <% include partials/index_Header.ejs %>
 <body>
 <!-- PORTFOLIO -->
+
 <div class="portfolio">
     <div class="container">
 
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2 col-sm-12">
-                <div class="row center">
-                    <div class="section-title mb-100">
-                        <div class="process-numbers">03</div>
-                        <h2>portfolio</h2>
-                        <p class="module-subtitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua.</p>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+              <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>
+
+              <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="img/backgrounds/phone.jpg" alt="image">
+                    </div>
+                    <div class="item">
+                        <img src="img/backgrounds/beach.jpg" alt="image">
+                    </div>
+                    <div class="item">
+                        <img src="img/backgrounds/road.jpg" alt="image">
                     </div>
                 </div>
+
+                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                    <span class="glyphicon"></span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                    <span class="glyphicon"></span>
+                </a>
             </div>
         </div>
+    </div>
+        
+
         <!-- categories  -->
         <div class="row">
             <div class="row categories-grid">
@@ -49,7 +72,7 @@
 
                 <%for(var j = 0 ; j < result.length ; j++){%>
 
-                    <div class="col-md-4 folder<%=result[j].folder_id%>">
+                    <div class="col-md-3 folder<%=result[j].folder_id%>">
                         <a href="/maintenance-prd?catflt=<%= result[j].cat_name %>&catId=<%= result[j].cat_id %>" class="portfolio_item work-grid">
                             <img src="assets/img/<%=result[j].image%>" alt="image">
                             <div class="portfolio_item_hover">
@@ -249,8 +272,8 @@
                 <!-- end single work -->
                 
                 <!-- Admin -->
-                <div class="col-md-4 admin">
-                    <a href="single-project.html" class="portfolio_item work-grid">
+                <div class="col-md-3 admin">
+                    <a href="maintenance" class="portfolio_item work-grid">
                         <img src="assets/img/accounts.jpg" alt="image">
                         <div class="portfolio_item_hover">
                             <div class="item_info">
@@ -260,7 +283,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-md-4 admin">
+                <div class="col-md-3 admin">
                     <a href="single-project.html" class="portfolio_item work-grid">
                         <img src="assets/img/payment.jpg" alt="image">
                         <div class="portfolio_item_hover">
@@ -273,7 +296,7 @@
                 
                
                 </div>
-                <div class="col-md-4 admin">
+                <div class="col-md-3 admin">
                     <a href="/maintenance-cat" class="portfolio_item work-grid">
                         <img src="assets/img/AddIcon-2 (2).jpg" alt="image">
                         <div class="portfolio_item_hover">

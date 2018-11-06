@@ -15,24 +15,50 @@
         </div>
         <div class="col-md-8">
             <div class="ditem">
-                <div class="row">
-                    <div class="col-md-8"><h3>Tên Sản Phẩm</h3></div>
-                </div>
-                <div class="row">
-                    <input class="col-md-8 form-control" type="text" id="name" onkeyup="CheckPrd()" value=""></input>
-                </div>
-                <div class="row center-block">
-                    <div class="col-md-1"><h4 style="text-align: center;">Size</h4></div>
-                    <div class="col-md-2"><h4 style="text-align: center;">Giá sản phẩm</h4></div>
-                    <div class="col-md-2"><h4 style="text-align: center;">Giá giảm</h4></div>
-                    <div class="col-md-3"><h4 style="text-align: center;">Mã Sản Phẩm</h4></div>
-                    <div class="col-md-2"><h4 style="text-align: center;">Avarta</h4></div>
-                </div>
-                    <div class="row" id="rowInsertBtn">
-                        <div class="col-md-2">
-                            <button class="btn btn-danger" id='insertBtn' onclick='insert()'>+</button>
+                <div class="bs-example bs-example-tabs">
+                    <ul id="myTab" class="nav nav-tabs" role="tablist">
+                        <li class="active"><a href="#home" role="tab" data-toggle="tab">Sản Phẩm</a></li>
+                        <li class=""><a href="#profile" role="tab" data-toggle="tab">Dịch Vụ</a></li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+
+                        <div class="tab-pane fade active in" id="home">
+                            <div class="row">
+                                <div class="col-md-8"><h3>Tên Sản Phẩm</h3></div>
+                            </div>
+                            <div class="row center-block">
+                                <input class="col-md-8 form-control" type="text" id="name" onkeyup="CheckPrd()" value=""></input>
+                            </div>
+
+                            <div class="row center-block">
+                                <div class="col-md-2"><h4 style="text-align: center;">Size</h4></div>
+                                <div class="col-md-2"><h4 style="text-align: center;">Giá sản phẩm</h4></div>
+                                <div class="col-md-2"><h4 style="text-align: center;">Giá giảm</h4></div>
+                                <div class="col-md-3"><h4 style="text-align: center;">Mã Sản Phẩm</h4></div>
+                                <div class="col-md-2"><h4 style="text-align: center;">Avarta</h4></div>
+                            </div>
+                            <div class="row" id="rowInsertBtn">
+                                <div class="col-md-2">
+                                    <button class="btn btn-danger" id='insertBtn' onclick='insert()'>+</button>
+                                </div>
+                            </div>
                         </div>
+
+                        <div class="tab-pane fade" id="profile">
+                            <div class="col-md-8"><h3>Tên Dịch Vụ</h3></div>
+                            <div class="row center-block">
+                                <div class="col-md-8">
+                                    <input class="col-md-8 form-control" type="text" id="name" onkeyup="CheckPrd()" value=""></input>  
+                                </div>
+                                <div class="col-md-4">
+                                    <input class="form-control newImg"  id = 'newImg' type = 'file' value = ''>
+                                </div>
+                            </div>                            
+                        </div>
+
                     </div>
+                </div>
+                <br>
                     <div class="row">
                         <div class="col-md-2">
                             <button class="btn btn-primary" id = "add" onclick="Add()">Add</button>
@@ -41,12 +67,12 @@
                             <a class="btn btn-primary" href = "/" >Cancel</a>
                         </div>
                     </div>
-                </form>
             </div>
 
         </div>
     </div>
 
+    <br>
     <button  onclick="OpenModal()">
         <i class="fa fa-image" ></i></button>
     <!-- Modal -->
@@ -68,9 +94,9 @@
         </div>
 
     </div>
-    <div class="row product-info">
+    <div class="row product-info center-block">
         <div>
-            <textarea style="width: 100%" id="description" name="description"></textarea>
+            <textarea style="width: 100%; min-height: 300px;" id="description" name="description"></textarea>
         </div>
     </div>
 
@@ -121,23 +147,23 @@
     function insert() {
         var element = '<div class="row center-block">\n' +
             '                            \n' +
-            '                            <div class="col-md-1"><input  id = \'newSize\' value = \'\'>\n' +
+            '                            <div class="col-md-2"><input class="form-control" id = \'newSize\' value = \'\'>\n' +
             '\n' +
             '                            </input></div>\n' +
             '                            \n' +
             '\n' +
-            '                            <div class="col-md-2"><input  id = \'newPrice\' value = \'\'>\n' +
+            '                            <div class="col-md-2"><input class="form-control" id = \'newPrice\' value = \'\'>\n' +
             '\n' +
             '                            </input></div>\n' +
-            '                            <div class="col-md-2" ><input id = \'newDisc\' value = \'\'>\n' +
-            '\n' +
-            '                            </input></div>\n' +
-            '\n' +
-            '                           <div class="col-md-3"><input id = \'newCode\' value = \'\'>\n' +
+            '                            <div class="col-md-2" ><input class="form-control" id = \'newDisc\' value = \'\'>\n' +
             '\n' +
             '                            </input></div>\n' +
             '\n' +
-            '                            <div  class="col-md-4"><input class="form-control newImg"  id = \'newImg\' type = \'file\' value = \'\'>\n' +
+            '                           <div class="col-md-3"><input class="form-control" id = \'newCode\' value = \'\'>\n' +
+            '\n' +
+            '                            </input></div>\n' +
+            '\n' +
+            '                            <div  class="col-md-3"><input class="form-control newImg"  id = \'newImg\' type = \'file\' value = \'\'>\n' +
             '\n' +
             '                            </input></div>\n' +
             '                        </div><br>';
@@ -145,26 +171,6 @@
     }
 
     function Add() {
-        var obj =$("#name");
-        $(".error").remove();
-        $.ajax({
-            type: "POST",
-            url: "./ajax/checkProduct",
-            data: "mode=check_email&name=" + obj.val(),
-            success: function (msg) {
-                //alert(msg);
-                data = msg;
-                if (data.status == 'exist') {
-                    obj.after("<label class='error'>Product Name Aleady Exist</label>");
-                    document.getElementById('add').style.display = 'none'
-                    return;
-                }
-                else {
-                    document.getElementById('add').style.display = 'block'
-                }
-            }
-        });
-
         var input = document.getElementsByClassName("form-control newImg")
         for (var i = input.length-1; i < input.length; i++) {
             formdata.append('upfiles', input[i].files[0]);
