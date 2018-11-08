@@ -6,87 +6,87 @@
 
 ! function(a) {
     var b = {
-        isMsie: function() {
-            return /(msie|trident)/i.test(navigator.userAgent) ? navigator.userAgent.match(/(msie |rv:)(\d+(.\d+)?)/i)[2] : !1
-        },
-        isBlankString: function(a) {
-            return !a || /^\s*$/.test(a)
-        },
-        escapeRegExChars: function(a) {
-            return a.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&")
-        },
-        isString: function(a) {
-            return "string" == typeof a
-        },
-        isNumber: function(a) {
-            return "number" == typeof a
-        },
-        isArray: a.isArray,
-        isFunction: a.isFunction,
-        isObject: a.isPlainObject,
-        isUndefined: function(a) {
-            return "undefined" == typeof a
-        },
-        bind: a.proxy,
-        each: function(b, c) {
-            function d(a, b) {
-                return c(b, a)
-            }
-            a.each(b, d)
-        },
-        map: a.map,
-        filter: a.grep,
-        every: function(b, c) {
-            var d = !0;
-            return b ? (a.each(b, function(a, e) {
-                return (d = c.call(null, e, a, b)) ? void 0 : !1
-            }), !! d) : d
-        },
-        some: function(b, c) {
-            var d = !1;
-            return b ? (a.each(b, function(a, e) {
-                return (d = c.call(null, e, a, b)) ? !1 : void 0
-            }), !! d) : d
-        },
-        mixin: a.extend,
-        getUniqueId: function() {
-            var a = 0;
-            return function() {
-                return a++
-            }
-        }(),
-        templatify: function(b) {
-            function c() {
-                return String(b)
-            }
-            return a.isFunction(b) ? b : c
-        },
-        defer: function(a) {
-            setTimeout(a, 0)
-        },
-        debounce: function(a, b, c) {
-            var d, e;
-            return function() {
-                var f, g, h = this,
-                    i = arguments;
-                return f = function() {
-                    d = null, c || (e = a.apply(h, i))
-                }, g = c && !d, clearTimeout(d), d = setTimeout(f, b), g && (e = a.apply(h, i)), e
-            }
-        },
-        throttle: function(a, b) {
-            var c, d, e, f, g, h;
-            return g = 0, h = function() {
-                g = new Date, e = null, f = a.apply(c, d)
+            isMsie: function() {
+                return /(msie|trident)/i.test(navigator.userAgent) ? navigator.userAgent.match(/(msie |rv:)(\d+(.\d+)?)/i)[2] : !1
             },
-            function() {
-                var i = new Date,
-                    j = b - (i - g);
-                return c = this, d = arguments, 0 >= j ? (clearTimeout(e), e = null, g = i, f = a.apply(c, d)) : e || (e = setTimeout(h, j)), f
-            }
-        },
-        noop: function() {}
-    }, c = "0.10.2",
+            isBlankString: function(a) {
+                return !a || /^\s*$/.test(a)
+            },
+            escapeRegExChars: function(a) {
+                return a.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&")
+            },
+            isString: function(a) {
+                return "string" == typeof a
+            },
+            isNumber: function(a) {
+                return "number" == typeof a
+            },
+            isArray: a.isArray,
+            isFunction: a.isFunction,
+            isObject: a.isPlainObject,
+            isUndefined: function(a) {
+                return "undefined" == typeof a
+            },
+            bind: a.proxy,
+            each: function(b, c) {
+                function d(a, b) {
+                    return c(b, a)
+                }
+                a.each(b, d)
+            },
+            map: a.map,
+            filter: a.grep,
+            every: function(b, c) {
+                var d = !0;
+                return b ? (a.each(b, function(a, e) {
+                    return (d = c.call(null, e, a, b)) ? void 0 : !1
+                }), !! d) : d
+            },
+            some: function(b, c) {
+                var d = !1;
+                return b ? (a.each(b, function(a, e) {
+                    return (d = c.call(null, e, a, b)) ? !1 : void 0
+                }), !! d) : d
+            },
+            mixin: a.extend,
+            getUniqueId: function() {
+                var a = 0;
+                return function() {
+                    return a++
+                }
+            }(),
+            templatify: function(b) {
+                function c() {
+                    return String(b)
+                }
+                return a.isFunction(b) ? b : c
+            },
+            defer: function(a) {
+                setTimeout(a, 0)
+            },
+            debounce: function(a, b, c) {
+                var d, e;
+                return function() {
+                    var f, g, h = this,
+                        i = arguments;
+                    return f = function() {
+                        d = null, c || (e = a.apply(h, i))
+                    }, g = c && !d, clearTimeout(d), d = setTimeout(f, b), g && (e = a.apply(h, i)), e
+                }
+            },
+            throttle: function(a, b) {
+                var c, d, e, f, g, h;
+                return g = 0, h = function() {
+                    g = new Date, e = null, f = a.apply(c, d)
+                },
+                    function() {
+                        var i = new Date,
+                            j = b - (i - g);
+                        return c = this, d = arguments, 0 >= j ? (clearTimeout(e), e = null, g = i, f = a.apply(c, d)) : e || (e = setTimeout(h, j)), f
+                    }
+            },
+            noop: function() {}
+        }, c = "0.10.2",
         d = function() {
             function a(a) {
                 return a.split(/\s+/)
@@ -477,69 +477,69 @@
         suggestions: '<span class="tt-suggestions"></span>',
         suggestion: '<div class="tt-suggestion"></div>'
     }, k = {
-            wrapper: {
-                position: "relative",
-                display: "block"
-            },
-            hint: {
-                position: "absolute",
-                top: "0",
-                left: "0",
-                borderColor: "transparent",
-                boxShadow: "none"
-            },
-            input: {
-                position: "relative",
-                verticalAlign: "top",
-                backgroundColor: "transparent"
-            },
-            inputWithNoHint: {
-                position: "relative",
-                verticalAlign: "top"
-            },
-            dropdown: {
-                position: "absolute",
-                top: "100%",
-                left: "0",
-                zIndex: "100",
-                display: "none"
-            },
-            suggestions: {
-                display: "block"
-            },
-            suggestion: {
-                whiteSpace: "nowrap",
-                cursor: "pointer"
-            },
-            suggestionChild: {
-                whiteSpace: "normal"
-            },
-            ltr: {
-                left: "0",
-                right: "auto"
-            },
-            rtl: {
-                left: "auto",
-                right: " 0"
-            }
-        };
+        wrapper: {
+            position: "relative",
+            display: "block"
+        },
+        hint: {
+            position: "absolute",
+            top: "0",
+            left: "0",
+            boxShadow: "none"
+        },
+        input: {
+            position: "relative",
+            verticalAlign: "top",
+        },
+        inputWithNoHint: {
+            position: "relative",
+            verticalAlign: "top"
+        },
+        dropdown: {
+            position: "absolute",
+            top: "100%",
+            left: "0",
+            zindex: "100",
+            display: "block",
+            right: "0",
+            backgroundColor:"white"
+        },
+        suggestions: {
+            display: "block"
+        },
+        suggestion: {
+            whiteSpace: "nowrap",
+            cursor: "pointer",
+        },
+        suggestionChild: {
+            whiteSpace: "normal"
+        },
+        ltr: {
+            left: "0",
+            right: "0"
+        },
+        rtl: {
+            left: "0",
+            right: " 0"
+        }
+    };
     b.isMsie() && b.mixin(k.input, {
         backgroundImage: "url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7)"
     }), b.isMsie() && b.isMsie() <= 7 && b.mixin(k.input, {
         marginTop: "-1px"
     });
     var l = function() {
-        function c(b) {
-            b && b.el || a.error("EventBus initialized without el"), this.$el = a(b.el)
-        }
-        var d = "typeahead:";
-        return b.mixin(c.prototype, {
-            trigger: function(a) {
-                var b = [].slice.call(arguments, 1);
-                this.$el.trigger(d + a, b)
+            function c(b) {
+                b && b.el || a.error("EventBus initialized without el"), this.$el = a(b.el)
             }
-        }), c
-    }(),
+            var d = "typeahead:";
+            return b.mixin(c.prototype, {
+                trigger: function(a) {
+                    var b = [].slice.call(arguments, 1);
+                    this.$el.trigger(d + a, b)
+                }
+            }), c
+        }(),
         m = function() {
             function a(a, b, c, d) {
                 var e;
@@ -570,7 +570,7 @@
                 var b, c, d, e, g;
                 if (!this._callbacks) return this;
                 for (a = a.split(i), d = [].slice.call(arguments, 1);
-                    (b = a.shift()) && (c = this._callbacks[b]);) e = f(c.sync, this, [b].concat(d)), g = f(c.async, this, [b].concat(d)), e() && j(g);
+                     (b = a.shift()) && (c = this._callbacks[b]);) e = f(c.sync, this, [b].concat(d)), g = f(c.async, this, [b].concat(d)), e() && j(g);
                 return this
             }
 

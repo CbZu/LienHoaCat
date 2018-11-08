@@ -28,26 +28,34 @@
                     <td class="text-right"><h4 style="text-align: center;">Giá sản phẩm</h4></td>
                     <td class="text-right"><h4 style="text-align: center;">Giá giảm</h4></td>
                     <td class="text-right"><h4 style="text-align: center;">Mã Sản Phẩm</h4></td>
-                    <td class="text-right"><h4 style="text-align: center;">Avarta</h4></td>
+                    <td class="text-right"><h4 style="text-align: center;">Số Lượng</h4></td>
+                    <td class="text-right"><h4 style="text-align: center;"></h4></td>
                 </tr>
 
                     <% for(i = 0;i < result.length;i++){ %>
                     <tr>
                         <td class="text-right">
-                            <h3 class="booking-item-title" style="text-align: center;"><%= result[i].size %></h3>
+                            <input id = 'size<%=i%>' class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].size %>"></input>
                         </td>
 
-                        <td class="text-right"><h3 style="text-align: center;"><%= result[i].price %></h3>
-                        </td>
-                        <td class="text-right"><h3 style="text-align: center;"><%= result[i].disct_price %></h3>
+                        <td class="text-right">
+                            <input id = 'price<%=i%>' class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].price %>">
                         </td>
                         <td class="text-right">
-                            <h3 style="text-align: center;"><%= result[i].code %></h3>
+                            <input id = 'disct<%=i%>' class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].disct_price %>">
+                        </td>
+                        <td class="text-right">
+                            <input id = 'code<%=i%>' class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].code %>">
+
+                        </td>
+                        <td class="text-right">
+                                <input type="number" min="1" max=""  step="1" autocomplete="off" height="100%" width="50%">
+
                         </td>
                         <td class="text-right">
                             <a href="#" style="text-align: center;" >
-                                <h3 class="fa fa-plus-circle" style="text-align: center;">Thêm vào giỏ</h3></a>
-
+                                <i class="fa fa-plus-circle" >Thêm vào giỏ</i>
+                            </a>
                         </td>
                     </tr>
                     <% } %>

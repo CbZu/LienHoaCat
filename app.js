@@ -44,9 +44,9 @@ app.use(express.logger({
 	}));
 app.use(function(req,res){
 		res.status(400);
+
 		res.send('File Not Found');
 	});
-
 http.createServer(app).listen(config.port,function(){
 		console.log('App started on port '+config.port)
 	});

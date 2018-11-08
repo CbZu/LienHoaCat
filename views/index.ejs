@@ -7,39 +7,39 @@
 <div class="portfolio">
     <div class="container">
 
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div id="myCarousel" class="carousel slide" data-ride="carousel">
-              <!-- Indicators -->
-                <ol class="carousel-indicators">
-                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#myCarousel" data-slide-to="1"></li>
-                    <li data-target="#myCarousel" data-slide-to="2"></li>
-                </ol>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                        <li data-target="#myCarousel" data-slide-to="2"></li>
+                    </ol>
 
-              <!-- Wrapper for slides -->
-                <div class="carousel-inner">
-                    <div class="item active">
-                        <img src="img/backgrounds/phone.jpg" alt="image">
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <img src="img/backgrounds/phone.jpg" alt="image">
+                        </div>
+                        <div class="item">
+                            <img src="img/backgrounds/beach.jpg" alt="image">
+                        </div>
+                        <div class="item">
+                            <img src="img/backgrounds/road.jpg" alt="image">
+                        </div>
                     </div>
-                    <div class="item">
-                        <img src="img/backgrounds/beach.jpg" alt="image">
-                    </div>
-                    <div class="item">
-                        <img src="img/backgrounds/road.jpg" alt="image">
-                    </div>
+
+                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                        <span class="glyphicon"></span>
+                    </a>
+                    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                        <span class="glyphicon"></span>
+                    </a>
                 </div>
-
-                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                    <span class="glyphicon"></span>
-                </a>
-                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                    <span class="glyphicon"></span>
-                </a>
             </div>
         </div>
-    </div>
-        
+
 
         <!-- categories  -->
         <div class="row">
@@ -47,21 +47,23 @@
                 <nav class="categories">
                     <ul class="portfolio_filter">
                         <li class="col-md-1"><a href="" class="active" data-filter="*">Home</a></li>
-                       <!-- <% var folder= '';
-                        for(i = 0 ; i <  result.length ; i++) {%>
-                            <%if(result[i].folder_name != folder){%>
-                                <li class="col-md-2"><a href="" data-filter=".folder<%=result[i].folder_id%>"><%=result[i].folder_name%></a></li>
-                            <% folder = result[i].folder_name;}%>
-                        <%}%>-->
+                        <!-- <% var folder = '';
+                        for(i = 0 ; i < result.length ; i++) { %>
+                            <% if(result[i].folder_name != folder){ %>
+                                <li class="col-md-2"><a href="" data-filter=".folder<%= result[i].folder_id %>"><%= result[i].folder_name %></a></li>
+                            <% folder = result[i].folder_name;} %>
+                        <% } %>-->
                         <li class="col-md-2"><a href="" data-filter=".folder1">Xem Tuổi và Mệnh</a></li>
                         <li class="col-md-2"><a href="" data-filter=".folder2">Phong Thủy</a></li>
                         <li class="col-md-2"><a href="" data-filter=".folder3">Thờ Cúng</a></li>
                         <li class="col-md-2"><a href="" data-filter=".folder4">Đời Sống</a></li>
                         <li class="col-md-2"><a href="" data-filter=".folder5">Dịch Vụ</a></li>
                     </ul>
+                    <% if(type == 1){ %>
                     <ul class="portfolio_filter">
                         <li class="col-md-2"><a href="" data-filter=".admin">Administrator</a></li>
                     </ul>
+                    <%}%>
                 </nav>
             </div>
         </div>
@@ -70,207 +72,26 @@
         <div class="row">
             <div class="row portfolio_container">
 
-                <%for(var j = 0 ; j < result.length ; j++){%>
+                <% for(var j = 0 ; j < result.length ; j++){ %>
 
-                    <div class="col-md-3 folder<%=result[j].folder_id%>">
-                        <a href="/maintenance-prd?catflt=<%= result[j].cat_name %>&catId=<%= result[j].cat_id %>" class="portfolio_item work-grid">
-                            <img src="assets/img/<%=result[j].image%>" alt="image">
-                            <div class="portfolio_item_hover">
-                                <div class="item_info">
-                                    <span><%=result[j].cat_name%></span>
-                                    <em>photography</em>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                <%}%>
-
-
-                <!--&lt;!&ndash; single work &ndash;&gt;
-                <div class="col-md-4 phongthuy">
-                    <a href="single-project.html" class="portfolio_item work-grid">
-                        <img src="assets/img/chuoihat.jpg" alt="image">
+                <div class="col-md-3 folder<%= result[j].folder_id %>">
+                    <a href="/maintenance-prd?catflt=<%= result[j].cat_name %>&catId=<%= result[j].cat_id %>"
+                       class="portfolio_item work-grid">
+                        <img src="assets/img/<%= result[j].image %>" alt="image">
                         <div class="portfolio_item_hover">
                             <div class="item_info">
-                                <span>Chuỗi Hạt</span>
+                                <span><%= result[j].cat_name %></span>
                                 <em>photography</em>
                             </div>
                         </div>
                     </a>
                 </div>
-                &lt;!&ndash; end single work &ndash;&gt;
 
-                &lt;!&ndash; single work &ndash;&gt;
-                <div class="col-md-4 phongthuy">
-                    <a href="single-project.html" class="portfolio_item work-grid">
-                        <img src="assets/img/vongtay.jpg" alt="image">
-                        <div class="portfolio_item_hover">
-                            <div class="item_info">
-                                <span>Vòng Tay</span>
-                                <em>photography</em>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                &lt;!&ndash; end single work &ndash;&gt;
+                <% } %>
 
-                &lt;!&ndash; single work &ndash;&gt;
-                <div class="col-md-4 phongthuy">
-                    <a href="single-project.html" class="portfolio_item work-grid">
-                        <img src="assets/img/matda.jpg" alt="image">
-                        <div class="portfolio_item_hover">
-                            <div class="item_info">
-                                <span>Mặt Đá</span>
-                                <em>photography</em>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                &lt;!&ndash; end single work &ndash;&gt;
-
-                &lt;!&ndash; single work &ndash;&gt;
-                <div class="col-md-4 phongthuy">
-                    <a href="single-project.html" class="portfolio_item work-grid">
-                        <img src="assets/img/vatphamphongthuy.jpg" alt="image">
-                        <div class="portfolio_item_hover">
-                            <div class="item_info">
-                                <span>Vật Phẩm</span>
-                                <em>photography</em>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                &lt;!&ndash; end single work &ndash;&gt;
-
-                &lt;!&ndash; single work &ndash;&gt;
-                <div class="col-md-4 thocung">
-                    <a href="single-project.html" class="portfolio_item work-grid">
-                        <img src="assets/img/tuongphat.jpg" alt="image">
-                        <div class="portfolio_item_hover">
-                            <div class="item_info">
-                                <span>Tượng phật</span>
-                                <em>photography</em>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                &lt;!&ndash; end single work &ndash;&gt;
-
-                &lt;!&ndash; single work &ndash;&gt;
-                <div class="col-md-4 thocung">
-                    <a href="single-project.html" class="portfolio_item work-grid">
-                        <img src="assets/img/nhangtram.jpg" alt="image">
-                        <div class="portfolio_item_hover">
-                            <div class="item_info">
-                                <span>Nhang Trầm</span>
-                                <em>photography</em>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                &lt;!&ndash; end single work &ndash;&gt;
-
-                &lt;!&ndash; single work &ndash;&gt;
-                <div class="col-md-4 thocung">
-                    <a href="single-project.html" class="portfolio_item work-grid">
-                        <img src="assets/img/banhmut.jpg" alt="image">
-                        <div class="portfolio_item_hover">
-                            <div class="item_info">
-                                <span>Bánh Mứt</span>
-                                <em>photography</em>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                &lt;!&ndash; end single work &ndash;&gt;
-
-                &lt;!&ndash; single work &ndash;&gt;
-                <div class="col-md-4 thocung">
-                    <a href="single-project.html" class="portfolio_item work-grid">
-                        <img src="assets/img/vatdungthocung.jpg" alt="image">
-                        <div class="portfolio_item_hover">
-                            <div class="item_info">
-                                <span>Vật Dụng</span>
-                                <em>photography</em>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                &lt;!&ndash; end single work &ndash;&gt;
-
-                &lt;!&ndash; single work &ndash;&gt;
-                <div class="col-md-4 doisong">
-                    <a href="single-project.html" class="portfolio_item work-grid">
-                        <img src="assets/img/dacsan3mien.jpg" alt="image">
-                        <div class="portfolio_item_hover">
-                            <div class="item_info">
-                                <span>Đặc Sản 3 Miền</span>
-                                <em>photography</em>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                &lt;!&ndash; end single work &ndash;&gt;
-                
-                &lt;!&ndash; single work &ndash;&gt;
-                <div class="col-md-4 doisong">
-                    <a href="single-project.html" class="portfolio_item work-grid">
-                        <img src="assets/img/kheotayhaylam.jpg" alt="image">
-                        <div class="portfolio_item_hover">
-                            <div class="item_info">
-                                <span>Khéo Tay Hay Làm</span>
-                                <em>photography</em>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                &lt;!&ndash; end single work &ndash;&gt;
-                
-                &lt;!&ndash; single work &ndash;&gt;
-                <div class="col-md-4 dichvu">
-                    <a href="single-project.html" class="portfolio_item work-grid">
-                        <img src="assets/img/kettocseto.jpg" alt="image">
-                        <div class="portfolio_item_hover">
-                            <div class="item_info">
-                                <span>Kết Tóc Se Tơ</span>
-                                <em>photography</em>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                &lt;!&ndash; end single work &ndash;&gt;
-                &lt;!&ndash; single work &ndash;&gt;
-                <div class="col-md-4 dichvu">
-                    <a href="single-project.html" class="portfolio_item work-grid">
-                        <img src="assets/img/metronconvuong.jpg" alt="image">
-                        <div class="portfolio_item_hover">
-                            <div class="item_info">
-                                <span>Mẹ Tròn Con Vuông</span>
-                                <em>photography</em>
-                            </div>
-                        </div>
-                    </a>
-                </div>-->
-                <!-- end single work -->
-
-                 <!-- single work -->
-
-               <!-- <div class="col-md-4 dichvu doisong thocung phongthuy menh">
-                    <a class="portfolio_item work-grid">
-                        <img src="assets/img/AddIcon.jpg" alt="image">
-                        <div class="portfolio_item_hover">
-                            <div class="item_info">
-                                <span>Add</span>
-                                <em>photography</em>
-                            </div>
-                        </div>
-
-                    </a>
-                </div>-->
 
                 <!-- end single work -->
-                
+                <% if(type == 1){ %>
                 <!-- Admin -->
                 <div class="col-md-3 admin">
                     <a href="maintenance" class="portfolio_item work-grid">
@@ -278,7 +99,7 @@
                         <div class="portfolio_item_hover">
                             <div class="item_info">
                                 <span>Tài Khoản</span>
-                                 <em>photography</em>
+                                <em>photography</em>
                             </div>
                         </div>
                     </a>
@@ -289,12 +110,12 @@
                         <div class="portfolio_item_hover">
                             <div class="item_info">
                                 <span>Đơn Hàng</span>
-                                 <em>photography</em>
+                                <em>photography</em>
                             </div>
                         </div>
                     </a>
-                
-               
+
+
                 </div>
                 <div class="col-md-3 admin">
                     <a href="/maintenance-cat" class="portfolio_item work-grid">
@@ -309,6 +130,8 @@
 
 
                 </div>
+                <% } %>
+
             </div>
             <!-- end row -->
         </div>
@@ -339,7 +162,7 @@
 
 </script>
 <script type="text/javascript">
-    $(window).load(function() {
+    $(window).load(function () {
         new WOW().init();
 
         // initialise flexslider
@@ -362,7 +185,7 @@
             filter: '*',
         });
 
-        $('.portfolio_filter a').click(function(){
+        $('.portfolio_filter a').click(function () {
             $('.portfolio_filter .active').removeClass('active');
             $(this).addClass('active');
 
@@ -371,7 +194,7 @@
                 filter: selector,
                 animationOptions: {
                     duration: 500,
-                    animationEngine : "jquery"
+                    animationEngine: "jquery"
                 }
             });
             return false;
@@ -379,5 +202,23 @@
     });
 </script>
 </body>
+<script src="js/bootstrap.js"></script>
+<script src="js/slimmenu.js"></script>
+<script src="js/bootstrap-datepicker.js"></script>
+<script src="js/bootstrap-timepicker.js"></script>
+<script src="js/nicescroll.js"></script>
+<script src="js/dropit.js"></script>
+<script src="js/ionrangeslider.js"></script>
+<script src="js/icheck.js"></script>
+<script src="js/fotorama.js"></script>
+<script src="js/typeahead.js"></script>
+<script src="js/card-payment.js"></script>
+<script src="js/magnific.js"></script>
+<script src="js/owl-carousel.js"></script>
+<script src="js/fitvids.js"></script>
+<script src="js/tweet.js"></script>
+<script src="js/countdown.js"></script>
+<script src="js/gridrotator.js"></script>
+<script src="js/custom.js"></script>
 <% include partials/index_Footer.ejs %>
 </html>

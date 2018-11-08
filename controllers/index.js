@@ -109,7 +109,7 @@ module.exports.home = function(req, res){
             console.log(err);
         }
 
-        data={title:'login|signup', result:rows };
+        data={title:'login|signup', result:rows,fname:req.session.firstname,type:req.session.type};
         res.render('index',data);
     });
 

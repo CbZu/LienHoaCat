@@ -1092,7 +1092,6 @@ module.exports.payment_detail = function(req, res){
 };
 
 module.exports.product_detail = function(req, res){
-    if(typeof req.session.user_id=='undefined'){
         var sql = 'select *, (select cat_name from category where cat_id = p.cat_id) as catflt' +
             ' from product p where name = (select name from product where product_id = '+req.query.id+');';
 
@@ -1109,7 +1108,7 @@ module.exports.product_detail = function(req, res){
                         sql = 'select * from image where product_id  = '+req.query.id+';';
                         con.query(sql, function (err, row2s) {
                             if(!err){
-                                var data = {status: 'success', code: '200',result:rows, description:row1s[0].description,descriptionId:row1s[0].description_id,image:row2s};
+                                var data = {status: 'success', code: '200',result:rows, description:row1s[0].description,descriptionId:row1s[0].description_id,image:row2s,fname:req.session.firstname,type:req.session.type};
                                 res.render('product-detail',data);
                             }
                         });
@@ -1122,11 +1121,6 @@ module.exports.product_detail = function(req, res){
             }
 
         });
-    }else{
-        data={title:'login|signup'};
-        res.render('index',data);
-    }
-
 };
 module.exports.create_prd=function(req,res){
     var sql = '';
@@ -1149,7 +1143,6 @@ module.exports.create_prd=function(req,res){
 
 };
 module.exports.maintenance_prd = function(req, res){
-    if(typeof req.session.user_id=='undefined'){
         var sql = '';
         sql += '\n' +
             'select name,product_id,cat_id,image, \n' +
@@ -1182,7 +1175,7 @@ module.exports.maintenance_prd = function(req, res){
                 res.json(data);
             }else{
                 if(req.query.catflt != undefined && req.query.catflt != '' ){
-                    var data = {status: 'success', code: '200',result:rows,catflt:req.query.catflt,catId:req.query.catId};
+                    var data = {status: 'success', code: '200',result:rows,catflt:req.query.catflt,catId:req.query.catId,fname:req.session.firstname,type:req.session.type};
                     res.render('products',data);
                 }else{
                     var data = {status: 'success', code: '200',result:rows,cat:'undefined',catId:'undefined'};
@@ -1193,31 +1186,14 @@ module.exports.maintenance_prd = function(req, res){
 
         });
 
-    }
-    else{
-        data={title:'login|signup'};
-        res.render('index',data);
-    }
+
 };
 module.exports.maintenance_cat = function(req, res){
-   /* if(typeof req.session.user_id!='undefined'){*/
+   if(req.session.type=='1'){
         var sql = '';
         sql += 'select * from lhc.treefolder order by folder_id asc';
 
-       /* var where = '';
-        if(req.query.catflt != undefined && req.query.catflt != '' ){
-            where += ' cat_id = (select cat_id from category where cat_name like \'%'+req.query.catflt+'%\') and';
-        }
-        if(req.query.prdflt != undefined && req.query.prdflt != '' ){
-            where += ' name like \'%'+req.query.prdflt+'%\' and';
-        }
 
-        if(where.trim() == ''){
-            sql+= '  group by name order by product_id;'
-        }else{
-            where = where.substring(0,where.length-3);
-            sql += ' where ' +  where  + '  group by name order by product_id;'
-        }*/
         var con = req.db.driver.db;
         con.query(sql, function (err, rows) {
             if(err){
@@ -1228,7 +1204,7 @@ module.exports.maintenance_cat = function(req, res){
                     '(select folder_name from treefolder where folder_id = c.folder_id) as folder_name\n' +
                     'from lhc.category c order by folder_id asc';
                 con.query(sql, function (err, row1s) {
-                    var data = {status: 'success', code: '200',tree:rows, result:row1s};
+                    var data = {status: 'success', code: '200',tree:rows, result:row1s,fname:req.session.firstname,type:req.session.type};
                     res.render('categories',data);
                 });
 
@@ -1236,11 +1212,10 @@ module.exports.maintenance_cat = function(req, res){
 
         });
 
-    /*}
+    }
     else{
-        data={title:'login|signup'};
-        res.render('index',data);
-    }*/
+        res.redirect('/');
+    }
 };
 module.exports.show_noti=function(req,res) {
     var sql = 'select * from notification where user_id = '+ req.query.id +';'
