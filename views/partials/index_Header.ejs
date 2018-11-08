@@ -60,10 +60,10 @@
                 <button type="submit" class="btn btn-default">Tìm</button>
             </form>
             <div class="col-md-6 col-md-offset-5" style="position: absolute; top: 50%; left: 100px; transform: translate(0%, -50%)">
-                <div class="col-md-4 col-md-offset-5" style="padding: 0px;">
+                <div class="col-md-4 col-md-offset-2" style="padding: 0px;">
                     <!-- <div class="row"> -->
                         <div class="col-md-4" style="padding: 0px;">
-                            <a href="/edit-account?email=<%=data.emailheader%>">
+                            <a href="/edit-account">
                             <img class="img-circle origin" src="img/40x40.png" alt="Image Alternative text" title="AMaze" />                            
                             </a> 
                         </div>
@@ -72,12 +72,59 @@
                         </div>
                    <!--  </div>  -->           
                 </div>
-                <div class="col-md-3" style="padding: 0px;">
+                <div class="col-md-2" style="padding: 0px;">
+                    <a onclick="document.getElementById('id01').style.display='block'" style="width:auto;">
+                        <h5>Đăng nhập</h5>
+                    </a>
+                </div>
+                <div class="col-md-2" style="padding: 0px;">
                     <a href="/logout">
-                        <h5>Sign Out</h5>
+                        <h5>Đăng xuất</h5>
                     </a>
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
+
+
+    <div id="id01" class="modal">
+
+        <form class="modal-content animate" action="/action_page.php">
+            <div class="imgcontainer">
+                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                <img src="img/LOGO.svg" alt="Avatar" class="avatar" style="max-width: 75px">
+            </div>
+
+            <div class="container">
+                <label for="uname"><b>Username</b></label>
+                <input type="text" placeholder="Enter Username" name="uname" required>
+
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" required>
+
+                <button class="center-block" type="submit">Login</button>
+                <label>
+                    <input type="checkbox" checked="checked" name="remember"> Remember me
+                </label>
+            </div>
+
+            <div class="container" style="background-color:#f1f1f1">
+                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                <span class="psw">Forgot <a href="#">password?</a></span>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById('id01');
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script> 
+
 </div>
