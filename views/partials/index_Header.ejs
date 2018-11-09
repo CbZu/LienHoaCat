@@ -54,8 +54,8 @@
                 <a href="/"><img src="img/LOGO.svg" alt="LienHoaCac"
                                  style="width: 80px; margin: auto; padding-top: 10px;"></a>
             </div>
-            <form class="form-inline col-sm-12 col-md-5" method="GET" action="/search"
-                  style="position: absolute; top: 50%; left: 100px; transform: translate(0%, -50%)">
+            <form class="form-inline col-sm-12 col-md-5 center-height" method="GET" action="/search"
+                  style="position: absolute; left: 100px;">
                 <div class="form-group">
                     <input class="typeahead-prd form-control" type="text" name="topSearchKeyword" id="topSearchKeyword"
                            value="">
@@ -63,8 +63,7 @@
                 </div>
                 <button type="submit" class="btn btn-default">Tìm</button>
             </form>
-            <div class="col-md-6 col-md-offset-5"
-                 style="position: absolute; top: 50%; left: 100px; transform: translate(0%, -50%)">
+            <div class="col-md-4 col-md-offset-6 center-height" style="position: absolute;">
                 <div class="col-md-4 col-md-offset-2" style="padding: 0px;">
                     <!-- <div class="row"> -->
 
@@ -82,20 +81,27 @@
 
                     <!--  </div>  -->
                 </div>
+                <% if(type != undefined){%>
+                <div class="col-md-2" style="padding: 0px;">
+                    <a href="/logout">
+                        <h5>Đăng xuất</h5>
+                    </a>
+                </div>
+                <%}%>
+
                 <% if(type == undefined){%>
                 <div class="col-md-2" style="padding: 0px;">
                     <a onclick="document.getElementById('id01').style.display='block'" style="width:auto;">
                         <h5>Đăng nhập</h5>
                     </a>
                 </div>
-                <%}%>
-
-                <div class="col-md-2" style="padding: 0px;">
-                    <a href="/logout">
-                        <h5>Đăng xuất</h5>
-                    </a>
-                </div>
+                <%}%>               
             </div>
+            <div class="col-md-1 col-md-offset-10 center-height" style="max-width: 75px; position: absolute;">
+                    <a href="#" class="thumbnail" style="bottom: 0px;">
+                        <img src="img/cart.jpg" alt="Go to Cart">
+                    </a>
+            </div> 
         </div>
     </div>
 

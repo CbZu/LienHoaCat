@@ -508,6 +508,11 @@ section{
 05. Header
 
 -------------------------------- */
+.center-height {
+    top: 50%; 
+    transform: translate(0%, -50%);
+}
+
 /* Full-width input fields */
 input[type=text], input[type=password] {
     width: 100%;
@@ -549,10 +554,6 @@ button:hover {
 img.avatar {
     width: 40%;
     border-radius: 50%;
-}
-
-.container {
-    padding: 16px;
 }
 
 span.psw {
