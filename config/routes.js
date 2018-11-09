@@ -52,7 +52,6 @@ module.exports=function(app,controllers){
         app.post('/ajax/addProduct',controllers.ajax.addProduct);
     app.post('/ajax/addProductImages',controllers.ajax.addProductImages);
     app.post('/ajax/add-to-cart-admin',controllers.ajax.addSizeToCart);
-        app.get('/show-cart',controllers.todo.show_cart);
 
         app.post('/ajax/updateProductImage',controllers.ajax.updateProductImage);
         app.get('/noti-maintenance',controllers.todo.show_noti);
@@ -66,6 +65,7 @@ module.exports=function(app,controllers){
     app.post('/add-promote',controllers.todo.add_promote);
     app.get('/edit-promote',controllers.todo.edit_promote);
     app.post('/update-promote',controllers.todo.update_promote);
+    app.get('/show-payment', controllers.todo.show_payment);
     	/*app.get('/register',controllers.account.register);
 
 

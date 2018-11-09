@@ -114,7 +114,7 @@ module.exports.signup=function(req,res){
             create_time:parseInt(year+''+month+''+day),
             type_id : parseInt(input.type)
         };
-        var sqlCheck = 'select * from pet.user where username = \''+input.username+'\'';
+        var sqlCheck = 'select * from lhc.user where username = \''+input.username+'\'';
         var con = req.db.driver.db;
         con.query(sqlCheck, function (err, rows) {
             if(err){
@@ -125,7 +125,7 @@ module.exports.signup=function(req,res){
                     data={status:'fail',code:'300',description:"username is exist."};
                     res.json(data);
                 }else{
-                    var sql = 'INSERT INTO `pet`.`user`\n' +
+                    var sql = 'INSERT INTO `lhc`.`user`\n' +
                         '(`email`,\n' +
                         '`dob`,\n' +
                         '`phone`,\n' +
@@ -276,8 +276,8 @@ module.exports.register=function(req,res){
 
 module.exports.show_account = function(req, res){
         //delete req.session;
-        if(typeof req.session.user_id!='undefined'
-            &&  (req.session.type == 1)){
+        if(typeof req.session.user_id=='undefined'
+     /*       &&  (req.session.type == 1)*/){
 
             var sql = 'select * from user ';
             if( (req.query.fname != undefined &&  req.query.fname != '')

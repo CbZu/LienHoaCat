@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include partials/index_Header.ejs %>
+<body>
+	<div class="container">
+		<div class="row">
+            	<div class="col-md-2">
+                    <h4 class="booking-item-title">Title</h4>
+                </div>
+                <div class="col-md-2">
+                    <h4 class="booking-item-title">User</h4>
+                </div>
+                <div class="col-md-2">
+                    <h4 class="booking-item-title">Quantity</h4>
+                </div>
+                <div class="col-md-2">
+                    <h4 class="booking-item-title">Status</h4>
+                </div>
+                <div class="col-md-2">
+                    <h4 class="booking-item-title">Total</h4>
+                </div>
+                <div class="col-md-2">
+                    <h4 class="booking-item-title">Created Date</h4>
+                </div>
+        </div>
+
+        <% for(i = 0;i < payments.length;i++){ %>
+        <li>
+        	<a class="booking-item" href="/payment-detail?id=<%= payments[i].payment_id%>">
+        		<div class="row">
+
+        			<div class="row">
+        				<div class="col-md-2">
+        					<h5 class="booking-item-title"><%= payments[i].title %></h5>
+        				</div>
+        				<div class="col-md-2">
+        					<p class="booking-item-description">
+        						<%= payments[i].name +  ' (' + payments[i].email + ')'%>
+        					</p>
+        				</div>
+        				<div class="col-md-2">
+        					<p class="booking-item-description"> <%= payments[i].products %></p>
+        				</div>
+        				<div class="col-md-2">
+        					<p class="booking-item-description">
+        						<%if(payments[i].status_id == 0) {%>
+        						Đơn hàng đã được hủy
+        						<%} else if(payments[i].status_id == 1) {%>
+        						Đơn hàng được đặt
+        						<%} else if(payments[i].status_id == 2) {%>
+        						Đã xác nhận
+        						<%} else if(payments[i].status_id == 3) {%>
+        						Đang giao hàng
+        						<%} else  if(payments[i].status_id == 4) {%>
+        						Giao hàng thành công
+        						<%} else  if(payments[i].status_id == 5) {%>
+        						Đã thanh toán
+        						<%} %>
+        					</p>
+        				</div>
+        				<div class="col-md-2">
+        					<%= payments[i].total_after_promote%>
+        				</div>
+        				<div class="col-md-2">
+        					<p class="booking-item-description"><%=payments[i].date%></p>
+        				</div>
+        			</div>
+        		</div>
+        	</a>
+        </li>
+        <% } %>		
+	</div>
+</body>
+<% include partials/index_Footer.ejs %>
+</html>
