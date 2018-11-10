@@ -20,6 +20,7 @@
                 <div class="row">
                     <h2><%=result[0].name%></h2>
                 </div>
+
                 <div class="row">
                 <table class="row table table-condensed">
                     <tbody>
@@ -32,36 +33,46 @@
                     <td class="text-right"><h4 style="text-align: center;"></h4></td>
                 </tr>
 
-                    <% for(i = 0;i < result.length;i++){ %>
-                    <tr>
-                        <td class="text-right">
-                            <input id = 'size<%=i%>' class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].size %>"></input>
-                        </td>
+                        <% for(i = 0;i < result.length;i++){ %>
+                        <tr>
+                            <td class="text-right">
+                                <input id = 'size_id'class="booking-item-title size_id" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].size %>"></input>
+                            </td>
 
-                        <td class="text-right">
-                            <input id = 'price<%=i%>' class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].price %>">
-                        </td>
-                        <td class="text-right">
-                            <input id = 'disct<%=i%>' class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].disct_price %>">
-                        </td>
-                        <td class="text-right">
-                            <input id = 'code<%=i%>' class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].code %>">
+                            <td class="text-right">
+                                <input class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].price %>">
+                            </td>
+                            <td class="text-right">
+                                <input class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].disct_price %>">
+                            </td>
+                            <td class="text-right">
+                                <input  class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].code %>">
 
-                        </td>
-                        <td class="text-right">
-                                <input type="number" min="1" max=""  step="1" autocomplete="off" height="100%" width="50%">
+                            </td>
+                            <td class="text-right">
+                                <input id = 'quantity'class="form-control booking-item-title quantity" value="0" type="number" min="1" max=""  step="1" autocomplete="off" height="100%" width="50%">
 
-                        </td>
-                        <td class="text-right">
-                            <a href="#" style="text-align: center;" >
-                                <i class="fa fa-plus-circle" >Thêm vào giỏ</i>
-                            </a>
-                        </td>
-                    </tr>
-                    <% } %>
+                            </td>
+                            <td class="text-right">
+                                <a href="#" style="text-align: center;" onclick="AddCart(<%=i%>)">
+                                    <i class="fa fa-plus-circle" >Thêm vào giỏ</i>
+                                </a>
+                            </td>
+                        </tr>
+                        <% } %>
+
+
+
                     </tbody>
                 </table>
                 </div>
+                <div class="row">
+                    <div class = "col-md-3">
+                        <button class="form-control" onclick="AddCart()">Add To Cart</button>
+                    </div>
+
+                </div>
+
                 <div class="row">
                     <% for(j = 0;j < result.length;j++){ %>
                     <div class="col-md-3">
@@ -97,6 +108,43 @@
     document.getElementById('descriptionArea').innerHTML = str;
 
 
+</script>
+<script>
+
+    function AddCart(idx){
+        var formdata1 = new FormData();
+        var sizes = new Array();
+        var quantities = new Array();
+       var input = document.getElementsByClassName('booking-item-title size_id');
+        <%for (var i = 0; i < result.length; i++) {%>
+            sizes.push(<%=result[i].product_id%>);
+        <%}%>
+        input = document.getElementsByClassName('form-control booking-item-title quantity');
+        for (var i = 0; i < input.length; i++) {
+            quantities.push(input[i].value);
+        }
+        formdata1.append('size_id',sizes);
+        formdata1.append('quantity',quantities);
+                $.ajax({
+                    url: "./PetMart/add-to-cart",
+                    type: 'POST',
+                    dataType : 'JSON',
+                    data: JSON.stringify({size_id:sizes,quantity:quantities}),
+                    async: false,
+                    cache: false,
+                    contentType: 'application/json; charset=UTF-8',
+                    enctype: 'multipart/form-data',
+                    processData: false,
+                    success: function (response) {
+                        alert('success');
+                       input = document.getElementsByClassName('form-control booking-item-title quantity');
+                        for (var i = 0; i < input.length; i++) {
+                            input[i].value='0'
+                        }
+                    }
+                });
+
+    }
 </script>
 
 </html>

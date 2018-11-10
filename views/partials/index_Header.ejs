@@ -97,22 +97,22 @@
                 </div>
                 <%}%>               
             </div>
-            <div class="col-md-1 col-md-offset-10 center-height" style="position: absolute; max-height: 60%;">
-                    <a href="#" class="thumbnail">
-                        <img src="img/cart.jpg" da alt="Go to Cart">
-                    </a>
-            </div> 
-        </div>
-    </div>
-
-
-    <div id="id01" class="modal">
-
-        <form class="modal-content animate" action="/login" method="POST">
-            <div class="imgcontainer">
-                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-                <img src="img/LOGO.svg" alt="Avatar" class="avatar" style="max-width: 75px">
+            <div class="col-md-1 col-md-offset-10 center-height" style="max-width: 75px; position: absolute;">
+                <a class="thumbnail" style="bottom: 0px;"
+                   onclick="GetCart()">
+                    <img src="img/cart.jpg" alt="Go to Cart">
+                </a>
             </div>
+        </div>
+        <div class="row" style="position: relative;">
+            <div id="id01" class="modal">
+
+                <form class="modal-content animate" action="/login" method="POST">
+                    <div class="imgcontainer">
+                        <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                              title="Close Modal">&times;</span>
+                        <img src="img/LOGO.svg" alt="Avatar" class="avatar" style="max-width: 75px">
+                    </div>
 
             <div class="container">
                 <label for="uname"><b>Username</b></label>
@@ -127,13 +127,43 @@
                 </label>
             </div>
 
-            <div class="container" style="background-color:#f1f1f1">
-                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">
-                    Cancel
-                </button>
-                <span class="psw">Forgot <a href="#">password?</a></span>
+                    <div class="container" style="background-color:#f1f1f1">
+                        <button type="button" onclick="document.getElementById('id01').style.display='none'"
+                                class="cancelbtn">
+                            Cancel
+                        </button>
+                        <span class="psw">Forgot <a href="#">password?</a></span>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
+        <div class="row" style="position: relative;">
+            <div id="id03" class="modal">
+
+                <form class="modal-content animate" action="/login" method="POST">
+                    <div class="imgcontainer">
+                        <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                              title="Close Modal">&times;</span>
+                        <img src="img/LOGO.svg" alt="Avatar" class="avatar" style="max-width: 75px">
+                    </div>
+
+                    <div class="container" id="cartdetail">
+
+                    </div>
+
+                    <div class="container" style="background-color:#f1f1f1">
+                        <button type="button" onclick="document.getElementById('id03').style.display='none'"
+                                class="cancelbtn">
+                            Cancel
+                        </button>
+                        <button type="button" onclick="UpdateCart()"
+                                class="cancelbtn">
+                            Update Cart
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -148,4 +178,98 @@
         }
     </script>
 
+    <script>
+        var sizesArray = new Array();
+        function GetCart(){
+            $.ajax({
+                url: "./PetMart/get-cart",
+                type: 'POST',
+                dataType: 'JSON',
+                data: JSON.stringify({mode: 'online'}),
+                async: false,
+                cache: false,
+                contentType: 'application/json; charset=UTF-8',
+                enctype: 'multipart/form-data',
+                processData: false,
+                success: function (response) {
+                    document.getElementById('cartdetail').innerHTML = '';
+                    var inner = ''
+                    for (var i = 0; i < response.result.length; i++) {
+                        inner += '<div class="row">\n' +
+                            '                    <h2>' + response.result[i].name + ' </h2>\n' +
+                            '                </div>'
+                        inner += '<table class="row table table-condensed form-group">\n' +
+                            '                    <tbody>\n' +
+                            '                <tr>\n' +
+                            '                    <td class="text-right"><h4 style="text-align: center;">Size</h4></td>\n' +
+                            '                    <td class="text-right"><h4 style="text-align: center;">Giá sản phẩm</h4></td>\n' +
+                            '                    <td class="text-right"><h4 style="text-align: center;">Giá giảm</h4></td>\n' +
+                            '                    <td class="text-right"><h4 style="text-align: center;">Số Lượng</h4></td>\n' +
+                            '                    <td class="text-right"><h4 style="text-align: center;">Thành Tiền</h4></td>\n'
+                        '                </tr>';
+                        for (var j = 0; j < response.result[i].sizes.split(';').length; j++) {
+                            sizesArray.push(response.result[i].size_ids.split(';')[j]);
+                            inner += '<tr>\n' +
+                                '                            <td class="text-right">\n' +
+                                '                                <input id = \'size_id\'class="booking-item-title size_id" style="text-align: center;border: none; background-color: transparent" disabled value="' + response.result[i].sizes.split(';')[j] + '"></input>\n' +
+                                '                            </td>\n' +
+                                '\n' +
+                                '                            <td class="text-right">\n' +
+                                '                                <input class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="' + response.result[i].prices.split(';')[j] + '">\n' +
+                                '                            </td>\n' +
+                                '                            <td class="text-right">\n' +
+                                '                                <input class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="' + response.result[i].discount_prices.split(';')[j] + '">\n' +
+                                '                            </td>\n' +
+                                '                            <td class="text-right">\n' +
+                                '                                <input  id = \'quantity\'class="form-control booking-item-title quantity" value="' + response.result[i].quantities.split(';')[j] + '" type="number" min="1" max=""  step="1" autocomplete="off" height="100%" width="50%">\n' +
+                                '\n' +
+                                '                            </td>\n' +
+                                '                            <td class="text-right">\n' +
+                                '                                <input class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="' + response.result[i].sums.split(';')[j] + '">\n' +
+                                '\n' +
+                                '                            </td>\n' +
+                                '                        </tr>'
+                        }
+                        inner += '</tbody>\n' +
+                            '                </table>';
+                    }
+                    document.getElementById('cartdetail').innerHTML = inner;
+                    document.getElementById('id03').style.display='block';
+                }
+            });
+        }
+
+
+        function UpdateCart(idx){
+            var formdata1 = new FormData();
+            var sizes = new Array();
+            var quantities = new Array();
+            var input = document.getElementsByClassName('booking-item-title size_id');
+            for (var i = 0; i < sizesArray.length; i++) {
+                sizes.push(sizesArray[i]);
+            }
+            input = document.getElementsByClassName('form-control booking-item-title quantity');
+            for (var i = 0; i < input.length; i++) {
+                quantities.push(input[i].value);
+            }
+            formdata1.append('size_id',sizes);
+            formdata1.append('quantity',quantities);
+            $.ajax({
+                url: "./PetMart/update-cart",
+                type: 'POST',
+                dataType : 'JSON',
+                data: JSON.stringify({size_id:sizes,quantity:quantities}),
+                async: false,
+                cache: false,
+                contentType: 'application/json; charset=UTF-8',
+                enctype: 'multipart/form-data',
+                processData: false,
+                success: function (response) {
+                    alert(response.status);
+                    document.getElementById('id03').style.display='none';
+                }
+            });
+
+        }
+    </script>
 </div>

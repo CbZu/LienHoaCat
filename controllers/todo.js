@@ -306,7 +306,13 @@ module.exports.add_to_cart = function(req, res){
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
     var userid;
-        var sql = 'select user_id from user where user_id = \''+input.userId +'\';';
+    if (input.userId == undefined){
+        userid = req.session.user_id;
+    }else{
+        userid = input.userId;
+    }
+
+        var sql = 'select user_id from user where user_id = \''+userid +'\';';
         var con = req.db.driver.db;
         con.query(sql, function (err, rows) {
             if(err){
@@ -385,7 +391,12 @@ module.exports.add_to_cart = function(req, res){
 };
 module.exports.get_cart = function(req, res){
     var input=JSON.parse(JSON.stringify(req.body));
-
+    var user = '';
+    if(input.mode == 'online'){
+        user=req.session.user_id;
+    }else{
+        user=input.user;
+    }
     var sql = 'select \n' +
         '(select name from product where c.product_id = product_id ) as name,' +
         'GROUP_CONCAT(c.amount SEPARATOR \'; \') as quantities,\n' +
@@ -396,7 +407,7 @@ module.exports.get_cart = function(req, res){
         'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as size_ids,\n' +
         'GROUP_CONCAT((select url from image where c.product_id = product_id and type = 1 group by product_id) SEPARATOR \'; \') as images,\n' +
         'sum(c.price*c.amount) as total \n'+
-        'from cart c where payment_id = 0  and user_id = '+input.user+' group by name ;';
+        'from cart c where payment_id = 0  and user_id = '+user+' group by name ;';
 
     var con = req.db.driver.db;
     con.query(sql, function (err, rows) {
@@ -793,13 +804,18 @@ module.exports.update_cart = function(req, res){
     var date = new Date();
     var month = date.getMonth() + 1;
     month = (month < 10 ? "0" : "") + month;
-
+    var userid='';
+    if (input.userId == undefined){
+        userid = req.session.user_id;
+    }else{
+        userid = input.userId;
+    }
     var day  = date.getDate();
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
     var i = 0;
     input.size_id.forEach(function(element) {
-        var sql = 'select * from cart where user_id = '+input.userId+' and product_id = '+element+'; ';
+        var sql = 'select * from cart where user_id = '+userid+' and product_id = '+element+' and payment_id=0; ';
         var con = req.db.driver.db;
         con.query(sql, function (err, rows) {
             if(rows==undefined){
@@ -807,10 +823,10 @@ module.exports.update_cart = function(req, res){
                 res.json(data);
             } else{
                 if(input.quantity[i] != '0'){
-                    sql = 'update cart set amount = '+input.quantity[i]+' where user_id = '+input.userId+' and product_id = '+element+';'
+                    sql = 'update cart set amount = '+input.quantity[i]+' where user_id = '+userid+' and product_id = '+element+' and payment_id=0;'
                 }
                 else{
-                    sql = 'delete from cart where user_id = '+input.userId+' and product_id = '+element+'; '
+                    sql = 'delete from cart where user_id = '+userid+' and product_id = '+element+' and payment_id=0; '
                 }
                 con.query(sql, function (err, rows) {
                     if(err){
@@ -818,7 +834,8 @@ module.exports.update_cart = function(req, res){
                         res.json(data);
 
                     }else{
-
+                        var data = {status: 'success', code: '200'};
+                        res.json(data);
                     }
                 });
                 i++;
@@ -827,8 +844,7 @@ module.exports.update_cart = function(req, res){
 
     });
 
-    var data = {status: 'success', code: '200'};
-    res.json(data);
+
 
 }
 module.exports.update_wishlist = function(req, res){
@@ -1108,7 +1124,14 @@ module.exports.product_detail = function(req, res){
                         sql = 'select * from image where product_id  = '+req.query.id+';';
                         con.query(sql, function (err, row2s) {
                             if(!err){
-                                var data = {status: 'success', code: '200',result:rows, description:row1s[0].description,descriptionId:row1s[0].description_id,image:row2s,fname:req.session.firstname,type:req.session.type};
+                                var data = {status: 'success', code: '200'
+                                    ,result:rows
+                                    , description:row1s[0].description
+                                    ,descriptionId:row1s[0].description_id
+                                    ,image:row2s
+                                    ,fname:req.session.firstname
+                                    ,type:req.session.type
+                                    ,userid:req.session.user_id};
                                 res.render('product-detail',data);
                             }
                         });

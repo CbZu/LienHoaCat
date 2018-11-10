@@ -235,7 +235,7 @@
         });
 
         var input = document.getElementsByClassName("form-control newImg")
-        for (var i = input.length-1; i < input.length; i++) {
+        for (var i = 0; i < input.length; i++) {
             formdata.append('upfiles', input[i].files[0]);
 
         }
