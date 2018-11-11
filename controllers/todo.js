@@ -360,7 +360,7 @@ module.exports.add_to_cart = function(req, res){
                                             var data = {status: 'fail', code: '300', description : err.message};
                                             res.json(data);
                                         } else {
-                                            var updatePrice = 'update cart set disct_price = (select disct_price from product where product_id = '+element+'), price = (select price from product where product_id = '+element+')' +
+                                            var updatePrice = 'update cart set disct_price = 0, price = 0' +
                                                 ' where product_id = '+element+' and user_id = '+userid+' and payment_id = 0  ;';
                                             con.query(updatePrice, function (err, row4s) {
                                                 if(!err){
@@ -392,21 +392,31 @@ module.exports.add_to_cart = function(req, res){
 module.exports.get_cart = function(req, res){
     var input=JSON.parse(JSON.stringify(req.body));
     var user = '';
-    if(input.mode == 'online'){
+    if(input.user == undefined){
         user=req.session.user_id;
     }else{
         user=input.user;
     }
     var sql = 'select \n' +
-        '(select name from product where c.product_id = product_id ) as name,' +
+        '(select name from product where c.product_id = product_id ) as name,\n' +
         'GROUP_CONCAT(c.amount SEPARATOR \'; \') as quantities,\n' +
         'GROUP_CONCAT((select size from product where c.product_id = product_id ) SEPARATOR \'; \') as sizes,\n' +
-        'GROUP_CONCAT(c.price SEPARATOR \'; \')  as prices,\n' +
-        'GROUP_CONCAT(c.disct_price SEPARATOR \'; \')  as discount_prices,\n' +
-        'GROUP_CONCAT(c.price*c.amount SEPARATOR \'; \') as sums,\n' +
+        'GROUP_CONCAT(FORMAT((select price from product where product_id = c.product_id),0) SEPARATOR \'; \')  as prices,\n' +
+        'GROUP_CONCAT(FORMAT((select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date),0) SEPARATOR \'; \')  as discount_prices,\n' +
+        'GROUP_CONCAT(\n' +
+        'FORMAT(\n' +
+        '\tIF(\n' +
+        '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)<>\'NULL\',\n' +
+        '        (select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)*c.amount,\n' +
+        '        (select price from product where product_id = c.product_id)*c.amount),\n' +
+        '\t0) SEPARATOR \'; \') as sums,\n' +
         'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as size_ids,\n' +
         'GROUP_CONCAT((select url from image where c.product_id = product_id and type = 1 group by product_id) SEPARATOR \'; \') as images,\n' +
-        'sum(c.price*c.amount) as total \n'+
+        'sum(\n' +
+        '\tIF(\n' +
+        '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)<>\'NULL\',\n' +
+        '        (select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)*c.amount,\n' +
+        '        (select price from product where product_id = c.product_id)*c.amount)) as total \n' +
         'from cart c where payment_id = 0  and user_id = '+user+' group by name ;';
 
     var con = req.db.driver.db;
@@ -554,9 +564,19 @@ module.exports.add_to_payment = function(req, res){
     var day  = date.getDate();
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
-
-    var sql = 'select * \n' +
-        'from cart c where payment_id = 0 and user_id = '+input.user+';';
+    var user = '';
+    if(input.user == undefined){
+        user=req.session.user_id;
+    }else{
+        user=input.user;
+    }
+    var sql = 'select \n' +
+        'sum(\n' +
+        '\tIF(\n' +
+        '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)<>\'NULL\',\n' +
+        '        (select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)*c.amount,\n' +
+        '        (select price from product where product_id = c.product_id)*c.amount)) as total \n' +
+        'from cart c where payment_id = 0  and user_id = '+user+'  ;';
     var Sum = 0;
     var promotion = 0;
     var totalAfterPromot = 0
@@ -567,19 +587,12 @@ module.exports.add_to_payment = function(req, res){
             res.json(data);
         }else{
             if(rows.length > 0){
-                rows.forEach(function(element) {
-                    Sum += (parseFloat(element.amount) * parseFloat(element.price));
-                    if(parseFloat(element.disct_price) != 0){
-                        promotion = parseFloat(promotion) + ( ( parseFloat(element.price) -  parseFloat(element.disct_price))*parseFloat(element.amount));
-                    }
-                })
-
-                totalAfterPromot = parseFloat(Sum) - parseFloat(promotion);
+                totalAfterPromot = rows[0].total;
                 var sqlIns = 'INSERT INTO `lhc`.`payment`\n' +
                     '(`user_id`,\n' +
                     '`sum`,\n' +
-                    '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`)\n' +
-                    'VALUES ('+input.user+','+Sum+',1,'+parseInt(year+''+month+''+day)+',\''+input.title+'\',\''+input.pay_type+'\','+promotion+','+totalAfterPromot+',\'N\')';
+                    '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`,`ship`)\n' +
+                    'VALUES ('+input.user+','+Sum+',1,'+parseInt(year+''+month+''+day)+',\''+input.title+'\',\''+input.pay_type+'\','+'0'+','+totalAfterPromot+',\'N\',\''+input.ship+'\')';
                 con.query(sqlIns, function (err, row1s) {
                     if(err){
                         var data = {status: 'error', code: '300',error: err};
@@ -611,15 +624,26 @@ module.exports.get_payment_detail = function(req, res){
     var input=JSON.parse(JSON.stringify(req.body));
 
     var sql = 'select \n' +
-        '(select name from product where c.product_id = product_id ) as name,' +
+        '(select name from product where c.product_id = product_id ) as name,\n' +
         'GROUP_CONCAT(c.amount SEPARATOR \'; \') as quantities,\n' +
         'GROUP_CONCAT((select size from product where c.product_id = product_id ) SEPARATOR \'; \') as sizes,\n' +
-        'GROUP_CONCAT((select price from product where c.product_id = product_id ) SEPARATOR \'; \')  as prices,\n' +
-        'GROUP_CONCAT((select disct_price from product where c.product_id = product_id ) SEPARATOR \'; \')  as disct_prices,\n' +
-        'GROUP_CONCAT((select (price*c.amount) from product where c.product_id = product_id ) SEPARATOR \'; \') as sums,\n' +
+        'GROUP_CONCAT(FORMAT((select price from product where product_id = c.product_id),0) SEPARATOR \'; \')  as prices,\n' +
+        'GROUP_CONCAT(FORMAT((select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date),0) SEPARATOR \'; \')  as disct_prices,\n' +
+        'GROUP_CONCAT(\n' +
+        'FORMAT(\n' +
+        '\tIF(\n' +
+        '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)<>\'NULL\',\n' +
+        '        (select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)*c.amount,\n' +
+        '        (select price from product where product_id = c.product_id)*c.amount),\n' +
+        '\t0) SEPARATOR \'; \') as sums,\n' +
         'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as size_ids,\n' +
-        'GROUP_CONCAT((select url from image where c.product_id = product_id and type = 1 group by product_id ) SEPARATOR \'; \') as images\n' +
-        'from cart c where payment_id = '+input.paymentId+' group by name ;';
+        'GROUP_CONCAT((select url from image where c.product_id = product_id and type = 1 group by product_id) SEPARATOR \'; \') as images,\n' +
+        'sum(\n' +
+        '\tIF(\n' +
+        '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)<>\'NULL\',\n' +
+        '        (select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)*c.amount,\n' +
+        '        (select price from product where product_id = c.product_id)*c.amount)) as total \n' +
+        'from cart c where payment_id = '+input.paymentId+'  and user_id = '+user+' group by name ;';
 
     var con = req.db.driver.db;
     con.query(sql, function (err, rows) {
@@ -814,6 +838,7 @@ module.exports.update_cart = function(req, res){
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
     var i = 0;
+    var data;
     input.size_id.forEach(function(element) {
         var sql = 'select * from cart where user_id = '+userid+' and product_id = '+element+' and payment_id=0; ';
         var con = req.db.driver.db;
@@ -830,12 +855,11 @@ module.exports.update_cart = function(req, res){
                 }
                 con.query(sql, function (err, rows) {
                     if(err){
-                        var data = {status: 'err', code: '300',description:err};
-                        res.json(data);
+                         data = {status: 'err', code: '300',description:err};
+
 
                     }else{
-                        var data = {status: 'success', code: '200'};
-                        res.json(data);
+
                     }
                 });
                 i++;
@@ -843,7 +867,8 @@ module.exports.update_cart = function(req, res){
         });
 
     });
-
+    data = {status: 'success', code: '200'};
+    res.json(data);
 
 
 }
@@ -1066,20 +1091,28 @@ module.exports.update_promote_API = function(req, res){
     });
 }
 module.exports.payment_detail = function(req, res){
-    if(typeof req.session.user_id!='undefined'){
-        var sql = 'select c.payment_id,c.user_id,\n' +
-            'GROUP_CONCAT(c.amount SEPARATOR \'; \')  as quantity,\n' +
-            '(select name from product where c.product_id = product_id )   as name,\n' +
-            '(select title from payment where c.payment_id = payment_id)   as title,\n' +
-            'GROUP_CONCAT((select size from product where c.product_id = product_id ) SEPARATOR \'; \') as size,\n' +
-            'group_concat(price separator \'; \') as price,\n' +
-            'group_concat(disct_price separator \'; \') as disct_price,\n' +
-            'group_concat((price*amount) separator \'; \') as total_before,\n' +
-            'group_concat((disct_price*amount) separator \'; \') as total_after,\n' +
-            'group_concat((select product_id from product where c.product_id = product_id ) separator \'; \') as sizeId,\n' +
-            'group_concat((select image from product where c.product_id = product_id ) separator \'; \') as image,\n' +
-            'sum((select (disct_price*c.amount) from product where c.product_id = product_id )) as total\n' +
-            'from cart c where payment_id = '+req.query.id+' group by name;';
+    if(req.session.type==1){
+        var sql = 'select \n' +
+            '(select name from product where c.product_id = product_id ) as name,\n' +
+            'GROUP_CONCAT(c.amount SEPARATOR \'; \') as quantities,\n' +
+            'GROUP_CONCAT((select size from product where c.product_id = product_id ) SEPARATOR \'; \') as sizes,\n' +
+            'GROUP_CONCAT(FORMAT((select price from product where product_id = c.product_id),0) SEPARATOR \'; \')  as prices,\n' +
+            'GROUP_CONCAT(FORMAT((select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date),0) SEPARATOR \'; \')  as disct_prices,\n' +
+            'GROUP_CONCAT(\n' +
+            'FORMAT(\n' +
+            '\tIF(\n' +
+            '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)<>\'NULL\',\n' +
+            '        (select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)*c.amount,\n' +
+            '        (select price from product where product_id = c.product_id)*c.amount),\n' +
+            '\t0) SEPARATOR \'; \') as sums,\n' +
+            'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as size_ids,\n' +
+            'GROUP_CONCAT((select url from image where c.product_id = product_id and type = 1 group by product_id) SEPARATOR \'; \') as images,\n' +
+            'sum(\n' +
+            '\tIF(\n' +
+            '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)<>\'NULL\',\n' +
+            '        (select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)*c.amount,\n' +
+            '        (select price from product where product_id = c.product_id)*c.amount)) as total \n' +
+            'from cart c where payment_id = '+req.query.id+' group by name ;';
 
         var con = req.db.driver.db;
         con.query(sql, function (err, rows) {
@@ -1102,13 +1135,20 @@ module.exports.payment_detail = function(req, res){
         });
     }else{
         data={title:'login|signup'};
-        res.render('index',data);
+        res.redirect('/');
     }
 
 };
 
 module.exports.product_detail = function(req, res){
-        var sql = 'select *, (select cat_name from category where cat_id = p.cat_id) as catflt' +
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    var year = date.getUTCFullYear();
+        var sql = 'select *, (select cat_name from category where cat_id = p.cat_id) as catflt,' +
+            '(select disct_price from discount where product_id = p.product_id and effective_date <= '+year+''+month+day+' and '+year+''+month+''+day+'<=expired_date) as disct_price' +
             ' from product p where name = (select name from product where product_id = '+req.query.id+');';
 
         var con = req.db.driver.db;
@@ -1166,12 +1206,23 @@ module.exports.create_prd=function(req,res){
 
 };
 module.exports.maintenance_prd = function(req, res){
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+    var formidable = require('formidable');
+    var form = new formidable.IncomingForm({
+        keepExtensions: true
+    });
+    form.parse(req);
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    var year = date.getUTCFullYear();
         var sql = '';
         sql += '\n' +
             'select name,product_id,cat_id,image, \n' +
             '(select cat_name from category where cat_id = p.cat_id) as cat_name ,\n' +
             '(select description from description where p.description = description_id) as description ,\n' +
-            '(select GROUP_CONCAT(disct_price SEPARATOR \',\') from product where name = p.name) as disct_prices ,\n' +
+            '(select GROUP_CONCAT(disct_price SEPARATOR \',\') from discount where product_id = p.product_id and effective_date <= '+year+''+month+''+day+' and '+year+''+month+''+day+'<=expired_date) as disct_prices ,\n' +
             '(select GROUP_CONCAT(price SEPARATOR \',\') from product where name = p.name) as prices ,\n' +
             '(select GROUP_CONCAT(size SEPARATOR \',\') from product where name = p.name) as sizes ,\n' +
             '(select GROUP_CONCAT(product_id SEPARATOR \',\') from product where name = p.name) as size_id \n' +

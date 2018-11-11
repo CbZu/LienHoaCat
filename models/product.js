@@ -8,7 +8,6 @@ module.exports = function (orm, db) {
         image: {type: 'text'},
         size: {type: 'number'},
         description: {type: 'text'},
-        code: {type: 'text'},
-        disct_price: {type: 'number'}
+        code: {type: 'text'}
     });
 };

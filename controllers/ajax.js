@@ -303,7 +303,7 @@ exports.addProduct=function(req,res){
                         create_time:parseInt(year+''+month+''+day),
                         name:input.name,
                         price:input.Prices.split(',')[i]!=''?input.Prices.split(',')[i].trim():0,
-                        disct_price:input.Discounts.split(',')[i]!=''?input.Discounts.split(',')[i].trim():0,
+                        disct_price:0,
                         size:element,
                         image:'',
                         code:input.Codes.split(',')[i],
@@ -322,11 +322,24 @@ exports.addProduct=function(req,res){
                                 con.query(sql);
                             }
                             prdId = row1s.product_id;
-
+                            if(input.Discounts.split(',')[i]!=''){
+                                sql = 'INSERT INTO `lhc`.`discount`\n' +
+                                    '(`product_id`,\n' +
+                                    '`effective_date`,\n' +
+                                    '`expired_date`,\n' +
+                                    '`disct_price`)\n' +
+                                    'VALUES\n' +
+                                    '('+row1s.product_id+',\n' +
+                                    ''+year+''+month+''+day+',\n' +
+                                    ''+input.expired_date+',\n' +
+                                    ''+input.Discounts.split(',')[i]+');'
+                                con.query(sql);
+                            }
                         }
+                        i++;
                     });
 
-                    i++
+
                 });
 
 

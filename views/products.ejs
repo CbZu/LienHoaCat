@@ -6,14 +6,14 @@
     <div class="container">
         <div class="row">
             <ol class="breadcrumb">
-                <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="#"> <%=catflt%></a>
+                <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="#"> <%= catflt %></a>
             </ol>
 
         </div>
 
         <div class="row">
             <div class="col-md-3">
-                <a class="btn btn-primary" href = '/create-prd?cat=<%=catflt%>&catId=<%=catId%>'>Add Product</a>
+                <a class="btn btn-primary" href='/create-prd?cat=<%= catflt %>&catId=<%= catId %>'>Add Product</a>
             </div>
         </div>
         <!--<div class="container-fluid row">
@@ -56,61 +56,64 @@
                 </div> 
             </div>
         </div>-->
-        
+
         <br/>
         <div class="row">
             <div class="row portfolio_container">
-            <% for(j = 0;j < result.length;j++){ %>
+                <% for(j = 0;j < result.length;j++){ %>
                 <div class="col-md-4">
-                    <a href="/product-detail?id=<%= result[j].product_id%>" class="portfolio_item work-grid">
-                        <img src="assets/img/<%=result[j].image%>" alt="image">
+                    <a href="/product-detail?id=<%= result[j].product_id %>" class="portfolio_item work-grid">
+                        <img src="assets/img/<%= result[j].image %>" alt="image">
                         <h3>
-                            <%if(result[j].disct_prices.split(';')[0] == '0'){%>
-                            <label style=" text-align: right"><font color="red"><%=result[j].prices.split(';')[0]%></font></label>
-                            <% } else {%>
-                            <label style="text-decoration:line-through ; text-align: right"><font color="red"><%=result[j].prices.split(';')[0]%></font></label>
+                            <% if(result[j].disct_prices == null){ %>
+                            <label style=" text-align: right"><font
+                                        color="red"><%= result[j].prices.split(';')[0] %></font></label>
+                            <% } else { %>
+                            <label style="text-decoration:line-through ; text-align: right"><font
+                                        color="red"><%= result[j].prices.split(';')[0] %></font></label>
                             ->
-                            <label style=" text-align: right"><font color="red"><%=result[j].disct_prices.split(';')[0]%></font></label>
-                            <%}%>
+                            <label style=" text-align: right"><font
+                                        color="red"><%= result[j].disct_prices.split(';')[0] %></font></label>
+                            <% } %>
 
                         </h3>
                         <div class="portfolio_item_hover">
                             <div class="item_info">
-                                <span><%=result[j].name%></span>
+                                <span><%= result[j].name %></span>
                             </div>
                         </div>
                     </a>
 
                 </div>
-            <% } %>
+                <% } %>
 
-        <div class="gap"></div>
-    </div>
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/slimmenu.js"></script>
-    <script src="js/bootstrap-datepicker.js"></script>
-    <script src="js/bootstrap-timepicker.js"></script>
-    <script src="js/nicescroll.js"></script>
-    <script src="js/dropit.js"></script>
-    <script src="js/ionrangeslider.js"></script>
-    <script src="js/icheck.js"></script>
-    <script src="js/fotorama.js"></script>
-    <script src="js/typeahead.js"></script>
-    <script src="js/card-payment.js"></script>
-    <script src="js/magnific.js"></script>
-    <script src="js/owl-carousel.js"></script>
-    <script src="js/fitvids.js"></script>
-    <script src="js/tweet.js"></script>
-    <script src="js/countdown.js"></script>
-    <script src="js/gridrotator.js"></script>
-    <script src="js/custom.js"></script>
-    <script>
-        if('<%=catflt%>'!='undefined'){
-            document.getElementById('catflt').value = '<%=catflt%>';
-        }
-    </script>
-</div>
+                <div class="gap"></div>
+            </div>
+            <script src="js/jquery.js"></script>
+            <script src="js/bootstrap.js"></script>
+            <script src="js/slimmenu.js"></script>
+            <script src="js/bootstrap-datepicker.js"></script>
+            <script src="js/bootstrap-timepicker.js"></script>
+            <script src="js/nicescroll.js"></script>
+            <script src="js/dropit.js"></script>
+            <script src="js/ionrangeslider.js"></script>
+            <script src="js/icheck.js"></script>
+            <script src="js/fotorama.js"></script>
+            <script src="js/typeahead.js"></script>
+            <script src="js/card-payment.js"></script>
+            <script src="js/magnific.js"></script>
+            <script src="js/owl-carousel.js"></script>
+            <script src="js/fitvids.js"></script>
+            <script src="js/tweet.js"></script>
+            <script src="js/countdown.js"></script>
+            <script src="js/gridrotator.js"></script>
+            <script src="js/custom.js"></script>
+            <script>
+                if ('<%= catflt %>' != 'undefined') {
+                    document.getElementById('catflt').value = '<%= catflt %>';
+                }
+            </script>
+        </div>
 </body>
 <% include partials/index_Footer.ejs %>
 </html>

@@ -99,7 +99,7 @@
             </div>
             <div class="col-md-1 col-md-offset-10 center-height" style="max-width: 75px; position: absolute;">
                 <a class="thumbnail" style="bottom: 0px;"
-                   onclick="GetCart()">
+                   onclick="GetCart(0)">
                     <img src="img/cart.jpg" alt="Go to Cart">
                 </a>
             </div>
@@ -154,11 +154,15 @@
                     <div class="container" style="background-color:#f1f1f1">
                         <button type="button" onclick="document.getElementById('id03').style.display='none'"
                                 class="cancelbtn">
-                            Cancel
+                            Hủy
                         </button>
                         <button type="button" onclick="UpdateCart()"
                                 class="cancelbtn">
-                            Update Cart
+                            Cập Nhật Giỏ
+                        </button>
+                        <button type="button" onclick="UpdateCart()"
+                                class="cancelbtn">
+                            Thanh Toán
                         </button>
                     </div>
                 </form>
@@ -180,9 +184,15 @@
 
     <script>
         var sizesArray = new Array();
-        function GetCart(){
+        function GetCart(idx){
+            var url ='';
+            if(idx == 0){
+                url = './PetMart/get-cart';
+            }else{
+                url = './PetMart/get-cart?user='+idx;
+            }
             $.ajax({
-                url: "./PetMart/get-cart",
+                url: url,
                 type: 'POST',
                 dataType: 'JSON',
                 data: JSON.stringify({mode: 'online'}),
@@ -203,33 +213,45 @@
                             '                <tr>\n' +
                             '                    <td class="text-right"><h4 style="text-align: center;">Size</h4></td>\n' +
                             '                    <td class="text-right"><h4 style="text-align: center;">Giá sản phẩm</h4></td>\n' +
-                            '                    <td class="text-right"><h4 style="text-align: center;">Giá giảm</h4></td>\n' +
                             '                    <td class="text-right"><h4 style="text-align: center;">Số Lượng</h4></td>\n' +
                             '                    <td class="text-right"><h4 style="text-align: center;">Thành Tiền</h4></td>\n'
                         '                </tr>';
                         for (var j = 0; j < response.result[i].sizes.split(';').length; j++) {
                             sizesArray.push(response.result[i].size_ids.split(';')[j]);
                             inner += '<tr>\n' +
-                                '                            <td class="text-right">\n' +
-                                '                                <input id = \'size_id\'class="booking-item-title size_id" style="text-align: center;border: none; background-color: transparent" disabled value="' + response.result[i].sizes.split(';')[j] + '"></input>\n' +
+                                '                            <td class="text-center">\n' +
+                                '                                <input id = \'size_id\'class="booking-item-title size_id_header" style="text-align: center;border: none; background-color: transparent" disabled value="' + response.result[i].sizes.split(';')[j] + '"></input>\n' +
                                 '                            </td>\n' +
                                 '\n' +
-                                '                            <td class="text-right">\n' +
-                                '                                <input class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="' + response.result[i].prices.split(';')[j] + '">\n' +
-                                '                            </td>\n' +
-                                '                            <td class="text-right">\n' +
-                                '                                <input class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="' + response.result[i].discount_prices.split(';')[j] + '">\n' +
-                                '                            </td>\n' +
-                                '                            <td class="text-right">\n' +
-                                '                                <input  id = \'quantity\'class="form-control booking-item-title quantity" value="' + response.result[i].quantities.split(';')[j] + '" type="number" min="1" max=""  step="1" autocomplete="off" height="100%" width="50%">\n' +
+                                '                            <td class="text-center">\n';
+                                if(response.result[i].discount_prices == null) {
+                                    inner +=  '                            <label style=" text-align: center"><font\n';
+                                    inner +=  '                                        color="black">'+response.result[i].prices.split(';')[j]+' </font></label>\n';
+                                }else {
+                                    inner +=  '                            <label style="text-decoration:line-through ; text-align: center"><font\n';
+                                    inner +=  '                                        color="black">'+ response.result[i].prices.split(';')[j] +'</font></label>\n' ;
+                                    inner +=  '                            ->\n';
+                                    inner +=  '                            <label style=" text-align: center"><font\n' ;
+                                    inner +=  '                                        color="red">'+response.result[i].discount_prices.split(';')[j] +'</font></label>\n';
+                                }
+                            inner +=  '                            </td>'
+                            inner +=  '                            <td class="text-center">\n' +
+                                '                                <input  id = \'quantity\'class="form-control booking-item-title quantity_header" value=' + response.result[i].quantities.split(';')[j] + ' type="number" min="1" max=""  step="1" autocomplete="off" height="100%" width="50%">\n' +
                                 '\n' +
                                 '                            </td>\n' +
-                                '                            <td class="text-right">\n' +
+                                '                            <td class="text-center">\n' +
                                 '                                <input class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="' + response.result[i].sums.split(';')[j] + '">\n' +
                                 '\n' +
                                 '                            </td>\n' +
                                 '                        </tr>'
                         }
+                        inner += '                <tr>\n' +
+                            '                    <td class="text-center"><h4 style="text-align: center;"></h4></td>\n' +
+                            '                    <td class="text-center"><h4 style="text-align: center;"></h4></td>\n' +
+                            '                    <td class="text-center"><h4 style="text-align: center;"></h4></td>\n' +
+                            '                    <td class="text-center"><h4 style="text-align: center;">Tổng Tièn</h4></td>\n' +
+                            '                    <td class="text-center"><h4 style="text-align: center;">'+response.result[i].total+'</h4></td>\n'
+                        '                </tr>';
                         inner += '</tbody>\n' +
                             '                </table>';
                     }
@@ -244,11 +266,11 @@
             var formdata1 = new FormData();
             var sizes = new Array();
             var quantities = new Array();
-            var input = document.getElementsByClassName('booking-item-title size_id');
+            var input = document.getElementsByClassName('booking-item-title size_id_header');
             for (var i = 0; i < sizesArray.length; i++) {
                 sizes.push(sizesArray[i]);
             }
-            input = document.getElementsByClassName('form-control booking-item-title quantity');
+            input = document.getElementsByClassName('form-control booking-item-title quantity_header');
             for (var i = 0; i < input.length; i++) {
                 quantities.push(input[i].value);
             }

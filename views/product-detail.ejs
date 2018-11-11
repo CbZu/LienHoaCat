@@ -27,7 +27,6 @@
                 <tr>
                     <td class="text-right"><h4 style="text-align: center;">Size</h4></td>
                     <td class="text-right"><h4 style="text-align: center;">Giá sản phẩm</h4></td>
-                    <td class="text-right"><h4 style="text-align: center;">Giá giảm</h4></td>
                     <td class="text-right"><h4 style="text-align: center;">Mã Sản Phẩm</h4></td>
                     <td class="text-right"><h4 style="text-align: center;">Số Lượng</h4></td>
                     <td class="text-right"><h4 style="text-align: center;"></h4></td>
@@ -38,13 +37,19 @@
                             <td class="text-right">
                                 <input id = 'size_id'class="booking-item-title size_id" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].size %>"></input>
                             </td>
+                            <td class="text-center">
+                            <% if(result[i].disct_price == null){ %>
+                            <label style=" text-align: center"><font
+                                        color="black"><%= result[i].price %></font></label>
+                            <% } else { %>
+                            <label style="text-decoration:line-through ; text-align: center"><font
+                                        color="black"><%= result[i].price%></font></label>
+                            ->
+                            <label style=" text-align: center"><font
+                                        color="red"><%= result[i].disct_price%></font></label>
+                            <% } %>
+                            </td>
 
-                            <td class="text-right">
-                                <input class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].price %>">
-                            </td>
-                            <td class="text-right">
-                                <input class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].disct_price %>">
-                            </td>
                             <td class="text-right">
                                 <input  class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].code %>">
 

@@ -132,7 +132,7 @@
                         </div>
                     </div>
                     <% for(i = 0;i < users.length;i++){ %>
-                        <a class="booking-item" href="/edit-account?email=<%=users[i].email%>">
+
                             <div class="row">
 
                                 <div class="row">
@@ -166,10 +166,13 @@
                                                     <a class="btn btn-primary" href="/reset-password?id=<%= users[i].user_id%>">Reset Password</a>
                                                 </td>
                                                 <td>
-                                                    <a class="btn btn-primary" href="/show-cart?id=<%= users[i].user_id%>">Cart</a>
+                                                    <a class="btn btn-primary" onclick="GetCart(<%=users[i].user_id%>)">Cart</a>
                                                 </td>
                                                 <td>
                                                     <a class="btn btn-primary" href="/noti-maintenance?id=<%= users[i].user_id%>">Notification</a>
+                                                </td>
+                                                <td>
+                                                    <a class="booking-item" href="/edit-account?email=<%=users[i].email%>">Edit</a>
                                                 </td>
                                                 <%}%>
                                             </tr>
@@ -179,7 +182,7 @@
                                 </div>
 
                             </div>
-                        </a>
+
 
                     <% } %>
             </div>

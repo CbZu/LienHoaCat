@@ -101,20 +101,20 @@
     </div>
 
 
-    <div id="myModal" class="modal-dialog" style="display: none" role="dialog">
+    <div id="modalExpired" class="modal-dialog" style="display: none" role="dialog">
 
 
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Thêm Hình</h4>
+                <h4 class="modal-title">Ngày Hết Hạn Khuyến Mãi</h4>
             </div>
             <div class="modal-body">
-                <input class="form-control newImgModal"  id = 'newImgModal' type = 'file' value = ''>
+                <input class="form-control"  id = 'expiredDate' type = 'date' value = ''>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="CloseModal()" class="btn btn-default" data-dismiss="modal">Ok</button>
+                <button type="button" onclick="CloseModalExpired()" class="btn btn-default" data-dismiss="modal">Ok</button>
             </div>
         </div>
 
@@ -150,7 +150,10 @@
 <script src="js/gridrotator.js"></script>
 <script src="js/custom.js"></script>
 <script>
-    var formdata = new FormData()
+    function CloseModalExpired(){
+        document.getElementById('modalExpired').style.display = 'none';
+    }
+
     function CloseModal(){
         var formdata1 = new FormData()
         var input = document.getElementsByClassName("form-control newImgModal")
@@ -214,6 +217,7 @@
     }
 
     function Add() {
+        var formdata = new FormData();
         var obj =$("#name");
         $(".error").remove();
         $.ajax({
@@ -258,12 +262,24 @@
                 prices.push(allElements[i].value);
             }
             if (allElements[i].id == 'newDisc') {
-                disct_prices.push(allElements[i].value);
+                if(allElements[i].value.trim()=='0'){
+                    disct_prices.push(allElements[i].value);
+                }else{
+                    if(document.getElementById('expiredDate').value.trim() == ''){
+                        document.getElementById('modalExpired').style.display = 'block';
+                        return false;
+                    }else{
+                        disct_prices.push(allElements[i].value);
+                    }
+                }
+
             }
             if (allElements[i].id == 'newCode') {
                 codes.push(allElements[i].value);
             }
         }
+        var expd = document.getElementById('expiredDate').value;
+        formdata.append('expired_date', expd.replace(/-/g, ""));
         formdata.append('Sizes', sizes);
         formdata.append('Prices', prices);
         formdata.append('Discounts', disct_prices);

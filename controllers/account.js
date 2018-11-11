@@ -276,7 +276,7 @@ module.exports.register=function(req,res){
 
 module.exports.show_account = function(req, res){
         //delete req.session;
-        if(typeof req.session.user_id=='undefined'
+        if(req.session.type=='1'
      /*       &&  (req.session.type == 1)*/){
 
             var sql = 'select * from user ';

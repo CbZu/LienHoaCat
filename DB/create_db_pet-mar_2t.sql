@@ -94,6 +94,12 @@ CREATE TABLE IF NOT EXISTS `lhc`.`product` (
   `image` VARCHAR(255) NULL,
   `description` VARCHAR(3) character set utf8 NULL,
   `code` VARCHAR(20) NULL,
+  PRIMARY KEY (`product_id`));
+  
+  CREATE TABLE IF NOT EXISTS `lhc`.`discount` (
+  `product_id` INT NOT NULL,
+   `effective_date` INT NULL,
+  `expired_date` INT NULL,
   `disct_price` DOUBLE NULL,
   PRIMARY KEY (`product_id`));
   
@@ -123,6 +129,7 @@ CREATE TABLE IF NOT EXISTS `lhc`.`payment` (
     `promotion` DOUBLE NULL,
     `total` DOUBLE NULL,
     `seen_flag` VARCHAR(1) NULL,
+    `ship` VARCHAR(1) NULL,
   PRIMARY KEY (`payment_id`));
 
 
@@ -162,6 +169,7 @@ CREATE TABLE IF NOT EXISTS `lhc`.`promotion` (
    `seen_flag` VARCHAR(1) NULL,
    `user_id` INT NULL,
   PRIMARY KEY (`promotion_id`));
+  
   
   CREATE TABLE IF NOT EXISTS `lhc`.`notification` (
  `notification_id` INT NOT NULL AUTO_INCREMENT,
