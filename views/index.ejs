@@ -13,17 +13,28 @@
 
                     <% for(var j = 0 ; j < result.length ; j++){ %>
 
-                    <div class="col-md-3 folder<%= result[j].folder_id %>">
-                        <a href="/maintenance-prd?catflt=<%= result[j].cat_name %>&catId=<%= result[j].cat_id %>"
-                           class="portfolio_item work-grid">
-                            <img src="assets/img/<%= result[j].image %>" alt="image">
-                            <div class="portfolio_item_hover">
-                                <div class="item_info">
-                                    <span><%= result[j].cat_name %></span>
-                                    <em>photography</em>
-                                </div>
+                    <div class="col-md-4 folder<%= result[j].folder_id %>">
+
+                            <!-- <div class="center-block"style="width: 40%;border-bottom: 3px solid #333;" ></div> -->
+                            <div style="background-color: #B28D34; margin-top: 20px">
+                                <img src="assets/img/<%= result[j].image %>" class="img-responsive" alt="Responsive image" style="padding: 10px 10px 20px 10px;">
+                                <h2 class="center-block" style="width: 65%; text-align: center; color: white;"><%= result[j].cat_name %></h2>
+                                <<!-- div class="row center-block" style="width: 65%; padding: 0px">
+                                    <div class="col-md-6" style="padding: 0px;border-right: 1px solid #FFFFFF;">
+                                        <h4 class="center-block" style="text-align: center; color: #ffffff;">Chất liệu</h4>
+                                        <p class="center-block" style="text-align: center; line-height: 0px; color: #ffffff; font-size: 80%">Đá tự nhiên</p>
+                                    </div>                      
+                                    <div class="col-md-6" style="padding: 0px">
+                                        <h4 class="center-block" style="text-align: center; color: #ffffff">Giá SP</h4>
+                                        <p class="center-block" style="text-align: center; line-height: 0px; color: #ffffff; font-size: 80%">200.000đ</p>                                       
+                                    </div>          
+                                </div> -->
+                                <button type="button" class="btn btn-default center-block"><a href="/maintenance-prd?catflt=<%= result[j].cat_name %>&catId=<%= result[j].cat_id %>" class="portfolio_item work-grid"style="width: 90%; color: #B28D34;font-weight: bold; margin-bottom: 10px;overflow: hidden; margin-top: 20px;">
+                                         Xem Thêm
+                                    </a>
+                                </button>
+                                <div style="border-top: 1px solid #B28D34"></div>
                             </div>
-                        </a>
                     </div>
 
                     <% } %>
