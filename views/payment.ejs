@@ -2,71 +2,125 @@
 <html lang="en">
 <% include partials/index_Header.ejs %>
 <body>
-	<div class="container">
-        <div class="col-sm-7">
-            <div class="row solid-content">
-                <h5>Hình thức giao hàng</h5>
-                <div class="col-md-3">
-                    <a href="#" class="thumbnail">
-                        <img src="img/delivery_form/giaohangtietkiem.png" alt="...">
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <a href="#" class="thumbnail">
-                        <img src="img/delivery_form/giaohangnhanh.png" alt="...">
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <a href="#" class="thumbnail">
-                        <img src="img/delivery_form/viettel_post.jpg" alt="...">
-                    </a>
-                </div>
+<div class="container">
+    <div class="col-sm-7">
+        <div class="row solid-content">
+            <h5>Hình thức giao hàng</h5>
+            <div class="col-md-3">
+                <a href="#" class="thumbnail">
+                    <img src="img/delivery_form/giaohangtietkiem.png" alt="...">
+                </a>
             </div>
-            <div class="row solid-content">
-                <p>Hình thức thanh toán</p>
-                <div class="col-md-3">
-                    <a href="#" class="thumbnail">
-                        <img src="img/payment_method/cash.jpg" alt="...">
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <a href="#" class="thumbnail">
-                        <img src="img/payment_method/transfer.jpg" alt="...">
-                    </a>
-                </div>
+            <div class="col-md-3">
+                <a href="#" class="thumbnail">
+                    <img src="img/delivery_form/giaohangnhanh.png" alt="...">
+                </a>
             </div>
-            <div class="row solid-content">
-                <p>Thông tin sản phẩm</p>
-                <form class="form-horizontal" action="/login" method="POST" style="padding-top: 20px">
-                <div id="cartdetail">
+            <div class="col-md-3">
+                <a href="#" class="thumbnail">
+                    <img src="img/delivery_form/viettel_post.jpg" alt="...">
+                </a>
+            </div>
+        </div>
+        <div class="row solid-content">
+            <p>Hình thức thanh toán</p>
+            <div class="col-md-3">
+                <a href="#" class="thumbnail">
+                    <img src="img/payment_method/cash.jpg" alt="...">
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="#" class="thumbnail">
+                    <img src="img/payment_method/transfer.jpg" alt="...">
+                </a>
+            </div>
+        </div>
+        <div class="container solid-content">
+            <p>Thông tin sản phẩm</p>
+            <form class="form-horizontal" action="/login" method="POST" style="padding-top: 20px">
+                <div id="cartdetail" class = "row">
+                    <% for (var i = 0; i < result.length; i++) { %>
+                    <div class="row">
+                        <h2><%= result[i].name %></h2>
+                    </div>
+                    <table class="row table table-condensed form-group">
+                        <tbody>
+                        <tr>
+                            <td class="text-right"><h4 style="text-align: center;">Size</h4></td>
+                            <td class="text-right"><h4 style="text-align: center;">Giá sản phẩm</h4></td>
+                            <td class="text-right"><h4 style="text-align: center;">Số Lượng</h4></td>
+                            <td class="text-right"><h4 style="text-align: center;">Thành Tiền</h4></td>
+                        </tr>
+                        <% for (var j = 0; j < result[i].sizes.split(';').length; j++) { %>
+                        <tr>
+                            <td class="text-center">
+                                <input id='size_id' class="booking-item-title size_id_header"
+                                       style="text-align: center;border: none; background-color: transparent" disabled
+                                       value="<%= result[i].sizes.split(';')[j] %>"></input>
+                            </td>
 
+                            <td class="text-center">
+                                <% if(result[i].disct_prices == null) { %>
+                                <label style=" text-align: center"><font
+                                            color="black"><%= result[i].prices.split(';')[j] %> </font></label>
+                                <% }else { %>
+                                <label style="text-decoration:line-through ; text-align: center"><font
+                                            color="black"><%= result[i].prices.split(';')[j] %></font></label>-><label style=" text-align: center"><font
+                                            color="red"><%= result[i].disct_prices.split(';')[j] %></font></label>
+                                <% } %>
+                            </td>
+                            <td class="text-center">
+                                <input id='quantity' class="form-control booking-item-title quantity_header"
+                                       value='<%=result[i].quantities.split(';')[j].trim()%>' type="number" min="1" max=""
+                                       step="1" autocomplete="off" height="100%" width="50%">
+
+                            </td>
+                            <td class="text-center">
+                                <input class="booking-item-title"
+                                       style="text-align: center;border: none; background-color: transparent" disabled
+                                       value="<%= result[i].sums.split(';')[j] %>">
+
+                            </td>
+                        </tr>
+                        <% } %>
+                        <tr>
+                            <td class="text-center"><h4 style="text-align: center;"></h4></td>
+                            <td class="text-center"><h4 style="text-align: center;"></h4></td>
+                            <td class="text-center"><h4 style="text-align: center;"></h4></td>
+                            <td class="text-center"><h4 style="text-align: center;">Tổng Tièn</h4></td>
+                            <td class="text-center"><h4 style="text-align: center;"><%= result[i].total %></h4></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <% } %>
                 </div>
 
             </form>
-            <button class="btn btn-danger col-sm-2 col-md-offset-3" type="button" onclick="document.getElementById('id03').style.display='none'">
-                    Hủy
+            <button class="btn btn-danger col-sm-2 col-md-offset-3" type="button"
+                    onclick="document.getElementById('id03').style.display='none'">
+                Hủy
             </button>
             <button class="btn btn-info col-sm-2" type="button" onclick="UpdateCart()">
-                    Cập Nhật Giỏ
+                Cập Nhật Giỏ
             </button>
             <button class="btn btn-success col-sm-2" type="button" onclick="UpdateCart()">
-                    Thanh Toán
+                Thanh Toán
             </button>
-            </div>
-        </div>
-        <div class="col-sm-4 solid-content">
-            <h2>Thông tin đơn hàng</h2>
-            <h4>Số sản phẩm</h4>
-            <h4>Phí vận chuyển</h4>
-            <form class="form-inline" role="form">
-                <div class="form-group has-success has-feedback">
-                    <input type="text" class="form-control" id="inputSuccess4" placeholder="Mã giảm giá">
-                </div>
-                <button type="submit" class="btn btn-success">Áp dụng</button>
-            </form>
-            <h3>Tổng cộng</h3>
         </div>
     </div>
+    <div class="col-sm-4 solid-content">
+        <h2>Thông tin đơn hàng</h2>
+        <h4>Số sản phẩm</h4>
+        <h4>Phí vận chuyển</h4>
+        <form class="form-inline" role="form">
+            <div class="form-group has-success has-feedback">
+                <input type="text" class="form-control" id="inputSuccess4" placeholder="Mã giảm giá">
+            </div>
+            <button type="submit" class="btn btn-success">Áp dụng</button>
+        </form>
+        <h3>Tổng cộng</h3>
+    </div>
+</div>
 </body>
 <% include partials/index_Footer.ejs %>
 </html>

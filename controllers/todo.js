@@ -1645,6 +1645,63 @@ module.exports.show_payment=function(req,res){
          res.render('show_payment',data);
 
      });
-}
+};
+module.exports.checkout = function(req, res){
+    var input=JSON.parse(JSON.stringify(req.body));
+    var user = '';
+    if(input.user == undefined){
+        user=req.session.user_id;
+    }else{
+        user=input.user;
+    }
+    var sql = 'select \n' +
+        '(select name from product where c.product_id = product_id ) as name,\n' +
+        'GROUP_CONCAT(c.amount SEPARATOR \'; \') as quantities,\n' +
+        'GROUP_CONCAT((select size from product where c.product_id = product_id ) SEPARATOR \'; \') as sizes,\n' +
+        'GROUP_CONCAT(FORMAT((select price from product where product_id = c.product_id),0) SEPARATOR \'; \')  as prices,\n' +
+        'GROUP_CONCAT(FORMAT((select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date),0) SEPARATOR \'; \')  as discount_prices,\n' +
+        'GROUP_CONCAT(\n' +
+        'FORMAT(\n' +
+        '\tIF(\n' +
+        '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)<>\'NULL\',\n' +
+        '        (select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)*c.amount,\n' +
+        '        (select price from product where product_id = c.product_id)*c.amount),\n' +
+        '\t0) SEPARATOR \'; \') as sums,\n' +
+        'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as size_ids,\n' +
+        'GROUP_CONCAT((select url from image where c.product_id = product_id and type = 1 group by product_id) SEPARATOR \'; \') as images,\n' +
+        'sum(\n' +
+        '\tIF(\n' +
+        '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)<>\'NULL\',\n' +
+        '        (select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)*c.amount,\n' +
+        '        (select price from product where product_id = c.product_id)*c.amount)) as total \n' +
+        'from cart c where payment_id = 0  and user_id = '+user+' group by name ;';
 
+    var con = req.db.driver.db;
+    con.query(sql, function (err, rows) {
+        if(err){
+            var data = {status: 'error', code: '300',error: err};
+            res.json(data);
+        }else{
+
+            var data = {status: 'success', code: '200',result:rows,fname:req.session.firstname,
+                pic:req.session.pic,
+                type:req.session.type,
+                userid:req.session.user_id};
+            res.render("payment",data);
+            /*var sql = 'select\n' +
+                'sum((select (price*c.amount) from product where c.product_id = product_id )) as total\n' +
+                'from cart c where payment_id = 0  and user_id = '+input.user+';';
+            con.query(sql, function (err, row1s) {
+                if(!err){
+                    var data = {status: 'success', code: '200',result:rows, total:row1s[0].total};
+                    res.json(data);
+                }
+            });*/
+
+
+
+        }
+
+    });
+};
 
