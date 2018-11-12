@@ -2,175 +2,168 @@
 <html lang="en">
 <head>
     <title>Karmo - Responsive Creative HTML Template</title>
-
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
-    <meta name="description" content="KARMO is a creative and modern template for digital agencies">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
-
+    <title>HOME</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
-    <script src="jquery/jquery.min.js"></script>
-    <script src="popper/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/flexslider.css">
-    <link rel="stylesheet" href="assets/css/animsition.min.css">
-    <link rel="stylesheet" href="assets/css/owl.carousel.css">
-    <link rel="stylesheet" href="assets/css/owl.theme.css">
-
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/slimmenu.js"></script>
-    <script src="js/bootstrap-datepicker.js"></script>
-    <script src="js/bootstrap-timepicker.js"></script>
-    <script src="js/nicescroll.js"></script>
-    <script src="js/dropit.js"></script>
-    <script src="js/ionrangeslider.js"></script>
-    <script src="js/icheck.js"></script>
-    <script src="js/fotorama.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-    <script src="js/typeahead.js"></script>
-    <script src="js/card-payment.js"></script>
-    <script src="js/magnific.js"></script>
-    <script src="js/owl-carousel.js"></script>
-    <script src="js/fitvids.js"></script>
-    <script src="js/tweet.js"></script>
-    <script src="js/countdown.js"></script>
-    <script src="js/gridrotator.js"></script>
-    <script src="js/custom.js"></script>
-
 </head>
-<div class="top-header">
-    <div class="container hidden-sm hidden-xs">
-        <div class="row" style="position: relative;">
-            <div class="col-sm-12 col-md-1">
-                <a href="/"><img src="img/LOGO.svg" alt="LienHoaCac"
-                                 style="width: 80px; margin: auto; padding-top: 10px;"></a>
-            </div>
-            <form class="form-inline col-sm-12 col-md-5 center-height" method="GET" action="/search"
-                  style="position: absolute; left: 100px;">
-                <div class="form-group">
-                    <input class="typeahead-prd form-control" type="text" name="topSearchKeyword" id="topSearchKeyword"
-                           value="">
-                    </input>
-                </div>
-                <button type="submit" class="btn btn-default">Tìm</button>
-            </form>
-            <div class="col-md-4 col-md-offset-7 center-height" style="position: absolute;">
-                <div class="col-md-4 col-md-offset-2" style="padding: 0px;">
-                    <!-- <div class="row"> -->
 
-                    <% if(fname != undefined){ %>
-                    <div class="col-md-4" style="padding: 0px;">
-                        <a href="/edit-account">
-                            <img class="img-circle origin" src="img/40x40.png" alt="Image Alternative text"
-                                 title="AMaze"/>
-                        </a>
-                    </div>
-                    <div class="col-md-8" style="padding: 0px;">
-                        <h5 style="text-align: center;">Hi, <%=fname%></h5>
-                    </div>
-                    <% } %>
+<div class="container">
+    <!-- <div class="header">
+        <div class="col-sm-12 col-md-1">
+            <a href="/"><img src="img/LOGO.svg" alt="LienHoaCac"
+                style="width: 80px; margin: auto; padding-top: 10px;"></a>
+        </div>
 
-                    <!--  </div>  -->
-                </div>
-                <% if(type != undefined){%>
-                <div class="col-md-3" style="padding: 0px;">
-                    <a href="/logout">
-                        <h5>Đăng xuất</h5>
-                    </a>
-                </div>
-                <%}%>
-
-                <% if(type == undefined){%>
-                <div class="col-md-3" style="padding: 0px;">
-                    <a onclick="document.getElementById('id01').style.display='block'" style="width:auto;">
-                        <h5>Đăng nhập</h5>
-                    </a>
-                </div>
-                <%}%>               
-            </div>
-            <div class="col-md-1 col-md-offset-10 center-height" style="max-width: 75px; position: absolute;">
-                <a class="thumbnail" style="bottom: 0px;"
-                   onclick="GetCart(0)">
-                    <img src="img/cart.jpg" alt="Go to Cart">
+    </div> -->
+</div>
+<div class="container-fluid">
+    <ul class="nav nav-tabs nav-justified" style="padding: 15px; float: right; max-width: 20%; min-width: 300px;">
+        <li>
+            <% if(fname != undefined){ %>
+            <div>
+                <a href="/edit-account">
+                    <img class="img-circle origin" src="img/40x40.png" alt="Image Alternative text"
+                    title="AMaze"/>
                 </a>
             </div>
+            <% } %>
+        </li>
+        <li>
+            <% if(fname != undefined){ %>
+            <h5>Hi, <%=fname%></h5>
+            <% } %>
+        </li>
+        <li>
+
+            <% if(type != undefined){%>
+            <a class="btn btn-success" style="min-width: 100px;" href="/logout"><p style="color: white;">Đăng Xuất</p></a>
+            <% } %>
+
+            <% if(type == undefined){%>
+            <a class="btn btn-success " onclick="document.getElementById('id01').style.display='block'"><p style="color: white;">Đăng nhập</p></a>
+            <% } %> 
+        </li>
+    </ul>
+</div>
+
+
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
         </div>
-        <div class="row" style="position: relative;">
-            <div id="id01" class="modal">
-
-                <form class="modal-content animate" action="/login" method="POST">
-                    <div class="imgcontainer">
-                        <span onclick="document.getElementById('id01').style.display='none'" class="close"
-                              title="Close Modal">&times;</span>
-                        <img src="img/LOGO.svg" alt="Avatar" class="avatar" style="max-width: 75px">
-                    </div>
-
-            <div class="container">
-                <label for="uname"><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name="email" required>
-
-                <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="password" required>
-
-                <button class="center-block" type="submit">Login</button>
-                <label>
-                    <input type="checkbox" checked="checked" name="remember"> Remember me
-                </label>
-            </div>
-
-                    <div class="container" style="background-color:#f1f1f1">
-                        <button type="button" onclick="document.getElementById('id01').style.display='none'"
-                                class="cancelbtn">
-                            Cancel
-                        </button>
-                        <span class="psw">Forgot <a href="#">password?</a></span>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="row" style="position: relative;">
-            <div id="id03" class="modal">
-
-                <form class="modal-content animate" action="/login" method="POST">
-                    <div class="imgcontainer">
-                        <span onclick="document.getElementById('id01').style.display='none'" class="close"
-                              title="Close Modal">&times;</span>
-                        <img src="img/LOGO.svg" alt="Avatar" class="avatar" style="max-width: 75px">
-                    </div>
-
-                    <div class="container" id="cartdetail">
-
-                    </div>
-
-                    <div class="container" style="background-color:#f1f1f1">
-                        <button type="button" onclick="document.getElementById('id03').style.display='none'"
-                                class="cancelbtn">
-                            Hủy
-                        </button>
-                        <button type="button" onclick="UpdateCart()"
-                                class="cancelbtn">
-                            Cập Nhật Giỏ
-                        </button>
-                        <button type="button" onclick="UpdateCart()"
-                                class="cancelbtn">
-                            Thanh Toán
-                        </button>
-                    </div>
-                </form>
-            </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="position: relative;">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="/"><img src="img/LOGO.svg" alt="LienHoaCac" style="width: 80px; margin: auto; padding-top: 10px;"></a>
+                </li>
+            </ul>
+            <div class="row" style="padding: 25px;">
+                <div class="col-sm-8">
+                    <form class="search" method="GET" action="/search">
+                         <div class="form-group">
+                            <input style="background-color: white;" type="text" name="topSearchKeyword" id="topSearchKeyword"
+                                   placeholder="Tìm kiếm trên Liên Hoa Các..." value="">
+                        </div>  
+                        <button type="submit" class=""><span class="glyphicon glyphicon-search"></span></button>
+                    </form>
+                </div>
+                <div class="col-sm-2">
+                    <a class="thumbnail" style="max-width: 75px;" 
+                       onclick="GetCart(0)">
+                        <img src="img/cart.jpg" alt="Go to Cart">
+                    </a>
+                </div>
+            </div> 
+            <ul class="nav navbar-nav navbar-right">
+                
+            </ul>
         </div>
     </div>
+    <!-- /.container-fluid -->
+    <div class="container-fluid">
+    <div id="menu">
+            <ul>
+                <li> <a href="" data-filter=".folder1" style="color: #FFFFFF; border: 2px solid #FFFFFF"><h3>HOME</h3></a></li>
+                <li> <a href="" data-filter=".folder2" ><h3>TUỔI VÀ MỆNH</h3></a></li>
+                <li> <a href="" data-filter=".folder3" ><h3>PHONG THỦY</h3></a></li>
+                <li> <a href="" data-filter=".folder4" ><h3>ĐỜI SỐNG</h3></a></li>
+                <li> <a href="" data-filter=".folder5" ><h3>DỊCH VỤ</h3></a></li>
+            </ul>
+            <% if(type == 1){ %>
+            <ul>
+                <li><a href="" data-filter=".admin"><h3>ADMINISTRATOR</h3></a></li>
+            </ul>
+            <%}%>
+    </div>
+    </div>
+</nav>
 
-    <script>
+<div class="row">
+    <div id="id01" class="modal">
+        <div class="container popup animate">
+                <div style="padding-top: 75px;">
+                    <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                        title="Close Modal">&times;</span>
+                    <img src="img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
+                </div>
+                <form class="form-horizontal" role="form" action="/login" method="POST">
+                <div class="form-group has-success">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="text" placeholder="Enter Username" required  class="form-control" name="email">
+                    </div>
+                </div>
+                <div class="form-group has-success">
+                    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                    <div class="col-sm-10">
+                        <input type="password" placeholder="Enter Password" class="form-control" name="password">
+                    </div>
+                </div>
+                <!-- <input type="checkbox" checked="checked" name="remember"> Remember me -->
+                <button class="center-block btn btn-primary" type="submit">Login</button>
+                </form>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="id03" class="modal">
+        <div class="container popup animate">
+            <div style="padding-top: 75px;">
+                <span onclick="document.getElementById('id03').style.display='none'" class="close"
+                    title="Close Modal">&times;</span>
+                <img src="img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
+            </div>
+            <form class="form-horizontal" action="/login" method="POST" style="padding-top: 20px">
+                <div id="cartdetail">
+
+                </div>
+
+            </form>
+            <button class="btn btn-danger col-sm-2 col-md-offset-3" type="button" onclick="document.getElementById('id03').style.display='none'">
+                    Hủy
+            </button>
+            <button class="btn btn-info col-sm-2" type="button" onclick="UpdateCart()">
+                    Cập Nhật Giỏ
+            </button>
+            <button class="btn btn-success col-sm-2" type="button" onclick="UpdateCart()">
+                    Thanh Toán
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
         // Get the modal
         var modal = document.getElementById('id01');
 
@@ -180,9 +173,9 @@
                 modal.style.display = "none";
             }
         }
-    </script>
+</script>
 
-    <script>
+<script>
         var sizesArray = new Array();
         function GetCart(idx){
             var url ='';
@@ -206,15 +199,15 @@
                     var inner = ''
                     for (var i = 0; i < response.result.length; i++) {
                         inner += '<div class="row">\n' +
-                            '                    <h2>' + response.result[i].name + ' </h2>\n' +
-                            '                </div>'
+                        '                    <h2>' + response.result[i].name + ' </h2>\n' +
+                        '                </div>'
                         inner += '<table class="row table table-condensed form-group">\n' +
-                            '                    <tbody>\n' +
-                            '                <tr>\n' +
-                            '                    <td class="text-right"><h4 style="text-align: center;">Size</h4></td>\n' +
-                            '                    <td class="text-right"><h4 style="text-align: center;">Giá sản phẩm</h4></td>\n' +
-                            '                    <td class="text-right"><h4 style="text-align: center;">Số Lượng</h4></td>\n' +
-                            '                    <td class="text-right"><h4 style="text-align: center;">Thành Tiền</h4></td>\n'
+                        '                    <tbody>\n' +
+                        '                <tr>\n' +
+                        '                    <td class="text-right"><h4 style="text-align: center;">Size</h4></td>\n' +
+                        '                    <td class="text-right"><h4 style="text-align: center;">Giá sản phẩm</h4></td>\n' +
+                        '                    <td class="text-right"><h4 style="text-align: center;">Số Lượng</h4></td>\n' +
+                        '                    <td class="text-right"><h4 style="text-align: center;">Thành Tiền</h4></td>\n'
                         '                </tr>';
                         for (var j = 0; j < response.result[i].sizes.split(';').length; j++) {
                             sizesArray.push(response.result[i].size_ids.split(';')[j]);
@@ -253,45 +246,44 @@
                             '                    <td class="text-center"><h4 style="text-align: center;">'+response.result[i].total+'</h4></td>\n'
                         '                </tr>';
                         inner += '</tbody>\n' +
-                            '                </table>';
+                        '                </table>';
                     }
                     document.getElementById('cartdetail').innerHTML = inner;
                     document.getElementById('id03').style.display='block';
                 }
             });
+}
+
+
+function UpdateCart(idx){
+    var formdata1 = new FormData();
+    var sizes = new Array();
+    var quantities = new Array();
+    var input = document.getElementsByClassName('booking-item-title size_id_header');
+    for (var i = 0; i < sizesArray.length; i++) {
+        sizes.push(sizesArray[i]);
+    }
+    input = document.getElementsByClassName('form-control booking-item-title quantity_header');
+    for (var i = 0; i < input.length; i++) {
+        quantities.push(input[i].value);
+    }
+    formdata1.append('size_id',sizes);
+    formdata1.append('quantity',quantities);
+    $.ajax({
+        url: "./PetMart/update-cart",
+        type: 'POST',
+        dataType : 'JSON',
+        data: JSON.stringify({size_id:sizes,quantity:quantities}),
+        async: false,
+        cache: false,
+        contentType: 'application/json; charset=UTF-8',
+        enctype: 'multipart/form-data',
+        processData: false,
+        success: function (response) {
+            alert(response.status);
+            document.getElementById('id03').style.display='none';
         }
+    });
 
-
-        function UpdateCart(idx){
-            var formdata1 = new FormData();
-            var sizes = new Array();
-            var quantities = new Array();
-            var input = document.getElementsByClassName('booking-item-title size_id_header');
-            for (var i = 0; i < sizesArray.length; i++) {
-                sizes.push(sizesArray[i]);
-            }
-            input = document.getElementsByClassName('form-control booking-item-title quantity_header');
-            for (var i = 0; i < input.length; i++) {
-                quantities.push(input[i].value);
-            }
-            formdata1.append('size_id',sizes);
-            formdata1.append('quantity',quantities);
-            $.ajax({
-                url: "./PetMart/update-cart",
-                type: 'POST',
-                dataType : 'JSON',
-                data: JSON.stringify({size_id:sizes,quantity:quantities}),
-                async: false,
-                cache: false,
-                contentType: 'application/json; charset=UTF-8',
-                enctype: 'multipart/form-data',
-                processData: false,
-                success: function (response) {
-                    alert(response.status);
-                    document.getElementById('id03').style.display='none';
-                }
-            });
-
-        }
-    </script>
-</div>
+}
+</script>
