@@ -13,7 +13,7 @@
     </div>
     <div class="row product-info">
         <div class="col-md-4">
-            <img class="img-responsive" src="assets/img/<%=result[0].image%>" alt="">
+            <img class="img-responsive thumbnail" src="assets/img/<%=result[0].image%>" alt="">
         </div>
         <div class="col-md-8">
             <div class="ditem">
@@ -35,32 +35,29 @@
                         <% for(i = 0;i < result.length;i++){ %>
                         <tr>
                             <td class="text-right">
-                                <input id = 'size_id'class="booking-item-title size_id" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].size %>"></input>
+                                <input id = 'size_id'class="booking-item-title size_id center-block" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].size %>"></input>
                             </td>
                             <td class="text-center">
                             <% if(result[i].disct_price == null){ %>
-                            <label style=" text-align: center"><font
+                            <label class="center-block" style=" text-align: center"><font
                                         color="black"><%= result[i].price %></font></label>
                             <% } else { %>
-                            <label style="text-decoration:line-through ; text-align: center"><font
-                                        color="black"><%= result[i].price%></font></label>
-                            ->
-                            <label style=" text-align: center"><font
+                            <label class="center-block" style=" text-align: center"><font
                                         color="red"><%= result[i].disct_price%></font></label>
                             <% } %>
                             </td>
 
                             <td class="text-right">
-                                <input  class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].code %>">
+                                <input  class="booking-item-title center-block" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].code %>">
 
                             </td>
                             <td class="text-right">
-                                <input id = 'quantity'class="form-control booking-item-title quantity" value="0" type="number" min="1" max=""  step="1" autocomplete="off" height="100%" width="50%">
+                                <input id ='quantity'class="form-control booking-item-title quantity center-block" value="0" type="number" min="1" max=""  step="1" autocomplete="off" style="width: 50%;">
 
                             </td>
-                            <td class="text-right">
+                            <td class="text-right" style="position: relative;">
                                 <a href="#" style="text-align: center;" onclick="AddCart(<%=i%>)">
-                                    <i class="fa fa-plus-circle" >Thêm vào giỏ</i>
+                                    <span class="glyphicon glyphicon-shopping-cart center-height"></span>
                                 </a>
                             </td>
                         </tr>
@@ -71,18 +68,19 @@
                     </tbody>
                 </table>
                 </div>
+                <br>
                 <div class="row">
                     <div class = "col-md-3">
                         <button class="form-control" onclick="AddCart()">Add To Cart</button>
                     </div>
 
                 </div>
-
+                <br>
                 <div class="row">
                     <% for(j = 0;j < result.length;j++){ %>
                     <div class="col-md-3">
 
-                            <img class="img-responsive" src="assets/img/<%=result[j].image%>" alt="image">
+                            <img class="img-responsive thumbnail" src="assets/img/<%=result[j].image%>" alt="image">
 
                     </div>
                     <% } %>

@@ -5,21 +5,39 @@
 <!-- PORTFOLIO -->
 
 <div class="portfolio">
+        <!-- /.container-fluid -->
+    <div class="container-fluid" style="background-color: #1C1C1C;">
+        <div id="menu">
+                <ul>
+                    <li> <a href="" data-filter=".folder1" style="color: #FFFFFF; border: 2px solid #FFFFFF"><h3>HOME</h3></a></li>
+                    <li> <a href="" data-filter=".folder2" ><h3>TUỔI VÀ MỆNH</h3></a></li>
+                    <li> <a href="" data-filter=".folder3" ><h3>PHONG THỦY</h3></a></li>
+                    <li> <a href="" data-filter=".folder4" ><h3>ĐỜI SỐNG</h3></a></li>
+                    <li> <a href="" data-filter=".folder5" ><h3>DỊCH VỤ</h3></a></li>
+                </ul>
+                <% if(type == 1){ %>
+                <ul>
+                    <li><a href="" data-filter=".admin"><h3>ADMINISTRATOR</h3></a></li>
+                </ul>
+                <%}%>
+        </div>
+    </div>
     <div class="container-fluid">
+
         <div class="container">
             <!-- all works -->
             <div class="row">
-                <div class="row portfolio_container">
+                <div class="row">
 
                     <% for(var j = 0 ; j < result.length ; j++){ %>
 
-                    <div class="col-md-4 folder<%= result[j].folder_id %>">
-
+                    <div class="col-xs-6 col-md-4 folder<%= result[j].folder_id %> ">
+                            <div class="product">
                             <!-- <div class="center-block"style="width: 40%;border-bottom: 3px solid #333;" ></div> -->
-                            <div style="background-color: #B28D34; margin-top: 20px">
-                                <img src="assets/img/<%= result[j].image %>" class="img-responsive" alt="Responsive image" style="padding: 10px 10px 20px 10px;">
-                                <h2 class="center-block" style="width: 65%; text-align: center; color: white;"><%= result[j].cat_name %></h2>
-                                <<!-- div class="row center-block" style="width: 65%; padding: 0px">
+                            <div class="center-height" style="">
+                                <img src="assets/img/<%= result[j].image %>" class="img-responsive" alt="Responsive image" style="padding: 10px;">
+                                <h2 class="center-block" style="width: 65%; text-align: center;"><%= result[j].cat_name %></h2>
+                                <!-- div class="row center-block" style="width: 65%; padding: 0px">
                                     <div class="col-md-6" style="padding: 0px;border-right: 1px solid #FFFFFF;">
                                         <h4 class="center-block" style="text-align: center; color: #ffffff;">Chất liệu</h4>
                                         <p class="center-block" style="text-align: center; line-height: 0px; color: #ffffff; font-size: 80%">Đá tự nhiên</p>
@@ -29,64 +47,49 @@
                                         <p class="center-block" style="text-align: center; line-height: 0px; color: #ffffff; font-size: 80%">200.000đ</p>                                       
                                     </div>          
                                 </div> -->
-                                <button type="button" class="btn btn-default center-block"><a href="/maintenance-prd?catflt=<%= result[j].cat_name %>&catId=<%= result[j].cat_id %>" class="portfolio_item work-grid"style="width: 90%; color: #B28D34;font-weight: bold; margin-bottom: 10px;overflow: hidden; margin-top: 20px;">
-                                         Xem Thêm
-                                    </a>
-                                </button>
-                                <div style="border-top: 1px solid #B28D34"></div>
+                                <a href="/maintenance-prd?catflt=<%= result[j].cat_name %>&catId=<%= result[j].cat_id %>" class="portfolio_item work-grid"style="width: 90%; color: #B28D34;font-weight: bold; margin-bottom: 10px;overflow: hidden; margin-top: 20px;">
+                                    <button type="button" class="btn btn-default center-block">
+                                             Xem Thêm                                        
+                                    </button>
+                                </a>
+                            </div>
                             </div>
                     </div>
 
                     <% } %>
-
-
-                    <!-- end single work -->
-                    <% if(type == 1){ %>
-                    <!-- Admin -->
-                    <div class="col-md-3 admin">
-                        <a href="maintenance" class="portfolio_item work-grid">
-                            <img src="assets/img/accounts.jpg" alt="image">
-                            <div class="portfolio_item_hover">
-                                <div class="item_info">
-                                    <span>Tài Khoản</span>
-                                    <em>photography</em>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-3 admin">
-                        <a href="show-payment" class="portfolio_item work-grid">
-                            <img src="assets/img/payment.jpg" alt="image">
-                            <div class="portfolio_item_hover">
-                                <div class="item_info">
-                                    <span>Đơn Hàng</span>
-                                    <em>photography</em>
-                                </div>
-                            </div>
-                        </a>
-
-
-                    </div>
-                    <div class="col-md-3 admin">
-                        <a href="/maintenance-cat" class="portfolio_item work-grid">
-                            <img src="assets/img/AddIcon-2 (2).jpg" alt="image">
-                            <div class="portfolio_item_hover">
-                                <div class="item_info">
-                                    <span>Thư Mục</span>
-                                    <em>photography</em>
-                                </div>
-                            </div>
-                        </a>
-
-
-                    </div>
-                    <% } %>
-
                 </div>
                 <!-- end row -->
             </div>
             <!-- all works end -->
             <!-- Modal -->
+            <% if(type == 1){ %>
+                    <div class="row" style="margin: 20px;">
+                        <div class="col-xs-6 col-md-4">
+                            <img class="img-responsive thumbnail center-block" src="assets/img/accounts.jpg">
+                            <a href="maintenance" class="portfolio_item work-grid">
+                                <button class="btn btn-info center-block">                                
+                                        Tài khoản                                
+                                </button>
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-4">
+                            <img class="img-responsive thumbnail center-block" src="assets/img/payment.jpg">
+                            <a href="show-payment" class="portfolio_item work-grid">
+                                <button class="btn btn-info center-block">                                
+                                        Đơn Hàng
+                                </button>
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-4">
+                            <img class="img-responsive thumbnail center-block" src="assets/img/accounts.jpg">
+                            <a href="/maintenance-cat" class="portfolio_item work-grid">
+                                <button class="btn btn-info center-block">                                
+                                    Thư Mục                                
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <% } %>
         </div>
     </div>
     <!-- end container -->
@@ -152,23 +155,5 @@
     });
 </script>
 </body>
-<script src="js/bootstrap.js"></script>
-<script src="js/slimmenu.js"></script>
-<script src="js/bootstrap-datepicker.js"></script>
-<script src="js/bootstrap-timepicker.js"></script>
-<script src="js/nicescroll.js"></script>
-<script src="js/dropit.js"></script>
-<script src="js/ionrangeslider.js"></script>
-<script src="js/icheck.js"></script>
-<script src="js/fotorama.js"></script>
-<script src="js/typeahead.js"></script>
-<script src="js/card-payment.js"></script>
-<script src="js/magnific.js"></script>
-<script src="js/owl-carousel.js"></script>
-<script src="js/fitvids.js"></script>
-<script src="js/tweet.js"></script>
-<script src="js/countdown.js"></script>
-<script src="js/gridrotator.js"></script>
-<script src="js/custom.js"></script>
 <% include partials/index_Footer.ejs %>
 </html>

@@ -2,8 +2,8 @@
 <html>
 <% include partials/index_Header.ejs %>
 <body>
-<div class="global-wrap">
-    <div class="container">
+
+<div class="container">
         <div class="row">
             <ol class="breadcrumb">
                 <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="#"> <%= catflt %></a>
@@ -56,66 +56,40 @@
                 </div> 
             </div>
         </div>-->
-
-        <br/>
         <div class="row">
-            <div class="row portfolio_container">
                 <% for(j = 0;j < result.length;j++){ %>
-                <div class="col-md-4">
-                    <div style="background-color: #B28D34; margin-top: 20px">
-                    <a href="/product-detail?id=<%= result[j].product_id %>" class="portfolio_item work-grid">
-                        <img src="assets/img/<%= result[j].image %>" class="img-responsive" alt="Responsive image" style="padding: 10px 10px 20px 10px;">
-
-                        <% if(result[j].disct_prices == null){ %>
-                            <div class="row center-block" style="width: 65%; padding: 0px">
-                                    <h4 class="center-block" style="text-align: center; color: #ffffff;">Giá SP</h4>
-                                    <p class="center-block" style="text-align: center; line-height: 0px; color: #ffffff; font-size: 150%"><%= result[j].prices.split(';')[0] %></p>                      
-                            </div>
-                        <% } else { %>    
-                            <div class="row center-block" style="width: 65%; padding: 0px">
-                                <div class="col-md-6" style="padding: 0px;border-right: 1px solid #FFFFFF;">
-                                    <h4 class="center-block" style="text-align: center; color: #ffffff;">Giá SP</h4>
-                                    <p class="center-block" style="text-align: center; line-height: 0px; color: #ffffff; font-size: 150%"><%= result[j].prices.split(';')[0] %></p>
-                                </div>                      
-                                <div class="col-md-6" style="padding: 0px">
-                                    <h4 class="center-block" style="text-align: center; color: #ffffff">Giá giảm</h4>
-                                    <p class="center-block" style="text-align: center; line-height: 0px; color: #ffffff; font-size: 150%"><%= result[j].disct_prices.split(';')[0] %></p>                    
-                                </div>          
-                            </div>
-                        <% } %>
-                        <h2 class="center-block" style="width: 65%; text-align: center; color: white;"><%= result[j].name %></h2>
-
-                    </a>
+                <div class="col-xs-6 col-md-4">
+                    <div class="product">
+                        <div class="center-height">
+                            <a href="/product-detail?id=<%= result[j].product_id %>" class="portfolio_item work-grid ">
+                                <img src="assets/img/<%= result[j].image %>" class="img-responsive" alt="Responsive image" style="padding: 10px;">
+                                <% if(result[j].disct_prices == null){ %>
+                                    <div style=" padding: 0px">
+                                            <h4 style="text-align: center;">Giá SP</h4>
+                                            <p style="text-align: center;"><%= result[j].prices.split(';')[0] %></p>                      
+                                    </div>
+                                <% } else { %>    
+                                    <div class="row center-block" style=" padding: 0px">
+                                        <div class="col-md-6" style="padding: 0px;">
+                                            <h4 style="text-align: center;">Giá SP</h4>
+                                            <p style="text-align: center; line-height: 0px;"><%= result[j].prices.split(';')[0] %></p>
+                                        </div>                      
+                                        <div class="col-md-6" style="padding: 0px">
+                                            <h4 style="text-align: center">Giá giảm</h4>
+                                            <p style="text-align: center; line-height: 0px;"><%= result[j].disct_prices.split(';')[0] %></p>                    
+                                        </div>          
+                                    </div>
+                                <% } %>
+                            </a>
+                            <h2 class="center-block" style="text-align: center;"><%= result[j].name %></h2>
+                        </div>
+                    </div>
                 </div>
-                </div>
-
-
-<!-- 
-                <div style="background-color: #B28D34; margin-top: 20px">
-                                <img src="assets/img/<%= result[j].image %>" class="img-responsive" alt="Responsive image" style="padding: 10px 10px 20px 10px;">
-                                <h2 class="center-block" style="width: 65%; text-align: center; color: white;"><%= result[j].cat_name %></h2>
-                                <div class="row center-block" style="width: 65%; padding: 0px">
-                                    <div class="col-md-6" style="padding: 0px;border-right: 1px solid #FFFFFF;">
-                                        <h4 class="center-block" style="text-align: center; color: #ffffff;">Chất liệu</h4>
-                                        <p class="center-block" style="text-align: center; line-height: 0px; color: #ffffff; font-size: 80%">Đá tự nhiên</p>
-                                    </div>                      
-                                    <div class="col-md-6" style="padding: 0px">
-                                        <h4 class="center-block" style="text-align: center; color: #ffffff">Giá SP</h4>
-                                        <p class="center-block" style="text-align: center; line-height: 0px; color: #ffffff; font-size: 80%">200.000đ</p>                                       
-                                    </div>          
-                                </div>
-                                <button type="button" class="btn btn-default center-block">
-                                     <a href="/maintenance-prd?catflt=<%= result[j].cat_name %>&catId=<%= result[j].cat_id %>" class="portfolio_item work-grid"
-                                        style="width: 90%; color: #B28D34;font-weight: bold; margin-bottom: 10px;overflow: hidden; margin-top: 20px;">
-                                         Xem Thêm
-                                     </a>
-                                </button>
-                                <div style="border-top: 1px solid #B28D34"></div>
-                </div> -->
                 <% } %>
+        </div>
+</div>
 
-                <div class="gap"></div>
-            </div>
+            
             <script src="js/jquery.js"></script>
             <script src="js/bootstrap.js"></script>
             <script src="js/slimmenu.js"></script>
@@ -140,7 +114,7 @@
                     document.getElementById('catflt').value = '<%= catflt %>';
                 }
             </script>
-        </div>
+
 </body>
 <% include partials/index_Footer.ejs %>
 </html>
