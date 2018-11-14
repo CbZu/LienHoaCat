@@ -1682,23 +1682,25 @@ module.exports.checkout = function(req, res){
             var data = {status: 'error', code: '300',error: err};
             res.json(data);
         }else{
-
-            var data = {status: 'success', code: '200',result:rows,fname:req.session.firstname,
-                pic:req.session.pic,
-                type:req.session.type,
-                userid:req.session.user_id};
-            res.render("payment",data);
-            /*var sql = 'select\n' +
-                'sum((select (price*c.amount) from product where c.product_id = product_id )) as total\n' +
-                'from cart c where payment_id = 0  and user_id = '+input.user+';';
+            sql = 'select firstname,lastname,phone,email,address from user where user_id = ' +user + ';';
+            var con = req.db.driver.db;
             con.query(sql, function (err, row1s) {
-                if(!err){
-                    var data = {status: 'success', code: '200',result:rows, total:row1s[0].total};
-                    res.json(data);
+                if(row1s.length > 0) {
+                    var data = {status: 'success', code: '200',result:rows,fname:req.session.firstname,
+                        pic:req.session.pic,
+                        type:req.session.type,
+                        userid:req.session.user_id,
+                        userdetail : row1s};
+                    res.render("payment",data);
+                }else{
+                    var data = {status: 'success', code: '200',result:rows,fname:req.session.firstname,
+                        pic:req.session.pic,
+                        type:req.session.type,
+                        userid:req.session.user_id};
+                    res.render("payment",data);
                 }
-            });*/
 
-
+            });
 
         }
 

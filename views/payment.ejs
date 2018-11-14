@@ -2,22 +2,23 @@
 <html lang="en">
 <% include partials/index_Header.ejs %>
 <body>
+<form class="form-inline" role="form">
 <div class="container">
     <div class="col-sm-7">
         <div class="row solid-content">
             <h5>Hình thức giao hàng</h5>
             <div class="col-md-3">
-                <a href="#" class="thumbnail">
+                <a href="#" class="thumbnail" onclick="Ship('1')">
                     <img src="img/delivery_form/giaohangtietkiem.png" alt="...">
                 </a>
             </div>
             <div class="col-md-3">
-                <a href="#" class="thumbnail">
+                <a href="#" class="thumbnail" onclick="Ship('2')">
                     <img src="img/delivery_form/giaohangnhanh.png" alt="...">
                 </a>
             </div>
             <div class="col-md-3">
-                <a href="#" class="thumbnail">
+                <a href="#" class="thumbnail" onclick="Ship('3')">
                     <img src="img/delivery_form/viettel_post.jpg" alt="...">
                 </a>
             </div>
@@ -25,12 +26,12 @@
         <div class="row solid-content">
             <p>Hình thức thanh toán</p>
             <div class="col-md-3">
-                <a href="#" class="thumbnail">
+                <a href="#" class="thumbnail" onclick="Type('1')">
                     <img src="img/payment_method/cash.jpg" alt="...">
                 </a>
             </div>
             <div class="col-md-3">
-                <a href="#" class="thumbnail">
+                <a href="#" class="thumbnail"  onclick="Type('2')">
                     <img src="img/payment_method/transfer.jpg" alt="...">
                 </a>
             </div>
@@ -110,17 +111,35 @@
     </div>
     <div class="col-sm-4 solid-content">
         <h2>Thông tin đơn hàng</h2>
+        <%if(userdetail != undefined){%>
+        <h4>Tên: <%=userdetail[0].firstname%> <%=userdetail[0].lastname%></h4>
+        <h4>Email: <%=userdetail[0].email%></h4>
+        <h4>Số điện thoại: <%=userdetail[0].phone%></h4>
+        <h4>Địa Chỉ: <%=userdetail[0].address%></h4>
+        <%}%>
         <h4>Số sản phẩm</h4>
         <h4>Phí vận chuyển</h4>
-        <form class="form-inline" role="form">
+
             <div class="form-group has-success has-feedback">
                 <input type="text" class="form-control" id="inputSuccess4" placeholder="Mã giảm giá">
             </div>
             <button type="submit" class="btn btn-success">Áp dụng</button>
-        </form>
+
         <h3>Tổng cộng</h3>
     </div>
+
 </div>
+</form>
 </body>
+<script>
+    var type = '';
+    var ship = '';
+    function Ship(idx){
+
+    }
+    function Type(idx){
+
+    }
+</script>
 <% include partials/index_Footer.ejs %>
 </html>

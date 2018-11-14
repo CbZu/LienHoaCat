@@ -170,6 +170,12 @@ CREATE TABLE IF NOT EXISTS `lhc`.`promotion` (
    `user_id` INT NULL,
   PRIMARY KEY (`promotion_id`));
   
+  CREATE TABLE IF NOT EXISTS `lhc`.`voucher` (
+  `voucher_id` INT NOT NULL AUTO_INCREMENT,
+   `code` VARCHAR(255) NULL,
+  `effective_date` INT NULL,
+  `expired_date` INT NULL,
+  PRIMARY KEY (`voucher_id`));
   
   CREATE TABLE IF NOT EXISTS `lhc`.`notification` (
  `notification_id` INT NOT NULL AUTO_INCREMENT,
