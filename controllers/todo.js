@@ -391,6 +391,14 @@ module.exports.add_to_cart = function(req, res){
 };
 module.exports.get_cart = function(req, res){
     var input=JSON.parse(JSON.stringify(req.body));
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    var year = date.getUTCFullYear();
+    var today = year+''+month+''+day;
     var user = '';
     if(input.user == undefined){
         user=req.session.user_id;
@@ -402,20 +410,20 @@ module.exports.get_cart = function(req, res){
         'GROUP_CONCAT(c.amount SEPARATOR \'; \') as quantities,\n' +
         'GROUP_CONCAT((select size from product where c.product_id = product_id ) SEPARATOR \'; \') as sizes,\n' +
         'GROUP_CONCAT(FORMAT((select price from product where product_id = c.product_id),0) SEPARATOR \'; \')  as prices,\n' +
-        'GROUP_CONCAT(FORMAT((select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date),0) SEPARATOR \'; \')  as discount_prices,\n' +
+        'GROUP_CONCAT(FORMAT((select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date),0) SEPARATOR \'; \')  as discount_prices,\n' +
         'GROUP_CONCAT(\n' +
         'FORMAT(\n' +
         '\tIF(\n' +
-        '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)<>\'NULL\',\n' +
-        '        (select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)*c.amount,\n' +
+        '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)<>\'NULL\',\n' +
+        '        (select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)*c.amount,\n' +
         '        (select price from product where product_id = c.product_id)*c.amount),\n' +
         '\t0) SEPARATOR \'; \') as sums,\n' +
         'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as size_ids,\n' +
         'GROUP_CONCAT((select url from image where c.product_id = product_id and type = 1 group by product_id) SEPARATOR \'; \') as images,\n' +
         'sum(\n' +
         '\tIF(\n' +
-        '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)<>\'NULL\',\n' +
-        '        (select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)*c.amount,\n' +
+        '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)<>\'NULL\',\n' +
+        '        (select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)*c.amount,\n' +
         '        (select price from product where product_id = c.product_id)*c.amount)) as total \n' +
         'from cart c where payment_id = 0  and user_id = '+user+' group by name ;';
 
@@ -555,7 +563,7 @@ module.exports.get_wishlist = function(req, res){
 
     });
 };
-module.exports.add_to_payment = function(req, res){
+module.exports.get_voucher = function(req, res){
     var input=JSON.parse(JSON.stringify(req.body));
     var date = new Date();
     var month = date.getMonth() + 1;
@@ -564,6 +572,39 @@ module.exports.add_to_payment = function(req, res){
     var day  = date.getDate();
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
+    var today = year+''+month+''+day;
+    sql = 'select percent from voucher where code = \''+input.voucher+'\' and effective_date<='+today+' and '+today+'<=expired_date;';
+
+    var con = req.db.driver.db;
+    con.query(sql, function (err, rows) {
+        if(err){
+            var data = {status: 'error', code: '300',error: err};
+            res.json(data);
+        }else{
+            var data = {status: 'success', code: '200',result:rows};
+            if(rows.length == 0){
+                data = {status: 'not exist', code: '404'};
+            }else{
+                var totalAfer = input.total*rows[0].percent/100;
+                data = {status: 'success', code: '200', totalAfter:totalAfer};
+            }
+
+            res.json(data);
+
+        }
+
+    });
+};
+module.exports.add_to_payment = functio n(req, res){
+    var input=JSON.parse(JSON.stringify(req.body));
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    var year = date.getUTCFullYear();
+    var today = year+''+month+''+day;
     var user = '';
     if(input.user == undefined){
         user=req.session.user_id;
@@ -573,10 +614,15 @@ module.exports.add_to_payment = function(req, res){
     var sql = 'select \n' +
         'sum(\n' +
         '\tIF(\n' +
-        '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)<>\'NULL\',\n' +
-        '        (select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)*c.amount,\n' +
-        '        (select price from product where product_id = c.product_id)*c.amount)) as total \n' +
-        'from cart c where payment_id = 0  and user_id = '+user+'  ;';
+        '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)<>\'NULL\',\n' +
+        '        (select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)*c.amount,\n' +
+        '        (select price from product where product_id = c.product_id)*c.amount)) as total ';
+    if((input.voucher != undefined) || input.voucher.trim() != ''){
+        sql += ',(select percent from voucher where code = \''+input.voucher+'\' and effective_date<='+today+' and '+today+'<=expired_date) as percent \n';
+
+    }
+
+    sql+='from cart c where payment_id = 0  and user_id = '+user+'  ;';
     var Sum = 0;
     var promotion = 0;
     var totalAfterPromot = 0
@@ -587,12 +633,17 @@ module.exports.add_to_payment = function(req, res){
             res.json(data);
         }else{
             if(rows.length > 0){
-                totalAfterPromot = rows[0].total;
+                Sum = rows[0].total;
+                if((input.voucher != undefined) || input.voucher.trim() != ''){
+                    promotion = Sum*rows[0].percent/100;
+                }
+
+                totalAfterPromot = Sum-promotion;
                 var sqlIns = 'INSERT INTO `lhc`.`payment`\n' +
                     '(`user_id`,\n' +
                     '`sum`,\n' +
                     '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`,`ship`)\n' +
-                    'VALUES ('+input.user+','+Sum+',1,'+parseInt(year+''+month+''+day)+',\''+input.title+'\',\''+input.pay_type+'\','+'0'+','+totalAfterPromot+',\'N\',\''+input.ship+'\')';
+                    'VALUES ('+input.user+','+Sum+',1,'+parseInt(year+''+month+''+day)+',\''+input.title+'\',\''+input.type+'\','+promotion+','+totalAfterPromot+',\'N\',\''+input.ship+'\')';
                 con.query(sqlIns, function (err, row1s) {
                     if(err){
                         var data = {status: 'error', code: '300',error: err};
@@ -1648,6 +1699,14 @@ module.exports.show_payment=function(req,res){
 };
 module.exports.checkout = function(req, res){
     var input=JSON.parse(JSON.stringify(req.body));
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    var year = date.getUTCFullYear();
+    var today = year+''+month+''+day;
     var user = '';
     if(input.user == undefined){
         user=req.session.user_id;
@@ -1659,20 +1718,19 @@ module.exports.checkout = function(req, res){
         'GROUP_CONCAT(c.amount SEPARATOR \'; \') as quantities,\n' +
         'GROUP_CONCAT((select size from product where c.product_id = product_id ) SEPARATOR \'; \') as sizes,\n' +
         'GROUP_CONCAT(FORMAT((select price from product where product_id = c.product_id),0) SEPARATOR \'; \')  as prices,\n' +
-        'GROUP_CONCAT(FORMAT((select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date),0) SEPARATOR \'; \')  as discount_prices,\n' +
+        'GROUP_CONCAT(FORMAT((select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date),0) SEPARATOR \'; \')  as discount_prices,\n' +
         'GROUP_CONCAT(\n' +
-        'FORMAT(\n' +
         '\tIF(\n' +
-        '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)<>\'NULL\',\n' +
-        '        (select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)*c.amount,\n' +
-        '        (select price from product where product_id = c.product_id)*c.amount),\n' +
-        '\t0) SEPARATOR \'; \') as sums,\n' +
+        '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)<>\'NULL\',\n' +
+        '        (select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)*c.amount,\n' +
+        '        (select price from product where product_id = c.product_id)*c.amount)\n' +
+        '\t SEPARATOR \'; \') as sums,\n' +
         'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as size_ids,\n' +
         'GROUP_CONCAT((select url from image where c.product_id = product_id and type = 1 group by product_id) SEPARATOR \'; \') as images,\n' +
         'sum(\n' +
         '\tIF(\n' +
-        '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)<>\'NULL\',\n' +
-        '        (select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)*c.amount,\n' +
+        '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)<>\'NULL\',\n' +
+        '        (select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)*c.amount,\n' +
         '        (select price from product where product_id = c.product_id)*c.amount)) as total \n' +
         'from cart c where payment_id = 0  and user_id = '+user+' group by name ;';
 
@@ -1685,17 +1743,23 @@ module.exports.checkout = function(req, res){
             sql = 'select firstname,lastname,phone,email,address from user where user_id = ' +user + ';';
             var con = req.db.driver.db;
             con.query(sql, function (err, row1s) {
+                var totalAll = 0;
                 if(row1s.length > 0) {
+                    for(var i = 0 ; i < rows.length ;i++){
+                        totalAll += parseFloat(rows[i].sums);
+                    }
                     var data = {status: 'success', code: '200',result:rows,fname:req.session.firstname,
                         pic:req.session.pic,
                         type:req.session.type,
                         userid:req.session.user_id,
+                        totalAll : totalAll,
                         userdetail : row1s};
                     res.render("payment",data);
                 }else{
                     var data = {status: 'success', code: '200',result:rows,fname:req.session.firstname,
                         pic:req.session.pic,
                         type:req.session.type,
+                        totalAll : totalAll,
                         userid:req.session.user_id};
                     res.render("payment",data);
                 }

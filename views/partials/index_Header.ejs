@@ -265,6 +265,7 @@ function UpdateCart(idx){
         success: function (response) {
             alert(response.status);
             document.getElementById('id03').style.display='none';
+            window.location.reload();
         }
     });
 

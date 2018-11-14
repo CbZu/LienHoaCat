@@ -173,6 +173,7 @@ CREATE TABLE IF NOT EXISTS `lhc`.`promotion` (
   CREATE TABLE IF NOT EXISTS `lhc`.`voucher` (
   `voucher_id` INT NOT NULL AUTO_INCREMENT,
    `code` VARCHAR(255) NULL,
+	`percent` INT NULL,
   `effective_date` INT NULL,
   `expired_date` INT NULL,
   PRIMARY KEY (`voucher_id`));
