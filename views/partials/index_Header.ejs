@@ -50,7 +50,7 @@
 </div>
 
 
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default" style="background-color: #1C1C1C; padding: 10px;">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -64,32 +64,57 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="position: relative;">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="/"><img src="img/LOGO.svg" alt="LienHoaCac" style="width: 80px; margin: auto; padding-top: 10px;"></a>
+                    <a href="/" style="padding: 0px;"><img src="img/logo.png" alt="LienHoaCac" style="width: 80px;padding: 0px;"></a>
                 </li>
             </ul>
-            <div class="row" style="padding: 25px;">
-                <div class="col-sm-8">
+            <div class="row">
+                <div class="col-sm-7">
                     <form class="search" method="GET" action="/search">
                          <div class="form-group">
                             <input style="background-color: white;" type="text" name="topSearchKeyword" id="topSearchKeyword"
                                    placeholder="Tìm kiếm trên Liên Hoa Các..." value="">
                         </div>  
                         <button type="submit" class=""><span class="glyphicon glyphicon-search"></span></button>
+                        
                     </form>
+                    <!-- <a onclick="GetCart(0)">
+                        <button class="btn btn-default btn-lg"  style="margin-left: 5%;">
+                            <span class="glyphicon glyphicon-shopping-cart"></span>
+                        </button>
+                        </a> -->
                 </div>
-                <div class="col-sm-2">
-                    <a class="thumbnail" style="max-width: 75px;" 
-                       onclick="GetCart(0)">
-                        <img src="img/cart.jpg" alt="Go to Cart">
-                    </a>
+                <div class="col-sm-1">
+                    <a onclick="GetCart(0)">
+                        <!-- <button class="btn btn-default btn-lg"  style="margin-left: 5%;">
+                            <span class="glyphicon glyphicon-shopping-cart"></span>
+                        </button> -->
+                        <!-- <h3><span class="glyphicon glyphicon-shopping-cart" style="color: white;"></span></h3> -->
+                        <img src="img/cart.png" class="img-responsive" style="max-width: 50px; margin: 15px 0px 15px 0px;">
+                    </a> 
                 </div>
+                <div class="col-sm-4"></div>
             </div> 
             <ul class="nav navbar-nav navbar-right">
                 
             </ul>
         </div>
     </div>
+    <div class="container">
+        <div class="dropdown">
+            <!-- <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: transparent;">
+            <span class="glyphicon glyphicon-th-list"></span> Menu
+            </button> -->
+            <h3 style="color: white;"><span class="glyphicon glyphicon-th-list"></span> Menu</h3>
+            <ul class="dropdown-menu">
+                    <li> <a href="" data-filter=".folder2" ><h4>TUỔI VÀ MỆNH</h4></a></li>
+                    <li> <a href="" data-filter=".folder3" ><h4>PHONG THỦY</h4></a></li>
+                    <li> <a href="" data-filter=".folder4" ><h4>ĐỜI SỐNG</h4></a></li>
+                    <li> <a href="" data-filter=".folder5" ><h4>DỊCH VỤ</h4></a></li>  
+            </ul>
+        </div>
+    </div>
 </nav>
+
 
 <div class="row">
     <div id="id01" class="modal">

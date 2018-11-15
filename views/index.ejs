@@ -6,7 +6,7 @@
 
 <div class="portfolio">
         <!-- /.container-fluid -->
-    <div class="container-fluid" style="background-color: #1C1C1C;">
+<!--     <div class="container-fluid" style="background-color: #1C1C1C;">
         <div id="menu">
                 <ul>
                     <li> <a href="" data-filter=".folder1" style="color: #FFFFFF; border: 2px solid #FFFFFF"><h3>HOME</h3></a></li>
@@ -21,32 +21,52 @@
                 </ul>
                 <%}%>
         </div>
+    </div> -->
+    <div class="container-fluid">
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="item active">
+                    <a href="https://www.facebook.com/"><img class="center-block" src="img/backgrounds/2.jpg" alt="..."></a>
+                    
+                </div>
+                <div class="item">
+                    <a href="#">
+                    <img class="center-block" src="img/backgrounds/3.jpg" alt="...">        
+                    </a>  
+                </div>
+                <div class="item">
+                    <a href="#">
+                    <img class="center-block" src="img/backgrounds/4.jpg" alt="...">
+                    </a>
+                </div>
+            </div>
+            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>  
+        </div> 
     </div>
     <div class="container-fluid">
 
         <div class="container">
             <!-- all works -->
-            <div class="row">
+             <div class="row">
                 <div class="row">
 
                     <% for(var j = 0 ; j < result.length ; j++){ %>
 
                     <div class="col-xs-6 col-md-4 folder<%= result[j].folder_id %> ">
                             <div class="product">
-                            <!-- <div class="center-block"style="width: 40%;border-bottom: 3px solid #333;" ></div> -->
                             <div class="center-height" style="">
                                 <img src="assets/img/<%= result[j].image %>" class="img-responsive" alt="Responsive image" style="padding: 10px;">
                                 <h2 class="center-block" style="width: 65%; text-align: center;"><%= result[j].cat_name %></h2>
-                                <!-- div class="row center-block" style="width: 65%; padding: 0px">
-                                    <div class="col-md-6" style="padding: 0px;border-right: 1px solid #FFFFFF;">
-                                        <h4 class="center-block" style="text-align: center; color: #ffffff;">Chất liệu</h4>
-                                        <p class="center-block" style="text-align: center; line-height: 0px; color: #ffffff; font-size: 80%">Đá tự nhiên</p>
-                                    </div>                      
-                                    <div class="col-md-6" style="padding: 0px">
-                                        <h4 class="center-block" style="text-align: center; color: #ffffff">Giá SP</h4>
-                                        <p class="center-block" style="text-align: center; line-height: 0px; color: #ffffff; font-size: 80%">200.000đ</p>                                       
-                                    </div>          
-                                </div> -->
                                 <a href="/maintenance-prd?catflt=<%= result[j].cat_name %>&catId=<%= result[j].cat_id %>" class="portfolio_item work-grid"style="width: 90%; color: #B28D34;font-weight: bold; margin-bottom: 10px;overflow: hidden; margin-top: 20px;">
                                     <button type="button" class="btn btn-default center-block">
                                              Xem Thêm                                        
@@ -55,17 +75,15 @@
                             </div>
                             </div>
                     </div>
-
                     <% } %>
                 </div>
-                <!-- end row -->
             </div>
             <!-- all works end -->
             <!-- Modal -->
             <% if(type == 1){ %>
-                    <div class="row" style="margin: 20px;">
+                    <div class="row">
                         <div class="col-xs-6 col-md-4">
-                            <img class="img-responsive thumbnail center-block" src="assets/img/accounts.jpg">
+                            <img class="img-responsive thumbnail center-block" src="assets/img/accounts.jpg" style="max-width: 100px">
                             <a href="maintenance" class="portfolio_item work-grid">
                                 <button class="btn btn-info center-block">                                
                                         Tài khoản                                
@@ -73,7 +91,7 @@
                             </a>
                         </div>
                         <div class="col-xs-6 col-md-4">
-                            <img class="img-responsive thumbnail center-block" src="assets/img/payment.jpg">
+                            <img class="img-responsive thumbnail center-block" src="assets/img/payment.jpg" style="max-width: 100px">
                             <a href="show-payment" class="portfolio_item work-grid">
                                 <button class="btn btn-info center-block">                                
                                         Đơn Hàng
@@ -81,7 +99,7 @@
                             </a>
                         </div>
                         <div class="col-xs-6 col-md-4">
-                            <img class="img-responsive thumbnail center-block" src="assets/img/accounts.jpg">
+                            <img class="img-responsive thumbnail center-block" src="assets/img/accounts.jpg" style="max-width: 100px">
                             <a href="/maintenance-cat" class="portfolio_item work-grid">
                                 <button class="btn btn-info center-block">                                
                                     Thư Mục                                

@@ -595,7 +595,7 @@ module.exports.get_voucher = function(req, res){
 
     });
 };
-module.exports.add_to_payment = functio n(req, res){
+module.exports.add_to_payment = function(req, res){
     var input=JSON.parse(JSON.stringify(req.body));
     var date = new Date();
     var month = date.getMonth() + 1;

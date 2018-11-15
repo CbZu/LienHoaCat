@@ -4,63 +4,75 @@
 <body>
 <div class="container">
     <div class="container solid-content">
-        <p>Thông tin sản phẩm</p>
+        <h3>Thông tin sản phẩm</h3>
 
-            <div id="cartdetail" class = "row">
+            <div id="cartdetail" class = "row">                
+                <table class="table table-bordered">
+                    <thead>
+                        <th class="text-right" style="text-align: center;"><h3>Tên sản phẩm</h3></th>
+                        <th class="text-right" style="text-align: center;"><h3>Size</h3></th>
+                        <th class="text-right" style="text-align: center;"><h3>Giá sản phẩm</h3></th>
+                        <th class="text-right" style="text-align: center;"><h3>Số Lượng</h3></th>
+                        <th class="text-right" style="text-align: center;"><h3>Thành Tiền</h3></th>
+                        <!-- <td ><h4 style="text-align: center;">Size</h4></td>
+                        <td class="text-right"><h4 style="text-align: center;"></h4></td>
+                        <td class="text-right"><h4 style="text-align: center;"></h4></td>
+                        <td class="text-right"><h4 style="text-align: center;"></h4></td> -->
+                    </thead>
                 <% for (var i = 0; i < result.length; i++) { %>
-                <div class="row">
-                    <h2><%= result[i].name %></h2>
-                </div>
-                <table class="row table table-condensed form-group">
                     <tbody>
-                    <tr>
-                        <td class="text-right"><h4 style="text-align: center;">Size</h4></td>
-                        <td class="text-right"><h4 style="text-align: center;">Giá sản phẩm</h4></td>
-                        <td class="text-right"><h4 style="text-align: center;">Số Lượng</h4></td>
-                        <td class="text-right"><h4 style="text-align: center;">Thành Tiền</h4></td>
-                    </tr>
                     <% for (var j = 0; j < result[i].sizes.split(';').length; j++) { %>
                     <tr>
                         <td class="text-center">
-                            <input id='size_id' class="booking-item-title size_id_header"
-                                   style="text-align: center;border: none; background-color: transparent" disabled
-                                   value="<%= result[i].sizes.split(';')[j] %>"></input>
+                            <%= result[i].name %>
+                            <!-- <input id='size_id' class="booking-item-title size_id_header"
+                                   style="text-align: center; background-color: transparent" disabled
+                                   value="<%= result[i].name %>"></input> -->
+                        </td>
+                        <td class="text-center">
+                            <%= result[i].sizes.split(';')[j] %>
+                            <!-- <input id='size_id' class="booking-item-title size_id_header"
+                                   style="text-align: center; background-color: transparent" disabled
+                                   value="<%= result[i].sizes.split(';')[j] %>"></input> -->
                         </td>
 
                         <td class="text-center">
                             <% if(result[i].disct_prices == null) { %>
-                            <label style=" text-align: center"><font
-                                        color="black"><%= result[i].prices.split(';')[j] %> </font></label>
+                            <%= result[i].prices.split(';')[j] %>
+                            <!-- <label style=" text-align: center"><font
+                                        color="black"><%= result[i].prices.split(';')[j] %> </font></label> -->
                             <% }else { %>
-                            <label style="text-decoration:line-through ; text-align: center"><font
+                            <%= result[i].disct_prices.split(';')[j] %>
+                            <!-- <label style="text-decoration:line-through ; text-align: center"><font
                                         color="black"><%= result[i].prices.split(';')[j] %></font></label>-><label style=" text-align: center"><font
-                                        color="red"><%= result[i].disct_prices.split(';')[j] %></font></label>
+                                        color="red"><%= result[i].disct_prices.split(';')[j] %></font></label> -->
                             <% } %>
                         </td>
-                        <td class="text-center">
-                            <input id='quantity' class="form-control booking-item-title quantity_header"
-                                   value='<%=result[i].quantities.split(';')[j].trim()%>' type="number" min="1" max=""
-                                   step="1" autocomplete="off" height="100%" width="50%">
+                        <td >
+                            <input id="quantity" class="center-block form-control booking-item-title quantity_header"
+                                   value="<%=result[i].quantities.split(';')[j].trim()%>" type="number" min="1" max=""
+                                   step="1" autocomplete="off" style="width: 50%;">
 
                         </td>
                         <td class="text-center">
-                            <input class="booking-item-title"
-                                   style="text-align: center;border: none; background-color: transparent" disabled
-                                   value="<%= result[i].sums.split(';')[j] %>">
+                            <%= result[i].sums.split(';')[j] %>
+                            <!-- <input class="booking-item-title"
+                                   style="text-align: center; background-color: transparent" disabled
+                                   value=""> -->
 
                         </td>
                     </tr>
                     <% } %>
-                    <tr>
+<!--                     <tr>
                         <td class="text-center"><h4 style="text-align: center;"></h4></td>
                         <td class="text-center"><h4 style="text-align: center;"></h4></td>
                         <td class="text-center"><h4 style="text-align: center;"></h4></td>
-                        <td class="text-center"><h4 style="text-align: center;">Tổng Tièn</h4></td>
+                        <td class="text-center"><h4 style="text-align: center;">Tổng Tiền</h4></td>
                         <td class="text-center"><h4 style="text-align: center;"><%= result[i].total %></h4></td>
-                    </tr>
+                    </tr> -->
                     </tbody>
+                     <% } %>
                 </table>
-                <% } %>
             </div>
 
 
@@ -72,7 +84,7 @@
     <div class="col-sm-7">
 
         <div class="row solid-content">
-            <h5>Hình thức giao hàng</h5>
+            <h3>Hình thức giao hàng</h3>
             <div class="col-md-3">
                 <a  class="thumbnail" onclick="Ship('1')">
                     <img src="img/delivery_form/giaohangtietkiem.png" alt="...">
@@ -91,7 +103,7 @@
         </div>
         <div class="row solid-content">
 
-            <p>Hình thức thanh toán</p>
+            <h3>Hình thức thanh toán</h3>
             <div class="col-md-3">
                 <a  class="thumbnail" onclick="Type('1')">
                     <img src="img/payment_method/cash.jpg" alt="...">
@@ -115,12 +127,12 @@
         <%}%>
         <h4>Số sản phẩm</h4>
         <h4>Phí vận chuyển</h4>
-
-            <div class="form-group has-success has-feedback">
+        <div class="row">
+            <div class="col-sm-8 form-group has-success has-feedback">
                 <input type="text" class="form-control"  onkeyup="CheckVoucher()" id="voucher" placeholder="Mã giảm giá">
             </div>
-            <button class="btn btn-success">Áp dụng</button>
-
+            <button class="col-sm-4 btn btn-success">Áp dụng</button>
+        </div>
         <h3>Tổng cộng: </h3>
         <h2 id = "totalLabel" class="fa-money"><%=totalAll%></h2>
     </div>
