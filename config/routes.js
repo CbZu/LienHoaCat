@@ -68,6 +68,8 @@ module.exports=function(app,controllers){
     app.post('/update-promote',controllers.todo.update_promote);
     app.get('/show-payment', controllers.todo.show_payment);
     app.get('/checkout', controllers.todo.checkout);
+    app.post('/app-work', controllers.todo.app_phongthuy);
+    app.get('/app-phongthuy', controllers.todo.app_phongthuy);
 
     /*app.get('/register',controllers.account.register);
 

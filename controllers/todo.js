@@ -1771,3 +1771,56 @@ module.exports.checkout = function(req, res){
     });
 };
 
+module.exports.app_phongthuy = function (req, res) {
+    var input=JSON.parse(JSON.stringify(req.body));
+    var YearOfBirth = input.year;
+    if (YearOfBirth==undefined){
+        var data = {status: 'init', code: '200',fname:req.session.firstname,
+            pic:req.session.pic,
+            type:req.session.type,
+            userid:req.session.user_id,
+            userid:req.session.user_id};
+        res.render("app-phong-thuy",data);
+    } else {
+        var sql = 'select can.CAN, can.`AC`, chi.CHI, chi.PHATHOMENH, chi.`BC` from can, chi where can.a=' + YearOfBirth%10 +' and chi.b=' + YearOfBirth%12 + ';';
+        var con = req.db.driver.db;
+        con.query(sql, function (err, rows) {
+            if(err){
+                var data = {status: 'error', code: '300',error: err};
+                res.json(data);
+            } else{
+                var tuoi = '';
+                var phathomenh = '';
+                var c=0;
+                for(var i = 0 ; i < rows.length ;i++){
+                    tuoi = rows[i].CAN + ' ' + rows[i].CHI;
+                    phathomenh = rows[i].PHATHOMENH;
+                    c = (rows[i].AC + rows[i].BC)%5;
+                }
+                sql1 = 'select MANG from mang where id = ' + c + ';';
+                var con = req.db.driver.db;
+                con.query(sql1, function (err, row1s) {
+                    if(err){
+                        var data = {status: 'error', code: '300',error: err};
+                        res.json(data);
+                    } else{
+                        var mang = '';
+                        mang = row1s[0].MANG;
+                        var data = {status: 'success', code: '200',fname:req.session.firstname,
+                            pic:req.session.pic,
+                            type:req.session.type,
+                            userid:req.session.user_id,
+                            tuoi : tuoi,
+                            phathomenh : phathomenh,
+                            mang : mang,
+                            year : YearOfBirth,
+                            b : YearOfBirth%12,
+                            c : c,
+                            userid:req.session.user_id};
+                        res.render("app-phong-thuy",data);
+                    }
+                });
+            }
+        });
+    }
+}

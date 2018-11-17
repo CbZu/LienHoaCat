@@ -20,49 +20,54 @@
     </div> -->
 </div>
 <div class="container-fluid">
-    <ul class="nav nav-tabs nav-justified" style="padding: 15px; float: right; max-width: 20%; min-width: 300px;">
-        <li>
+    <div class="nav nav-tabs nav-justified" style="padding: 5px; float: right; max-width: 20%; min-width: 300px;">
             <% if(fname != undefined){ %>
-            <div>
+            <div class="col-sm-2">
                 <a href="/edit-account">
                     <img class="img-circle origin" src="img/40x40.png" alt="Image Alternative text"
                     title="AMaze"/>
                 </a>
             </div>
             <% } %>
-        </li>
-        <li>
             <% if(fname != undefined){ %>
+            <div class="col-sm-3">
             <h5>Hi, <%=fname%></h5>
+            </div>
             <% } %>
-        </li>
-        <li>
-
+            
             <% if(type != undefined){%>
-            <a class="btn btn-success" style="min-width: 100px;" href="/logout"><p style="color: white;">Đăng Xuất</p></a>
+            <div class="col-sm-2" style="padding: 5px;">
+            <a style="min-width: 100px;" href="/logout">
+                <button class="btn btn-success btn-sm">Đăng Xuất
+                </button>
+            </a>
+            </div>
             <% } %>
 
             <% if(type == undefined){%>
-            <a class="btn btn-success " onclick="document.getElementById('id01').style.display='block'"><p style="color: white;">Đăng nhập</p></a>
+            <a onclick="document.getElementById('id01').style.display='block'">
+                <button class="btn btn-success btn-sm">
+                    Đăng nhập
+                </button>
+            </a>
             <% } %> 
-        </li>
-    </ul>
+    </div>
 </div>
 
 
-<nav class="navbar navbar-default" style="background-color: #1C1C1C; padding: 10px;">
+<nav class="navbar navbar-defaul" style="background-color: #1C1C1C; padding: 10px;">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
+                    <span class="glyphicon glyphicon-align-justify" style="color: white"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
         </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="position: relative;">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav nav-hover">
                 <li>
                     <a href="/" style="padding: 0px;"><img src="img/logo.png" alt="LienHoaCac" style="width: 80px;padding: 0px;"></a>
                 </li>
