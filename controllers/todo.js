@@ -617,7 +617,7 @@ module.exports.add_to_payment = function(req, res){
         '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)<>\'NULL\',\n' +
         '        (select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)*c.amount,\n' +
         '        (select price from product where product_id = c.product_id)*c.amount)) as total ';
-    if((input.voucher != undefined) || input.voucher.trim() != ''){
+    if((input.voucher != undefined)){
         sql += ',(select percent from voucher where code = \''+input.voucher+'\' and effective_date<='+today+' and '+today+'<=expired_date) as percent \n';
 
     }
@@ -634,7 +634,8 @@ module.exports.add_to_payment = function(req, res){
         }else{
             if(rows.length > 0){
                 Sum = rows[0].total;
-                if((input.voucher != undefined) || input.voucher.trim() != ''){
+                if((input.voucher != undefined)){
+                    if(rows[0].percent!='NULL')
                     promotion = Sum*rows[0].percent/100;
                 }
 
@@ -643,18 +644,24 @@ module.exports.add_to_payment = function(req, res){
                     '(`user_id`,\n' +
                     '`sum`,\n' +
                     '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`,`ship`)\n' +
-                    'VALUES ('+input.user+','+Sum+',1,'+parseInt(year+''+month+''+day)+',\''+input.title+'\',\''+input.type+'\','+promotion+','+totalAfterPromot+',\'N\',\''+input.ship+'\')';
+                    'VALUES ('+user+','+Sum+',1,'+parseInt(year+''+month+''+day)+',\'\',\''+input.type+'\','+promotion+','+totalAfterPromot+',\'N\',\''+input.ship+'\')';
                 con.query(sqlIns, function (err, row1s) {
                     if(err){
                         var data = {status: 'error', code: '300',error: err};
                         res.json(data);
                     }else{
-                        var sqlUpdate = 'update cart set payment_id = '+row1s.insertId+' where user_id = '+input.user+' and payment_id = 0;';
-                        con.query(sqlUpdate, function (err, row2s) {
+                        var sqlGet = 'select * from cart where user_id = '+user+' and payment_id = 0;'
+
+                        con.query(sqlGet, function (err, rowsCart) {
                             if(err){
                                 var data = {status: 'error', code: '300',error: err};
                                 res.json(data);
                             }else{
+                                for(var i = 0 ; i < rowsCart.length ; i++){
+                                    var sqlUpdate = 'update cart set payment_id = '+row1s.insertId+',disct_price = (select disct_price from discount where product_id = '+rowsCart[i].product_id+' and effective_date<='+today+' and '+today+'<=expired_date)' +
+                                        ', price = (select price from product where product_id = '+rowsCart[i].product_id+') where user_id = '+user+' and payment_id = 0 and product_id = '+rowsCart[i].product_id+';';
+                                    con.query(sqlUpdate);
+                                }
                                 var data = {status: 'success', code: '200',results:rows,Sum:Sum, payment_id:row1s.insertId};
                                 res.json(data);
                             }
@@ -1143,27 +1150,47 @@ module.exports.update_promote_API = function(req, res){
 }
 module.exports.payment_detail = function(req, res){
     if(req.session.type==1){
-        var sql = 'select \n' +
+        var input=JSON.parse(JSON.stringify(req.body));
+        var date = new Date();
+        var month = date.getMonth() + 1;
+        month = (month < 10 ? "0" : "") + month;
+
+        var day  = date.getDate();
+        day = (day < 10 ? "0" : "") + day;
+        var year = date.getUTCFullYear();
+        var today = year+''+month+''+day;
+        var user = '';
+        if(input.user == undefined){
+            user=req.session.user_id;
+        }else{
+            user=input.user;
+        }
+        var sql = 'select c.payment_id,\n' +
             '(select name from product where c.product_id = product_id ) as name,\n' +
             'GROUP_CONCAT(c.amount SEPARATOR \'; \') as quantities,\n' +
             'GROUP_CONCAT((select size from product where c.product_id = product_id ) SEPARATOR \'; \') as sizes,\n' +
-            'GROUP_CONCAT(FORMAT((select price from product where product_id = c.product_id),0) SEPARATOR \'; \')  as prices,\n' +
-            'GROUP_CONCAT(FORMAT((select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date),0) SEPARATOR \'; \')  as disct_prices,\n' +
+            'GROUP_CONCAT(FORMAT(c.price,0) SEPARATOR \'; \')  as prices,\n' +
+            'GROUP_CONCAT(FORMAT(c.disct_price,0) SEPARATOR \'; \')  as discount_prices,\n' +
             'GROUP_CONCAT(\n' +
-            'FORMAT(\n' +
             '\tIF(\n' +
-            '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)<>\'NULL\',\n' +
-            '        (select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)*c.amount,\n' +
-            '        (select price from product where product_id = c.product_id)*c.amount),\n' +
-            '\t0) SEPARATOR \'; \') as sums,\n' +
+            '\t\tc.disct_price<>\'NULL\',\n' +
+            '        c.disct_price*c.amount,\n' +
+            '        c.price*c.amount)\n' +
+            '\t SEPARATOR \'; \') as sums,\n' +
             'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as size_ids,\n' +
             'GROUP_CONCAT((select url from image where c.product_id = product_id and type = 1 group by product_id) SEPARATOR \'; \') as images,\n' +
+            '(select status_id from payment where payment_id = c.payment_id ) as status_id,\n' +
+            '(select sum from payment where payment_id = c.payment_id ) as paymentSum,\n' +
+            '(select promotion from payment where payment_id = c.payment_id ) as promotion,\n' +
+            '(select ship from payment where payment_id = c.payment_id ) as ship,\n' +
+            '(select pay_type from payment where payment_id = c.payment_id ) as pay_type,\n' +
+            '(select total from payment where payment_id = c.payment_id ) as paymentTotal,\n' +
             'sum(\n' +
             '\tIF(\n' +
-            '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)<>\'NULL\',\n' +
-            '        (select disct_price from discount where product_id = c.product_id and effective_date<=20181111 and 20181111<=expired_date)*c.amount,\n' +
-            '        (select price from product where product_id = c.product_id)*c.amount)) as total \n' +
-            'from cart c where payment_id = '+req.query.id+' group by name ;';
+            '\t\tc.disct_price <>\'NULL\',\n' +
+            '        c.disct_price *c.amount,\n' +
+            '        c.price*c.amount)) as total \n' +
+            'from cart c where payment_id = '+req.query.id+'  and user_id = '+user+' group by name ;';
 
         var con = req.db.driver.db;
         con.query(sql, function (err, rows) {
@@ -1171,11 +1198,28 @@ module.exports.payment_detail = function(req, res){
                 var data = {status: 'error', code: '300',error: err};
                 res.json(data);
             }else{
-                var sql = 'select * from payment where payment_id ='+req.query.id+';';
+                sql = 'select firstname,lastname,phone,email,address from user where user_id = ' +user + ';';
+                var con = req.db.driver.db;
                 con.query(sql, function (err, row1s) {
-                    if(!err){
-                        var data = {status: 'success', code: '200',result:rows, payment:row1s[0]};
-                        res.render('payment_detail',data);
+                    var totalAll = 0;
+                    if(row1s.length > 0) {
+                        for(var i = 0 ; i < rows.length ;i++){
+                            totalAll += parseFloat(rows[i].sums);
+                        }
+                        var data = {status: 'success', code: '200',result:rows,fname:req.session.firstname,
+                            pic:req.session.pic,
+                            type:req.session.type,
+                            userid:req.session.user_id,
+                            totalAll : totalAll,
+                            userdetail : row1s,treefolder:req.session.treefolder};
+                        res.render("payment_detail",data);
+                    }else{
+                        var data = {status: 'success', code: '200',result:rows,fname:req.session.firstname,
+                            pic:req.session.pic,
+                            type:req.session.type,
+                            totalAll : totalAll,
+                            userid:req.session.user_id,treefolder:req.session.treefolder};
+                        res.render("payment_detail",data);
                     }
                 });
 
@@ -1222,7 +1266,8 @@ module.exports.product_detail = function(req, res){
                                     ,image:row2s
                                     ,fname:req.session.firstname
                                     ,type:req.session.type
-                                    ,userid:req.session.user_id};
+                                    ,userid:req.session.user_id
+                                    ,treefolder:req.session.treefolder};
                                 res.render('product-detail',data);
                             }
                         });
@@ -1247,7 +1292,15 @@ module.exports.create_prd=function(req,res){
             var data = {status: 'error', code: '300',error: err};
             res.json(data);
         }else{
-            var data={title:req.session.firstname+' | Product Creation',fname:req.session.firstname,dateFormat:dateFormat,pic:req.session.pic,type:req.session.type,category:rows,catflt : req.query.cat,catId:req.query.catId}
+            var data={title:req.session.firstname+' | Product Creation',
+                fname:req.session.firstname,
+                dateFormat:dateFormat,
+                pic:req.session.pic,
+                type:req.session.type,
+                category:rows,
+                catflt : req.query.cat,
+                catId:req.query.catId,
+                treefolder:req.session.treefolder}
             res.render('product-creation',data);
         }
 
@@ -1300,10 +1353,10 @@ module.exports.maintenance_prd = function(req, res){
                 res.json(data);
             }else{
                 if(req.query.catflt != undefined && req.query.catflt != '' ){
-                    var data = {status: 'success', code: '200',result:rows,catflt:req.query.catflt,catId:req.query.catId,fname:req.session.firstname,type:req.session.type};
+                    var data = {status: 'success', code: '200',result:rows,catflt:req.query.catflt,catId:req.query.catId,fname:req.session.firstname,type:req.session.type,treefolder:req.session.treefolder};
                     res.render('products',data);
                 }else{
-                    var data = {status: 'success', code: '200',result:rows,cat:'undefined',catId:'undefined'};
+                    var data = {status: 'success', code: '200',result:rows,cat:'undefined',catId:'undefined',treefolder:req.session.treefolder};
                     res.render('products',data);
                 }
 
@@ -1329,7 +1382,7 @@ module.exports.maintenance_cat = function(req, res){
                     '(select folder_name from treefolder where folder_id = c.folder_id) as folder_name\n' +
                     'from lhc.category c order by folder_id asc';
                 con.query(sql, function (err, row1s) {
-                    var data = {status: 'success', code: '200',tree:rows, result:row1s,fname:req.session.firstname,type:req.session.type};
+                    var data = {status: 'success', code: '200',tree:rows, result:row1s,fname:req.session.firstname,type:req.session.type,treefolder:req.session.treefolder};
                     res.render('categories',data);
                 });
 
@@ -1692,7 +1745,7 @@ module.exports.show_payment=function(req,res){
              payments:rows,
              pic:req.session.pic,
              type:req.session.type,
-             userid:req.session.user_id};
+             userid:req.session.user_id,treefolder:req.session.treefolder};
          res.render('show_payment',data);
 
      });
@@ -1753,14 +1806,14 @@ module.exports.checkout = function(req, res){
                         type:req.session.type,
                         userid:req.session.user_id,
                         totalAll : totalAll,
-                        userdetail : row1s};
+                        userdetail : row1s,treefolder:req.session.treefolder};
                     res.render("payment",data);
                 }else{
                     var data = {status: 'success', code: '200',result:rows,fname:req.session.firstname,
                         pic:req.session.pic,
                         type:req.session.type,
                         totalAll : totalAll,
-                        userid:req.session.user_id};
+                        userid:req.session.user_id,treefolder:req.session.treefolder};
                     res.render("payment",data);
                 }
 
@@ -1779,7 +1832,7 @@ module.exports.app_phongthuy = function (req, res) {
             pic:req.session.pic,
             type:req.session.type,
             userid:req.session.user_id,
-            userid:req.session.user_id};
+            userid:req.session.user_id,treefolder:req.session.treefolder};
         res.render("app-phong-thuy",data);
     } else {
         var sql = 'select can.CAN, can.`AC`, chi.CHI, chi.PHATHOMENH, chi.`BC` from can, chi where can.a=' + YearOfBirth%10 +' and chi.b=' + YearOfBirth%12 + ';';
@@ -1816,7 +1869,8 @@ module.exports.app_phongthuy = function (req, res) {
                             year : YearOfBirth,
                             b : YearOfBirth%12,
                             c : c,
-                            userid:req.session.user_id};
+                            userid:req.session.user_id
+                            ,treefolder:req.session.treefolder};
                         res.render("app-phong-thuy",data);
                     }
                 });

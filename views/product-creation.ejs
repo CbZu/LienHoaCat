@@ -5,7 +5,7 @@
 <div class="container body-content">
     <div class="row">
         <ol class="breadcrumb">
-            <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="/maintenance-prd?catflt=<%=catflt%>"> <%=catflt%></a> / <a href="#">Tạo Sản Phẩm</a>
+            <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="/maintenance-prd?catflt=<%=catflt%>&catId=<%=catId%>"> <%=catflt%></a> / <a href="#">Tạo Sản Phẩm</a>
         </ol>
 
     </div>
@@ -44,31 +44,41 @@
                                     <button class="btn btn-danger" id='insertBtn' onclick='insert()'>+</button>
                                 </div>
                             </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary" id = "add" onclick="Add()">Add</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <a class="btn btn-primary" href = "/" >Cancel</a>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="tab-pane fade" id="profile">
                             <div class="col-md-8"><h3>Tên Dịch Vụ</h3></div>
                             <div class="row center-block">
                                 <div class="col-md-8">
-                                    <input class="col-md-8 form-control" type="text" id="name" onkeyup="CheckPrd()" value=""></input>  
+                                    <input class="col-md-8 form-control" type="text" id="nameDV" onkeyup="CheckPrd()" value=""></input>
                                 </div>
                                 <div class="col-md-4">
                                     <input class="form-control newImgDv"  id = 'newImgDv' type = 'file' value = ''>
                                 </div>
-                            </div>                            
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary" id = "add" onclick="AddDV()">Add</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <a class="btn btn-primary" href = "/" >Cancel</a>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
                 </div>
-                <br>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <button class="btn btn-primary" id = "add" onclick="Add()">Add</button>
-                        </div>
-                        <div class="col-md-2">
-                            <a class="btn btn-primary" href = "/" >Cancel</a>
-                        </div>
-                    </div>
+
             </div>
 
         </div>
@@ -341,7 +351,126 @@
     function OpenModal(){
         document.getElementById('myModal').style.display = 'block';
     }
+    function AddDV() {
+        var formdata = new FormData();
+        var obj =$("#name");
+        $(".error").remove();
+        $.ajax({
+            type: "POST",
+            url: "./ajax/checkProduct",
+            data: "mode=check_email&name=" + obj.val(),
+            success: function (msg) {
+                //alert(msg);
+                data = msg;
+                if (data.status == 'exist') {
+                    obj.after("<label class='error'>Product Name Aleady Exist</label>");
+                    document.getElementById('add').style.display = 'none'
+                    return;
+                }
+                else {
+                    document.getElementById('add').style.display = 'block'
+                }
+            }
+        });
 
+        var input = document.getElementsByClassName("form-control newImgDv")
+        for (var i = 0; i < input.length; i++) {
+            formdata.append('upfiles', input[i].files[0]);
+
+        }
+        var allElements = document.getElementsByTagName("input");
+        var sizes = new Array();
+        var prices = new Array();
+        var disct_prices = new Array();
+        var codes = new Array();
+        var description = document.getElementById("description").value;
+        formdata.append('description', description);
+        var name = document.getElementById("nameDV").value;
+        formdata.append('name', name);
+        var category = '<%= catId %>';
+        formdata.append('category', category);
+        for (var i = 0; i < allElements.length; i++) {
+            if (allElements[i].id == 'newSize') {
+                sizes.push(allElements[i].value);
+            }
+            if (allElements[i].id == 'newPrice') {
+                prices.push(allElements[i].value);
+            }
+            if (allElements[i].id == 'newDisc') {
+                if(allElements[i].value.trim()=='0'){
+                    disct_prices.push(allElements[i].value);
+                }else{
+                    if(document.getElementById('expiredDate').value.trim() == ''){
+                        document.getElementById('modalExpired').style.display = 'block';
+                        return false;
+                    }else{
+                        disct_prices.push(allElements[i].value);
+                    }
+                }
+
+            }
+            if (allElements[i].id == 'newCode') {
+                codes.push(allElements[i].value);
+            }
+        }
+        var expd = document.getElementById('expiredDate').value;
+        formdata.append('expired_date', expd.replace(/-/g, ""));
+        formdata.append('Sizes', sizes);
+        formdata.append('Prices', prices);
+        formdata.append('Discounts', disct_prices);
+        formdata.append('Codes', codes);
+
+
+        $.ajax({
+            url: './ajax/addProduct',
+            type: 'POST',
+            data: formdata,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                $.ajax({
+                    type: "POST",
+                    url: "./PetMart/remove",
+                    data: "path=" + response.path,
+                    success: function (msg) {
+                        //alert(msg);
+                        data = msg;
+
+                        location.reload();
+
+                    }
+                });
+            }
+        });
+
+
+        /*$.ajax({
+            type: "POST",
+            url: "./ajax/addProduct",
+            data: "mode=data&Sizes=" + sizes+"&Prices="+prices+"&Discounts="+disct_prices+"&description="+description+"&name="+name+"&category="+category+"&Codes="+codes+"&Images="+images,
+            success: function (msg) {
+                //alert(msg);
+                data = msg;
+                $.ajax({
+                    type: "POST",
+                    url: "./ajax/addProduct",
+                    data: "mode=data&Ids="+data.ids+"&Images="+images,
+                    success: function (msg) {
+                        //alert(msg);
+                        data = msg;
+
+                        location.reload();
+
+                    }
+                });
+                location.reload();
+
+            }
+        });*/
+    }
 </script>
 <script>
 

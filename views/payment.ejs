@@ -78,7 +78,6 @@
 
 
     </div>
-    <form class="form-horizontal" action="/PetMart/add-to-payment" method="POST" style="padding-top: 20px">
         <input id = "ship" style="display: none" value = '0'>
         <input id = "type" style="display: none" value = '0'>
     <div class="col-sm-7">
@@ -105,7 +104,7 @@
 
             <h3>Hình thức thanh toán</h3>
             <div class="col-md-3">
-                <a  class="thumbnail" onclick="Type('1')">
+                <a  class="thumbnail"  onclick="Type('1')">
                     <img src="img/payment_method/cash.jpg" alt="...">
                 </a>
             </div>
@@ -143,10 +142,28 @@
         <button class="btn btn-info col-sm-2" type="button" onclick="UpdateCart()">
             Cập Nhật Giỏ
         </button>
-        <button type="submit"  class="btn btn-success col-sm-2">
+        <button onclick="CheckOut()"  class="btn btn-success col-sm-2">
             Thanh Toán
         </button>
-    </form>
+</div>
+<div class="row">
+    <div id="idSuccess" class="modal">
+        <div class="container popup animate">
+            <div style="padding-top: 75px;">
+                <span onclick="document.getElementById('id03').style.display='none'" class="close"
+                      title="Close Modal">&times;</span>
+                <img src="img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
+            </div>
+            <div style="padding-top: 75px;">
+                <span onclick="document.getElementById('id03').style.display='none'" class="close"
+                      title="Close Modal">&times;</span>
+                <img src="assets/img/success.jpg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
+            </div>
+            <a href="/" class="btn btn-success col-sm-2">
+                OK
+            </a>
+        </div>
+    </div>
 </div>
 </body>
 <script>
@@ -179,7 +196,31 @@
             }
         });
     }
+    function CheckOut(){
+        var formdata = new FormData();
+        formdata.append('ship', ship);
+        formdata.append('type', type);
+        if(document.getElementsByClassName('error').length == 0){
+            formdata.append('voucher', $("#voucher").val());
+        }
 
+        $.ajax({
+            url: './PetMart/add-to-payment',
+            type: 'POST',
+            data: formdata,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                if(response.code == '200'){
+                    document.getElementById('idSuccess').style.display = 'block';
+                }
+            }
+        });
+
+    }
 </script>
 <% include partials/index_Footer.ejs %>
 </html>

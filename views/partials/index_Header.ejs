@@ -20,54 +20,49 @@
     </div> -->
 </div>
 <div class="container-fluid">
-    <div class="nav nav-tabs nav-justified" style="padding: 5px; float: right; max-width: 20%; min-width: 300px;">
+    <ul class="nav nav-tabs nav-justified" style="padding: 15px; float: right; max-width: 20%; min-width: 300px;">
+        <li>
             <% if(fname != undefined){ %>
-            <div class="col-sm-2">
+            <div>
                 <a href="/edit-account">
                     <img class="img-circle origin" src="img/40x40.png" alt="Image Alternative text"
-                    title="AMaze"/>
+                         title="AMaze"/>
                 </a>
             </div>
             <% } %>
+        </li>
+        <li>
             <% if(fname != undefined){ %>
-            <div class="col-sm-3">
             <h5>Hi, <%=fname%></h5>
-            </div>
             <% } %>
-            
+        </li>
+        <li>
+
             <% if(type != undefined){%>
-            <div class="col-sm-2" style="padding: 5px;">
-            <a style="min-width: 100px;" href="/logout">
-                <button class="btn btn-success btn-sm">Đăng Xuất
-                </button>
-            </a>
-            </div>
+            <a class="btn btn-success" style="min-width: 100px;" href="/logout"><p style="color: white;">Đăng Xuất</p></a>
             <% } %>
 
             <% if(type == undefined){%>
-            <a onclick="document.getElementById('id01').style.display='block'">
-                <button class="btn btn-success btn-sm">
-                    Đăng nhập
-                </button>
-            </a>
-            <% } %> 
-    </div>
+            <a class="btn btn-success " onclick="document.getElementById('id01').style.display='block'"><p style="color: white;">Đăng nhập</p></a>
+            <% } %>
+        </li>
+    </ul>
 </div>
 
 
-<nav class="navbar navbar-defaul" style="background-color: #1C1C1C; padding: 10px;">
+<nav class="navbar navbar-default" style="background-color: #1C1C1C; padding: 10px;">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="glyphicon glyphicon-align-justify" style="color: white"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
         </div>
-    <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="position: relative;">
-            <ul class="nav navbar-nav nav-hover">
+            <ul class="nav navbar-nav">
                 <li>
                     <a href="/" style="padding: 0px;"><img src="img/logo.png" alt="LienHoaCac" style="width: 80px;padding: 0px;"></a>
                 </li>
@@ -75,12 +70,12 @@
             <div class="row">
                 <div class="col-sm-7">
                     <form class="search" method="GET" action="/search">
-                         <div class="form-group">
+                        <div class="form-group">
                             <input style="background-color: white;" type="text" name="topSearchKeyword" id="topSearchKeyword"
                                    placeholder="Tìm kiếm trên Liên Hoa Các..." value="">
-                        </div>  
+                        </div>
                         <button type="submit" class=""><span class="glyphicon glyphicon-search"></span></button>
-                        
+
                     </form>
                     <!-- <a onclick="GetCart(0)">
                         <button class="btn btn-default btn-lg"  style="margin-left: 5%;">
@@ -95,28 +90,65 @@
                         </button> -->
                         <!-- <h3><span class="glyphicon glyphicon-shopping-cart" style="color: white;"></span></h3> -->
                         <img src="img/cart.png" class="img-responsive" style="max-width: 50px; margin: 15px 0px 15px 0px;">
-                    </a> 
+                    </a>
                 </div>
                 <div class="col-sm-4"></div>
-            </div> 
+            </div>
             <ul class="nav navbar-nav navbar-right">
-                
+
             </ul>
         </div>
     </div>
     <div class="container">
+        <%for(var i = 0 ; i < treefolder.length ;i++){%>
         <div class="dropdown">
             <!-- <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: transparent;">
             <span class="glyphicon glyphicon-th-list"></span> Menu
             </button> -->
-            <h3 style="color: white;"><span class="glyphicon glyphicon-th-list"></span> Menu</h3>
-            <ul class="dropdown-menu">
-                    <li> <a href="" data-filter=".folder2" ><h4>TUỔI VÀ MỆNH</h4></a></li>
-                    <li> <a href="" data-filter=".folder3" ><h4>PHONG THỦY</h4></a></li>
-                    <li> <a href="" data-filter=".folder4" ><h4>ĐỜI SỐNG</h4></a></li>
-                    <li> <a href="" data-filter=".folder5" ><h4>DỊCH VỤ</h4></a></li>  
+            <ul class="nav navbar-nav navbar-left sm">
+
+                <li> <a href="" data-filter=".folder2" ><h4><font color="white"><%=treefolder[i].folder_name%></font></h4></a>
+                    <ul class="dropdown-menu">
+                        <%for(var j = 0 ; j < treefolder[i].cat_names.split(";").length ; j++){%>
+                        <li> <a href="/maintenance-prd?catflt=<%=treefolder[i].cat_names.split(";")[j].trim() %>&catId=<%=treefolder[i].cat_ids.split(";")[j].trim() %>"><h4><%=treefolder[i].cat_names.split(";")[j]%></h4></a></li>
+                        <%}%>
+
+                    </ul>
+                </li>
+
+
+            </ul>
+
+
+        </div>
+        <%}%>
+        <div class="dropdown">
+            <ul class="nav navbar-nav navbar-left sm">
+
+                <li> <a href="app-phongthuy" data-filter=".folder2" ><h4><font color="white">App Phong Thủy</font></h4></a>
+                </li>
+
+
             </ul>
         </div>
+        <%if(type == '1'){%>
+        <div class="dropdown">
+            <ul class="nav navbar-nav navbar-left sm">
+
+                <li> <a href="" data-filter=".folder2" ><h4><font color="white">Administrator</font></h4></a>
+                    <ul class="dropdown-menu">
+                        <li> <a href="maintenance"><h4>Tài Khoản</h4></a></li>
+                        <li> <a href="show-payment"><h4>Đơn Hàng</h4></a></li>
+                        <li> <a href="maintenance-cat"><h4>Thư Mục</h4></a></li>
+
+                    </ul>
+                </li>
+
+
+            </ul>
+        </div>
+        <%}%>
+
     </div>
 </nav>
 
@@ -124,12 +156,12 @@
 <div class="row">
     <div id="id01" class="modal">
         <div class="container popup animate">
-                <div style="padding-top: 75px;">
+            <div style="padding-top: 75px;">
                     <span onclick="document.getElementById('id01').style.display='none'" class="close"
-                        title="Close Modal">&times;</span>
-                    <img src="img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
-                </div>
-                <form class="form-horizontal" role="form" action="/login" method="POST">
+                          title="Close Modal">&times;</span>
+                <img src="img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
+            </div>
+            <form class="form-horizontal" role="form" action="/login" method="POST">
                 <div class="form-group has-success">
                     <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
                     <div class="col-sm-10">
@@ -144,7 +176,16 @@
                 </div>
                 <!-- <input type="checkbox" checked="checked" name="remember"> Remember me -->
                 <button class="center-block btn btn-primary" type="submit">Login</button>
-                </form>
+            </form>
+            <div class="col-md-5">
+
+
+            </div>
+            <div class="col-md-2">
+                <a href="/register" class="center-block btn btn-primary" >Đăng kí</a>
+
+            </div>
+
         </div>
     </div>
 </div>
@@ -154,7 +195,7 @@
         <div class="container popup animate">
             <div style="padding-top: 75px;">
                 <span onclick="document.getElementById('id03').style.display='none'" class="close"
-                    title="Close Modal">&times;</span>
+                      title="Close Modal">&times;</span>
                 <img src="img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
             </div>
             <form class="form-horizontal" action="/login" method="POST" style="padding-top: 20px">
@@ -164,140 +205,140 @@
 
             </form>
             <button class="btn btn-danger col-sm-2 col-md-offset-3" type="button" onclick="document.getElementById('id03').style.display='none'">
-                    Thoát
+                Thoát
             </button>
             <button class="btn btn-info col-sm-2" type="button" onclick="UpdateCart()">
-                    Cập Nhật Giỏ
+                Cập Nhật Giỏ
             </button>
             <a class="btn btn-success col-sm-2" type="button" href="/checkout" >
-                    Thanh Toán
+                Thanh Toán
             </a>
         </div>
     </div>
 </div>
 
 <script>
-        // Get the modal
-        var modal = document.getElementById('id01');
+    // Get the modal
+    var modal = document.getElementById('id01');
 
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
         }
+    }
 </script>
 
 <script>
-        var sizesArray = new Array();
-        function GetCart(idx){
-            var url ='';
-            if(idx == 0){
-                url = './PetMart/get-cart';
-            }else{
-                url = './PetMart/get-cart?user='+idx;
-            }
-            $.ajax({
-                url: url,
-                type: 'POST',
-                dataType: 'JSON',
-                data: JSON.stringify({mode: 'online'}),
-                async: false,
-                cache: false,
-                contentType: 'application/json; charset=UTF-8',
-                enctype: 'multipart/form-data',
-                processData: false,
-                success: function (response) {
-                    document.getElementById('cartdetail').innerHTML = '';
-                    var inner = ''
-                    for (var i = 0; i < response.result.length; i++) {
-                        inner += '<div class="row">\n' +
+    var sizesArray = new Array();
+    function GetCart(idx){
+        var url ='';
+        if(idx == 0){
+            url = './PetMart/get-cart';
+        }else{
+            url = './PetMart/get-cart?user='+idx;
+        }
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: 'JSON',
+            data: JSON.stringify({mode: 'online'}),
+            async: false,
+            cache: false,
+            contentType: 'application/json; charset=UTF-8',
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                document.getElementById('cartdetail').innerHTML = '';
+                var inner = ''
+                for (var i = 0; i < response.result.length; i++) {
+                    inner += '<div class="row">\n' +
                         '                    <h2>' + response.result[i].name + ' </h2>\n' +
                         '                </div>'
-                        inner += '<table class="row table table-condensed form-group">\n' +
+                    inner += '<table class="row table table-condensed form-group">\n' +
                         '                    <tbody>\n' +
                         '                <tr>\n' +
                         '                    <td class="text-right"><h4 style="text-align: center;">Size</h4></td>\n' +
                         '                    <td class="text-right"><h4 style="text-align: center;">Giá sản phẩm</h4></td>\n' +
                         '                    <td class="text-right"><h4 style="text-align: center;">Số Lượng</h4></td>\n' +
                         '                    <td class="text-right"><h4 style="text-align: center;">Thành Tiền</h4></td>\n'
-                        '                </tr>';
-                        for (var j = 0; j < response.result[i].sizes.split(';').length; j++) {
-                            sizesArray.push(response.result[i].size_ids.split(';')[j]);
-                            inner += '<tr>\n' +
-                                '                            <td class="text-center">\n' +
-                                '                                <input id = \'size_id\'class="booking-item-title size_id_header" style="text-align: center;border: none; background-color: transparent" disabled value="' + response.result[i].sizes.split(';')[j] + '"></input>\n' +
-                                '                            </td>\n' +
-                                '\n' +
-                                '                            <td class="text-center">\n';
-                                if(response.result[i].discount_prices == null) {
-                                    inner +=  '                            <label style=" text-align: center"><font\n';
-                                    inner +=  '                                        color="black">'+response.result[i].prices.split(';')[j]+' </font></label>\n';
-                                }else {
-                                    inner +=  '                            <label style="text-decoration:line-through ; text-align: center"><font\n';
-                                    inner +=  '                                        color="black">'+ response.result[i].prices.split(';')[j] +'</font></label>\n' ;
-                                    inner +=  '                            ->\n';
-                                    inner +=  '                            <label style=" text-align: center"><font\n' ;
-                                    inner +=  '                                        color="red">'+response.result[i].discount_prices.split(';')[j] +'</font></label>\n';
-                                }
-                            inner +=  '                            </td>'
-                            inner +=  '                            <td class="text-center">\n' +
-                                '                                <input  id = \'quantity\'class="form-control booking-item-title quantity_header" value=' + response.result[i].quantities.split(';')[j] + ' type="number" min="1" max=""  step="1" autocomplete="off" height="100%" width="50%">\n' +
-                                '\n' +
-                                '                            </td>\n' +
-                                '                            <td class="text-center">\n' +
-                                '                                <input class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="' + response.result[i].sums.split(';')[j] + '">\n' +
-                                '\n' +
-                                '                            </td>\n' +
-                                '                        </tr>'
+                    '                </tr>';
+                    for (var j = 0; j < response.result[i].sizes.split(';').length; j++) {
+                        sizesArray.push(response.result[i].size_ids.split(';')[j]);
+                        inner += '<tr>\n' +
+                            '                            <td class="text-center">\n' +
+                            '                                <input id = \'size_id\'class="booking-item-title size_id_header" style="text-align: center;border: none; background-color: transparent" disabled value="' + response.result[i].sizes.split(';')[j] + '"></input>\n' +
+                            '                            </td>\n' +
+                            '\n' +
+                            '                            <td class="text-center">\n';
+                        if(response.result[i].discount_prices == null) {
+                            inner +=  '                            <label style=" text-align: center"><font\n';
+                            inner +=  '                                        color="black">'+response.result[i].prices.split(';')[j]+' </font></label>\n';
+                        }else {
+                            inner +=  '                            <label style="text-decoration:line-through ; text-align: center"><font\n';
+                            inner +=  '                                        color="black">'+ response.result[i].prices.split(';')[j] +'</font></label>\n' ;
+                            inner +=  '                            ->\n';
+                            inner +=  '                            <label style=" text-align: center"><font\n' ;
+                            inner +=  '                                        color="red">'+response.result[i].discount_prices.split(';')[j] +'</font></label>\n';
                         }
-                        inner += '                <tr>\n' +
-                            '                    <td class="text-center"><h4 style="text-align: center;"></h4></td>\n' +
-                            '                    <td class="text-center"><h4 style="text-align: center;"></h4></td>\n' +
-                            '                    <td class="text-center"><h4 style="text-align: center;"></h4></td>\n' +
-                            '                    <td class="text-center"><h4 style="text-align: center;">Tổng Tièn</h4></td>\n' +
-                            '                    <td class="text-center"><h4 style="text-align: center;">'+response.result[i].total+'</h4></td>\n'
-                        '                </tr>';
-                        inner += '</tbody>\n' +
-                        '                </table>';
+                        inner +=  '                            </td>'
+                        inner +=  '                            <td class="text-center">\n' +
+                            '                                <input  id = \'quantity\'class="form-control booking-item-title quantity_header" value=' + response.result[i].quantities.split(';')[j] + ' type="number" min="1" max=""  step="1" autocomplete="off" height="100%" width="50%">\n' +
+                            '\n' +
+                            '                            </td>\n' +
+                            '                            <td class="text-center">\n' +
+                            '                                <input class="booking-item-title" style="text-align: center;border: none; background-color: transparent" disabled value="' + response.result[i].sums.split(';')[j] + '">\n' +
+                            '\n' +
+                            '                            </td>\n' +
+                            '                        </tr>'
                     }
-                    document.getElementById('cartdetail').innerHTML = inner;
-                    document.getElementById('id03').style.display='block';
+                    inner += '                <tr>\n' +
+                        '                    <td class="text-center"><h4 style="text-align: center;"></h4></td>\n' +
+                        '                    <td class="text-center"><h4 style="text-align: center;"></h4></td>\n' +
+                        '                    <td class="text-center"><h4 style="text-align: center;"></h4></td>\n' +
+                        '                    <td class="text-center"><h4 style="text-align: center;">Tổng Tièn</h4></td>\n' +
+                        '                    <td class="text-center"><h4 style="text-align: center;">'+response.result[i].total+'</h4></td>\n'
+                    '                </tr>';
+                    inner += '</tbody>\n' +
+                        '                </table>';
                 }
-            });
-}
+                document.getElementById('cartdetail').innerHTML = inner;
+                document.getElementById('id03').style.display='block';
+            }
+        });
+    }
 
 
-function UpdateCart(idx){
-    var formdata1 = new FormData();
-    var sizes = new Array();
-    var quantities = new Array();
-    var input = document.getElementsByClassName('booking-item-title size_id_header');
-    for (var i = 0; i < sizesArray.length; i++) {
-        sizes.push(sizesArray[i]);
-    }
-    input = document.getElementsByClassName('form-control booking-item-title quantity_header');
-    for (var i = 0; i < input.length; i++) {
-        quantities.push(input[i].value);
-    }
-    formdata1.append('size_id',sizes);
-    formdata1.append('quantity',quantities);
-    $.ajax({
-        url: "./PetMart/update-cart",
-        type: 'POST',
-        dataType : 'JSON',
-        data: JSON.stringify({size_id:sizes,quantity:quantities}),
-        async: false,
-        cache: false,
-        contentType: 'application/json; charset=UTF-8',
-        enctype: 'multipart/form-data',
-        processData: false,
-        success: function (response) {
-            alert(response.status);
-            document.getElementById('id03').style.display='none';
-            window.location.reload();
+    function UpdateCart(idx){
+        var formdata1 = new FormData();
+        var sizes = new Array();
+        var quantities = new Array();
+        var input = document.getElementsByClassName('booking-item-title size_id_header');
+        for (var i = 0; i < sizesArray.length; i++) {
+            sizes.push(sizesArray[i]);
         }
-    });
+        input = document.getElementsByClassName('form-control booking-item-title quantity_header');
+        for (var i = 0; i < input.length; i++) {
+            quantities.push(input[i].value);
+        }
+        formdata1.append('size_id',sizes);
+        formdata1.append('quantity',quantities);
+        $.ajax({
+            url: "./PetMart/update-cart",
+            type: 'POST',
+            dataType : 'JSON',
+            data: JSON.stringify({size_id:sizes,quantity:quantities}),
+            async: false,
+            cache: false,
+            contentType: 'application/json; charset=UTF-8',
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                alert(response.status);
+                document.getElementById('id03').style.display='none';
+                window.location.reload();
+            }
+        });
 
-}
+    }
 </script>

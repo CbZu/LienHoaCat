@@ -102,8 +102,15 @@ module.exports.signup=function(req,res){
 
         var dt_join=Math.round(+new Date()/1000);
         var birth = input.dob.split("/");
-        var newDOB = birth[2]+birth[0]+birth[1];
+        var newDOB = input.dob.replace("-","");
         passwd=md5(input.password);
+
+        var userType = '';
+        if(input.type == undefined){
+            userType = '2';
+        }else{
+            userType = input.type;
+        }
         var dataUser = {
             email   : input.email,
             phone    : input.phone,
@@ -133,7 +140,7 @@ module.exports.signup=function(req,res){
                         '`lastname`,\n' +
                         '`create_time`,\n' +
                         '`type_id`,\n' +
-                        '`password`,`username`,`bank`,`bank_account`,`bank_address`)\n' +
+                        '`password`,`username`)\n' +
                         'VALUES (\n' +
                         '\''+input.email+'\',\n' +
                         ''+newDOB+',\n' +
@@ -141,8 +148,8 @@ module.exports.signup=function(req,res){
                         '\''+input.firstname+'\',\n' +
                         '\''+input.lastname+'\',\n' +
                         ''+year+''+month+''+day+',\n' +
-                        ''+input.type+',\n' +
-                        '\''+passwd+'\',\''+input.username+'\',\''+input.bank+'\', \''+input.bank_account+'\' , \''+input.bank_address+'\');';
+                        ''+userType+',\n' +
+                        '\''+passwd+'\',\''+input.username+'\');';
                     console.log(sql);
                     con.query(sql, function (err, row1s) {
                         if(err){
@@ -160,7 +167,7 @@ module.exports.signup=function(req,res){
                                     data={status:'err',code:'300',description:err};
                                     res.json(data);
                                 }else{
-                                    data={status:'success',code:'200'};
+                                    data={status:'success',code:'200',fname:req.session.firstname,dateFormat:dateFormat,pic:req.session.pic,type:req.session.type,treefolder:req.session.treefolder};
                                    res.render('register',data);
                                 }
 
@@ -269,7 +276,7 @@ module.exports.logout=function(req,res){
 };
 
 module.exports.register=function(req,res){
-    data={title:req.session.firstname+' | Register',fname:req.session.firstname,dateFormat:dateFormat,pic:req.session.pic,type:req.session.type};
+    data={title:req.session.firstname+' | Register',fname:req.session.firstname,dateFormat:dateFormat,pic:req.session.pic,type:req.session.type,treefolder:req.session.treefolder};
 
     res.render('register',data);
 };
@@ -317,7 +324,7 @@ module.exports.show_account = function(req, res){
                         lnameflt:req.query.lname,
                         emailflt:req.query.email,
                         typeflt:req.query.type,
-                        emailheader:req.session.email,};
+                        emailheader:req.session.email,treefolder:req.session.treefolder};
                     res.render('accounts',data);
                 }
 

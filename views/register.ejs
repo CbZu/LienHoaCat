@@ -25,7 +25,7 @@
 
         <div class="row">
             <ol class="breadcrumb">
-                <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="/maintenance">Account Maintenance</a> / <a href="/#">Sign Up</a>
+                <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="/#">Sign Up</a>
             </ol>
             <%if (data.status == 'success'){%>
             <div class="alert alert-success">
@@ -63,12 +63,12 @@
                         </div>
                     </div>
 
-                    <div class="input-daterange" data-date-format="mm/dd/yyyy">
+                    <div class="datepicker" data-date-format="mm/dd/yyyy">
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group form-group-icon-left"><i class="fa fa-calendar input-icon input-icon-hightlight"></i>
                                     <label>Date Of Birth</label>
-                                    <input class="form-control" name="dob" type="text" />
+                                    <input class="form-control" name="dob" type="date" />
                                 </div>
                             </div>
                         </div>
@@ -99,20 +99,8 @@
                             <input class="form-control" type="text" name="country" id="country" required>
                         </div>
                     </div>
-                    
-                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>Ngân hàng</label>
-                        <input class="form-control" type="text" name="bank" id="bank" required>
-                    </div>
-                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>Số tài khoản</label>
-                        <input class="form-control" type="text" name="bank_account" id="bank_account" required>
-                    </div>
-                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>Chi nhánh</label>
-                        <input class="form-control" type="text" name="bank_address" id="bank_address" required>
-                    </div>
 
+                    <%if(type == '1'){%>
                     <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
                         <label>User Type</label>
                         <select name="type" id="type" >
@@ -121,28 +109,11 @@
 
                         </select>
                     </div>
-
+                    <%}%>
                     <input class="btn btn-success center-block" type="submit" value="Đăng kí" >
                 </form>
 
             </div>
-            <!--<div class="col-md-4">
-                <h1>Login</h1>
-
-                <form action="login" method="post">
-                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>Username or email</label>
-                        <input class="form-control" placeholder="e.g. johndoe@gmail.com" type="text" name="email"
-                               required/>
-                    </div>
-                    <div class="form-group form-group-icon-left"><i class="fa fa-lock input-icon input-icon-show"></i>
-                        <label>Password</label>
-                        <input class="form-control" type="password" placeholder="my secret password" name="password"
-                               required/>
-                    </div>
-                    <input class="btn btn-primary" type="submit" value="Sign in"/>
-                </form>
-            </div>-->
         </div>
     </div>
 </div>

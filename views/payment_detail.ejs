@@ -1,141 +1,16 @@
-<!DOCTYPE HTML>
-<html>
-
-<head>
-    <title>ACD</title>
-
-
-    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-    <meta name="keywords" content="Template, html, premium, themeforest"/>
-    <meta name="description" content="Traveler - Premium template for travel companies">
-    <meta name="author" content="Tsoy">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- GOOGLE FONTS -->
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600' rel='stylesheet'
-          type='text/css'>
-    <!-- /GOOGLE FONTS -->
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/font-awesome.css">
-    <link rel="stylesheet" href="css/icomoon.css">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/mystyles.css">
-    <script src="js/modernizr.js"></script>
-
-
-</head>
-
+<!DOCTYPE html>
+<html lang="en">
+<% include partials/index_Header.ejs %>
 <body>
+<div class="container">
+    <div class="row ">
+        <ol class="breadcrumb">
+            <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a
+                    href="/show-payment">Đơn Hàng</a> / <a href="#">Chi Tiết Đơn Hàng</a>
+        </ol>
 
-<!-- /FACEBOOK WIDGET -->
-<div class="global-wrap">
-    <header id="main-header">
-        <div class="header-top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-3">
-                        <a class="logo" href="/">
-                            <img src="img/ACD_Final_Logo_2.png" alt="Image Alternative text" title="Image Title"/>
-                        </a>
-                    </div>
-                    <div class="col-md-3 col-md-offset-2">
-                        <!-- <form class="main-header-search">
-                             <div class="form-group form-group-icon-left">
-                                 <i class="fa fa-search input-icon"></i>
-                                 <input type="text" class="form-control">
-                             </div>
-                         </form>-->
-                    </div>
-                    <div class="col-md-4">
-                        <div class="top-user-area clearfix">
-                            <ul class="top-user-area-list list list-horizontal list-border">
-                                <li class="top-user-area-avatar">
-                                </li>
-                                <li><a href="/logout">Sign Out</a>
-                                </li>
-                                <li class="nav-drop"><a href="#">USD $<i class="fa fa-angle-down"></i><i
-                                                class="fa fa-angle-up"></i></a>
-                                    <ul class="list nav-drop-menu">
-                                        <li><a href="#">EUR<span class="right">€</span></a>
-                                        </li>
-                                        <li><a href="#">GBP<span class="right">£</span></a>
-                                        </li>
-                                        <li><a href="#">JPY<span class="right">円</span></a>
-                                        </li>
-                                        <li><a href="#">CAD<span class="right">$</span></a>
-                                        </li>
-                                        <li><a href="#">AUD<span class="right">A$</span></a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="top-user-area-lang nav-drop">
-                                    <a href="#">
-                                        <img src="img/flags/32/uk.png" alt="Image Alternative text"
-                                             title="Image Title"/>ENG<i class="fa fa-angle-down"></i><i
-                                                class="fa fa-angle-up"></i>
-                                    </a>
-                                    <ul class="list nav-drop-menu">
-                                        <li>
-                                            <a title="German" href="#">
-                                                <img src="img/flags/32/de.png" alt="Image Alternative text"
-                                                     title="Image Title"/><span class="right">GER</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a title="Japanise" href="#">
-                                                <img src="img/flags/32/jp.png" alt="Image Alternative text"
-                                                     title="Image Title"/><span class="right">JAP</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a title="Italian" href="#">
-                                                <img src="img/flags/32/it.png" alt="Image Alternative text"
-                                                     title="Image Title"/><span class="right">ITA</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a title="French" href="#">
-                                                <img src="img/flags/32/fr.png" alt="Image Alternative text"
-                                                     title="Image Title"/><span class="right">FRE</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a title="Russian" href="#">
-                                                <img src="img/flags/32/ru.png" alt="Image Alternative text"
-                                                     title="Image Title"/><span class="right">RUS</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a title="Korean" href="#">
-                                                <img src="img/flags/32/kr.png" alt="Image Alternative text"
-                                                     title="Image Title"/><span class="right">KOR</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </header>
-
-
-    <div class="container">
-
-
-        <h3><a href="/">Home</a></h3>
-        <br/>
-        <h1 class="booking-title"><%= result[0].title %>
-            <small>
-                <!--<a class="popup-text" href="#search-dialog" data-effect="mfp-zoom-out">Change search</a>--></small>
-        </h1>
-
-        <br/>
-
+    </div>
+    <div class="container solid-content">
         <div class="row">
             <div class="col-md-2">
                 <div class="form-group form-group-icon-left">
@@ -152,373 +27,175 @@
                 </div>
             </div>
         </div>
+        <h3>Thông tin sản phẩm</h3>
 
-        <br/>
-        <div class="row">
+        <div id="cartdetail" class = "row">
+            <table class="table table-bordered">
+                <thead>
+                <th class="text-right" style="text-align: center;"><h3>Tên sản phẩm</h3></th>
+                <th class="text-right" style="text-align: center;"><h3>Size</h3></th>
+                <th class="text-right" style="text-align: center;"><h3>Giá sản phẩm</h3></th>
+                <th class="text-right" style="text-align: center;"><h3>Số Lượng</h3></th>
+                <th class="text-right" style="text-align: center;"><h3>Thành Tiền</h3></th>
+                <!-- <td ><h4 style="text-align: center;">Size</h4></td>
+                <td class="text-right"><h4 style="text-align: center;"></h4></td>
+                <td class="text-right"><h4 style="text-align: center;"></h4></td>
+                <td class="text-right"><h4 style="text-align: center;"></h4></td> -->
+                </thead>
+                <% for (var i = 0; i < result.length; i++) { %>
+                <tbody>
+                <% for (var j = 0; j < result[i].sizes.split(';').length; j++) { %>
+                <tr>
+                    <td class="text-center">
+                        <%= result[i].name %>
+                        <!-- <input id='size_id' class="booking-item-title size_id_header"
+                                   style="text-align: center; background-color: transparent" disabled
+                                   value="<%= result[i].name %>"></input> -->
+                    </td>
+                    <td class="text-center">
+                        <%= result[i].sizes.split(';')[j] %>
+                        <!-- <input id='size_id' class="booking-item-title size_id_header"
+                                   style="text-align: center; background-color: transparent" disabled
+                                   value="<%= result[i].sizes.split(';')[j] %>"></input> -->
+                    </td>
 
-            <div class="col-md-12">
-
-                <ul class="booking-list">
-                    </br>
-
-                    <!-- <div class="row">
-                         <div class="col-md-2">
-                             <h4 class="booking-item-title">Title</h4>
-                         </div>
-                         <div class="col-md-2">
-                             <h4 class="booking-item-title">User</h4>
-                         </div>
-                         <div class="col-md-2">
-                             <h4 class="booking-item-title">Quantity</h4>
-                         </div>
-                         <div class="col-md-2">
-                             <h4 class="booking-item-title">Status</h4>
-                         </div>
-                         <div class="col-md-2">
-                             <h4 class="booking-item-title">Total</h4>
-                         </div>
-                         <div class="col-md-2">
-                             <h4 class="booking-item-title">Created Date</h4>
-                         </div>
-                     </div>-->
-
-                    <% for (var i = 0; i < result.length; i++) { %>
-                    <div class="row">
-                        <h2><%= result[i].name %></h2>
-                    </div>
-                    <table class="row table table-condensed form-group">
-                        <tbody>
-                        <tr>
-                            <td class="text-right"><h4 style="text-align: center;">Size</h4></td>
-                            <td class="text-right"><h4 style="text-align: center;">Giá sản phẩm</h4></td>
-                            <td class="text-right"><h4 style="text-align: center;">Số Lượng</h4></td>
-                            <td class="text-right"><h4 style="text-align: center;">Thành Tiền</h4></td>
-                        </tr>
-                        <% for (var j = 0; j < result[i].sizes.split(';').length; j++) { %>
-                        <tr>
-                            <td class="text-center">
-                                <input id='size_id' class="booking-item-title size_id_header"
-                                       style="text-align: center;border: none; background-color: transparent" disabled
-                                       value="<%= result[i].sizes.split(';')[j] %>"></input>
-                            </td>
-
-                            <td class="text-center">
-                                <% if(result[i].disct_prices == null) { %>
-                                <label style=" text-align: center"><font
-                                            color="black"><%= result[i].prices.split(';')[j] %> </font></label>
-                                <% }else { %>
-                                <label style="text-decoration:line-through ; text-align: center"><font
-                                            color="black"><%= result[i].prices.split(';')[j] %></font></label>-><label style=" text-align: center"><font
-                                            color="red"><%= result[i].disct_prices.split(';')[j] %></font></label>
-                                <% } %>
-                            </td>
-                            <td class="text-center">
-                                <input id='quantity' class="form-control booking-item-title quantity_header"
-                                       value='<%=result[i].quantities.split(';')[j].trim()%>' type="number" min="1" max=""
-                                       step="1" autocomplete="off" height="100%" width="50%">
-
-                            </td>
-                            <td class="text-center">
-                                <input class="booking-item-title"
-                                       style="text-align: center;border: none; background-color: transparent" disabled
-                                       value="<%= result[i].sums.split(';')[j] %>">
-
-                            </td>
-                        </tr>
+                    <td class="text-center">
+                        <% if(result[i].disct_prices == null) { %>
+                        <%= result[i].prices.split(';')[j] %>
+                        <!-- <label style=" text-align: center"><font
+                                        color="black"><%= result[i].prices.split(';')[j] %> </font></label> -->
+                        <% }else { %>
+                        <%= result[i].disct_prices.split(';')[j] %>
+                        <!-- <label style="text-decoration:line-through ; text-align: center"><font
+                                        color="black"><%= result[i].prices.split(';')[j] %></font></label>-><label style=" text-align: center"><font
+                                        color="red"><%= result[i].disct_prices.split(';')[j] %></font></label> -->
                         <% } %>
-                        <tr>
-                            <td class="text-center"><h4 style="text-align: center;"></h4></td>
-                            <td class="text-center"><h4 style="text-align: center;"></h4></td>
-                            <td class="text-center"><h4 style="text-align: center;"></h4></td>
-                            <td class="text-center"><h4 style="text-align: center;">Tổng Tièn</h4></td>
-                            <td class="text-center"><h4 style="text-align: center;"><%= result[i].total %></h4></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div id='rowInsertSizeBtn<%= result[i].sizes.split(';')[0].trim() %>' class="row">
-                        <div class="col-md-1">
-                            <button class="btn btn-danger" id='insert<%= result[i].sizes.split(';')[0].trim() %>'
-                                    onclick="InsertSize(<%= result[i].sizes.split(';')[0].trim() %>)">Add Size
-                            </button>
-                        </div>
-                    </div>
-                    <% } %>
+                    </td>
+                    <td class="text-center">
+                        <%=result[i].quantities.split(';')[j].trim()%>
+                        <!-- <input id='size_id' class="booking-item-title size_id_header"
+                                   style="text-align: center; background-color: transparent" disabled
+                                   value="<%= result[i].sizes.split(';')[j] %>"></input> -->
+                    </td>
+                  <!--  <td >
+                        <input id="quantity" class="center-block form-control booking-item-title quantity_header"
+                               value="<%=result[i].quantities.split(';')[j].trim()%>" type="number" min="1" max=""
+                               step="1" autocomplete="off" style="width: 50%;" disabled>
 
-                </ul>
+                    </td>-->
+                    <td class="text-center">
+                        <%= result[i].sums.split(';')[j] %>
+                        <!-- <input class="booking-item-title"
+                               style="text-align: center; background-color: transparent" disabled
+                               value=""> -->
+
+                    </td>
+                </tr>
+                <% } %>
+                <!--                     <tr>
+                        <td class="text-center"><h4 style="text-align: center;"></h4></td>
+                        <td class="text-center"><h4 style="text-align: center;"></h4></td>
+                        <td class="text-center"><h4 style="text-align: center;"></h4></td>
+                        <td class="text-center"><h4 style="text-align: center;">Tổng Tiền</h4></td>
+                        <td class="text-center"><h4 style="text-align: center;"><%= result[i].total %></h4></td>
+                    </tr> -->
+                </tbody>
+                <% } %>
+            </table>
+        </div>
 
 
+
+    </div>
+    <input id = "ship" style="display: none" value = '0'>
+    <input id = "type" style="display: none" value = '0'>
+    <div class="col-sm-7">
+
+        <div class="row solid-content">
+            <h3>Hình thức giao hàng</h3>
+            <div class="col-md-3" id = "ship1" style="display: none">
+                <a  class="thumbnail" onclick="Ship('1')">
+                    <img src="img/delivery_form/giaohangtietkiem.png" alt="...">
+                </a>
             </div>
-            <div class="row">
-                <div class="col-md-1">
-                    <button id='InsertPrdBtn' class="btn btn-danger" onclick="InsertProduct()">Add Product</button>
-
-                </div>
-
-
+            <div class="col-md-3" id = "ship2" style="display: none">
+                <a  class="thumbnail" onclick="Ship('2')">
+                    <img src="img/delivery_form/giaohangnhanh.png" alt="...">
+                </a>
+            </div>
+            <div class="col-md-3" id = "ship3" style="display: none">
+                <a  class="thumbnail" onclick="Ship('3')">
+                    <img src="img/delivery_form/viettel_post.jpg" alt="...">
+                </a>
             </div>
         </div>
+        <div class="row solid-content">
+
+            <h3>Hình thức thanh toán</h3>
+            <div class="col-md-3" id = "type1" style="display: none">
+                <a  class="thumbnail"  onclick="Type('1')">
+                    <img src="img/payment_method/cash.jpg" alt="...">
+                </a>
+            </div>
+            <div class="col-md-3" id = "type2" style="display: none">
+                <a  class="thumbnail"  onclick="Type('2')">
+                    <img src="img/payment_method/transfer.jpg" alt="...">
+                </a>
+            </div>
+        </div>
+
     </div>
-    <div class="gap"></div>
+    <div class="col-sm-4 solid-content">
+        <h2>Thông tin đơn hàng</h2>
+        <%if(userdetail != undefined){%>
+        <h4>Tên: <%=userdetail[0].firstname%> <%=userdetail[0].lastname%></h4>
+        <h4>Email: <%=userdetail[0].email%></h4>
+        <h4>Số điện thoại: <%=userdetail[0].phone%></h4>
+        <h4>Địa Chỉ: <%=userdetail[0].address%></h4>
+        <%}%>
+        <h4>Số sản phẩm</h4>
+        <h4>Phí vận chuyển</h4>
+        <h3>Tổng cộng: </h3>
+        <h2 id = "totalLabel" class="fa-money"><%=totalAll%></h2>
+    </div>
+    <div class="row">
+        <button class="btn btn-info col-sm-2" type="button" onclick="UpdateCart()">
+            Cập Nhật Giỏ
+        </button>
+        <button onclick="CheckOut()"  class="btn btn-success col-sm-2">
+            Thanh Toán
+        </button>
+    </div>
 </div>
 
-
-<footer id="main-footer">
-    <div class="container">
-        <div class="row row-wrap">
-
-            <div class="col-md-3">
-                <h4>Texas - HQ: </h4>
-                <h5 class="text-color">Address: 2908 National Drive, Suite 100, Garland, TX 75041 </h5>
-                <h5 class="text-color">Phone: 469.573.4008</h5>
-                <h5 class="text-color">Fax: 972.278.2097</h5>
-
-
+<div class="row">
+    <div id="idSuccess" class="modal">
+        <div class="container popup animate">
+            <div style="padding-top: 75px;">
+                <span onclick="document.getElementById('id03').style.display='none'" class="close"
+                      title="Close Modal">&times;</span>
+                <img src="img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
             </div>
-            <div class="col-md-3">
-                <h4>Florida - Design:</h4>
-                <h5 class="text-color">Address: Miami, </h5>
-                <h5 class="text-color">Phone: 847.920.7235 </h5>
-                <h5 class="text-color">Fax: 972.278.2097</h5>
-
-
+            <div style="padding-top: 75px;">
+                <span onclick="document.getElementById('id03').style.display='none'" class="close"
+                      title="Close Modal">&times;</span>
+                <img src="assets/img/success.jpg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
             </div>
-            <div class="col-md-3">
-                <h4>California - Sales:</h4>
-                <h5 class="text-color">Address: San Jose, California </h5>
-                <h5 class="text-color">Phone: 469.573.4008</h5>
-                <h5 class="text-color">Fax: 972.278.2097</h5>
-
-
-            </div>
-            <div class="col-md-3">
-                <h4>China - NPI Center:</h4>
-                <h5 class="text-color">Address: Shanghai, China</h5>
-                <h5 class="text-color">Phone: 469.573.4008</h5>
-                <h5 class="text-color">Fax: 972.278.2097</h5>
-
-
-            </div>
-
+            <a href="/" class="btn btn-success col-sm-2">
+                OK
+            </a>
         </div>
-        <div class="row row-wrap">
-            <div class="col-md-4">
-                <h5 class="text-color">Email: sales@austincircuit.com </h5>
-                <h5><a href="http://www.austincircuitdesign.com/"
-                       class="text-color">http://www.austincircuitdesign.com/</a></h5>
-                <p>Open Monday - Friday 08:00am - 06:00pm</p>
-            </div>
-
-        </div>
-
     </div>
-</footer>
-
-<script src="js/jquery.js"></script>
-<script src="js/bootstrap.js"></script>
-<script src="js/slimmenu.js"></script>
-<script src="js/bootstrap-datepicker.js"></script>
-<script src="js/bootstrap-timepicker.js"></script>
-<script src="js/nicescroll.js"></script>
-<script src="js/dropit.js"></script>
-<script src="js/ionrangeslider.js"></script>
-<script src="js/icheck.js"></script>
-<script src="js/fotorama.js"></script>
-<script src="js/typeahead.js"></script>
-<script src="js/card-payment.js"></script>
-<script src="js/magnific.js"></script>
-<script src="js/owl-carousel.js"></script>
-<script src="js/fitvids.js"></script>
-<script src="js/tweet.js"></script>
-<script src="js/countdown.js"></script>
-<script src="js/gridrotator.js"></script>
-<script src="js/custom.js"></script>
+</div>
+</body>
 <script>
-    function Update(id) {
-        var quantity = document.getElementById(id).value;
-        $.ajax({
-            type: "POST",
-            url: "./ajax/updateSizeId",
-            data: "mode=update&sizeId=" + id + "&paymentId="+<%= result[0].payment_id %>+"&quantity="+quantity,
-            success: function (msg) {
-                //alert(msg);
-                data = msg;
-
-                location.reload();
-
-            }
-        });
-    }
-
-    function Delete(id) {
-        var quantity = document.getElementById(id).value;
-        $.ajax({
-            type: "POST",
-            url: "./ajax/deleteSizeId",
-            data: "mode=update&sizeId=" + id + "&paymentId="+<%= result[0].payment_id %>+"&quantity="+quantity,
-            success: function (msg) {
-                //alert(msg);
-                data = msg;
-
-                location.reload();
-
-            }
-        });
-    }
-
-    function InsertSize(id) {
-        var newElement = document.getElementById('newSize');
-        if (newElement == undefined) {
-            $.ajax({
-                type: "POST",
-                url: "./PetMart/get-size-product",
-                data: "mode=update&productId=" + id,
-                success: function (msg) {
-                    //alert(msg);
-                    data = msg;
-                    var element = '<div class = "row">' + '\n' +
-                        '<select id = "newSize" class="col-md-1">\n'
-                    for (i = 0; i < data.result.length; i++) {
-                        element += '<option value = "' + data.result[i].product_id + '">' + data.result[i].size + '</option>';
-                    }
-                    element += '</select>\n';
-                    element += '                            <input class="col-md-1" id = \'newAmount\' value = \'\'>\n' +
-                        '\n' +
-                        '                            </input><div class = "col-md-1">\n';
-                    element += '                            <button class="btn btn-success" id = \'okBtn\' onclick="OkSize()" value = \'\'>Ok\n' +
-                        '\n' +
-                        '                            </button></div></div></br>\n';
-                    $(element).insertBefore($('#rowInsertSizeBtn' + id));
-                }
-            });
-            /*var element = '<div class="row">\n' +
-                '                           \n' +
-                '                            <input class="col-md-1" id = \'newSize\' value = \'\'>\n' +
-                '\n' +
-                '                            </input>\n' +
-                '                            \n' +
-                '\n' +
-                '                            <input class="col-md-1" id = \'newAmount\' value = \'\'>\n' +
-                '\n' +
-                '                            </input><div class="col-md-3">\n' +
-                '\n' +
-                '                            <button class="btn btn-success" id = \'okBtn\' onclick="OkSize()" value = \'\'>Ok\n' +
-                '\n' +
-                '                            </button></div>\n' +
-                '                        </div><br>';
-            $(element).insertBefore($('#rowInsertSizeBtn'));*/
-        }
-    }
-
-    function InsertProduct() {
-
-        document.getElementById('RowAdd').style.display = 'block';
-        document.getElementById('InsertPrdBtn').style.display = 'none';
-        document.getElementById('OkPrd').style.display = 'block';
-
-        $.ajax({
-            type: "POST",
-            url: "./PetMart/get-category",
-            data: "mode=update&name=",
-            success: function (msg) {
-                //alert(msg);
-                data = msg;
-                for (i = 0; i < data.result.length; i++) {
-                    $('#newCat').append($('<option>', {value: data.result[i].cat_id, text: data.result[i].cat_name}));
-                }
-
-            }
-        });
-    }
-
-    function OkSize() {
-        var sizeId = document.getElementById('newSize').value;
-        var quantity = document.getElementById('newAmount').value;
-
-        $.ajax({
-            type: "POST",
-            url: "./ajax/add-to-cart-admin",
-            data: "mode=update&userId=" + "<%= result[0].user_id %>" + "&size_id=" + sizeId + "&quantity=" + quantity + "&payment_id=" + "<%= result[0].payment_id %>",
-            success: function (msg) {
-                //alert(msg);
-                data = msg;
-                location.reload();
-            }
-        });
-    }
-
-    function OkProduct() {
-        var sizeId = document.getElementById('newSize').value;
-        var quantity = document.getElementById('newAmount').value;
-
-        $.ajax({
-            type: "POST",
-            url: "./ajax/add-to-cart-admin",
-            data: "mode=update&userId=" + "<%= result[0].user_id %>" + "&size_id=" + sizeId + "&quantity=" + quantity + "&payment_id=" + "<%= result[0].payment_id %>",
-            success: function (msg) {
-                //alert(msg);
-                data = msg;
-                location.reload();
-            }
-        });
-    }
-</script>
-<script>
-
-    $('#newCat').change(function (e) {
-        var value = document.getElementById('newCat').value;
-        $('#newPrd')
-            .find('option')
-            .remove()
-            .end()
-            .append('<option value="">----Select----</option>')
-            .val('')
-        ;
-        $.ajax({
-            type: "POST",
-            url: "./PetMart/get-product",
-            data: "mode=update&cat_id=" + value,
-            success: function (msg) {
-                //alert(msg);
-                data = msg;
-                for (i = 0; i < data.result.length; i++) {
-                    $('#newPrd').append($('<option>', {value: data.result[i].product_id, text: data.result[i].name}));
-                }
-
-            }
-        });
-
-    });
-
-    $('#newPrd').change(function (e) {
-        var value = document.getElementById('newPrd').value;
-        $('#newSize')
-            .find('option')
-            .remove()
-            .end()
-            .append('<option value="">----Select----</option>')
-            .val('')
-        ;
-        $.ajax({
-            type: "POST",
-            url: "./PetMart/get-size-product",
-            data: "mode=update&productId=" + value,
-            success: function (msg) {
-                //alert(msg);
-                data = msg;
-                for (i = 0; i < data.result.length; i++) {
-                    $('#newSize').append($('<option>', {value: data.result[i].product_id, text: data.result[i].size}));
-                }
-
-            }
-        });
-
-    });
+    $('#status').val("<%=result[0].status_id%>")
     $('#status').change(function (e) {
         var value = document.getElementById('status').value;
         $.ajax({
             type: "POST",
             url: "./PetMart/update-payment",
-            data: "mode=update&payment_id=" + "<%= payment.payment_id %>" + "&status=" + value + "&seen_flag=N",
+            data: "mode=update&payment_id=" + "<%= result[0].payment_id %>" + "&status=" + value + "&seen_flag=N",
             success: function (msg) {
                 //alert(msg);
                 data = msg;
@@ -530,11 +207,66 @@
     });
 </script>
 <script>
-    $('#status').val("<%= payment.status_id %>")
+    <%if(result[0].promotion!=0){%>
+    document.getElementById("totalLabel").innerHTML = "<label style='text-decoration: line-through'><font color='black'> "+"<%=result[0].paymentSum%>"+"</font></lable><label><font color='red'> -> "+"<%=result[0].paymentTotal%>"+"</lable>";
+    <%}%>
+
+    document.getElementById("ship<%=result[0].ship%>").style.display = 'block';
+    document.getElementById("type<%=result[0].pay_type%>").style.display = 'block';
+    var type = '';
+    var ship = '';
+    function Ship(idx){
+        ship = idx;
+        document.getElementById("ship").value = idx;
+    }
+    function Type(idx){
+        type = idx;
+        document.getElementById("type").value = idx;
+    }
+    function CheckVoucher(){
+        var obj =$("#voucher");
+        $(".error").remove();
+        $.ajax({
+            type: "POST",
+            url: "./PetMart/get-voucher",
+            data: "mode=check_email&voucher=" + obj.val()+"&total=<%=totalAll%>",
+            success: function (msg) {
+                //alert(msg);
+                data = msg;
+                if (data.code == '404') {
+                    obj.after("<label class='error'>Voucher Hết Hạn Hoặc Không Tồn Tại</label>");
+                }
+                else {
+                    document.getElementById("totalLabel").innerHTML = "<label style='text-decoration: line-through'><font color='black'> <%=totalAll%></font></lable><label><font color='red'> -> "+data.totalAfter+"</lable>";
+                }
+            }
+        });
+    }
+    function CheckOut(){
+        var formdata = new FormData();
+        formdata.append('ship', ship);
+        formdata.append('type', type);
+        if(document.getElementsByClassName('error').length == 0){
+            formdata.append('voucher', $("#voucher").val());
+        }
+
+        $.ajax({
+            url: './PetMart/add-to-payment',
+            type: 'POST',
+            data: formdata,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                if(response.code == '200'){
+                    document.getElementById('idSuccess').style.display = 'block';
+                }
+            }
+        });
+
+    }
 </script>
-</div>
-</body>
-
+<% include partials/index_Footer.ejs %>
 </html>
-
-
