@@ -31,17 +31,167 @@
                             <div class="row center-block">
                                 <input class="col-md-8 form-control" type="text" id="name" onkeyup="CheckPrd()" value=""></input>
                             </div>
-
-                            <div class="row center-block">
-                    <div class="col-md-1"><h4 style="text-align: center;">Size</h4></div>
-                                <div class="col-md-2"><h4 style="text-align: center;">Giá sản phẩm</h4></div>
-                                <div class="col-md-2"><h4 style="text-align: center;">Giá giảm</h4></div>
-                                <div class="col-md-3"><h4 style="text-align: center;">Mã Sản Phẩm</h4></div>
-                                <div class="col-md-2"><h4 style="text-align: center;">Avarta</h4></div>
+                            <div class="row">
+                                <div class="col-md-8"><h3>Mã sản phẩm</h3></div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" id="newCode" value=""></input>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8"><h3>Hợp mệnh</h3></div>
+                            </div>
+                            <div class="row center-block">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="mang0" value="kim"> Kim
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="mang1" value="moc"> Mộc
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="mang2" value="tuy"> Thủy
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="mang3" value="hoa"> Hỏa
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="mang4" value="tho"> Thổ
+                                    </label>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8"><h3>Hợp Tuổi</h3></div>
+                            </div>
+                            <div class="row center-block">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="Tuoi0" value="0"> Tý
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="Tuoi1" value="1"> Sửu
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="Tuoi2" value="2"> Dần
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="Tuoi3" value="3"> Mẹo
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="Tuoi4" value="4"> Thình
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="Tuoi5" value="5"> Tỵ
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="Tuoi6" value="6"> Ngọ
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="Tuoi7" value="7"> Mùi
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="Tuoi8" value="8"> Thân
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="Tuoi9" value="9"> Dậu
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="Tuoi10" value="10"> Tuất
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="Tuoi11" value="11"> Hợi
+                                    </label>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8"><h3>Màu sắc</h3></div>
+                            </div>
+                            <div class="row center-block">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="mau0" value="0"> Đỏ
+                                    </label>                                
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="mau1" value="1"> Tím 
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="mau2" value="2"> Hồng 
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="mau3" value="3"> Vàng 
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="mau4" value="4"> Nâu 
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="mau5" value="5"> Cam 
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="mau6" value="6"> Xám 
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="mau7" value="7"> Ánh vàng 
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="mau8" value="8"> Ánh bạc 
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="mau9" value="9"> Xanh biển 
+                                    </label>
+                                    
+                            </div>
+                            <div class="row center-block">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="mau10" value="10"> Đen 
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="mau11" value="11"> Xanh lá
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="mau12" value="12"> Xanh ngọc 
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="mau13" value="13"> Trong suốt
+                                    </label>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8"><h3>Size</h3></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="row">
+                                        <label class="col-md-4">
+                                            Từ: 
+                                        </label>
+                                        <div class="col-md-8"><input class="form-control id = "minsize" value = ""></div>                                        
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="row">
+                                        <label class="col-md-4">
+                                            Đến: 
+                                        </label>
+                                        <div class="col-md-8"><input class="form-control" id = "maxsize" value = ""></div>                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>    
+                            
+                            <div class="row">
+                                <div class="col-md-8"><h3>Phân loại sản phẩm</h3></div>
+                            </div>
+                            <div class="row center-block">
+                                <div class="col-md-2"><h4 style="text-align: center;">Phân loại</h4></div>
+                                <div class="col-md-2"><h4 style="text-align: center;">Giá</h4></div>
+                                <div class="col-md-3"><h4 style="text-align: center;">Giá sau giảm</h4></div>
+                                <div class="col-md-2"><h4 style="text-align: center;">Tồn kho</h4></div>
+                                <div class="col-md-3"><h4 style="text-align: center;">Thông tin loại hàng</h4></div>
+                            </div>                                                
                             <div class="row" id="rowInsertBtn">
                                 <div class="col-md-2">
                                     <button class="btn btn-danger" id='insertBtn' onclick='insert()'>+</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div  class="col-md-3">
+                                    <input class="form-control newImg"  id = "newImg" type = "file" value = "">
                                 </div>
                             </div>
                             <br>
@@ -93,23 +243,22 @@
     </a>
     <!-- Modal -->
     <div id="id02" class="modal">
-
-        <form class="modal-content animate">
-            <div class="imgcontainer">
-                <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
-                <img src="img/LOGO.svg" alt="Avatar" class="avatar" style="max-width: 75px">
+        <div class="container popup animate">
+            <div style="padding-top: 75px;">
+                    <span onclick="document.getElementById('id02').style.display='none'" class="close"
+                          title="Close Modal">&times;
+                    </span>
+                <img src="img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
             </div>
-
-            <div class="container">
-                <h4 class="modal-title">Thêm Hình</h4>
-                <input class="form-control newImgModal"  id = 'newImgModal' type = 'file' value = ''>
-
-            </div>
-
-            <div class="container" style="background-color:#f1f1f1">
-                <button type="button" onclick="CloseModal()" class="btn btn-default" data-dismiss="modal">Ok</button>
-            </div>
-        </form>
+            <form class="form-horizontal" role="form" action="/login" method="POST">
+                <div class="">
+                    <h4 class="modal-title">Thêm Hình</h4>
+                    <input class="form-control newImgModal"  id = 'newImgModal' type = 'file' value = ''>
+                </div>
+                <br>
+                <button class="center-block btn btn-primary" onclick="CloseModal()" data-dismiss="modal" type="button">Ok</button>
+            </form>
+        </div>
     </div>
 
 
@@ -205,23 +354,22 @@
     function insert() {
         var element = '<div class="row center-block">\n' +
             '                            \n' +
-            '                            <div class="col-md-2"><input class="form-control" id = \'newSize\' value = \'\'>\n' +
+            '                            <div class="col-md-2"><input class="form-control" id = \'productType\' value = \'\'>\n' +
             '\n' +
             '                            </input></div>\n' +
-            '                            \n' +
             '\n' +
             '                            <div class="col-md-2"><input class="form-control" id = \'newPrice\' value = \'\'>\n' +
             '\n' +
             '                            </input></div>\n' +
-            '                            <div class="col-md-2" ><input class="form-control" id = \'newDisc\' value = \'\'>\n' +
+            '                            <div class="col-md-3" ><input class="form-control" id = \'newDisc\' value = \'\'>\n' +
             '\n' +
             '                            </input></div>\n' +
             '\n' +
-            '                           <div class="col-md-3"><input class="form-control" id = \'newCode\' value = \'\'>\n' +
+            '                           <div class="col-md-2"><input class="form-control" id = \'remaining\' value = \'\'>\n' +
             '\n' +
             '                            </input></div>\n' +
             '\n' +
-            '                            <div  class="col-md-3"><input class="form-control newImg"  id = \'newImg\' type = \'file\' value = \'\'>\n' +
+            '                            <div  class="col-md-3"><input class="form-control"  id = \'infor\' value = \'\'>\n' +
             '\n' +
             '                            </input></div>\n' +
             '                        </div><br>';

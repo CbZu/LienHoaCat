@@ -1,7 +1,7 @@
 var dateFormat = require('dateformat');
 module.exports.home = function(req, res){
     var con = req.db.driver.db;
-    sql = 'select\n' +
+    sql = 'select image, \n' +
         'GROUP_CONCAT(c.cat_id SEPARATOR \'; \') as cat_ids,\n' +
         'GROUP_CONCAT(c.folder_id SEPARATOR \'; \') as folder_ids,\n' +
         'GROUP_CONCAT(c.cat_name SEPARATOR \'; \') as cat_names,\n' +
