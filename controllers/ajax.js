@@ -270,7 +270,7 @@ exports.addProduct=function(req,res){
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
     var prdId = '';
-
+    var avas = '';
         var path = '';
         if(req.files.upfiles.length == undefined){
             path = req.files.upfiles.path;
@@ -278,8 +278,10 @@ exports.addProduct=function(req,res){
             for(j = 0 ; j < req.files.upfiles.length ; j++){
                 if(path == ''){
                     path = req.files.upfiles[j].path;
+                    avas = req.files.upfiles[i].path.split("\\")[ req.files.upfiles[i].path.split("\\").length-1];
                 }else{
                     path += ';' +  req.files.upfiles[j].path;
+                    avas += ';' +  req.files.upfiles[i].path.split("\\")[ req.files.upfiles[i].path.split("\\").length-1];
                 }
             }
         }
@@ -309,6 +311,8 @@ exports.addProduct=function(req,res){
                         code:input.Codes.split(',')[i],
                         description : rows.insertId,
                         image:img,
+                        information : input.Infos.split(',')[i],
+                        entity:input.Entities.split(',')[i]!=''?input.Entities.split(',')[i].trim():0,
                     };
 
                     req.models.product.create(data,function(err,row1s){
@@ -318,7 +322,28 @@ exports.addProduct=function(req,res){
                         }
                         else{
                             if(prdId == ''){
+
                                 var sql = 'update image set product_id = '+row1s.product_id+' where product_id = 0 ;';
+                                con.query(sql);
+                                sql = 'INSERT INTO `lhc`.`image`\n' +
+                                    '(`product_id`,\n' +
+                                    '`url`,\n' +
+                                    '`type`)\n' +
+                                    'VALUES\n' +
+                                    '('+row1s.product_id+',\n' +
+                                    '\''+avas+'\',\n' +
+                                    '\'1\');\n';
+                                con.query(sql);
+                                sql = 'INSERT INTO `lhc`.`thuoctinh`\n' +
+                                    '(`product_id`,\n' +
+                                    '`mau`,\n' +
+                                    '`tuoi`,\n' +
+                                    '`menh`)\n' +
+                                    'VALUES\n' +
+                                    '('+row1s.product_id+',\n' +
+                                    '\''+input.Mau+'\',\n' +
+                                    '\''+input.Tuoi+'\',\n' +
+                                    '\''+input.Menh+'\');\n'
                                 con.query(sql);
                             }
                             prdId = row1s.product_id;

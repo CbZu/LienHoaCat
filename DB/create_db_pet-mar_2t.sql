@@ -90,10 +90,22 @@ CREATE TABLE IF NOT EXISTS `lhc`.`product` (
   `create_time` INT NULL,
   `price` DOUBLE NULL,
   `name` VARCHAR(255)  character set utf8 NULL,
-  `size` VARCHAR(10) NULL,
+  `size` VARCHAR(255) NULL,
   `image` VARCHAR(255) NULL,
   `description` VARCHAR(3) character set utf8 NULL,
   `code` VARCHAR(20) NULL,
+  `mau` VARCHAR(255)  character set utf8 NULL ,
+	`tuoi` VARCHAR(255) character set utf8 NULL ,
+	`menh` VARCHAR(255) character set utf8 NULL ,
+    `entity` INT NOT NULL,
+    `information` VARCHAR(255) character set utf8 NULL ,
+  PRIMARY KEY (`product_id`));
+  
+  CREATE TABLE IF NOT EXISTS `lhc`.`thuoctinh` (
+  `product_id` INT NOT NULL,
+  `mau` VARCHAR(255)  character set utf8 NULL ,
+	`tuoi` VARCHAR(255) character set utf8 NULL ,
+	`menh` VARCHAR(255) character set utf8 NULL ,
   PRIMARY KEY (`product_id`));
   
   CREATE TABLE IF NOT EXISTS `lhc`.`discount` (
