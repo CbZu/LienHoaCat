@@ -6,14 +6,14 @@
     <div class="row ">
         <ol class="breadcrumb">
             <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a
-                    href="/maintenance-prd?catId=<%= result[0].cat_id %>&catflt=<%=result[0].catflt%>"> <%= result[0].catflt %></a> / <a href="#">Tạo
+                    href="/maintenance-prd/<%= result[0].catflt.replace(/ /g,'-')%>"> <%= result[0].catflt %></a> / <a href="#">Tạo
                 Sản Phẩm</a>
         </ol>
 
     </div>
     <div class="row product-info">
         <div class="col-md-4">
-            <img class="img-responsive thumbnail" src="assets/img/<%=result[0].image%>" alt="">
+            <img class="img-responsive thumbnail" src="/assets/img/<%=image[0].url.split(";")[0]%>" alt="">
         </div>
         <div class="col-md-8">
             <div class="ditem">
@@ -77,10 +77,10 @@
                 </div>
                 <br>
                 <div class="row">
-                    <% for(j = 0;j < result.length;j++){ %>
+                    <% for(j = 0;j < image[0].url.split(";").length;j++){ %>
                     <div class="col-md-3">
 
-                            <img class="img-responsive thumbnail" src="assets/img/<%=result[j].image%>" alt="image">
+                            <img class="img-responsive thumbnail" src="/assets/img/<%=image[0].url.split(";")[j]%>" alt="image">
 
                     </div>
                     <% } %>

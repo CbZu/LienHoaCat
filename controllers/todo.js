@@ -1244,7 +1244,7 @@ module.exports.product_detail = function(req, res){
     var year = date.getUTCFullYear();
         var sql = 'select *, (select cat_name from category where cat_id = p.cat_id) as catflt,' +
             '(select disct_price from discount where product_id = p.product_id and effective_date <= '+year+''+month+day+' and '+year+''+month+''+day+'<=expired_date) as disct_price' +
-            ' from product p where name = (select name from product where product_id = '+req.query.id+');';
+            ' from product p where name = \''+req.params.prdname.replace(/-/g,' ')+'\';';
 
         var con = req.db.driver.db;
         con.query(sql, function (err, rows) {
@@ -1256,7 +1256,7 @@ module.exports.product_detail = function(req, res){
                 con.query(sql, function (err, row1s) {
                     if(!err){
 
-                        sql = 'select * from image where product_id  = '+req.query.id+';';
+                        sql = 'select * from image where product_id  = '+rows[0].product_id+';';
                         con.query(sql, function (err, row2s) {
                             if(!err){
                                 var data = {status: 'success', code: '200'
@@ -1323,28 +1323,47 @@ module.exports.maintenance_prd = function(req, res){
     var year = date.getUTCFullYear();
         var sql = '';
         sql += '\n' +
-            'select name,product_id,cat_id,image, \n' +
+            'select name,p.product_id,cat_id,image, \n' +
             '(select cat_name from category where cat_id = p.cat_id) as cat_name ,\n' +
             '(select description from description where p.description = description_id) as description ,\n' +
             '(select GROUP_CONCAT(disct_price SEPARATOR \',\') from discount where product_id = p.product_id and effective_date <= '+year+''+month+''+day+' and '+year+''+month+''+day+'<=expired_date) as disct_prices ,\n' +
             '(select GROUP_CONCAT(price SEPARATOR \',\') from product where name = p.name) as prices ,\n' +
             '(select GROUP_CONCAT(size SEPARATOR \',\') from product where name = p.name) as sizes ,\n' +
             '(select GROUP_CONCAT(product_id SEPARATOR \',\') from product where name = p.name) as size_id \n' +
-            'from product p ';
+            'from product p join thuoctinh t on p.product_id = t.product_id join description d on p.description = d.description_id ';
 
         var where = '';
-        if(req.query.catflt != undefined && req.query.catflt != '' ){
-            where += ' cat_id = (select cat_id from category where cat_name like \'%'+req.query.catflt+'%\') and';
+        if(req.params.catflt != undefined && req.query.params != 'Search' ){
+            where += ' cat_id = (select cat_id from category where cat_name like \'%'+req.params.catflt.replace(/-/g,' ')+'%\') and';
         }
         if(req.query.prdflt != undefined && req.query.prdflt != '' ){
             where += ' name like \'%'+req.query.prdflt+'%\' and';
         }
-
+    if(req.query.menh != undefined && req.query.menh != '' ){
+        where += ' t.menh like \'%'+req.query.menh+'%\' and';
+    }
+    if(req.query.tuoi != undefined && req.query.tuoi != '' ){
+        where += ' t.tuoi like \'%'+req.query.tuoi+'%\' and';
+    }
+    if(req.query.mau != undefined && req.query.mau != '' ){
+        where += ' t.mau like \'%'+req.query.mau+'%\' and';
+    }
+    if(req.query.size != undefined && req.query.size != '' ){
+        where += ' t.sizefrom < '+req.query.size+' and t.sizeto > '+req.query.size+' and';
+    }
+    if(req.query.keyword != undefined && req.query.keyword != '' ){
+        where += ' (t.mau REGEXP \''+req.query.keyword.replace(",","|")+'\'\n' +
+            'or t.menh REGEXP \''+req.query.keyword.replace(",","|")+'\' \n' +
+            'or t.tuoi REGEXP \''+req.query.keyword.replace(",","|")+'\' \n' +
+            'or d.description REGEXP \''+req.query.keyword.replace(",","|")+'\' \n' +
+            'or p.name REGEXP \''+req.query.keyword.replace(",","|")+'\' \n' +
+            'or p.size REGEXP \''+req.query.keyword.replace(",","|")+'\') and';
+    }
         if(where.trim() == ''){
-            sql+= '  group by name order by product_id;'
+            sql+= '  group by name order by p.product_id;'
         }else{
             where = where.substring(0,where.length-3);
-            sql += ' where ' +  where  + '  group by name order by product_id;'
+            sql += ' where ' +  where  + '  group by name order by p.product_id;'
         }
         var con = req.db.driver.db;
         con.query(sql, function (err, rows) {
@@ -1352,11 +1371,35 @@ module.exports.maintenance_prd = function(req, res){
                 var data = {status: 'error', code: '300',error: err};
                 res.json(data);
             }else{
-                if(req.query.catflt != undefined && req.query.catflt != '' ){
-                    var data = {status: 'success', code: '200',result:rows,catflt:req.query.catflt,catId:req.query.catId,fname:req.session.firstname,type:req.session.type,treefolder:req.session.treefolder};
+                if(req.params.catflt != undefined && req.params.catflt != 'Search' ){
+                    var data = {status: 'success',
+                        code: '200',
+                        result:rows,
+                        catflt:req.params.catflt.replace(/-/g," "),
+                        catId:req.query.catId,
+                        fname:req.session.firstname,
+                        type:req.session.type,
+                        treefolder:req.session.treefolder,
+                        keyword:req.query.keyword,
+                        menh:req.query.menh,
+                        mau:req.query.mau,
+                        size:req.query.size,
+                        tuoi:req.query.tuoi};
                     res.render('products',data);
                 }else{
-                    var data = {status: 'success', code: '200',result:rows,cat:'undefined',catId:'undefined',treefolder:req.session.treefolder};
+                    var data = {status: 'success',
+                        code: '200',
+                        result:rows,
+                        catflt:'undefined',
+                        catId:'undefined',
+                        treefolder:req.session.treefolder,
+                        fname:req.session.firstname,
+                        type:req.session.type,
+                        keyword:req.query.keyword,
+                        menh:req.query.menh,
+                        mau:req.query.mau,
+                        size:req.query.size,
+                        tuoi:req.query.tuoi};
                     res.render('products',data);
                 }
 

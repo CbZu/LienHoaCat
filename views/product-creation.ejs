@@ -5,7 +5,7 @@
 <div class="container body-content">
     <div class="row">
         <ol class="breadcrumb">
-            <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="/maintenance-prd?catflt=<%=catflt%>&catId=<%=catId%>"> <%=catflt%></a> / <a href="#">Tạo Sản Phẩm</a>
+            <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="/maintenance-prd/<%=catflt.replace(/ /g,'-')%>> <%=catflt%></a> / <a href="#">Tạo Sản Phẩm</a>
         </ol>
 
     </div>
@@ -50,7 +50,7 @@
                                         <input type="checkbox" class="checkmenh" id="mang1" value="moc"> Mộc
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" class="checkmenh" id="mang2" value="tuy"> Thủy
+                                        <input type="checkbox" class="checkmenh" id="mang2" value="thuy"> Thủy
                                     </label>
                                     <label class="checkbox-inline">
                                         <input type="checkbox" class="checkmenh"  id="mang3" value="hoa"> Hỏa
@@ -105,7 +105,7 @@
                             </div>
                             <div class="row center-block">
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" class="checkmau" id="mau0" value="dổ"> Đỏ
+                                        <input type="checkbox" class="checkmau" id="mau0" value="đỏ"> Đỏ
                                     </label>                                
                                     <label class="checkbox-inline">
                                         <input type="checkbox" class="checkmau" id="mau1" value="tím"> Tím
@@ -159,7 +159,7 @@
                                         <label class="col-md-4">
                                             Từ: 
                                         </label>
-                                        <div class="col-md-8"><input class="form-control id = "minsize" value = ""></div>                                        
+                                        <div class="col-md-8"><input class="form-control" id = "minsize" value = ""></div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -460,7 +460,12 @@
                 infos.push(allElements[i].value);
             }
         }
-        var expd = document.getElementById('expiredDate').value;
+        var expd = '';
+        if(disct_prices[0]=='0'){
+            expd = '9999-99-99'
+        }else{
+            expd = document.getElementById('expiredDate').value;
+        }
         formdata.append('expired_date', expd.replace(/-/g, ""));
         formdata.append('Sizes', sizes);
         formdata.append('Prices', prices);
@@ -492,7 +497,8 @@
         formdata.append('Menh', menh);
         formdata.append('Tuoi', tuoi);
         formdata.append('Mau', mau);
-
+        formdata.append('SizeFrom', document.getElementById('minsize').value);
+        formdata.append('SizeTo', document.getElementById('maxsize').value);
         $.ajax({
             url: './ajax/addProduct',
             type: 'POST',
@@ -614,8 +620,6 @@
         formdata.append('Prices', prices);
         formdata.append('Discounts', disct_prices);
         formdata.append('Codes', codes);
-
-
         $.ajax({
             url: './ajax/addProduct',
             type: 'POST',

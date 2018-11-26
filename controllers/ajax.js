@@ -278,10 +278,10 @@ exports.addProduct=function(req,res){
             for(j = 0 ; j < req.files.upfiles.length ; j++){
                 if(path == ''){
                     path = req.files.upfiles[j].path;
-                    avas = req.files.upfiles[i].path.split("\\")[ req.files.upfiles[i].path.split("\\").length-1];
+                    avas = req.files.upfiles[j].path.split("\\")[ req.files.upfiles[j].path.split("\\").length-1];
                 }else{
                     path += ';' +  req.files.upfiles[j].path;
-                    avas += ';' +  req.files.upfiles[i].path.split("\\")[ req.files.upfiles[i].path.split("\\").length-1];
+                    avas += ';' +  req.files.upfiles[j].path.split("\\")[ req.files.upfiles[j].path.split("\\").length-1];
                 }
             }
         }
@@ -309,7 +309,7 @@ exports.addProduct=function(req,res){
                         size:element,
                         image:'',
                         code:input.Codes.split(',')[i],
-                        description : rows.insertId,
+                        description : rows.description_id,
                         image:img,
                         information : input.Infos.split(',')[i],
                         entity:input.Entities.split(',')[i]!=''?input.Entities.split(',')[i].trim():0,
@@ -338,12 +338,12 @@ exports.addProduct=function(req,res){
                                     '(`product_id`,\n' +
                                     '`mau`,\n' +
                                     '`tuoi`,\n' +
-                                    '`menh`)\n' +
+                                    '`menh`,`sizefrom`,`sizeto`)\n' +
                                     'VALUES\n' +
                                     '('+row1s.product_id+',\n' +
                                     '\''+input.Mau+'\',\n' +
                                     '\''+input.Tuoi+'\',\n' +
-                                    '\''+input.Menh+'\');\n'
+                                    '\''+input.Menh+'\','+input.SizeFrom+','+input.SizeTo+');\n'
                                 con.query(sql);
                             }
                             prdId = row1s.product_id;

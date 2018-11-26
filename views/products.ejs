@@ -6,14 +6,14 @@
 <div class="container">
         <div class="row">
             <ol class="breadcrumb">
-                <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="#"> <%= catflt %></a>
+                <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="#"> <%= catflt=='undefined'?'':catflt %></a>
             </ol>
 
         </div>
 
         <div class="row">
             <div class="col-md-3">
-                <a class="btn btn-primary" href='/create-prd?cat=<%= catflt %>&catId=<%= catId %>'>Add Product</a>
+                <a class="btn btn-primary" href='/create-prd?cat=<%= catflt %>&catId=<%= result[0].cat_id %>'>Add Product</a>
             </div>
         </div>
         <!--<div class="container-fluid row">
@@ -56,13 +56,132 @@
                 </div> 
             </div>
         </div>-->
+    <div class = "row">
+        <form action = '/maintenance-prd' method = 'get'>
+            <h2><span class="label label-primary">Lọc Sản Phẩm</span></h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <h3><span class="label label-success">Size(mm) :</span></h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <h3><span class="label label-success">Mệnh: </span></h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <h3><span class="label label-success">Màu:</span></h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <h3><span class="label label-success">Tuổi:</span></h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <input  class=" form-control" name = 'keyword' id = 'keyword' style="display: none" value="<%=keyword%>" type="text" />
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input  class=" form-control" name = 'size' id = 'size'   type="number" />
+                    </div>
+
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <select class=" form-control" name = 'menh' id = 'menh'>
+                            <option value = ''>------Select-------</option>
+                            <option value="kim"> Kim</option>
+
+                            <option value="moc"> Mộc</option>
+
+                            <option value="thuy"> Thủy</option>
+
+                            <option value="hoa"> Hỏa</option>
+
+                            <option value="tho"> Thổ</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <select class=" form-control" name = 'mau' id = 'mau'>
+                            <option value = ''>------Select-------</option>
+                            <option value="đỏ"> Đỏ</option>
+                            <option value="tím"> Tím</option>
+                            <option value="hồng"> Hồng</option>
+                            <option value="vàng"> Vàng</option>
+                            <option value="nâu"> Nâu</option>
+                            <option value="cam"> Cam</option>
+                            <option value="xám"> Xám</option>
+                            <option value="ánh vàng"> Ánh vàng</option>
+                            <option value="ánh bạc"> Ánh bạc</option>
+                            <option value="xanh biển"> Xanh biển</option>
+                            <option value="đen"> Đen</option>
+                            <option value="xanh lá"> Xanh lá</option>
+                            <option value="xanh ngọc"> Xanh ngọc</option>
+                            <option value="trong suốt"> Trong suốt</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <select class=" form-control" name = 'tuoi' id = 'tuoi'>
+                            <option value = ''selected>------Select-------</option>
+
+                            <option  value="tý"> Tý</option>
+
+                            <option  value="sủu"> Sửu</option>
+
+                            <option value="dần"> Dần</option>
+
+                            <option value="mẹo"> Mẹo</option>
+
+                            <option  value="thìn"> Thình</option>
+
+                            <option  value="tỵ"> Tỵ</option>
+
+                            <option  value="ngọ"> Ngọ</option>
+
+                            <option  value="mùi"> Mùi</option>
+
+                            <option value="thân"> Thân</option>
+
+                            <option value="dậu"> Dậu</option>
+
+                            <option value="tuất"> Tuất</option>
+
+                            <option value="hợi"> Hợi</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class = "row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input class="btn btn-primary" value = 'Áp Dụng' type = 'submit'></input>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </form>
+    </div>
         <div class="row">
                 <% for(j = 0;j < result.length;j++){ %>
                 <div class="col-xs-6 col-md-4">
                     <div class="product">
                         <div class="center-height">
-                            <a href="/product-detail?id=<%= result[j].product_id %>" class="portfolio_item work-grid ">
-                                <img src="assets/img/<%= result[j].image %>" class="img-responsive" alt="Responsive image" style="padding: 10px;">
+                            <a href="/product-detail/<%=result[j].cat_name.replace(" ", "-")%>/<%=result[j].name.replace(/ /g, '-')%>" class="portfolio_item work-grid ">
+                                <img src="/assets/img/<%= result[j].image %>" class="img-responsive" alt="Responsive image" style="padding: 10px;">
                                 <% if(result[j].disct_prices == null){ %>
                                     <div style=" padding: 0px">
                                             <h4 style="text-align: center;">Giá SP</h4>
@@ -89,29 +208,44 @@
         </div>
 </div>
 
-            
-            <script src="js/jquery.js"></script>
-            <script src="js/bootstrap.js"></script>
-            <script src="js/slimmenu.js"></script>
-            <script src="js/bootstrap-datepicker.js"></script>
-            <script src="js/bootstrap-timepicker.js"></script>
-            <script src="js/nicescroll.js"></script>
-            <script src="js/dropit.js"></script>
-            <script src="js/ionrangeslider.js"></script>
-            <script src="js/icheck.js"></script>
-            <script src="js/fotorama.js"></script>
-            <script src="js/typeahead.js"></script>
-            <script src="js/card-payment.js"></script>
-            <script src="js/magnific.js"></script>
-            <script src="js/owl-carousel.js"></script>
-            <script src="js/fitvids.js"></script>
-            <script src="js/tweet.js"></script>
-            <script src="js/countdown.js"></script>
-            <script src="js/gridrotator.js"></script>
-            <script src="js/custom.js"></script>
+
+            <script type="text/javascript" src="/js/jquery.js"></script>
+            <script type="text/javascript"  src="/js/bootstrap.js"></script>
+            <script  type="text/javascript" src="/js/slimmenu.js"></script>
+            <script type="text/javascript"  src="/js/bootstrap-datepicker.js"></script>
+            <script type="text/javascript"  src="/js/bootstrap-timepicker.js"></script>
+            <script type="text/javascript"  src="/js/nicescroll.js"></script>
+            <script type="text/javascript"  src="/js/dropit.js"></script>
+            <script  type="text/javascript" src="/js/ionrangeslider.js"></script>
+            <script  type="text/javascript" src="/js/icheck.js"></script>
+            <script type="text/javascript"  src="/js/fotorama.js"></script>
+            <script type="text/javascript"  src="/js/typeahead.js"></script>
+            <script  type="text/javascript" src="/js/card-payment.js"></script>
+            <script type="text/javascript"  src="/js/magnific.js"></script>
+            <script type="text/javascript"  src="/js/owl-carousel.js"></script>
+            <script  type="text/javascript" src="/js/fitvids.js"></script>
+            <script type="text/javascript"  src="/js/tweet.js"></script>
+            <script  type="text/javascript" src="/js/countdown.js"></script>
+            <script type="text/javascript"  src="/js/gridrotator.js"></script>
+            <script type="text/javascript"  src="/js/custom.js"></script>
             <script>
-                if ('<%= catflt %>' != 'undefined') {
+                if ('<%=catflt%>' != 'undefined') {
                     document.getElementById('catflt').value = '<%= catflt %>';
+                }
+                if ('<%=keyword%>' != 'undefined') {
+                    document.getElementById('keyword').value = '<%=keyword%>';
+                }
+                if ('<%=menh%>' != 'undefined') {
+                    document.getElementById('menh').value = '<%=menh%>';
+                }
+                if ('<%=mau%>' != 'undefined') {
+                    document.getElementById('mau').value = '<%=mau%>';
+                }
+                if ('<%=tuoi%>' != 'undefined') {
+                    document.getElementById('tuoi').value = '<%=tuoi%>';
+                }
+                if ('<%=size%>' != 'undefined') {
+                    document.getElementById('size').value = '<%=size%>';
                 }
             </script>
 

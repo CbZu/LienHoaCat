@@ -94,9 +94,6 @@ CREATE TABLE IF NOT EXISTS `lhc`.`product` (
   `image` VARCHAR(255) NULL,
   `description` VARCHAR(3) character set utf8 NULL,
   `code` VARCHAR(20) NULL,
-  `mau` VARCHAR(255)  character set utf8 NULL ,
-	`tuoi` VARCHAR(255) character set utf8 NULL ,
-	`menh` VARCHAR(255) character set utf8 NULL ,
     `entity` INT NOT NULL,
     `information` VARCHAR(255) character set utf8 NULL ,
   PRIMARY KEY (`product_id`));
@@ -106,6 +103,8 @@ CREATE TABLE IF NOT EXISTS `lhc`.`product` (
   `mau` VARCHAR(255)  character set utf8 NULL ,
 	`tuoi` VARCHAR(255) character set utf8 NULL ,
 	`menh` VARCHAR(255) character set utf8 NULL ,
+  `sizefrom` INT NULL,
+  `sizeto` INT NULL,
   PRIMARY KEY (`product_id`));
   
   CREATE TABLE IF NOT EXISTS `lhc`.`discount` (

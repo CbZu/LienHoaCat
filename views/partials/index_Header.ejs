@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <div class="container">
@@ -25,7 +25,7 @@
             <% if(fname != undefined){ %>
             <div>
                 <a href="/edit-account">
-                    <img class="img-circle origin" src="img/40x40.png" alt="Image Alternative text"
+                    <img class="img-circle origin" src="/img/40x40.png" alt="Image Alternative text"
                          title="AMaze"/>
                 </a>
             </div>
@@ -64,14 +64,14 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="position: relative;">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="/" style="padding: 0px;"><img src="img/logo.png" alt="LienHoaCac" style="width: 80px;padding: 0px;"></a>
+                    <a href="/" style="padding: 0px;"><img src="/img/logo.png" alt="LienHoaCac" style="width: 80px;padding: 0px;"></a>
                 </li>
             </ul>
             <div class="row">
                 <div class="col-sm-7">
-                    <form class="search" method="GET" action="/search">
+                    <form class="search" method="GET" action="/maintenance-prd">
                         <div class="form-group">
-                            <input style="background-color: white;" type="text" name="topSearchKeyword" id="topSearchKeyword"
+                            <input style="background-color: white;" type="text" name="keyword" id="keyword"
                                    placeholder="Tìm kiếm trên Liên Hoa Các..." value="">
                         </div>
                         <button type="submit" class=""><span class="glyphicon glyphicon-search"></span></button>
@@ -89,7 +89,7 @@
                             <span class="glyphicon glyphicon-shopping-cart"></span>
                         </button> -->
                         <!-- <h3><span class="glyphicon glyphicon-shopping-cart" style="color: white;"></span></h3> -->
-                        <img src="img/cart.png" class="img-responsive" style="max-width: 50px; margin: 15px 0px 15px 0px;">
+                        <img src="/img/cart.png" class="img-responsive" style="max-width: 50px; margin: 15px 0px 15px 0px;">
                     </a>
                 </div>
                 <div class="col-sm-4"></div>
@@ -110,7 +110,7 @@
                 <li> <a href="" data-filter=".folder2" ><h4><font color="white"><%=treefolder[i].folder_name%></font></h4></a>
                     <ul class="dropdown-menu">
                         <%for(var j = 0 ; j < treefolder[i].cat_names.split(";").length ; j++){%>
-                        <li> <a href="/maintenance-prd?catflt=<%=treefolder[i].cat_names.split(";")[j].trim() %>&catId=<%=treefolder[i].cat_ids.split(";")[j].trim() %>"><h4><%=treefolder[i].cat_names.split(";")[j]%></h4></a></li>
+                        <li> <a href="/maintenance-prd/<%=treefolder[i].cat_names.split(";")[j].trim().replace(" ","-")%>?catflt=<%=treefolder[i].cat_names.split(";")[j].trim() %>&catId=<%=treefolder[i].cat_ids.split(";")[j].trim() %>"><h4><%=treefolder[i].cat_names.split(";")[j]%></h4></a></li>
                         <%}%>
 
                     </ul>

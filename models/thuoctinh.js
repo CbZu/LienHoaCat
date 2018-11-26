@@ -3,6 +3,8 @@ module.exports = function (orm, db) {
         product_id: {type: 'number'},
         mau: {type: 'text'},
         tuoi: {type: 'text'},
+        sizefrom: {type: 'number'},
+        sizeto: {type: 'number'},
         menh: {type: 'text'}
     });
 };

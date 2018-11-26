@@ -8,9 +8,6 @@ module.exports = function (orm, db) {
         image: {type: 'text'},
         size: {type: 'number'},
         description: {type: 'text'},
-        mau: {type: 'text'},
-        tuoi: {type: 'text'},
-        menh: {type: 'text'},
         code: {type: 'text'},
         entity: {type: 'number'},
         information: {type: 'text'}
