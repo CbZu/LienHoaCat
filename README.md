@@ -9,6 +9,7 @@ npm install nodemailer
 npm install --save express-fileupload
 npm install --save express
 npm install node-mv -g
+npm install --save quick-local-ip
 $ node server
 
 and go to your browser and open http://localhost:8080

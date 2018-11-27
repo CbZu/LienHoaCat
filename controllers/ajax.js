@@ -294,12 +294,8 @@ exports.addProduct=function(req,res){
                 var i = 0;
                 input.Sizes.split(',').forEach(function (element){
 
-                    var img = '';
-                    if(req.files.upfiles.length == undefined){
-                        img = req.files.upfiles.path.split("\\")[ req.files.upfiles.path.split("\\").length-1]
-                    } else{
-                        img=req.files.upfiles[i].path.split("\\")[ req.files.upfiles[i].path.split("\\").length-1];
-                    }
+                    var img = path.split(";")[0];
+
                     var data={
                         cat_id:input.category,
                         create_time:parseInt(year+''+month+''+day),
@@ -309,7 +305,7 @@ exports.addProduct=function(req,res){
                         size:element,
                         image:'',
                         code:input.Codes.split(',')[i],
-                        description : rows.description_id,
+                        description : rows.insertId,
                         image:img,
                         information : input.Infos.split(',')[i],
                         entity:input.Entities.split(',')[i]!=''?input.Entities.split(',')[i].trim():0,
@@ -361,9 +357,9 @@ exports.addProduct=function(req,res){
                                 con.query(sql);
                             }
                         }
-                        i++;
-                    });
 
+                    });
+                    i++;
 
                 });
 
@@ -396,24 +392,8 @@ exports.addProductImages=function(req,res){
     var path = req.files.images.path;
         var img = '';
         img=req.files.images.path.split("\\")[ req.files.images.path.split("\\").length-1];
-        var data={
-            product_id:0,
-            url:img,
-            type:''
-        };
-
-        req.models.image.create(data,function(err,row2s){
-            if(err){
-                var data={status:'fail',code:'300',description:err.message};
-                res.json(data);
-            }
-            else{
-                var data={status:'success',code:'400',path:path,image:img};
-                res.json(data);
-            }
-        });
-
-
+        var data={status:'success',code:'400',path:path,image:img};
+        res.json(data);
 
 };
 exports.addSizeToCart=function(req,res){

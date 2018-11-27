@@ -5,7 +5,7 @@
 <div class="container body-content">
     <div class="row">
         <ol class="breadcrumb">
-            <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="/maintenance-prd/<%=catflt.replace(/ /g,'-')%>> <%=catflt%></a> / <a href="#">Tạo Sản Phẩm</a>
+            <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="/maintenance-prd/<%=catflt.replace(/ /g,'-')%>"> <%=catflt%></a> / <a href="#">Tạo Sản Phẩm</a>
         </ol>
 
     </div>
@@ -350,7 +350,7 @@
                         //alert(msg);
                         data = msg;
                         var description = document.getElementById("description").value;
-                        description +=  '<br>'+'<img border=0 hspace="0" alt="" src="assets/img/'+response.image+'" align="baseline" class="img-responsive">' + '<br>';
+                        description +=  '<br>'+'<img border=0 hspace="0" alt="" src="/assets/img/'+response.image+'" align="baseline" class="img-responsive">' + '<br>';
                         document.getElementById("description").value = description;
                         document.getElementById("id02").style.display = 'none';
 

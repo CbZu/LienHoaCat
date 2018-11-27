@@ -69,7 +69,7 @@
             </ul>
             <div class="row">
                 <div class="col-sm-7">
-                    <form class="search" method="GET" action="/maintenance-prd">
+                    <form class="search" method="GET" action="/maintenance-prd/Search">
                         <div class="form-group">
                             <input style="background-color: white;" type="text" name="keyword" id="keyword"
                                    placeholder="Tìm kiếm trên Liên Hoa Các..." value="">
@@ -110,7 +110,7 @@
                 <li> <a href="" data-filter=".folder2" ><h4><font color="white"><%=treefolder[i].folder_name%></font></h4></a>
                     <ul class="dropdown-menu">
                         <%for(var j = 0 ; j < treefolder[i].cat_names.split(";").length ; j++){%>
-                        <li> <a href="/maintenance-prd/<%=treefolder[i].cat_names.split(";")[j].trim().replace(" ","-")%>?catflt=<%=treefolder[i].cat_names.split(";")[j].trim() %>&catId=<%=treefolder[i].cat_ids.split(";")[j].trim() %>"><h4><%=treefolder[i].cat_names.split(";")[j]%></h4></a></li>
+                        <li> <a href="/maintenance-prd/<%=treefolder[i].cat_names.split(";")[j].trim().replace(" ","-")%>"><h4><%=treefolder[i].cat_names.split(";")[j]%></h4></a></li>
                         <%}%>
 
                     </ul>
@@ -234,9 +234,9 @@
     function GetCart(idx){
         var url ='';
         if(idx == 0){
-            url = './PetMart/get-cart';
+            url = '/PetMart/get-cart';
         }else{
-            url = './PetMart/get-cart?user='+idx;
+            url = '/PetMart/get-cart?user='+idx;
         }
         $.ajax({
             url: url,

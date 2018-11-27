@@ -122,14 +122,14 @@
         <%for (var i = 0; i < result.length; i++) {%>
             sizes.push(<%=result[i].product_id%>);
         <%}%>
-        input = document.getElementsByClassName('form-control booking-item-title quantity');
+        input = document.getElementsByClassName('form-control booking-item-title quantity center-block');
         for (var i = 0; i < input.length; i++) {
             quantities.push(input[i].value);
         }
         formdata1.append('size_id',sizes);
         formdata1.append('quantity',quantities);
                 $.ajax({
-                    url: "./PetMart/add-to-cart",
+                    url: "/PetMart/add-to-cart",
                     type: 'POST',
                     dataType : 'JSON',
                     data: JSON.stringify({size_id:sizes,quantity:quantities}),

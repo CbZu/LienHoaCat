@@ -51,7 +51,8 @@ CREATE TABLE IF NOT EXISTS `lhc`.`cart` (
   `create_time` INT NULL,
   `disct_price` DOUBLE NULL,
   `price` DOUBLE NULL,
-  `status_id` INT NULL);
+  `status_id` INT NULL,
+  `address` VARCHAR(50) NULL);
 
 
 -- -----------------------------------------------------

@@ -6,96 +6,96 @@
     <div class="container solid-content">
         <h3>Thông tin sản phẩm</h3>
 
-            <div id="cartdetail" class = "row">                
-                <table class="table table-bordered">
-                    <thead>
-                        <th class="text-right" style="text-align: center;"><h3>Tên sản phẩm</h3></th>
-                        <th class="text-right" style="text-align: center;"><h3>Size</h3></th>
-                        <th class="text-right" style="text-align: center;"><h3>Giá sản phẩm</h3></th>
-                        <th class="text-right" style="text-align: center;"><h3>Số Lượng</h3></th>
-                        <th class="text-right" style="text-align: center;"><h3>Thành Tiền</h3></th>
-                        <!-- <td ><h4 style="text-align: center;">Size</h4></td>
-                        <td class="text-right"><h4 style="text-align: center;"></h4></td>
-                        <td class="text-right"><h4 style="text-align: center;"></h4></td>
-                        <td class="text-right"><h4 style="text-align: center;"></h4></td> -->
-                    </thead>
+        <div id="cartdetail" class="row">
+            <table class="table table-bordered">
+                <thead>
+                <th class="text-right" style="text-align: center;"><h3>Tên sản phẩm</h3></th>
+                <th class="text-right" style="text-align: center;"><h3>Size</h3></th>
+                <th class="text-right" style="text-align: center;"><h3>Giá sản phẩm</h3></th>
+                <th class="text-right" style="text-align: center;"><h3>Số Lượng</h3></th>
+                <th class="text-right" style="text-align: center;"><h3>Thành Tiền</h3></th>
+                <!-- <td ><h4 style="text-align: center;">Size</h4></td>
+                <td class="text-right"><h4 style="text-align: center;"></h4></td>
+                <td class="text-right"><h4 style="text-align: center;"></h4></td>
+                <td class="text-right"><h4 style="text-align: center;"></h4></td> -->
+                </thead>
                 <% for (var i = 0; i < result.length; i++) { %>
-                    <tbody>
-                    <% for (var j = 0; j < result[i].sizes.split(';').length; j++) { %>
-                    <tr>
-                        <td class="text-center">
-                            <%= result[i].name %>
-                            <!-- <input id='size_id' class="booking-item-title size_id_header"
+                <tbody>
+                <% for (var j = 0; j < result[i].sizes.split(';').length; j++) { %>
+                <tr>
+                    <td class="text-center">
+                        <%= result[i].name %>
+                        <!-- <input id='size_id' class="booking-item-title size_id_header"
                                    style="text-align: center; background-color: transparent" disabled
                                    value="<%= result[i].name %>"></input> -->
-                        </td>
-                        <td class="text-center">
-                            <%= result[i].sizes.split(';')[j] %>
-                            <!-- <input id='size_id' class="booking-item-title size_id_header"
+                    </td>
+                    <td class="text-center">
+                        <%= result[i].sizes.split(';')[j] %>
+                        <!-- <input id='size_id' class="booking-item-title size_id_header"
                                    style="text-align: center; background-color: transparent" disabled
                                    value="<%= result[i].sizes.split(';')[j] %>"></input> -->
-                        </td>
+                    </td>
 
-                        <td class="text-center">
-                            <% if(result[i].disct_prices == null) { %>
-                            <%= result[i].prices.split(';')[j] %>
-                            <!-- <label style=" text-align: center"><font
-                                        color="black"><%= result[i].prices.split(';')[j] %> </font></label> -->
-                            <% }else { %>
-                            <%= result[i].disct_prices.split(';')[j] %>
-                            <!-- <label style="text-decoration:line-through ; text-align: center"><font
-                                        color="black"><%= result[i].prices.split(';')[j] %></font></label>-><label style=" text-align: center"><font
-                                        color="red"><%= result[i].disct_prices.split(';')[j] %></font></label> -->
-                            <% } %>
-                        </td>
-                        <td >
-                            <input id="quantity" class="center-block form-control booking-item-title quantity_header"
-                                   value="<%=result[i].quantities.split(';')[j].trim()%>" type="number" min="1" max=""
-                                   step="1" autocomplete="off" style="width: 50%;">
+                    <td class="text-center">
+                        <% if(result[i].discount_prices.split(';')[j] == null) { %>
 
-                        </td>
-                        <td class="text-center">
-                            <%= result[i].sums.split(';')[j] %>
-                            <!-- <input class="booking-item-title"
-                                   style="text-align: center; background-color: transparent" disabled
-                                   value=""> -->
+                        <label style=" text-align: center"><font
+                                    color="black"><%= result[i].prices.split(';')[j] %> </font></label>
+                        <% }else { %>
 
-                        </td>
-                    </tr>
-                    <% } %>
-<!--                     <tr>
+                        <label style="text-decoration:line-through ; text-align: center"><font
+                                    color="black"><%= result[i].prices.split(';')[j] %></font></label>-><label
+                                style=" text-align: center"><font
+                                    color="red"><%= result[i].discount_prices.split(';')[j] %></font></label>
+                        <% } %>
+                    </td>
+                    <td>
+                        <input id="quantity" class="center-block form-control booking-item-title quantity_header"
+                               value="<%= result[i].quantities.split(';')[j].trim() %>" type="number" min="1" max=""
+                               step="1" autocomplete="off" style="width: 50%;">
+
+                    </td>
+                    <td class="text-center">
+                        <%= result[i].sums.split(';')[j] %>
+                        <!-- <input class="booking-item-title"
+                               style="text-align: center; background-color: transparent" disabled
+                               value=""> -->
+
+                    </td>
+                </tr>
+                <% } %>
+                <!--                     <tr>
                         <td class="text-center"><h4 style="text-align: center;"></h4></td>
                         <td class="text-center"><h4 style="text-align: center;"></h4></td>
                         <td class="text-center"><h4 style="text-align: center;"></h4></td>
                         <td class="text-center"><h4 style="text-align: center;">Tổng Tiền</h4></td>
                         <td class="text-center"><h4 style="text-align: center;"><%= result[i].total %></h4></td>
                     </tr> -->
-                    </tbody>
-                     <% } %>
-                </table>
-            </div>
-
+                </tbody>
+                <% } %>
+            </table>
+        </div>
 
 
     </div>
-        <input id = "ship" style="display: none" value = '0'>
-        <input id = "type" style="display: none" value = '0'>
+    <input id="ship" style="display: none" value='0'>
+    <input id="type" style="display: none" value='0'>
     <div class="col-sm-7">
 
         <div class="row solid-content">
             <h3>Hình thức giao hàng</h3>
             <div class="col-md-3">
-                <a  class="thumbnail" onclick="Ship('1')">
+                <a class="thumbnail" onclick="Ship('1')">
                     <img src="img/delivery_form/giaohangtietkiem.png" alt="...">
                 </a>
             </div>
             <div class="col-md-3">
-                <a  class="thumbnail" onclick="Ship('2')">
+                <a class="thumbnail" onclick="Ship('2')">
                     <img src="img/delivery_form/giaohangnhanh.png" alt="...">
                 </a>
             </div>
             <div class="col-md-3">
-                <a  class="thumbnail" onclick="Ship('3')">
+                <a class="thumbnail" onclick="Ship('3')">
                     <img src="img/delivery_form/viettel_post.jpg" alt="...">
                 </a>
             </div>
@@ -104,12 +104,12 @@
 
             <h3>Hình thức thanh toán</h3>
             <div class="col-md-3">
-                <a  class="thumbnail"  onclick="Type('1')">
+                <a class="thumbnail" onclick="Type('1')">
                     <img src="img/payment_method/cash.jpg" alt="...">
                 </a>
             </div>
             <div class="col-md-3">
-                <a  class="thumbnail"  onclick="Type('2')">
+                <a class="thumbnail" onclick="Type('2')">
                     <img src="img/payment_method/transfer.jpg" alt="...">
                 </a>
             </div>
@@ -118,33 +118,33 @@
     </div>
     <div class="col-sm-4 solid-content">
         <h2>Thông tin đơn hàng</h2>
-        <%if(userdetail != undefined){%>
-        <h4>Tên: <%=userdetail[0].firstname%> <%=userdetail[0].lastname%></h4>
-        <h4>Email: <%=userdetail[0].email%></h4>
-        <h4>Số điện thoại: <%=userdetail[0].phone%></h4>
-        <h4>Địa Chỉ: <%=userdetail[0].address%></h4>
-        <%}%>
+        <% if(userdetail != undefined){ %>
+        <h4>Tên: <%= userdetail[0].firstname %> <%= userdetail[0].lastname %></h4>
+        <h4>Email: <%= userdetail[0].email %></h4>
+        <h4>Số điện thoại: <%= userdetail[0].phone %></h4>
+        <h4>Địa Chỉ: <%= userdetail[0].address %></h4>
+        <% } %>
         <h4>Số sản phẩm</h4>
         <h4>Phí vận chuyển</h4>
         <div class="row">
             <div class="col-sm-8 form-group has-success has-feedback">
-                <input type="text" class="form-control"  onkeyup="CheckVoucher()" id="voucher" placeholder="Mã giảm giá">
+                <input type="text" class="form-control" onkeyup="CheckVoucher()" id="voucher" placeholder="Mã giảm giá">
             </div>
             <button class="col-sm-4 btn btn-success">Áp dụng</button>
         </div>
         <h3>Tổng cộng: </h3>
-        <h2 id = "totalLabel" class="fa-money"><%=totalAll%></h2>
+        <h2 id="totalLabel" class="fa-money"><%= totalAll %></h2>
     </div>
-        <button class="btn btn-danger col-sm-2 col-md-offset-3" type="button"
-                onclick="document.getElementById('id03').style.display='none'">
-            Hủy
-        </button>
-        <button class="btn btn-info col-sm-2" type="button" onclick="UpdateCart()">
-            Cập Nhật Giỏ
-        </button>
-        <button onclick="CheckOut()"  class="btn btn-success col-sm-2">
-            Thanh Toán
-        </button>
+    <button class="btn btn-danger col-sm-2 col-md-offset-3" type="button"
+            onclick="document.getElementById('id03').style.display='none'">
+        Hủy
+    </button>
+    <button class="btn btn-info col-sm-2" type="button" onclick="UpdateCart()">
+        Cập Nhật Giỏ
+    </button>
+    <button onclick="CheckOut()" class="btn btn-success col-sm-2">
+        Thanh Toán
+    </button>
 </div>
 <div class="row">
     <div id="idSuccess" class="modal">
@@ -169,21 +169,24 @@
 <script>
     var type = '';
     var ship = '';
-    function Ship(idx){
+
+    function Ship(idx) {
         ship = idx;
         document.getElementById("ship").value = idx;
     }
-    function Type(idx){
+
+    function Type(idx) {
         type = idx;
         document.getElementById("type").value = idx;
     }
-    function CheckVoucher(){
-        var obj =$("#voucher");
+
+    function CheckVoucher() {
+        var obj = $("#voucher");
         $(".error").remove();
         $.ajax({
             type: "POST",
             url: "./PetMart/get-voucher",
-            data: "mode=check_email&voucher=" + obj.val()+"&total=<%=totalAll%>",
+            data: "mode=check_email&voucher=" + obj.val() + "&total=<%= totalAll %>",
             success: function (msg) {
                 //alert(msg);
                 data = msg;
@@ -191,21 +194,22 @@
                     obj.after("<label class='error'>Voucher Hết Hạn Hoặc Không Tồn Tại</label>");
                 }
                 else {
-                    document.getElementById("totalLabel").innerHTML = "<label style='text-decoration: line-through'><font color='black'> <%=totalAll%></font></lable><label><font color='red'> -> "+data.totalAfter+"</lable>";
+                    document.getElementById("totalLabel").innerHTML = "<label style='text-decoration: line-through'><font color='black'> <%= totalAll %></font></lable><label><font color='red'> -> " + data.totalAfter + "</lable>";
                 }
             }
         });
     }
-    function CheckOut(){
+
+    function CheckOut() {
         var formdata = new FormData();
         formdata.append('ship', ship);
         formdata.append('type', type);
-        if(document.getElementsByClassName('error').length == 0){
+        if (document.getElementsByClassName('error').length == 0) {
             formdata.append('voucher', $("#voucher").val());
         }
 
         $.ajax({
-            url: './PetMart/add-to-payment',
+            url: '/PetMart/add-to-payment',
             type: 'POST',
             data: formdata,
             async: false,
@@ -214,9 +218,44 @@
             enctype: 'multipart/form-data',
             processData: false,
             success: function (response) {
-                if(response.code == '200'){
+                if (response.code == '200') {
                     document.getElementById('idSuccess').style.display = 'block';
                 }
+            }
+        });
+
+    }
+
+    function UpdateCart() {
+        var formdata1 = new FormData();
+        var sizes = new Array();
+        var quantities = new Array();
+        var input = document.getElementsByClassName('booking-item-title size_id_header');
+        <% for (var i = 0; i < result.length; i++) { %>
+            <% for (var j = 0; j < result[i].size_ids.split(";").length; j++) { %>
+            sizes.push(<%= result[i].size_ids.split(";")[j] %>);
+            <% } %>
+        <% } %>
+        input = document.getElementsByClassName('form-control booking-item-title quantity_header');
+        for (var i = 0; i < input.length; i++) {
+            quantities.push(input[i].value);
+        }
+        formdata1.append('size_id', sizes);
+        formdata1.append('quantity', quantities);
+        $.ajax({
+            url: "./PetMart/update-cart",
+            type: 'POST',
+            dataType: 'JSON',
+            data: JSON.stringify({size_id: sizes, quantity: quantities}),
+            async: false,
+            cache: false,
+            contentType: 'application/json; charset=UTF-8',
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                alert(response.status);
+                document.getElementById('id03').style.display = 'none';
+                window.location.reload();
             }
         });
 
