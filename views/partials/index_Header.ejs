@@ -159,7 +159,7 @@
             <div style="padding-top: 75px;">
                     <span onclick="document.getElementById('id01').style.display='none'" class="close"
                           title="Close Modal">&times;</span>
-                <img src="img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
+                <img src="/img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
             </div>
             <form class="form-horizontal" role="form" action="/login" method="POST">
                 <div class="form-group has-success">
@@ -196,7 +196,7 @@
             <div style="padding-top: 75px;">
                 <span onclick="document.getElementById('id03').style.display='none'" class="close"
                       title="Close Modal">&times;</span>
-                <img src="img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
+                <img src="/img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
             </div>
             <form class="form-horizontal" action="/login" method="POST" style="padding-top: 20px">
                 <div id="cartdetail">
@@ -324,7 +324,7 @@
         formdata1.append('size_id',sizes);
         formdata1.append('quantity',quantities);
         $.ajax({
-            url: "./PetMart/update-cart",
+            url: "/PetMart/update-cart",
             type: 'POST',
             dataType : 'JSON',
             data: JSON.stringify({size_id:sizes,quantity:quantities}),
