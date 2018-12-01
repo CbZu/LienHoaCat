@@ -337,40 +337,43 @@ module.exports.add_to_cart = function(req, res){
                                 var data = {status: 'error', code: '300',error: err};
                                 res.json(data);
                             }else{
-                                if(row2s.length>0){
-                                    var sqlUpdate = 'update cart set amount = '+(parseInt(input.quantity[i])+parseInt(row2s[0].amount))+' where product_id = '+element+' and user_id = '+userid+';';
-                                    con.query(sqlUpdate,function(err,row1s) {
-                                        if (err) {
-                                            var data = {status: 'fail', code: '300', description : err.message};
-                                            res.json(data);
-                                        } else {
+                                if(input.quantity[i].trim() != '0'){
+                                    if(row2s.length>0){
+                                        var sqlUpdate = 'update cart set amount = '+(parseInt(input.quantity[i])+parseInt(row2s[0].amount))+' where product_id = '+element+' and user_id = '+userid+';';
+                                        con.query(sqlUpdate,function(err,row1s) {
+                                            if (err) {
+                                                var data = {status: 'fail', code: '300', description : err.message};
+                                                res.json(data);
+                                            } else {
 
-                                        }
-                                    });
-                                }else{
-                                    var data={
-                                        user_id: parseInt(userid),
-                                        product_id:parseInt(element),
-                                        amount:parseInt(input.quantity[i]),
-                                        payment_id:0,
-                                        create_time:parseInt(year+''+month+''+day),
-                                        status_id:0
-                                    };
-                                    req.models.cart.create(data,function(err,row1s) {
-                                        if (err) {
-                                            var data = {status: 'fail', code: '300', description : err.message};
-                                            res.json(data);
-                                        } else {
-                                            var updatePrice = 'update cart set disct_price = 0, price = 0' +
-                                                ' where product_id = '+element+' and user_id = '+userid+' and payment_id = 0  ;';
-                                            con.query(updatePrice, function (err, row4s) {
-                                                if(!err){
+                                            }
+                                        });
+                                    }else{
+                                        var data={
+                                            user_id: parseInt(userid),
+                                            product_id:parseInt(element),
+                                            amount:parseInt(input.quantity[i]),
+                                            payment_id:0,
+                                            create_time:parseInt(year+''+month+''+day),
+                                            status_id:0
+                                        };
+                                        req.models.cart.create(data,function(err,row1s) {
+                                            if (err) {
+                                                var data = {status: 'fail', code: '300', description : err.message};
+                                                res.json(data);
+                                            } else {
+                                                var updatePrice = 'update cart set disct_price = 0, price = 0' +
+                                                    ' where product_id = '+element+' and user_id = '+userid+' and payment_id = 0  ;';
+                                                con.query(updatePrice, function (err, row4s) {
+                                                    if(!err){
 
-                                                }
-                                            });
-                                        }
-                                    });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
                                 }
+
                                 i++;
                             }
                         });
