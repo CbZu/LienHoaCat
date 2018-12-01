@@ -11,81 +11,97 @@
         </ol>
 
     </div>
-    <div class="row product-info">
-        <div class="col-md-4">
-            <img class="img-responsive thumbnail" src="/assets/img/<%=image[0].url.split(";")[0]%>" alt="">
-        </div>
-        <div class="col-md-8">
-            <div class="ditem">
-                <div class="row">
-                    <h2><%=result[0].name%></h2>
-                </div>
-
-                <div class="row">
-                <table class="row table table-condensed">
-                    <tbody>
-                <tr>
-                    <td class="text-right"><h4 style="text-align: center;">Size</h4></td>
-                    <td class="text-right"><h4 style="text-align: center;">Giá sản phẩm</h4></td>
-                    <td class="text-right"><h4 style="text-align: center;">Mã Sản Phẩm</h4></td>
-                    <td class="text-right"><h4 style="text-align: center;">Số Lượng</h4></td>
-                    <td class="text-right"><h4 style="text-align: center;"></h4></td>
-                </tr>
-
-                        <% for(i = 0;i < result.length;i++){ %>
-                        <tr>
-                            <td class="text-right">
-                                <input id = 'size_id'class="booking-item-title size_id center-block" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].size %>"></input>
-                            </td>
-                            <td class="text-center">
-                            <% if(result[i].disct_price == null){ %>
-                            <label class="center-block" style=" text-align: center"><font
-                                        color="black"><%= result[i].price %></font></label>
-                            <% } else { %>
-                            <label class="center-block" style=" text-align: center"><font
-                                        color="red"><%= result[i].disct_price%></font></label>
-                            <% } %>
-                            </td>
-
-                            <td class="text-right">
-                                <input  class="booking-item-title center-block" style="text-align: center;border: none; background-color: transparent" disabled value="<%= result[i].code %>">
-
-                            </td>
-                            <td class="text-right">
-                                <input id ='quantity'class="form-control booking-item-title quantity center-block" value="0" type="number" min="1" max=""  step="1" autocomplete="off" style="width: 50%;">
-
-                            </td>
-                            <td class="text-right" style="position: relative;">
-                                <a href="#" style="text-align: center;" onclick="AddCart(<%=i%>)">
-                                    <span class="glyphicon glyphicon-shopping-cart center-height"></span>
-                                </a>
-                            </td>
-                        </tr>
-                        <% } %>
-
-
-
-                    </tbody>
-                </table>
-                </div>
-                <br>
-                <div class="row">
-                    <div class = "col-md-3">
-                        <button class="form-control" onclick="AddCart()">Add To Cart</button>
-                    </div>
-
-                </div>
-                <br>
-                <div class="row">
+    <div class="row product-info thumbnail">
+        <div class="col-md-4 col-md-offset-1">
+            <div class="row">
                     <% for(j = 0;j < image[0].url.split(";").length;j++){ %>
-                    <div class="col-md-3">
-
-                            <img class="img-responsive thumbnail" src="/assets/img/<%=image[0].url.split(";")[j]%>" alt="image">
-
+                    <div class="Slide-product">
+                        <img class="img-responsive thumbnail" src="/assets/img/<%=image[0].url.split(";")[j]%>" alt="">
                     </div>
                     <% } %>
+                    <% for(j = 0;j < image[0].url.split(";").length;j++){ %>
+                    
+                    <div class="" style="float: left; width: 25%;">
+                        <img  onclick="currentSlide(<%=j+1%>)" class="img-responsive cursor item-product-detail" src="/assets/img/<%=image[0].url.split(";")[j]%>" alt="image">
+                    </div>
+                    <% } %>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                    <div class="col-md-6">
+                        <h2 style="margin: 5px;"><b><%=result[0].name%></b></h2>
+                    </div>
+                    <div class="col-md-4 col-md-offset-2">
+                        <h3 style="margin: 10px;">Mã SP: <a href="#" style="color: red;"><%= result[0].code %></a></h3>
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">            
+                        <h4 style="color: #2b70fc;">Hợp với mệnh: <a href="#" style="color: black;">Thổ, Hỏa, Thủy, Mộc</a></h4>
+                        <h4 style="color: #2b70fc;">Hợp với tuổi: <a href="#" style="color: black;">Tất cả các tuổi</a></h4>
                 </div>
-
+            </div>
+            <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <div style="position: relative;">
+                        <input id="size" type="text" style="text-align: center; float: left; border: 2px solid #626262; width: 80%;">                        
+                        <button style="background-color: #626262; border: 2px solid #626262; width: 20%;" onclick="displaySize()" id="bnt-menuSize">
+                            <span class="glyphicon glyphicon-chevron-down" id = "span-menuSize" style="color: white;"></span>
+                        </button>
+                        <div id="myDropdown" class="dropdown-content" style="display: none; position: absolute; background-color: #626262; z-index: 100; width: 100%; color: white; text-align: center;">
+                            <option onclick="optionSelected(12)" class="dropdown-content1" value="12">Vòng tay loại 12mm</option>
+                            <option onclick="optionSelected(15)" class="dropdown-content1" value="15">Vòng tay loại 15mm</option>
+                            <option onclick="optionSelected(17)" class="dropdown-content1" value="17">Vòng tay loại 17mm</option>
+                        </div>
+                        </div>                   
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 style="color: red; font-weight: bold;">210.000 <a href="" style="font-weight: normal; color: #6b6b6c;">VNĐ</a></h2>
+                    <h3 style="color:  #6b6b6c;">Giá cũ là <a href="" style="text-decoration: line-through; color: #6b6b6c;">350.000</a></h3>
+                </div>
+                <div class="col-md-5 col-md-offset-1">
+                    <h4>Số lượng: </h4>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" id="minus">-</button>
+                                </span>
+                                <input class="form-control" id="quantity" style="font-weight: bold; font-size: 200%; text-align: center;">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" id="plus">+</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <h4 style="color: #6b6b6c; font-style: italic;">Thành tiền: <a href="" style="color: red; font-style: italic">410.000 </a>vnđ</h4>
+                </div>                
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-2">
+                    <button style="border: none; background-color: transparent;"><img src="/img/muangay.svg" class="img-responsive" onclick=""></button>                   
+                </div>
+                <div class="col-md-4 ">
+                    <button style="border: none; background-color: transparent;"><img src="/img/themvaogio.svg" class="img-responsive" onclick="AddCart()"></button>                
+                </div>
+            </div>
+            <div class="row" style="position: relative;">
+                <div class="col-md-8" >
+                    <div style="background-color: #f3e6e6; min-height: 100px;">Thông tin thêm nếu có nền không có màu.</div>                    
+                </div>
+                <div class="col-md-4">
+                    <button style="border: none; background-color: transparent; position: absolute; right: 0px; top: 30px;">
+                        <img src="/img/xemthem.svg">
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -146,8 +162,135 @@
                         }
                     }
                 });
+    }
+</script>
+<!-- create image zoom -->
+<script type="text/javascript">
+    function imageZoom(imgID, resultID) {
+        var img, lens, result, cx, cy;
+        img = document.getElementById(imgID);
+        result = document.getElementById(resultID);
+        /*create lens:*/
+        lens = document.createElement("DIV");
+        lens.setAttribute("class", "img-zoom-lens");
+        /*insert lens:*/
+        img.parentElement.insertBefore(lens, img);
+        /*calculate the ratio between result DIV and lens:*/
+        cx = result.offsetWidth / lens.offsetWidth;
+        cy = result.offsetHeight / lens.offsetHeight;
+        /*set background properties for the result DIV:*/
+        result.style.backgroundImage = "url('" + img.src + "')";
+        result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+        /*execute a function when someone moves the cursor over the image, or the lens:*/
+        lens.addEventListener("mousemove", moveLens);
+        img.addEventListener("mousemove", moveLens);
+        /*and also for touch screens:*/
+        lens.addEventListener("touchmove", moveLens);
+        img.addEventListener("touchmove", moveLens);
+        function moveLens(e) {
+            var pos, x, y;
+            /*prevent any other actions that may occur when moving over the image:*/
+            e.preventDefault();
+            /*get the cursor's x and y positions:*/
+            pos = getCursorPos(e);
+            /*calculate the position of the lens:*/
+            x = pos.x - (lens.offsetWidth / 2);
+            y = pos.y - (lens.offsetHeight / 2);
+            /*prevent the lens from being positioned outside the image:*/
+            if (x > img.width - lens.offsetWidth) {x = img.width - lens.offsetWidth;}
+            if (x < 0) {x = 0;}
+            if (y > img.height - lens.offsetHeight) {y = img.height - lens.offsetHeight;}
+            if (y < 0) {y = 0;}
+            /*set the position of the lens:*/
+            lens.style.left = x + "px";
+            lens.style.top = y + "px";
+            /*display what the lens "sees":*/
+            result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
+        }
+        function getCursorPos(e) {
+            var a, x = 0, y = 0;
+            e = e || window.event;
+            /*get the x and y positions of the image:*/
+            a = img.getBoundingClientRect();
+            /*calculate the cursor's x and y coordinates, relative to the image:*/
+            x = e.pageX - a.left;
+            y = e.pageY - a.top;
+            /*consider any page scrolling:*/
+            x = x - window.pageXOffset;
+            y = y - window.pageYOffset;
+            return {x : x, y : y};
+        }
+    }
+</script>
+<!-- image slide -->
+<script>
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("Slide-product");
+        var dots = document.getElementsByClassName("item-product-detail");
+        var captionText = document.getElementById("caption");
+        if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+                for (i = 0; i < slides.length; i++) {
+                  slides[i].style.display = "none";
+              }
+              for (i = 0; i < dots.length; i++) {
+                  dots[i].className = dots[i].className.replace(" active", "");
+              }
+              slides[slideIndex-1].style.display = "block";
+              dots[slideIndex-1].className += " active";
+        }
+</script>
+<!-- quantity -->
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#plus").click(function(){
+            var value = $("#quantity").val();
+            value = Number(value) + 1;
+            $("#quantity").val(value);
+        });
+        $("#minus").click(function(){
+            var value = $("#quantity").val() - 1;
+            if (value>=0){
+                $("#quantity").val(value);
+            }
+        });
+    });
+</script>
+<!-- Menu size -->
+<script>
+    function displaySize() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+    window.onclick = function(event) {
+        if (!event.target.matches('#bnt-menuSize')) {
+            document.getElementById("myDropdown").classList.remove("show");
+        }
+        if (event.target.matches('#span-menuSize')){
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+    }
+
+    function optionSelected(n){
+        var ind = n;
+        var sizes = document.getElementsByClassName("dropdown-content1");
+        for (i = 0; i < sizes.length; i++){
+            if (ind = sizes[i].value){
+                $("#size").val("Vòng tay loại " + n + "mm");
+            }   
+        }
 
     }
 </script>
-
 </html>

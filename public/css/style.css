@@ -185,3 +185,12 @@ form.search::after {
     position: relative;
 }
 
+.active,
+.item-product-detail:hover {
+  opacity: 1;
+}
+
+}
+.cursor{
+    cursor: pointer;
+}

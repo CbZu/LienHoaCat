@@ -1,13 +1,13 @@
 module.exports = {
 	development: {
 		ip: '127.0.0.1',
-		port: 3000,
+		port: 8080,
 		db: {
 			host: '127.0.0.1',
 			port: 3306,
 			protocol: 'mysql',
 			user: 'root',
-			password: '',
+			password: 'root',
 			database: 'lhc',
 			connectionLimit: 100
 			}
