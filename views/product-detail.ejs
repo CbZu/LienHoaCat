@@ -38,29 +38,26 @@
             </div>
             <div class="row">
                 <div class="col-md-10">            
-                        <h4 style="color: #2b70fc;">Hợp với mệnh: <a href="#" style="color: black;">Thổ, Hỏa, Thủy, Mộc</a></h4>
-                        <h4 style="color: #2b70fc;">Hợp với tuổi: <a href="#" style="color: black;">Tất cả các tuổi</a></h4>
+                        <h4 style="color: #2b70fc;">Hợp với mệnh: <a href="#" style="color: black;"><%=result[0].menh.substring(0,result[0].menh.length-1).replace(/;/g,',')%></a></h4>
+                        <h4 style="color: #2b70fc;">Hợp với tuổi: <a href="#" style="color: black;"><%=result[0].tuoi.substring(0,result[0].tuoi.length-1).replace(/;/g,',')%></a></h4>
+                        <h4 style="color: #2b70fc;">Hợp với màu: <a href="#" style="color: black;"><%=result[0].mau.substring(0,result[0].mau.length-1).replace(/;/g,',')%></a></h4>
                 </div>
             </div>
             <div class="row">
                     <div class="col-md-6 col-md-offset-3">
                         <div style="position: relative;">
-                        <input id="size" type="text" style="text-align: center; float: left; border: 2px solid #626262; width: 80%;">                        
-                        <button style="background-color: #626262; border: 2px solid #626262; width: 20%;" onclick="displaySize()" id="bnt-menuSize">
-                            <span class="glyphicon glyphicon-chevron-down" id = "span-menuSize" style="color: white;"></span>
-                        </button>
-                        <div id="myDropdown" class="dropdown-content" style="display: none; position: absolute; background-color: #626262; z-index: 100; width: 100%; color: white; text-align: center;">
-                            <option onclick="optionSelected(12)" class="dropdown-content1" value="12">Vòng tay loại 12mm</option>
-                            <option onclick="optionSelected(15)" class="dropdown-content1" value="15">Vòng tay loại 15mm</option>
-                            <option onclick="optionSelected(17)" class="dropdown-content1" value="17">Vòng tay loại 17mm</option>
-                        </div>
+                            <select class="form-control" id="idselect" onchange="optionSelected()">
+                                <% for(i = 0;i < result.length;i++){ %>
+                                <option onclick="optionSelected(<%=result[i].product_id%>)" class="dropdown-content1" value="<%=result[i].product_id%>"><%=result[i].size%></option>
+                                <% } %>
+                            </select>
                         </div>                   
                     </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <h2 style="color: red; font-weight: bold;">210.000 <a href="" style="font-weight: normal; color: #6b6b6c;">VNĐ</a></h2>
-                    <h3 style="color:  #6b6b6c;">Giá cũ là <a href="" style="text-decoration: line-through; color: #6b6b6c;">350.000</a></h3>
+                    <h2 style="color: red; font-weight: bold;" id ="dictprice">210.000 <a href="" style="font-weight: normal; color: #6b6b6c;">VNĐ</a></h2>
+                    <h3 style="color:  #6b6b6c;" id="price">Giá cũ là <a href="" style="text-decoration: line-through; color: #6b6b6c;">350.000</a></h3>
                 </div>
                 <div class="col-md-5 col-md-offset-1">
                     <h4>Số lượng: </h4>
@@ -82,7 +79,7 @@
             </div>
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
-                    <h4 style="color: #6b6b6c; font-style: italic;">Thành tiền: <a href="" style="color: red; font-style: italic">410.000 </a>vnđ</h4>
+                    <h4 style="color: #6b6b6c; font-style: italic;">Thành tiền: <a href="" style="color: red; font-style: italic" id = "thanhtien">0</a> vnđ</h4>
                 </div>                
             </div>
             <div class="row">
@@ -135,13 +132,8 @@
         var sizes = new Array();
         var quantities = new Array();
        var input = document.getElementsByClassName('booking-item-title size_id');
-        <%for (var i = 0; i < result.length; i++) {%>
-            sizes.push(<%=result[i].product_id%>);
-        <%}%>
-        input = document.getElementsByClassName('form-control booking-item-title quantity center-block');
-        for (var i = 0; i < input.length; i++) {
-            quantities.push(input[i].value);
-        }
+        sizes.push(document.getElementById('idselect').value);
+        quantities.push(parseInt($("#quantity").val()));
         formdata1.append('size_id',sizes);
         formdata1.append('quantity',quantities);
                 $.ajax({
@@ -254,43 +246,74 @@
 </script>
 <!-- quantity -->
 <script type="text/javascript">
+
+        <%if(result[0].disct_price == 0){%>
+        $("#dictprice").html('<%=result[0].price%> <a href="" style="font-weight: normal; color: #6b6b6c;">VNĐ</a>');
+        $("#price").html('');
+        <%} else {%>
+        $("#dictprice").html('<%=result[0].disct_price%> <a href="" style="font-weight: normal; color: #6b6b6c;">VNĐ</a>');
+        $("#price").html('Giá cũ là <a href="" style="text-decoration: line-through; color: #6b6b6c;"><%=result[0].price%></a>');
+        <%}%>
+
+
+    function optionSelected(){
+        var n = document.getElementById('idselect').value;
+        <% for(i = 0;i < result.length;i++){ %>
+        if('<%=result[i].product_id%>' == (''+n)){
+            <%if(result[i].disct_price == 0){%>
+            $("#dictprice").html('<%=result[i].price%> <a href="" style="font-weight: normal; color: #6b6b6c;">VNĐ</a>');
+            $("#price").html('');
+            ThanhTien();
+            <%} else {%>
+            $("#dictprice").html('<%=result[i].disct_price%> <a href="" style="font-weight: normal; color: #6b6b6c;">VNĐ</a>');
+            $("#price").html('Giá cũ là <a href="" style="text-decoration: line-through; color: #6b6b6c;"><%=result[i].price%></a>');
+            ThanhTien();
+            <%}%>
+        }
+        <% } %>
+
+    }
     $(document).ready(function(){
         $("#plus").click(function(){
             var value = $("#quantity").val();
             value = Number(value) + 1;
             $("#quantity").val(value);
+            ThanhTien();
         });
         $("#minus").click(function(){
             var value = $("#quantity").val() - 1;
             if (value>=0){
                 $("#quantity").val(value);
+                ThanhTien();
             }
         });
+
+
     });
+
+        function ThanhTien(){
+            var n = document.getElementById('idselect').value;
+            <% for(i = 0;i < result.length;i++){ %>
+            if('<%=result[i].product_id%>' == (''+n)){
+                <%if(result[i].disct_price == 0){%>
+                var total = $("#quantity").val() * parseInt('<%=result[i].price%>');
+                $("#thanhtien").html(total);
+
+                <%} else {%>
+                var total = $("#quantity").val() * parseInt('<%=result[i].disct_price%>');
+                $("#thanhtien").html(total);
+                <%}%>
+            }
+            <% } %>
+        }
 </script>
 <!-- Menu size -->
 <script>
     function displaySize() {
         document.getElementById("myDropdown").classList.toggle("show");
     }
-    window.onclick = function(event) {
-        if (!event.target.matches('#bnt-menuSize')) {
-            document.getElementById("myDropdown").classList.remove("show");
-        }
-        if (event.target.matches('#span-menuSize')){
-            document.getElementById("myDropdown").classList.toggle("show");
-        }
-    }
 
-    function optionSelected(n){
-        var ind = n;
-        var sizes = document.getElementsByClassName("dropdown-content1");
-        for (i = 0; i < sizes.length; i++){
-            if (ind = sizes[i].value){
-                $("#size").val("Vòng tay loại " + n + "mm");
-            }   
-        }
 
-    }
+
 </script>
 </html>

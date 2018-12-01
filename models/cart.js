@@ -7,7 +7,6 @@ module.exports = function (orm, db) {
         create_time: {type: 'number'},
         status_id: {type: 'number'},
         disct_price: {type: 'number'},
-        price: {type: 'number'},
-        address: {type: 'text'}
+        price: {type: 'number'}
     });
 };

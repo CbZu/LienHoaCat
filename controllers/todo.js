@@ -298,7 +298,7 @@ module.exports.get_category = function(req, res){
 };
 module.exports.add_to_cart = function(req, res){
     var input=JSON.parse(JSON.stringify(req.body));
-    var myip = require('quick-local-ip');
+    /*var myip = require('quick-local-ip');*/
     var date = new Date();
     var month = date.getMonth() + 1;
     month = (month < 10 ? "0" : "") + month;
@@ -337,7 +337,7 @@ module.exports.add_to_cart = function(req, res){
                                 var data = {status: 'error', code: '300',error: err};
                                 res.json(data);
                             }else{
-                                if(input.quantity[i].trim() != '0'){
+                                if(input.quantity[i] != 0){
                                     if(row2s.length>0){
                                         var sqlUpdate = 'update cart set amount = '+(parseInt(input.quantity[i])+parseInt(row2s[0].amount))+' where product_id = '+element+' and user_id = '+userid+';';
                                         con.query(sqlUpdate,function(err,row1s) {
@@ -351,8 +351,8 @@ module.exports.add_to_cart = function(req, res){
                                     }else{
                                         var data={
                                             user_id: parseInt(userid),
-                                            product_id:parseInt(element),
-                                            amount:parseInt(input.quantity[i]),
+                                            product_id:element,
+                                            amount:input.quantity[i],
                                             payment_id:0,
                                             create_time:parseInt(year+''+month+''+day),
                                             status_id:0
@@ -1287,6 +1287,9 @@ module.exports.product_detail = function(req, res){
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
         var sql = 'select *, (select cat_name from category where cat_id = p.cat_id) as catflt,' +
+            '(select menh from thuoctinh where product_id  = p.product_id) as menh, '+
+            '(select tuoi from thuoctinh where product_id  = p.product_id) as tuoi, '+
+            '(select mau from thuoctinh where product_id  = p.product_id) as mau, '+
             '(select disct_price from discount where product_id = p.product_id and effective_date <= '+year+''+month+day+' and '+year+''+month+''+day+'<=expired_date) as disct_price' +
             ' from product p where name = \''+req.params.prdname.replace(/-/g,' ')+'\';';
 
@@ -1372,7 +1375,8 @@ module.exports.maintenance_prd = function(req, res){
             '(select GROUP_CONCAT(disct_price SEPARATOR \',\') from discount where product_id = p.product_id and effective_date <= '+year+''+month+''+day+' and '+year+''+month+''+day+'<=expired_date) as disct_prices ,\n' +
             '(select GROUP_CONCAT(price SEPARATOR \',\') from product where name = p.name) as prices ,\n' +
             '(select GROUP_CONCAT(size SEPARATOR \',\') from product where name = p.name) as sizes ,\n' +
-            '(select GROUP_CONCAT(product_id SEPARATOR \',\') from product where name = p.name) as size_id \n' +
+            '(select GROUP_CONCAT(product_id SEPARATOR \',\') from product where name = p.name) as size_id ,\n' +
+            '(select url from image where product_id = p.product_id and type = 1) as image \n' +
             'from product p join thuoctinh t on p.product_id = t.product_id join description d on p.description = d.description_id ';
 
         var where = '';

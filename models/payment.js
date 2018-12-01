@@ -9,6 +9,7 @@ module.exports = function (orm, db) {
         pay_type: {type:'text'},
         promotion: {type: 'number'},
         total: {type: 'number'},
-        seen_flag: {type:'text'}
+        seen_flag: {type:'text'},
+        address: {type: 'text'}
     });
 };

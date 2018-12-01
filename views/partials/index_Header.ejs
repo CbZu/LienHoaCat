@@ -107,7 +107,7 @@
             </button> -->
             <ul class="nav navbar-nav navbar-left sm">
 
-                <li> <a href="" data-filter=".folder2" ><h4><font color="white"><%=treefolder[i].folder_name%></font></h4></a>
+                <li> <a data-filter=".folder2" ><h4><font color="white"><%=treefolder[i].folder_name%></font></h4></a>
                     <ul class="dropdown-menu">
                         <%for(var j = 0 ; j < treefolder[i].cat_names.split(";").length ; j++){%>
                         <li> <a href="/maintenance-prd/<%=treefolder[i].cat_names.split(";")[j].trim().replace(" ","-")%>"><h4><%=treefolder[i].cat_names.split(";")[j]%></h4></a></li>

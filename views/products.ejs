@@ -181,7 +181,7 @@
                     <div class="product">
                         <div class="center-height">
                             <a href="/product-detail/<%=result[j].cat_name.replace(" ", "-")%>/<%=result[j].name.replace(/ /g, '-')%>" class="portfolio_item work-grid ">
-                                <img src="/assets/img/<%= result[j].image %>" class="img-responsive" alt="Responsive image" style="padding: 10px;">
+                                <img src="/assets/img/<%= result[j].image==null?result[j].image:result[j].image.split(";")[0]%>" class="img-responsive" alt="Responsive image" style="padding: 10px;">
                                 <% if(result[j].disct_prices == null){ %>
                                     <div style=" padding: 0px">
                                             <h4 style="text-align: center;">Giá SP</h4>
