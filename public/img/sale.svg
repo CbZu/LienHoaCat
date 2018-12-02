@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="52.271px" height="36.25px" viewBox="0 0 52.271 36.25" enable-background="new 0 0 52.271 36.25" xml:space="preserve">
+<g>
+	<g>
+		<path fill="#DC2429" d="M45.146,7.299H16.614L4.725,30.873h40.422c2.83,0,5.123-2.425,5.123-5.415V12.713
+			C50.27,9.723,47.977,7.299,45.146,7.299z"/>
+		<g>
+			<polygon fill="#EC3433" points="16.614,7.299 14.235,12.015 23.75,7.299 			"/>
+			<path fill="#EC3433" d="M45.146,7.299H34.754l-24.188,11.99l-4.989,9.894L47.943,8.18C47.139,7.624,46.18,7.299,45.146,7.299z"/>
+		</g>
+		<g>
+			<defs>
+				<polygon id="SVGID_1_" points="3.952,42.52 0,40.08 19.992,0.596 24.069,2.908 				"/>
+			</defs>
+			<clipPath id="SVGID_2_">
+				<use xlink:href="#SVGID_1_"  overflow="visible"/>
+			</clipPath>
+			
+				<radialGradient id="SVGID_3_" cx="51.9453" cy="-125.6885" r="9.0623" gradientTransform="matrix(0.3639 0.2064 -0.9583 1.887 -128.7966 245.3458)" gradientUnits="userSpaceOnUse">
+				<stop  offset="0" style="stop-color:#CFCFCE"/>
+				<stop  offset="0.29" style="stop-color:#D2D2D2"/>
+				<stop  offset="0.5856" style="stop-color:#DDDDDD"/>
+				<stop  offset="0.8829" style="stop-color:#F2F1F0"/>
+				<stop  offset="1" style="stop-color:#FFFFFF"/>
+			</radialGradient>
+			<path clip-path="url(#SVGID_2_)" fill="url(#SVGID_3_)" d="M13.662,20.653c-5.101,10.044-10.63,17.396-12.35,16.42
+				c-1.72-0.976,1.021-9.909,6.122-19.953C12.535,7.076,18.064-0.275,19.784,0.7S18.762,10.609,13.662,20.653z"/>
+		</g>
+		<g>
+			<rect x="39.232" y="8.881" fill="#F0EFEF" width="1.238" height="0.327"/>
+			<rect x="40.576" y="28.963" fill="#F0EFEF" width="1.238" height="0.328"/>
+			<rect x="41.711" y="8.881" fill="#F0EFEF" width="1.238" height="0.327"/>
+			<rect x="43.053" y="28.963" fill="#F0EFEF" width="1.24" height="0.328"/>
+			<rect x="31.799" y="8.881" fill="#F0EFEF" width="1.238" height="0.327"/>
+			<rect x="33.143" y="28.963" fill="#F0EFEF" width="1.238" height="0.328"/>
+			<rect x="34.277" y="8.881" fill="#F0EFEF" width="1.238" height="0.327"/>
+			<rect x="35.619" y="28.963" fill="#F0EFEF" width="1.24" height="0.328"/>
+			<rect x="36.754" y="8.881" fill="#F0EFEF" width="1.24" height="0.327"/>
+			<rect x="38.098" y="28.963" fill="#F0EFEF" width="1.238" height="0.328"/>
+			<rect x="48.463" y="16.412" fill="#F0EFEF" width="0.311" height="1.31"/>
+			<rect x="48.463" y="19.031" fill="#F0EFEF" width="0.311" height="1.309"/>
+			<path fill="#F0EFEF" d="M44.188,8.881v0.327h0.959c0.09,0,0.18,0.004,0.268,0.012l0.025-0.327
+				c-0.098-0.008-0.195-0.012-0.293-0.012H44.188z"/>
+			<rect x="48.463" y="13.793" fill="#F0EFEF" width="0.311" height="1.31"/>
+			<rect x="48.463" y="21.649" fill="#F0EFEF" width="0.311" height="1.31"/>
+			<polygon fill="#F0EFEF" points="48.463,25.458 48.461,25.573 48.771,25.583 48.773,24.269 48.463,24.269 			"/>
+			<path fill="#F0EFEF" d="M46.684,9.242l-0.131,0.296c0.357,0.179,0.68,0.421,0.959,0.721l0.221-0.229
+				C47.428,9.702,47.074,9.437,46.684,9.242z"/>
+			<path fill="#F0EFEF" d="M45.514,28.941l0.033,0.326c0.432-0.051,0.848-0.182,1.234-0.389l-0.141-0.292
+				C46.287,28.776,45.908,28.896,45.514,28.941z"/>
+			<path fill="#F0EFEF" d="M47.58,27.837l0.227,0.223c0.295-0.338,0.529-0.723,0.693-1.146l-0.285-0.125
+				C48.064,27.176,47.85,27.528,47.58,27.837z"/>
+			<rect x="8.364" y="28.963" fill="#F0EFEF" width="1.239" height="0.328"/>
+			<rect x="15.798" y="28.963" fill="#F0EFEF" width="1.239" height="0.328"/>
+			<rect x="16.933" y="8.881" fill="#F0EFEF" width="1.239" height="0.327"/>
+			<rect x="18.275" y="28.963" fill="#F0EFEF" width="1.239" height="0.328"/>
+			<path fill="#F0EFEF" d="M48.766,12.474c-0.027-0.459-0.131-0.903-0.307-1.321l-0.283,0.134c0.162,0.382,0.256,0.788,0.281,1.208
+				L48.766,12.474z"/>
+			<polygon fill="#F0EFEF" points="15.694,9.122 15.651,9.208 15.694,9.208 			"/>
+			<rect x="13.32" y="28.963" fill="#F0EFEF" width="1.239" height="0.328"/>
+			<rect x="19.411" y="8.881" fill="#F0EFEF" width="1.238" height="0.327"/>
+			<rect x="5.887" y="28.963" fill="#F0EFEF" width="1.239" height="0.328"/>
+			<rect x="30.664" y="28.963" fill="#F0EFEF" width="1.238" height="0.328"/>
+			<rect x="10.842" y="28.963" fill="#F0EFEF" width="1.239" height="0.328"/>
+			<rect x="20.753" y="28.963" fill="#F0EFEF" width="1.238" height="0.328"/>
+			<rect x="26.844" y="8.881" fill="#F0EFEF" width="1.238" height="0.327"/>
+			<rect x="29.321" y="8.881" fill="#F0EFEF" width="1.239" height="0.327"/>
+			<rect x="25.709" y="28.963" fill="#F0EFEF" width="1.238" height="0.328"/>
+			<rect x="28.186" y="28.963" fill="#F0EFEF" width="1.24" height="0.328"/>
+			<rect x="21.888" y="8.881" fill="#F0EFEF" width="1.239" height="0.327"/>
+			<rect x="23.231" y="28.963" fill="#F0EFEF" width="1.239" height="0.328"/>
+			<rect x="24.367" y="8.881" fill="#F0EFEF" width="1.238" height="0.327"/>
+		</g>
+	</g>
+</g>
+</svg>

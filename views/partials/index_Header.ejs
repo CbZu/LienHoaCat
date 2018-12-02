@@ -20,84 +20,63 @@
     </div> -->
 </div>
 <div class="container-fluid">
-    <ul class="nav nav-tabs nav-justified" style="padding: 15px; float: right; max-width: 20%; min-width: 300px;">
-        <li>
-            <% if(fname != undefined){ %>
-            <div>
-                <a href="/edit-account">
-                    <img class="img-circle origin" src="/img/40x40.png" alt="Image Alternative text"
-                         title="AMaze"/>
-                </a>
-            </div>
-            <% } %>
-        </li>
-        <li>
-            <% if(fname != undefined){ %>
-            <h5>Hi, <%=fname%></h5>
-            <% } %>
-        </li>
-        <li>
 
-            <% if(type != undefined){%>
-            <a class="btn btn-success" style="min-width: 100px;" href="/logout"><p style="color: white;">Đăng Xuất</p></a>
-            <% } %>
-
-            <% if(type == undefined){%>
-            <a class="btn btn-success " onclick="document.getElementById('id01').style.display='block'"><p style="color: white;">Đăng nhập</p></a>
-            <% } %>
-        </li>
-    </ul>
 </div>
-
-
-<nav class="navbar navbar-default" style="background-color: #1C1C1C; padding: 10px;">
-    <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-3 col-md-2">
+            <a href="/"><img src="/img/logo.png" alt="LienHoaCac" style="width: 80px;padding: 0px;"></a>
         </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="position: relative;">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="/" style="padding: 0px;"><img src="/img/logo.png" alt="LienHoaCac" style="width: 80px;padding: 0px;"></a>
-                </li>
-            </ul>
-            <div class="row">
-                <div class="col-sm-7">
-                    <form class="search" method="GET" action="/maintenance-prd/Search">
-                        <div class="form-group">
-                            <input style="background-color: white;" type="text" name="keyword" id="keyword"
-                                   placeholder="Tìm kiếm trên Liên Hoa Các..." value="">
-                        </div>
-                        <button type="submit" class=""><span class="glyphicon glyphicon-search"></span></button>
-
-                    </form>
-                    <!-- <a onclick="GetCart(0)">
-                        <button class="btn btn-default btn-lg"  style="margin-left: 5%;">
-                            <span class="glyphicon glyphicon-shopping-cart"></span>
-                        </button>
-                        </a> -->
+    
+        <div class="col-xs-9 col-md-6">
+            <form class="search" method="GET" action="/maintenance-prd/Search">
+                <div class="form-group">
+                    <input style="background-color: white;" type="text" name="keyword" id="keyword" placeholder="Tìm kiếm trên Liên Hoa Các..." value="">
                 </div>
-                <div class="col-sm-1">
-                    <a onclick="GetCart(0)">
+                <button type="submit" class=""><span class="glyphicon glyphicon-search"></span></button>
+            </form>
+        </div>
+        <div class="col-xs-2 col-md-1">
+            <a onclick="GetCart(0)">
                         <!-- <button class="btn btn-default btn-lg"  style="margin-left: 5%;">
                             <span class="glyphicon glyphicon-shopping-cart"></span>
                         </button> -->
                         <!-- <h3><span class="glyphicon glyphicon-shopping-cart" style="color: white;"></span></h3> -->
-                        <img src="/img/cart.png" class="img-responsive" style="max-width: 50px; margin: 15px 0px 15px 0px;">
-                    </a>
-                </div>
-                <div class="col-sm-4"></div>
-            </div>
-            <ul class="nav navbar-nav navbar-right">
-
-            </ul>
+                <img src="/img/cart.png" class="img-responsive" style="max-width: 50px; margin: 15px 0px 15px 0px;">
+            </a>
         </div>
+        <div class="col-xs-2 col-md-1" style="max-width: 50px; margin: 15px 0px 15px 0px;">
+            <% if(fname != undefined){ %>
+                    <div>
+                        <a href="/edit-account">
+                            <img class="img-circle origin" src="/img/40x40.png" alt="Image Alternative text"
+                                 title="AMaze"/>
+                        </a>
+                    </div>
+            <% } %>
+        </div>
+        <div class="col-xs-2 col-md-1" style="max-width: 50px; margin: 15px 0px 15px 0px;">
+            <% if(fname != undefined){ %>
+                    <h5>Hi, <%=fname%></h5>
+                    <% } %>
+        </div>
+        <div class="col-xs-2 col-md-1" style="max-width: 50px; margin: 15px 0px 15px 0px;">
+            <% if(type != undefined){%>
+                    <a class="btn btn-success" style="min-width: 100px;" href="/logout"><p style="color: white;">Đăng Xuất</p></a>
+                    <% } %>
+
+                    <% if(type == undefined){%>
+                    <a class="btn btn-success " onclick="document.getElementById('id01').style.display='block'"><p style="color: white;">Đăng nhập</p></a>
+                    <% } %>
+        </div>
+    </div>
+</div>
+
+<nav class="navbar navbar-default">
+    <div class="container">
+
+    </div>
+
     </div>
     <div class="container">
         <%for(var i = 0 ; i < treefolder.length ;i++){%>
@@ -107,7 +86,7 @@
             </button> -->
             <ul class="nav navbar-nav navbar-left sm">
 
-                <li> <a data-filter=".folder2" ><h4><font color="white"><%=treefolder[i].folder_name%></font></h4></a>
+                <li> <a data-filter=".folder2" ><h4><font color="black"><%=treefolder[i].folder_name%></font></h4></a>
                     <ul class="dropdown-menu">
                         <%for(var j = 0 ; j < treefolder[i].cat_names.split(";").length ; j++){%>
                         <li> <a href="/maintenance-prd/<%=treefolder[i].cat_names.split(";")[j].trim().replace(" ","-")%>"><h4><%=treefolder[i].cat_names.split(";")[j]%></h4></a></li>
@@ -125,7 +104,7 @@
         <div class="dropdown">
             <ul class="nav navbar-nav navbar-left sm">
 
-                <li> <a href="app-phongthuy" data-filter=".folder2" ><h4><font color="white">App Phong Thủy</font></h4></a>
+                <li> <a href="/app-phongthuy" data-filter=".folder2" ><h4><font color="black">App Phong Thủy</font></h4></a>
                 </li>
 
 
@@ -135,7 +114,7 @@
         <div class="dropdown">
             <ul class="nav navbar-nav navbar-left sm">
 
-                <li> <a href="" data-filter=".folder2" ><h4><font color="white">Administrator</font></h4></a>
+                <li> <a href="" data-filter=".folder2" ><h4><font color="black">Administrator</font></h4></a>
                     <ul class="dropdown-menu">
                         <li> <a href="maintenance"><h4>Tài Khoản</h4></a></li>
                         <li> <a href="show-payment"><h4>Đơn Hàng</h4></a></li>
@@ -182,8 +161,8 @@
 
             </div>
             <div class="col-md-2">
+                <br>
                 <a href="/register" class="center-block btn btn-primary" >Đăng kí</a>
-
             </div>
 
         </div>

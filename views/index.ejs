@@ -22,7 +22,7 @@
                 <%}%>
         </div>
     </div> -->
-    <div class="container-fluid" style="width: 80%;">
+    <div class="container-fluid" style="width: 65%;">
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
                 <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
@@ -63,17 +63,37 @@
                     <% for(var j = 0 ; j < result.length ; j++){ %>
 
                     <div class="col-xs-6 col-md-4 folder<%= result[j].folder_ids %> ">
-                            <div class="product">
-                            <div class="" style="">
-                                <img src="/assets/img/<%= result[j].image %>" class="img-responsive" alt="Responsive image" style="padding: 10px;">
-                                <h2 class="center-block" style="width: 65%; text-align: center;"><%= result[j].cat_names %></h2>
-                                <a href="/maintenance-prd?catflt=<%= result[j].cat_names %>&catId=<%= result[j].cat_ids %>" class="portfolio_item work-grid"style="width: 90%; color: #B28D34;font-weight: bold; margin-bottom: 10px;overflow: hidden; margin-top: 20px;">
-                                    <button type="button" class="btn btn-default center-block">
-                                             Xem Thêm                                       
-                                    </button>
-                                </a>
-                            </div>
-                            </div>
+                            <a href="/maintenance-prd/<%= result[j].cat_names%>">
+                                <div class="product">
+                                    <div class="col-xs-3 col-md-2" style="position: absolute; padding: 0px;">
+                                        <img class="img-responsive" src="/img/moi.svg">
+                                    </div>
+                                    <div class="col-xs-3 col-md-2 col-md-offset-2 col-xs-offset-3" style="position: absolute; padding: 0px;">
+                                        <img class="img-responsive" src="/img/freeship.svg">
+                                    </div>
+                                    <div class="" style="">
+                                        <img src="/assets/img/<%= result[j].image %>" class="img-responsive">
+                                        
+                                        <!-- <a href="/maintenance-prd?catflt=<%= result[j].cat_names %>&catId=<%= result[j].cat_ids %>" class="portfolio_item work-grid"style="width: 90%; color: #B28D34;font-weight: bold; margin-bottom: 10px;overflow: hidden; margin-top: 20px;">
+                                            <button type="button" class="btn btn-default center-block">
+                                                     Xem Thêm                                       
+                                            </button>
+                                        </a> -->
+                                    </div>
+                                    <div style="position: relative;">
+                                        <div class="col-md-3" style="position: absolute; padding: 0px; top: 0px; right: 0px;">
+                                            <div style="position: relative;">
+                                                <img src="/img/sale.svg">
+                                                <h5 style="color: white; position: absolute; top: 0px; text-align: center; padding-left: 15px;">-39%</h5>
+                                            </div>
+                                            <!-- <h4 style="color: white;">-39%</h4>   -->                                      
+                                        </div>
+                                        <h3 class="font-custom" style="margin: 0px;"><%= result[j].cat_names %></h3>
+                                        <h3 class="font-custom" style="color: red; font-weight: bold; margin-top: 10px;" id ="dictprice">210.000</h3>
+                                        <h4 style="text-decoration: line-through; color: #6b6b6c; margin: 0px;"> &nbsp;350.000&nbsp;</h4>
+                                    </div>
+                                </div>
+                            </a>
                     </div>
                     <% } %>
                 </div>

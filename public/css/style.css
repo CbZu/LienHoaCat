@@ -1,3 +1,7 @@
+.font-custom{
+    font-family: "Palatino Linotype";
+}
+body { font-family: Cambria; }
 a:hover{
     text-decoration: none;
 }
@@ -179,10 +183,10 @@ form.search::after {
 .product{
     /*background-color: #B28D34;*/
     margin-top: 20px;
-    height: 500px;
-    border: #FF3399 solid 2px;
-    border-radius: 5px;
+    height: 400px;
+    border: #bfbfbf solid 2px;
     position: relative;
+    padding: 10px;
 }
 
 .active,
@@ -263,4 +267,10 @@ form.search::after {
     .modal-content {
         width: 100%;
     }
+}
+
+/*select checkout-Payment*/
+.selected {
+    border: 2px solid black;
+    border-radius: 2px;
 }

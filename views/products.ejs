@@ -16,46 +16,6 @@
                 <a class="btn btn-primary" href="/create-prd?cat=<%= catflt %>&catId=<%= catId %>">Add Product</a>
             </div>
         </div>
-        <!--<div class="container-fluid row">
-            <div class="col-md-2">
-                <div class="nav">
-                    <ul class="slimmenu" id="slimmenu">
-                        <li><a href="/">Account</a>
-                            <ul>
-                                <li><a href="register">Create</a>
-                                </li>
-                                <li><a href="maintenance">Maintenance</a>
-                                </li>
-
-                            </ul>
-                        </li>
-                     </ul>
-               </div>    
-            </div>
-            <div class="col-md-2">
-                <div class="nav">
-                    <ul class="slimmenu" id="slimmenu">
-                        <li><a href="/maintenance-cat">Category</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="nav">
-                    <ul class="slimmenu" id="slimmenu">
-                        <li><a href="/">Product</a>
-                        <ul>
-                            <li><a href="create-prd">Create</a>
-                            </li>
-                            <li><a href="maintenance-prd">Maintenance</a>
-                            </li>
-
-                        </ul>
-                        </li>
-                    </ul>
-                </div> 
-            </div>
-        </div>-->
     <div class = "row">
         <form action = '/maintenance-prd' method = 'get'>
             <h2><span class="label label-primary">Lọc Sản Phẩm</span></h2>
@@ -177,7 +137,52 @@
     </div>
         <div class="row">
                 <% for(j = 0;j < result.length;j++){ %>
-                <div class="col-xs-6 col-md-4">
+
+                <div class="col-xs-6 col-md-4 folder<%= result[j].folder_ids %> ">
+                            <a href="/product-detail/<%=result[j].cat_name.replace(" ", "-")%>/<%=result[j].name.replace(/ /g, '-')%>" >
+                                <div class="product">
+                                    <div class="col-xs-3 col-md-2" style="position: absolute; padding: 0px;">
+                                        <img class="img-responsive" src="/img/moi.svg">
+                                    </div>
+                                    <div class="col-xs-3 col-md-2 col-md-offset-2 col-xs-offset-3" style="position: absolute; padding: 0px;">
+                                        <img class="img-responsive" src="/img/freeship.svg">
+                                    </div>
+                                    <div class="" style="">
+                                        <img src="/assets/img/<%= result[j].image==null?result[j].image:result[j].image.split(";")[0]%>" class="img-responsive">
+                                        
+                                        <!-- <a href="/maintenance-prd?catflt=<%= result[j].cat_names %>&catId=<%= result[j].cat_ids %>" class="portfolio_item work-grid"style="width: 90%; color: #B28D34;font-weight: bold; margin-bottom: 10px;overflow: hidden; margin-top: 20px;">
+                                            <button type="button" class="btn btn-default center-block">
+                                                     Xem Thêm                                       
+                                            </button>
+                                        </a> -->
+                                    </div>
+                                    <% if(result[j].disct_prices == null){ %>
+                                        <h3 class="font-custom" style="margin: 0px;"><%= result[j].name %></h3>
+                                        <h3 class="font-custom" style="color: red; font-weight: bold; margin-top: 10px;" id ="dictprice"><%= result[j].prices.split(';')[0] %></h3>
+                                    <% } else { %> 
+                                        <div style="position: relative;">
+                                            <div class="col-md-3" style="position: absolute; padding: 0px; top: 0px; right: 0px;">
+                                                <div style="position: relative;">
+                                                    <img src="/img/sale.svg">
+                                                    <h5 style="color: white; position: absolute; top: 0px; text-align: center; padding-left: 15px;">-39%</h5>
+                                                </div>
+                                                <!-- <h4 style="color: white;">-39%</h4>   -->                                      
+                                            </div>
+                                            <h3 class="font-custom" style="margin: 0px;"><%= result[j].name %></h3>
+                                            <h3 class="font-custom" style="color: red; font-weight: bold; margin-top: 10px;" id ="dictprice"><%= result[j].prices.split(';')[0] %></h3>
+                                            <h4 style="text-decoration: line-through; color: #6b6b6c; margin: 0px;"> &nbsp;<%= result[j].disct_prices.split(';')[0] %>&nbsp;</h4>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </a>
+                    </div>
+
+
+
+
+
+
+<!--                 <div class="col-xs-6 col-md-4">
                     <div class="product">
                         <div class="center-height">
                             <a href="/product-detail/<%=result[j].cat_name.replace(" ", "-")%>/<%=result[j].name.replace(/ /g, '-')%>" class="portfolio_item work-grid ">
@@ -203,7 +208,7 @@
                             <h2 class="center-block" style="text-align: center;"><%= result[j].name %></h2>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <% } %>
         </div>
 </div>
