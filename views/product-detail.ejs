@@ -14,9 +14,15 @@
     <div class="row product-info thumbnail">
         <div class="col-md-4 col-md-offset-1">
             <div class="row">
+                    <div class="col-md-2" style="position: absolute; background-color: #cf69f9;">
+                        <h4 style="color: white;">MỚI</h4>
+                    </div>
+                    <div class="col-md-4 col-md-offset-2" style="position: absolute; background-color: #69d9f9;">
+                        <h4 style="color: white;">FREESHIP</h4>
+                    </div>
                     <% for(j = 0;j < image[0].url.split(";").length;j++){ %>
                     <div class="Slide-product">
-                        <img class="img-responsive thumbnail" src="/assets/img/<%=image[0].url.split(";")[j]%>" alt="">
+                        <img onclick="zoomImg()"  class="img-responsive list-image" src="/assets/img/<%=image[0].url.split(";")[j]%>" alt="">
                     </div>
                     <% } %>
                     <% for(j = 0;j < image[0].url.split(";").length;j++){ %>
@@ -25,6 +31,10 @@
                         <img  onclick="currentSlide(<%=j+1%>)" class="img-responsive cursor item-product-detail" src="/assets/img/<%=image[0].url.split(";")[j]%>" alt="image">
                     </div>
                     <% } %>
+            </div>
+            <div id="myModal" class="modal">
+                <span id="closeImg" class="close">&times;</span>
+                <img class="modal-content" id="img01">
             </div>
         </div>
         <div class="col-md-6">
@@ -84,10 +94,10 @@
             </div>
             <div class="row">
                 <div class="col-md-4 col-md-offset-2">
-                    <button style="border: none; background-color: transparent;"><img src="/img/muangay.svg" class="img-responsive" onclick=""></button>                   
+                    <button class="button-image"><img src="/img/muangay.svg" class="img-responsive" onclick=""></button>                   
                 </div>
                 <div class="col-md-4 ">
-                    <button style="border: none; background-color: transparent;"><img src="/img/themvaogio.svg" class="img-responsive" onclick="AddCart()"></button>                
+                    <button class="button-image"><img src="/img/themvaogio.svg" class="img-responsive" onclick="AddCart()"></button>                
                 </div>
             </div>
             <div class="row" style="position: relative;">
@@ -95,7 +105,7 @@
                     <div style="background-color: #f3e6e6; min-height: 100px;">Thông tin thêm nếu có nền không có màu.</div>                    
                 </div>
                 <div class="col-md-4">
-                    <button style="border: none; background-color: transparent; position: absolute; right: 0px; top: 30px;">
+                    <button class="button-image" style="position: absolute; right: 0px; top: 30px;">
                         <img src="/img/xemthem.svg">
                     </button>
                 </div>
@@ -112,7 +122,6 @@
             </p>
         </div>
     </div>
-
 </div>
 </body>
 <% include /partials/index_Footer.ejs %>
@@ -156,64 +165,7 @@
                 });
     }
 </script>
-<!-- create image zoom -->
-<script type="text/javascript">
-    function imageZoom(imgID, resultID) {
-        var img, lens, result, cx, cy;
-        img = document.getElementById(imgID);
-        result = document.getElementById(resultID);
-        /*create lens:*/
-        lens = document.createElement("DIV");
-        lens.setAttribute("class", "img-zoom-lens");
-        /*insert lens:*/
-        img.parentElement.insertBefore(lens, img);
-        /*calculate the ratio between result DIV and lens:*/
-        cx = result.offsetWidth / lens.offsetWidth;
-        cy = result.offsetHeight / lens.offsetHeight;
-        /*set background properties for the result DIV:*/
-        result.style.backgroundImage = "url('" + img.src + "')";
-        result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
-        /*execute a function when someone moves the cursor over the image, or the lens:*/
-        lens.addEventListener("mousemove", moveLens);
-        img.addEventListener("mousemove", moveLens);
-        /*and also for touch screens:*/
-        lens.addEventListener("touchmove", moveLens);
-        img.addEventListener("touchmove", moveLens);
-        function moveLens(e) {
-            var pos, x, y;
-            /*prevent any other actions that may occur when moving over the image:*/
-            e.preventDefault();
-            /*get the cursor's x and y positions:*/
-            pos = getCursorPos(e);
-            /*calculate the position of the lens:*/
-            x = pos.x - (lens.offsetWidth / 2);
-            y = pos.y - (lens.offsetHeight / 2);
-            /*prevent the lens from being positioned outside the image:*/
-            if (x > img.width - lens.offsetWidth) {x = img.width - lens.offsetWidth;}
-            if (x < 0) {x = 0;}
-            if (y > img.height - lens.offsetHeight) {y = img.height - lens.offsetHeight;}
-            if (y < 0) {y = 0;}
-            /*set the position of the lens:*/
-            lens.style.left = x + "px";
-            lens.style.top = y + "px";
-            /*display what the lens "sees":*/
-            result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
-        }
-        function getCursorPos(e) {
-            var a, x = 0, y = 0;
-            e = e || window.event;
-            /*get the x and y positions of the image:*/
-            a = img.getBoundingClientRect();
-            /*calculate the cursor's x and y coordinates, relative to the image:*/
-            x = e.pageX - a.left;
-            y = e.pageY - a.top;
-            /*consider any page scrolling:*/
-            x = x - window.pageXOffset;
-            y = y - window.pageYOffset;
-            return {x : x, y : y};
-        }
-    }
-</script>
+
 <!-- image slide -->
 <script>
     var slideIndex = 1;
@@ -232,17 +184,34 @@
         var slides = document.getElementsByClassName("Slide-product");
         var dots = document.getElementsByClassName("item-product-detail");
         var captionText = document.getElementById("caption");
+        var listImg = document.getElementsByClassName("list-image");
+
         if (n > slides.length) {slideIndex = 1}
             if (n < 1) {slideIndex = slides.length}
-                for (i = 0; i < slides.length; i++) {
-                  slides[i].style.display = "none";
-              }
-              for (i = 0; i < dots.length; i++) {
-                  dots[i].className = dots[i].className.replace(" active", "");
-              }
-              slides[slideIndex-1].style.display = "block";
-              dots[slideIndex-1].className += " active";
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+                listImg[i].id = "";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex-1].style.display = "block";
+            listImg[slideIndex-1].id = "myImg";
+            dots[slideIndex-1].className += " active";
+    }
+    function zoomImg(){    
+        var modal = document.getElementById("myModal");
+        var img = document.getElementById('myImg');
+        var modalImg = document.getElementById("img01");
+        $(".list-image").on('click', function (){
+         modal.style.display = "block";
+         modalImg.src = this.src; 
+     });
+        var span = document.getElementById("closeImg");
+        span.onclick = function() { 
+            modal.style.display = "none";
         }
+}
 </script>
 <!-- quantity -->
 <script type="text/javascript">
@@ -312,8 +281,6 @@
     function displaySize() {
         document.getElementById("myDropdown").classList.toggle("show");
     }
-
-
-
 </script>
+
 </html>
