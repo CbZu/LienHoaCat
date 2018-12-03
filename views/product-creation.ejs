@@ -441,7 +441,7 @@
                 prices.push(allElements[i].value);
             }
             if (allElements[i].id == 'newDisc') {
-                if(allElements[i].value.trim()=='0'){
+                if(allElements[i].value.trim()=='0' || allElements[i].value.trim()==''){
                     disct_prices.push(allElements[i].value);
                 }else{
                     if(document.getElementById('expiredDate').value.trim() == ''){

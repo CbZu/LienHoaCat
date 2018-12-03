@@ -941,8 +941,14 @@ module.exports.update_cart = function(req, res){
     var year = date.getUTCFullYear();
     var i = 0;
     var data;
+    var sql = '';
     input.size_id.forEach(function(element) {
-        var sql = 'select * from cart where user_id = '+userid+' and product_id = '+element+' and payment_id=0; ';
+        if(input.userpayment != undefined){
+             sql = 'select * from cart where user_id = '+input.userpayment+' and product_id = '+element+' and payment_id='+input.payment+'; ';
+        } else{
+             sql = 'select * from cart where user_id = '+userid+' and product_id = '+element+' and payment_id=0; ';
+        }
+
         var con = req.db.driver.db;
         con.query(sql, function (err, rows) {
             if(rows==undefined){
@@ -950,20 +956,21 @@ module.exports.update_cart = function(req, res){
                 res.json(data);
             } else{
                 if(input.quantity[i] != '0'){
-                    sql = 'update cart set amount = '+input.quantity[i]+' where user_id = '+userid+' and product_id = '+element+' and payment_id=0;'
+                    if(input.userpayment != undefined){
+                        sql = 'update cart set amount = '+input.quantity[i]+' where user_id = '+input.userpayment+' and product_id = '+element+' and payment_id='+input.payment+'; ';
+                    } else {
+                        sql = 'update cart set amount = '+input.quantity[i]+' where user_id = '+userid+' and product_id = '+element+' and payment_id=0;'
+                    }
                 }
                 else{
-                    sql = 'delete from cart where user_id = '+userid+' and product_id = '+element+' and payment_id=0; '
-                }
-                con.query(sql, function (err, rows) {
-                    if(err){
-                         data = {status: 'err', code: '300',description:err};
-
-
-                    }else{
-
+                    if(input.userpayment != undefined){
+                        sql = 'delete from cart where user_id = '+input.userpayment+' and product_id = '+element+' and payment_id='+input.payment+'; ';
+                    } else {
+                        sql = 'delete from cart where user_id = '+userid+' and product_id = '+element+' and payment_id=0; '
                     }
-                });
+
+                }
+                con.query(sql) ;
                 i++;
             }
         });
@@ -1209,7 +1216,7 @@ module.exports.payment_detail = function(req, res){
         }else{
             user=input.user;
         }
-        var sql = 'select c.payment_id,\n' +
+        var sql = 'select c.user_id,c.payment_id,\n' +
             '(select name from product where c.product_id = product_id ) as name,\n' +
             'GROUP_CONCAT(c.amount SEPARATOR \'; \') as quantities,\n' +
             'GROUP_CONCAT((select size from product where c.product_id = product_id ) SEPARATOR \'; \') as sizes,\n' +

@@ -71,11 +71,11 @@
                                         color="red"><%= result[i].disct_prices.split(';')[j] %></font></label> -->
                         <% } %>
                     </td>
-                    <td class="text-center">
-                        <%=result[i].quantities.split(';')[j].trim()%>
-                        <!-- <input id='size_id' class="booking-item-title size_id_header"
-                                   style="text-align: center; background-color: transparent" disabled
-                                   value="<%= result[i].sizes.split(';')[j] %>"></input> -->
+                    <td>
+                        <input id="quantity" class="center-block form-control booking-item-title quantity_header"
+                               value="<%= result[i].quantities.split(';')[j].trim() %>" type="number" min="1" max=""
+                               step="1" autocomplete="off" style="width: 50%;">
+
                     </td>
                   <!--  <td >
                         <input id="quantity" class="center-block form-control booking-item-title quantity_header"
@@ -160,7 +160,7 @@
     </div>
     <div class="row">
         <button class="btn btn-info col-sm-2" type="button" onclick="UpdateCart()">
-            Cập Nhật Giỏ
+            Cập Nhật Đơn Hàng
         </button>
         <button onclick="CheckOut()"  class="btn btn-success col-sm-2">
             Thanh Toán
@@ -263,6 +263,42 @@
                 if(response.code == '200'){
                     document.getElementById('idSuccess').style.display = 'block';
                 }
+            }
+        });
+
+    }
+    function UpdateCart() {
+        var formdata1 = new FormData();
+        var sizes = new Array();
+        var quantities = new Array();
+        var input = document.getElementsByClassName('booking-item-title size_id_header');
+        <% for (var i = 0; i < result.length; i++) { %>
+        <% for (var j = 0; j < result[i].size_ids.split(";").length; j++) { %>
+        sizes.push(<%= result[i].size_ids.split(";")[j] %>);
+        <% } %>
+        <% } %>
+        input = document.getElementsByClassName('form-control booking-item-title quantity_header');
+        for (var i = 0; i < input.length; i++) {
+            quantities.push(input[i].value);
+        }
+        formdata1.append('size_id', sizes);
+        formdata1.append('quantity', quantities);
+        formdata1.append('userpayment', '<%= result[0].user_id%>');
+        formdata1.append('payment', '<%= result[0].payment_id%>');
+        $.ajax({
+            url: "./PetMart/update-cart",
+            type: 'POST',
+            dataType: 'JSON',
+            data: JSON.stringify({size_id: sizes, quantity: quantities, userpayment: '<%= result[0].user_id%>', payment:'<%= result[0].payment_id%>'}),
+            async: false,
+            cache: false,
+            contentType: 'application/json; charset=UTF-8',
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                alert(response.status);
+                document.getElementById('id03').style.display = 'none';
+                window.location.reload();
             }
         });
 

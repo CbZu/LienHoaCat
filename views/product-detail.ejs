@@ -157,10 +157,8 @@
                     processData: false,
                     success: function (response) {
                         alert('success');
-                       input = document.getElementsByClassName('form-control booking-item-title quantity');
-                        for (var i = 0; i < input.length; i++) {
-                            input[i].value='0'
-                        }
+                        $("#quantity").val('1');
+                        ThanhTien();
                     }
                 });
     }
@@ -246,13 +244,15 @@
         $("#plus").click(function(){
             var value = $("#quantity").val();
             value = Number(value) + 1;
-            $("#quantity").val(value);
+            document.getElementById('quantity') .value = value;
+           /* $("#quantity").val(value);*/
             ThanhTien();
         });
         $("#minus").click(function(){
             var value = $("#quantity").val() - 1;
             if (value>=0){
-                $("#quantity").val(value);
+                document.getElementById('quantity') .value = value;
+               /* $("#quantity").val(value);*/
                 ThanhTien();
             }
         });
