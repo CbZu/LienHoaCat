@@ -16,8 +16,48 @@
                 <a class="btn btn-primary" href="/create-prd?cat=<%= catflt %>&catId=<%= catId %>">Add Product</a>
             </div>
         </div>
+        <!--<div class="container-fluid row">
+            <div class="col-md-2">
+                <div class="nav">
+                    <ul class="slimmenu" id="slimmenu">
+                        <li><a href="/">Account</a>
+                            <ul>
+                                <li><a href="register">Create</a>
+                                </li>
+                                <li><a href="maintenance">Maintenance</a>
+                                </li>
+
+                            </ul>
+                        </li>
+                     </ul>
+               </div>    
+            </div>
+            <div class="col-md-2">
+                <div class="nav">
+                    <ul class="slimmenu" id="slimmenu">
+                        <li><a href="/maintenance-cat">Category</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="nav">
+                    <ul class="slimmenu" id="slimmenu">
+                        <li><a href="/">Product</a>
+                        <ul>
+                            <li><a href="create-prd">Create</a>
+                            </li>
+                            <li><a href="maintenance-prd">Maintenance</a>
+                            </li>
+
+                        </ul>
+                        </li>
+                    </ul>
+                </div> 
+            </div>
+        </div>-->
     <div class = "row">
-        <form action = '/maintenance-prd' method = 'get'>
+        <form action = '/maintenance-prd/<%=catflt%>' method = 'get'>
             <h2><span class="label label-primary">Lọc Sản Phẩm</span></h2>
             <div class="row">
                 <div class="col-md-3">
@@ -141,9 +181,17 @@
                 <div class="col-xs-6 col-md-4 folder<%= result[j].folder_ids %> ">
                             <a href="/product-detail/<%=result[j].cat_name.replace(" ", "-")%>/<%=result[j].name.replace(/ /g, '-')%>" >
                                 <div class="product">
+				<%if(result[j].new == 'Y'){%>
                                     <div class="col-xs-3 col-md-2" style="position: absolute; padding: 0px;">
                                         <img class="img-responsive" src="/img/moi.svg">
                                     </div>
+				    <%}%>
+			    <% if(result[j].disct_prices == null){ %>
+                        <% } else { %>
+                        <div class="col-md-2" style=" background-color: #d639d2;">
+                            <h4 style="color: white;"><%=Math.round((1 - parseInt(result[j].disct_prices.split(',')[0]) / parseInt(result[j].prices.split(',')[0])) * 100)%>%</h4>
+                        </div>
+                        <% } %>
                                     <div class="col-xs-3 col-md-2 col-md-offset-2 col-xs-offset-3" style="position: absolute; padding: 0px;">
                                         <img class="img-responsive" src="/img/freeship.svg">
                                     </div>
@@ -175,6 +223,11 @@
                                     <% } %>
                                 </div>
                             </a>
+<%if (type == 1){%>
+                        <div class="col-md-3">
+                            <a class="btn btn-primary" href="/product-edit/<%=result[j].cat_name.replace(" ", "-")%>/<%=result[j].name.replace(/ /g, '-')%>">Edit</a>
+                        </div>
+                        <%}%>
                     </div>
 
 
@@ -186,7 +239,7 @@
                     <div class="product">
                         <div class="center-height">
                             <a href="/product-detail/<%=result[j].cat_name.replace(" ", "-")%>/<%=result[j].name.replace(/ /g, '-')%>" class="portfolio_item work-grid ">
-                                <img src="/assets/img/<%= result[j].image==null?result[j].image:result[j].image.split(";")[0]%>" class="img-responsive" alt="Responsive image" style="padding: 10px;">
+                                <img src="/assets/img/<%= result[j].image==null?result[j].image:result[j].image.split(";")[0]%>" class="img-responsive" alt="Responsive image" style="padding: 17px;">
                                 <% if(result[j].disct_prices == null){ %>
                                     <div style=" padding: 0px">
                                             <h4 style="text-align: center;">Giá SP</h4>

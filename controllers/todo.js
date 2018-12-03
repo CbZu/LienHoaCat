@@ -1376,11 +1376,12 @@ module.exports.maintenance_prd = function(req, res){
             '(select GROUP_CONCAT(price SEPARATOR \',\') from product where name = p.name) as prices ,\n' +
             '(select GROUP_CONCAT(size SEPARATOR \',\') from product where name = p.name) as sizes ,\n' +
             '(select GROUP_CONCAT(product_id SEPARATOR \',\') from product where name = p.name) as size_id ,\n' +
-            '(select url from image where product_id = p.product_id and type = 1) as image \n' +
+            '(select url from image where product_id = p.product_id and type = 1) as image, \n' +
+            'IF(('+year+month+day+' - p.create_time ) < 100, \'Y\', \'N\') as new \n'+
             'from product p join thuoctinh t on p.product_id = t.product_id join description d on p.description = d.description_id ';
 
         var where = '';
-        if(req.params.catflt != undefined && req.params.catflt != 'Search' ){
+        if(req.params.catflt != undefined && req.params.catflt != 'Search' && req.params.catflt != 'undefined'){
             where += ' cat_id = (select cat_id from category where cat_name like \'%'+req.params.catflt.replace(/-/g,' ')+'%\') and';
         }
         if(req.query.prdflt != undefined && req.query.prdflt != '' ){
@@ -1398,7 +1399,7 @@ module.exports.maintenance_prd = function(req, res){
     if(req.query.size != undefined && req.query.size != '' ){
         where += ' t.sizefrom < '+req.query.size+' and t.sizeto > '+req.query.size+' and';
     }
-    if(req.query.keyword != undefined && req.query.keyword != '' ){
+    if(req.query.keyword != 'undefined' && req.query.keyword != '' && req.query.keyword != undefined ){
         where += ' (t.mau REGEXP \''+req.query.keyword.replace(",","|")+'\'\n' +
             'or t.menh REGEXP \''+req.query.keyword.replace(",","|")+'\' \n' +
             'or t.tuoi REGEXP \''+req.query.keyword.replace(",","|")+'\' \n' +

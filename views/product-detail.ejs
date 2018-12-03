@@ -105,9 +105,9 @@
                     <div style="background-color: #f3e6e6; min-height: 100px;">Thông tin thêm nếu có nền không có màu.</div>                    
                 </div>
                 <div class="col-md-4">
-                    <button class="button-image" style="position: absolute; right: 0px; top: 30px;">
+                    <a href="/maintenance-prd/<%= result[0].catflt.replace(/ /g,'-')%>" class="button-image" style="position: absolute; right: 0px; top: 30px;">
                         <img src="/img/xemthem.svg">
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -216,7 +216,7 @@
 <!-- quantity -->
 <script type="text/javascript">
 
-        <%if(result[0].disct_price == 0){%>
+        <%if(result[0].disct_price == null || result[0].disct_price == 0){%>
         $("#dictprice").html('<%=result[0].price%> <a href="" style="font-weight: normal; color: #6b6b6c;">VNĐ</a>');
         $("#price").html('');
         <%} else {%>
@@ -229,7 +229,7 @@
         var n = document.getElementById('idselect').value;
         <% for(i = 0;i < result.length;i++){ %>
         if('<%=result[i].product_id%>' == (''+n)){
-            <%if(result[i].disct_price == 0){%>
+            <%if(result[0].disct_price == null || result[0].disct_price == 0){%>
             $("#dictprice").html('<%=result[i].price%> <a href="" style="font-weight: normal; color: #6b6b6c;">VNĐ</a>');
             $("#price").html('');
             ThanhTien();
@@ -251,7 +251,7 @@
         });
         $("#minus").click(function(){
             var value = $("#quantity").val() - 1;
-            if (value>0){
+            if (value>=0){
                 $("#quantity").val(value);
                 ThanhTien();
             }
@@ -264,7 +264,7 @@
             var n = document.getElementById('idselect').value;
             <% for(i = 0;i < result.length;i++){ %>
             if('<%=result[i].product_id%>' == (''+n)){
-                <%if(result[i].disct_price == 0){%>
+                <%if(result[0].disct_price == null || result[0].disct_price == 0){%>
                 var total = $("#quantity").val() * parseInt('<%=result[i].price%>');
                 $("#thanhtien").html(total);
 
