@@ -71,6 +71,9 @@ module.exports=function(app,controllers){
     app.post('/app-work', controllers.todo.app_phongthuy);
     app.get('/app-phongthuy', controllers.todo.app_phongthuy);
 
+
+    app.get('/edit-product/:prdname',controllers.todo.edit_product);
+
     /*app.get('/register',controllers.account.register);
 
 

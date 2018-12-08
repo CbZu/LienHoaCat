@@ -160,24 +160,54 @@ exports.deleteSizeId=function(req,res){
 exports.updateProduct=function(req,res){
     var input = JSON.parse(JSON.stringify(req.body));
     var con = req.db.driver.db;
-    for(var i = 0;i < input.sizeId.split(';').length ; i++){
-        var sql = 'update product set price = '+input.PriceValue.split(';')[i]+' , disct_price = '+input.DiscountValue.split(';')[i]+'' +
-            ' where product_id = '+input.sizeId.split(';')[i]+' ;';
-        con.query(sql, function (err, rows) {
-            if(err){
-                console.log(err);
-            }
-        })
-    }
+    var sql = '';
+    for(var i = 0;i < input.OldIds.split(",").length ; i++){
+         sql = 'update product set price = '+input.OldPrices.split(",")[i]+' , size = \''+input.OldSizes.split(",")[i]+'\' '+
+            ', code = \''+input.OldCodes.split(",")[i]+'\', information = \''+input.OldInfos.split(",")[i]+'\', entity = '+input.OldEntities.split(",")[i]+' where product_id = ' +  input.OldIds.split(",")[i] +';';
+        con.query(sql);
 
-    var sql = 'update description set description = \''+input.description.trim()+'\' where description_id = '+input.descriptionId+' ;';
+        sql = 'update discount set disct_price = '+input.OldDiscounts.split(",")[i]+', expired_date ='+input.expired_date+' where product_id = ' +  input.OldIds.split(",")[i] +';'
+        con.query(sql);
+        sql = 'update product set name = \''+input.name+'\'' +
+            ' where product_id = ' +  input.OldIds.split(",")[i] +';'
+        con.query(sql);
+    }
+    sql = 'select max(expired_date) as max from discount where product_id = ' +  input.OldIds.split(",")[i] +';';
     con.query(sql, function (err, rows) {
         if(err){
             console.log(err);
+        } else{
+            for(var i = 0;i < input.OldIds.split(",").length ; i++){
+
+            }
         }
-    })
+    });
+
+     sql = 'update thuoctinh set menh = \''+input.Menh+'\'' +
+         ', mau =\''+input.Mau+'\'' +
+         ', tuoi =\''+input.Tuoi+'\'' +
+         ' where product_id = ' +  input.OldIds.split(",")[0] +';'
+    con.query(sql);
+
+    sql = 'update product set name = \''+input.name+'\'' +
+        ' where product_id = ' +  input.OldIds.split(",")[0] +';'
+    con.query(sql);
+
+
+    sql = 'select description from product ' +
+        ' where product_id = '+input.OldIds.split(",")[0]+' ;';
+    con.query(sql, function (err, rows) {
+        if(err){
+            console.log(err);
+        } else{
+            sql = 'update description set description = \''+input.description+'\'' +
+                ' where description_id = ' +  rows[0].description +';'
+            con.query(sql);
+        }
+    });
+
     data={status:'success',code:'400'};
-    res.json(data);
+    res.redirect("/edit-product/"+input.name.replace(/ /g,'-'))
 };
 exports.updateProductImage=function(req,res){
     var input = JSON.parse(JSON.stringify(req.body));

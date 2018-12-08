@@ -1335,6 +1335,60 @@ module.exports.product_detail = function(req, res){
 
         });
 };
+
+module.exports.edit_product = function(req, res){
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    var year = date.getUTCFullYear();
+    var sql = 'select *, (select cat_name from category where cat_id = p.cat_id) as catflt,' +
+        '(select menh from thuoctinh where product_id  = p.product_id) as menh, '+
+        '(select tuoi from thuoctinh where product_id  = p.product_id) as tuoi, '+
+        '(select mau from thuoctinh where product_id  = p.product_id) as mau, '+
+        '(select sizefrom from thuoctinh where product_id  = p.product_id) as sizefrom, '+
+        '(select sizeto from thuoctinh where product_id  = p.product_id) as sizeto, '+
+        '(select disct_price from discount where product_id = p.product_id and effective_date <= '+year+''+month+day+' and '+year+''+month+''+day+'<=expired_date) as disct_price' +
+        ' from product p where name = \''+req.params.prdname.replace(/-/g,' ')+'\';';
+
+    var con = req.db.driver.db;
+    con.query(sql, function (err, rows) {
+        if(err){
+            var data = {status: 'error', code: '300',error: err};
+            res.json(data);
+        }else{
+            var sql = 'select * from description where description_id ='+rows[0].description+';';
+            con.query(sql, function (err, row1s) {
+                if(!err){
+
+                    sql = 'select * from image where product_id  = '+rows[0].product_id+';';
+                    con.query(sql, function (err, row2s) {
+                        if(!err){
+                            var data = {status: 'success', code: '200'
+                                ,result:rows
+                                , description:row1s[0].description
+                                ,descriptionId:row1s[0].description_id
+                                ,image:row2s
+                                ,fname:req.session.firstname
+                                ,type:req.session.type
+                                ,userid:req.session.user_id
+                                ,catflt : req.params.catflt
+                                ,catId : row1s[0].cat_id
+                                ,treefolder:req.session.treefolder};
+                            res.render('product-edit',data);
+                        }
+                    });
+
+                }
+            });
+
+
+
+        }
+
+    });
+};
 module.exports.create_prd=function(req,res){
     var sql = '';
 
