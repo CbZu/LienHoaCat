@@ -181,15 +181,13 @@
                 <div class="col-xs-6 col-md-4 folder<%= result[j].folder_ids %> ">
                             <a href="/product-detail/<%=result[j].cat_name.replace(" ", "-")%>/<%=result[j].name.replace(/ /g, '-')%>" >
                                 <div class="product">
-				<%if(result[j].new == 'Y'){%>
+				                    <%if(result[j].new == 'Y'){%>
                                     <div class="col-xs-3 col-md-2" style="position: absolute; padding: 0px;">
                                         <img class="shake img-responsive" src="/img/moi.svg">
                                     </div>
-                                    <div class="shake col-xs-3 col-md-2 col-md-offset-2 col-xs-offset-3" style="position: absolute; padding: 0px;">
-=======
-				    <%}%>
+				                    <%}%>
                                     <div class="col-xs-3 col-md-2 col-md-offset-2 col-xs-offset-3" style="position: absolute; padding: 0px;">
-                                        <img class="img-responsive" src="/img/freeship.svg">
+                                        <img class="shake img-responsive" src="/img/freeship.svg">
                                     </div>
                                     <div class="" style="">
                                         <img src="/assets/img/<%= result[j].image==null?result[j].image:result[j].image.split(";")[0]%>" class="img-responsive">
@@ -218,8 +216,8 @@
                                         </div>
                                     <% } %>
                                 </div>
-                            </a>
-<%if (type == 1){%>
+                        </a>
+                        <%if (type == 1){%>
                         <div class="col-md-3">
 <!--
                             <a class="btn btn-primary" href="/product-edit/<%=result[j].cat_name.replace(" ", "-")%>/<%=result[j].name.replace(/ /g, '-')%>">Edit</a>
