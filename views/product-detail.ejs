@@ -21,14 +21,18 @@
                         <h4 style="color: white;">FREESHIP</h4>
                     </div>
                     <% for(j = 0;j < image[0].url.split(";").length;j++){ %>
-                    <div class="Slide-product">
-                        <img onclick="zoomImg()"  class="img-responsive list-image" src="/assets/img/<%=image[0].url.split(";")[j]%>" alt="">
+                    <div class="Slide-product fade">
+                        <img onclick="zoomImg()"  class="list-image img-responsive" src="/assets/img/<%=image[0].url.split(";")[j]%>" alt="">
                     </div>
                     <% } %>
-                    <% for(j = 0;j < image[0].url.split(";").length;j++){ %>
-                    
-                    <div class="" style="float: left; width: 25%;">
-                        <img  onclick="currentSlide(<%=j+1%>)" class="img-responsive cursor item-product-detail" src="/assets/img/<%=image[0].url.split(";")[j]%>" alt="image">
+                    <div style="position: relative;">
+                        <% for(j = 0;j < image[0].url.split(";").length;j++){ %>                    
+                        <div class="" style="float: left; width: 25%;">
+                            <img  onclick="currentSlide(<%=j+1%>)" class="img-responsive cursor item-product-detail" src="/assets/img/<%=image[0].url.split(";")[j]%>" alt="image">
+                        </div>
+                        <% } %>
+                        <a class="prev" onclick="plusSlides(-1)">❮</a>
+                        <a class="next" onclick="plusSlides(1)">❯</a>
                     </div>
                     <% } %>
             </div>
@@ -201,10 +205,11 @@
         var modal = document.getElementById("myModal");
         var img = document.getElementById('myImg');
         var modalImg = document.getElementById("img01");
-        $(".list-image").on('click', function (){
-         modal.style.display = "block";
-         modalImg.src = this.src; 
-     });
+        /*$(".list-image")*/
+        $(".Slide-product").on('click', function (){
+            modal.style.display = "block";
+            modalImg.src = img.src; 
+        });
         var span = document.getElementById("closeImg");
         span.onclick = function() { 
             modal.style.display = "none";
