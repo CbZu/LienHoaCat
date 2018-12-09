@@ -58,6 +58,9 @@
                                     <label class="checkbox-inline">
                                         <input type="checkbox" class="checkmenh"  id="mang4" value="Thổ"> Thổ
                                     </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" class="checkmenh"  id="mang5" value="all" onclick="selectAll('checkmenh')"> Tất cả các mệnh
+                                    </label>
                             </div>
                             <div class="row">
                                 <div class="col-md-8"><h3>Hợp Tuổi</h3></div>
@@ -100,7 +103,7 @@
                                         <input type="checkbox" class="checktuoi" id="Tuoi11" value="Hợi"> Hợi
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" class="checktuoi" id="Tuoi12" value="Tất cả các tuổi"> Tất cả các tuổi
+                                        <input type="checkbox" class="checktuoi" id="Tuoi12" value="all" onclick="selectAll('checktuoi')"> Tất cả các tuổi
                                     </label>
                             </div>
                             <div class="row">
@@ -136,8 +139,7 @@
                                     </label>
                                     <label class="checkbox-inline">
                                         <input type="checkbox" class="checkmau" id="mau9" value="Xanh biển"> Xanh biển
-                                    </label>
-                                    
+                                    </label>                                    
                             </div>
                             <div class="row center-block">
                                     <label class="checkbox-inline">
@@ -151,6 +153,9 @@
                                     </label>
                                     <label class="checkbox-inline">
                                         <input type="checkbox" class="checkmau" id="mau13" value="Trong suốt"> Trong suốt
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" class="checkmau" id="mau14" value="all" onclick="selectAll('checkmau')"> Tất cả các màu
                                     </label>
                             </div>
                             <div class="row">
@@ -315,6 +320,19 @@
 <script src="js/gridrotator.js"></script>
 <script src="js/custom.js"></script>
 <script>
+    function selectAll(name){
+        var properties = document.getElementsByClassName(name);
+        if (properties[properties.length-1].checked){
+            for (i=0; i < properties.length; i++){
+                properties[i].checked = true;
+            }
+        } else {
+            for (i=0; i < properties.length; i++){
+                properties[i].checked = false;
+            }
+        }
+        
+    }
     function TickMenh(indx){
         menh += indx+";";
     }
@@ -392,6 +410,7 @@
             '                        </div><br>';
         $(element).insertBefore($('#rowInsertBtn'));
     }
+
 
     function Add() {
         var formdata = new FormData();

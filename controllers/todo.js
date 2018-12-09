@@ -1433,8 +1433,8 @@ module.exports.maintenance_prd = function(req, res){
             'select name,p.product_id,cat_id,image, \n' +
             '(select cat_name from category where cat_id = p.cat_id) as cat_name ,\n' +
             '(select description from description where p.description = description_id) as description ,\n' +
-            '(select GROUP_CONCAT(disct_price SEPARATOR \',\') from discount where product_id = p.product_id and effective_date <= '+year+''+month+''+day+' and '+year+''+month+''+day+'<=expired_date) as disct_prices ,\n' +
-            '(select GROUP_CONCAT(price SEPARATOR \',\') from product where name = p.name) as prices ,\n' +
+            '(select MIN(disct_price) from discount where product_id = p.product_id and effective_date <= '+year+''+month+''+day+' and '+year+''+month+''+day+'<=expired_date) as disct_prices ,\n' +
+            '(select MIN(price) from product where name = p.name) as prices ,\n' +
             '(select GROUP_CONCAT(size SEPARATOR \',\') from product where name = p.name) as sizes ,\n' +
             '(select GROUP_CONCAT(product_id SEPARATOR \',\') from product where name = p.name) as size_id ,\n' +
             '(select url from image where product_id = p.product_id and type = 1) as image, \n' +

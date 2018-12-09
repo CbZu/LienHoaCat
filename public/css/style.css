@@ -183,7 +183,7 @@ form.search::after {
 .product{
     /*background-color: #B28D34;*/
     margin-top: 20px;
-    height: 400px;
+    height: 420px;
     border: #bfbfbf solid 2px;
     position: relative;
     padding: 10px;
@@ -275,6 +275,7 @@ form.search::after {
     border-radius: 2px;
 }
 
+/* Shake animation */
 .shake {
   /* Start the shake animation and make the animation last for 0.5 seconds */
   animation: shake 3s; 
@@ -310,7 +311,7 @@ form.search::after {
   to {opacity: 1}
 }
 
-/* Next & previous buttons */
+/*Slide buttom*/
 .prev, .next {
   cursor: pointer;
   position: absolute;
@@ -326,7 +327,6 @@ form.search::after {
   background-color: rgba(0,0,0,0.2);
 }
 
-/* Position the "next button" to the right */
 .next {
     right: 0;
     border-radius: 3px 0 0 3px;
@@ -337,7 +337,6 @@ form.search::after {
     border-radius: 3px 0 0 3px;
 }
 
-/* On hover, add a black background color with a little bit see-through */
 .prev:hover, .next:hover {
     background-color: rgba(0,0,0,0.8);
 }
