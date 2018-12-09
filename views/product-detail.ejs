@@ -14,10 +14,10 @@
     <div class="row product-info thumbnail">
         <div class="col-md-4 col-md-offset-1">
             <div class="row">
-                    <div class="col-md-2" style="position: absolute; background-color: #cf69f9; opacity: 1;">
+                    <div class="col-md-2" style="position: absolute; background-color: #cf69f9; opacity: 1; z-index: 10;">
                         <h4 style="color: white;">MỚI</h4>
                     </div>
-                    <div class="col-md-4 col-md-offset-2" style="position: absolute; background-color: #69d9f9;">
+                    <div class="col-md-4 col-md-offset-2" style="position: absolute; background-color: #69d9f9;  z-index: 10;">
                         <h4 style="color: white;">FREESHIP</h4>
                     </div>
                     <% for(j = 0;j < image[0].url.split(";").length;j++){ %>
@@ -231,7 +231,7 @@
         var n = document.getElementById('idselect').value;
         <% for(i = 0;i < result.length;i++){ %>
         if('<%=result[i].product_id%>' == (''+n)){
-            <%if(result[0].disct_price == null || result[0].disct_price == 0){%>
+            <%if(result[i].disct_price == null || result[i].disct_price == 0){%>
             $("#dictprice").html('<%=result[i].price%> <a href="" style="font-weight: normal; color: #6b6b6c;">VNĐ</a>');
             $("#price").html('');
             ThanhTien();
@@ -273,7 +273,7 @@
                 $("#thanhtien").html(total);
 
                 <%} else {%>
-                var total = $("#quantity").val() * parseInt('<%=result[i].disct_price%>');
+                var total = $("#quantity").val() * parseInt('<%=result[i].price%>');
                 $("#thanhtien").html(total);
                 <%}%>
             }
