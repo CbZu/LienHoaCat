@@ -4,6 +4,11 @@
 <body>
 	<div class="container">
 		<div class="row">
+			<div class="col-md-2">
+				<a href="/payment-detail" class="btn btn-primary">Tạo Đơn Hàng</a>
+			</div>
+		</div>
+		<div class="row">
             	<div class="col-md-2">
                     <h4 class="booking-item-title">Title</h4>
                 </div>
@@ -26,7 +31,7 @@
 
         <% for(i = 0;i < payments.length;i++){ %>
         <li>
-        	<a class="booking-item" href="/payment-detail?id=<%= payments[i].payment_id%>">
+        	<a class="booking-item" href="/payment-detail?id=<%= payments[i].payment_id%>&user=<%=payments[i].user_id%>">
         		<div class="row">
 
         			<div class="row">

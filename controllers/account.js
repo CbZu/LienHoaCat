@@ -116,7 +116,7 @@ module.exports.signup=function(req,res){
             phone    : input.phone,
             firstname    : input.firstname,
             lastname : input.lastname,
-            dob:newDOB,
+            dob: parseInt(input.dob.replace(/-/g,'')),
             password:passwd,
             create_time:parseInt(year+''+month+''+day),
             type_id : parseInt(input.type)
@@ -342,7 +342,11 @@ module.exports.edit_account = function(req, res){
     var con = req.db.driver.db;
     con.query(sql, function (err, rows) {
         if(!err){
-            data={title:'Edit Account | '+req.session.firstname,fname:req.session.firstname,user:rows};
+            data={title:'Edit Account | '+req.session.firstname
+                ,user:rows
+                ,fname:req.session.firstname
+                ,type:req.session.type
+                ,treefolder:req.session.treefolder};
             res.render('edit_account',data);
         }else{
             data={status:'fail',code:'300'};
@@ -380,7 +384,7 @@ module.exports.save_account = function(req, res){
                 rows.country = input.country;
                 rows.city = input.city;
                 rows.address = input.addr;
-                rows.dob = parseInt(newDOB);
+                rows.dob = parseInt(input.dob.replace(/-/g,''));
                 rows.save(data,function(err){
                     console.log('saved');
                 });

@@ -37,7 +37,7 @@
                     </td>
 
                     <td class="text-center">
-                        <% if(result[i].discount_prices.split(';')[j] == null) { %>
+                        <% if(result[i].discount_prices.split(';')[j] == null || result[i].discount_prices.split(';')[j] == '0') { %>
 
                         <label style=" text-align: center"><font
                                     color="black"><%= result[i].prices.split(';')[j] %> </font></label>

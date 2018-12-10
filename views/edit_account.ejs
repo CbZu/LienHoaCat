@@ -21,99 +21,105 @@
     <div class="container">
         <div class="row">
             <ol class="breadcrumb">
-                <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="/maintenance">Account Maintenance</a> / <a href="#"><%=user[0].firstname + ' '+user[0].lastname %></a>
+                <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="/maintenance">Account Maintenance</a> /
+                <a href="#"><%= user[0].firstname + ' '+user[0].lastname %></a>
             </ol>
-            <%if (data.status == 'success'){%>
+            <% if (data.status == 'success'){ %>
             <div class="alert alert-success">
                 <strong>Success!</strong>
             </div>
-            <%}%>
+            <% } %>
         </div>
         <div class="row" data-gutter="60">
             <div class="col-md-12">
                 <h2><span class="label label-info center-block">Chỉnh sửa tài khoản</span></h2>
 
-                <form action="/save-account" method="post"  id="frmId">
-                    <input class="form-control" type="text" name="id" id ="id" value = "<%=user[0].user_id%>" required style="display: none">
+                <form action="/save-account" method="post" id="frmId">
+                    <input class="form-control" type="text" name="id" id="id" value="<%= user[0].user_id %>" required
+                           style="display: none">
                     <div class="row">
-                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <div class="form-group form-group-icon-left col-md-6"><i
+                                    class="fa fa-user input-icon input-icon-show"></i>
                             <label>Tên tài khoản</label>
-                            <input class="form-control" type="text" name="username" id="username"  value = "<%=user[0].username%>"  required>
+                            <input class="form-control" type="text" name="username" id="username"
+                                   value="<%= user[0].username %>" required>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <div class="form-group form-group-icon-left col-md-6"><i
+                                    class="fa fa-user input-icon input-icon-show"></i>
                             <label>Tên</label>
-                            <input class="form-control" type="text" name="fname" id = "fname" value = "<%=user[0].firstname%>" required>
+                            <input class="form-control" type="text" name="fname" id="fname"
+                                   value="<%= user[0].firstname %>" required>
                         </div>
 
-                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <div class="form-group form-group-icon-left col-md-6"><i
+                                    class="fa fa-user input-icon input-icon-show"></i>
                             <label>Họ</label>
-                            <input class="form-control" type="text" name="lname" id = "lname" value = "<%=user[0].lastname%>" required>
+                            <input class="form-control" type="text" name="lname" id="lname"
+                                   value="<%= user[0].lastname %>" required>
                         </div>
                     </div>
 
-                    <div class="input-daterange" data-date-format="dd/mm/yyyy">
+                    <div class="datepicker" data-date-format="mm/dd/yyyy">
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group form-group-icon-left"><i class="fa fa-calendar input-icon input-icon-hightlight"></i>
-                                    <label>Ngày sinh</label>
-                                    <input class="form-control" name="dob" id = "dob" type="text" />
+                                    <label>Date Of Birth</label>
+                                    <input class="form-control" name="dob" type="date" value = '<%=user[0].dob%>' />
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <div class="form-group form-group-icon-left col-md-6"><i
+                                    class="fa fa-user input-icon input-icon-show"></i>
                             <label>Email</label>
-                            <input class="form-control" type="text" name="email" id="email"  value = "<%=user[0].email%>" required>
+                            <input class="form-control" type="text" name="email" id="email" value="<%= user[0].email %>"
+                                   required>
                         </div>
-                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <div class="form-group form-group-icon-left col-md-6"><i
+                                    class="fa fa-user input-icon input-icon-show"></i>
                             <label>Điện thoại</label>
-                            <input class="form-control" type="text" name="phone" id="phone"  value = "<%=user[0].phone%>"  required>
-                        </div>  
+                            <input class="form-control" type="text" name="phone" id="phone" value="<%= user[0].phone %>"
+                                   required>
+                        </div>
                     </div>
-                    
+
                     <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
                         <label>Địa chỉ</label>
-                        <input class="form-control" type="text" name="addr" id="addr"  value = "<%=user[0].address==null?"":user[0].address%>" required>
+                        <input class="form-control" type="text" name="addr" id="addr"
+                               value="<%= user[0].address==null?"":user[0].address %>" required>
                     </div>
 
                     <div class="row">
-                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <div class="form-group form-group-icon-left col-md-6"><i
+                                    class="fa fa-user input-icon input-icon-show"></i>
                             <label>Thành phố</label>
-                            <input class="form-control" type="text" name="city" id="city"  value = "<%=user[0].city==null?"":user[0].city%>"  required>
+                            <input class="form-control" type="text" name="city" id="city"
+                                   value="<%= user[0].city==null?"":user[0].city %>" required>
                         </div>
 
-                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <div class="form-group form-group-icon-left col-md-6"><i
+                                    class="fa fa-user input-icon input-icon-show"></i>
                             <label>Quốc gia</label>
-                            <input class="form-control" type="text" name="country" id="country"  value = "<%=user[0].country==null?"":user[0].country%>" required>
+                            <input class="form-control" type="text" name="country" id="country"
+                                   value="<%= user[0].country==null?"":user[0].country %>" required>
                         </div>
                     </div>
-
-                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>Ngân hàng</label>
-                        <input class="form-control" type="text" name="salary" id="salary"  value = "<%=user[0].bank%>"  >
-                    </div>
-                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>Số Tài khoản</label>
-                        <input class="form-control" type="text" name="salary" id="salary"  value = "<%=user[0].bank_account%>"  >
-                    </div><div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>Chi Nhánh</label>
-                        <input class="form-control" type="text" name="salary" id="salary"  value = "<%=user[0].bank_address%>"  >
-                    </div>
+                    <% if(type == '1'){ %>
                     <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
                         <label>User Type</label>
-                        <select name="type" id="type" >
-                            <option value="2" name="type2" id="type2" >User</option>
-                            <option value="1" name="type1" id="type1" >Admin</option>
+                        <select name="type" id="type">
+                            <option value="2" name="type2" id="type2">User</option>
+                            <option value="1" name="type1" id="type1">Admin</option>
 
 
                         </select>
                     </div>
-
-                    <input class="btn btn-primary center-block" type="submit" value="Cập Nhật" >
+                    <% } %>
+                    <input class="btn btn-primary center-block" type="submit" value="Cập Nhật">
 
                 </form>
 
@@ -212,18 +218,18 @@
 </script>
 <script>
 
-    document.getElementById('dob').value = convertDate('<%=user[0].dob%>');
-    if('<%=user[0].type_id%>' == '1'){
+    document.getElementById('dob').value = convertDate('<%= user[0].dob %>');
+    if ('<%= user[0].type_id %>' == '1') {
         $("#type1").attr('selected', 'selected');
-    }else if ('<%=user[0].type_id%>' == '2'){
+    } else if ('<%= user[0].type_id %>' == '2') {
         $("#type2").attr('selected', 'selected');
-    }else{
+    } else {
         $("#type3").attr('selected', 'selected');
     }
 
 
-    function convertDate(i){
-        return i.substring(6,8)+'/'+i.substring(4,6)+'/'+i.substring(0,4);
+    function convertDate(i) {
+        return i.substring(6, 8) + '/' + i.substring(4, 6) + '/' + i.substring(0, 4);
     }
 
 </script>

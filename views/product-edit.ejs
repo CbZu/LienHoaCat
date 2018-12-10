@@ -5,7 +5,7 @@
 <div class="container body-content">
     <div class="row">
         <ol class="breadcrumb">
-            <a href="/"><i class="icon fa fa-home"></i> Home</a>  / <a href="#">Tạo Sản Phẩm</a>
+            <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="/maintenance-prd/<%=result[0].catflt%>"><%=result[0].catflt%></a>  / <a href="#">Tạo Sản Phẩm</a>
         </ol>
 
     </div>
@@ -268,6 +268,10 @@
     <a type="button" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">
         <span class="glyphicon glyphicon-upload"></span>
     </a>
+
+    <button class = "btn btn-primary" id = "xemtruoc"onclick="XemTruoc()">Xem Trước</button>
+    <button class = "btn btn-primary" id = "chinhsua" onclick="ChinhSua()" >Chỉnh sửa</button>
+    </br>
     <!-- Modal -->
     <div id="id02" class="modal">
         <div class="container popup animate">
@@ -308,8 +312,11 @@
 
     </div>
     <div class="row product-info center-block">
-        <div>
-            <textarea style="width: 100%; min-height: 300px;" id="description" name="description"><%=description%></textarea>
+        <div >
+            <textarea style="width: 100%; min-height: 300px;display: none" id="description" name="description"><%=description%></textarea>
+            <p id = 'descriptionArea' name = 'descriptionArea' style="display: block">
+                <%=description%>
+            </p>
         </div>
     </div>
 
@@ -337,6 +344,30 @@
 <script src="/js/countdown.js"></script>
 <script src="/js/gridrotator.js"></script>
 <script src="/js/custom.js"></script>
+<script>
+    var  element = '<%=description%>';
+    var str  = element.replace(/&#39;/g, "\"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g,"\"");
+    document.getElementById('descriptionArea').innerHTML = str;
+
+
+    function XemTruoc() {
+        document.getElementById('description').style.display = 'none';
+        document.getElementById('descriptionArea').style.display = 'block';
+        var  element = document.getElementById('description').innerHTML;
+        var str  = element.replace(/&#39;/g, "\"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g,"\"");
+        document.getElementById('descriptionArea').innerHTML = str;
+
+
+    }
+
+    function ChinhSua() {
+        document.getElementById('description').style.display = 'block';
+        document.getElementById('descriptionArea').style.display = 'none';
+        /*document.getElementById('xemtruoc').disabled = true;
+        document.getElementById('chinhsua').disabled = false;*/
+    }
+
+</script>
 <script>
     <%for(var i = 0; i < result.length ; i++){%>
     var element = '<div class="row center-block">\n' +
@@ -409,7 +440,7 @@
 
         }
         $.ajax({
-            url: './ajax/addProductImages',
+            url: '../ajax/addProductImages',
             type: 'POST',
             data: formdata1,
             async: false,
@@ -420,7 +451,7 @@
             success: function (response) {
                 $.ajax({
                     type: "POST",
-                    url: "./PetMart/remove",
+                    url: "../PetMart/remove",
                     data: "path=" + response.path,
                     success: function (msg) {
                         //alert(msg);
@@ -428,6 +459,7 @@
                         var description = document.getElementById("description").value;
                         description +=  '<br>'+'<img border=0 hspace="0" alt="" src="/assets/img/'+response.image+'" align="baseline" class="img-responsive">' + '<br>';
                         document.getElementById("description").value = description;
+                        document.getElementById("description").innerHTML = description;
                         document.getElementById("id02").style.display = 'none';
 
                     }

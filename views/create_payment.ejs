@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include partials/index_Header.ejs %>
+<body>
+<div class="container">
+    <div class="row ">
+        <ol class="breadcrumb">
+            <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a
+                    href="/show-payment">Đơn Hàng</a> / <a href="#">Chi Tiết Đơn Hàng</a>
+        </ol>
+
+    </div>
+    <div class="container solid-content">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group form-group-icon-left">
+                    <h3>Status : </h3>
+                    <select name="status" id="status">
+                        <option value="none" selected>----Selected-----</option>
+                        <option value="0">Đã hủy</option>
+                        <option value="1">Đã Đặt Hàng</option>
+                        <option value="2">Đã Xác Nhận</option>
+                        <option value="3">Đang Giao Hàng</option>
+                        <option value="4">Giao Hàng Thành Công</option>
+                        <option value="5">Đã Thanh Toán</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <h3>Thông tin sản phẩm</h3>
+
+        <div id="cartdetail" class = "row">
+            <table class="table table-bordered">
+                <thead>
+                <th class="text-right" style="text-align: center;"><h3>Tên sản phẩm</h3></th>
+                <th class="text-right" style="text-align: center;"><h3>Size</h3></th>
+                <th class="text-right" style="text-align: center;"><h3>Giá sản phẩm</h3></th>
+                <th class="text-right" style="text-align: center;"><h3>Số Lượng</h3></th>
+                <th class="text-right" style="text-align: center;"><h3>Thành Tiền</h3></th>
+                <!-- <td ><h4 style="text-align: center;">Size</h4></td>
+                <td class="text-right"><h4 style="text-align: center;"></h4></td>
+                <td class="text-right"><h4 style="text-align: center;"></h4></td>
+                <td class="text-right"><h4 style="text-align: center;"></h4></td> -->
+                </thead>
+            </table>
+        </div>
+
+
+
+    </div>
+    <input id = "ship" style="display: none" value = '0'>
+    <input id = "type" style="display: none" value = '0'>
+    <div class="col-sm-7">
+
+        <div class="row solid-content">
+            <h3>Hình thức giao hàng</h3>
+            <div class="col-md-3">
+                <a class="thumbnail" >
+                    <img onclick="Ship(1)" class="dilivery" src="img/delivery_form/giaohangtietkiem.png" alt="...">
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a class="thumbnail">
+                    <img onclick="Ship(2)" class="dilivery" src="img/delivery_form/giaohangnhanh.png" alt="...">
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a class="thumbnail">
+                    <img onclick="Ship(3)" class="dilivery" src="img/delivery_form/viettel_post.jpg" alt="...">
+                </a>
+            </div>
+        </div>
+        <div class="row solid-content">
+
+            <h3>Hình thức thanh toán</h3>
+            <div class="col-md-3">
+                <a class="thumbnail" onclick="Type(1)">
+                    <img class="type-payment" src="img/payment_method/cash.jpg" alt="...">
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a class="thumbnail" onclick="Type(2)">
+                    <img class="type-payment" src="img/payment_method/transfer.jpg" alt="...">
+                </a>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-sm-4 solid-content">
+        <h2>Thông tin đơn hàng</h2>
+
+
+        <h4>Tên: </h4><input id = "name">
+        <h4>Email: </h4><input id = "email">
+        <h4>Số điện thoại: </h4><input id = "phone" onkeyup="CheckPhone()">
+        <h4>Địa Chỉ: </h4><input id = "address">
+
+        <h4>Số sản phẩm</h4>
+        <h4>Phí vận chuyển</h4>
+        <h3>Tổng cộng: </h3>
+        <h2 id = "totalLabel" class="font-custom currency"></h2>
+    </div>
+    <div class="row">
+        <button class="btn btn-info col-sm-2" type="button" onclick="CreateCart()">
+            Tạo Đơn Hàng
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    <div id="idSuccess" class="modal">
+        <div class="container popup animate">
+            <div style="padding-top: 75px;">
+                <span onclick="document.getElementById('id03').style.display='none'" class="close"
+                      title="Close Modal">&times;</span>
+                <img src="img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
+            </div>
+            <div style="padding-top: 75px;">
+                <span onclick="document.getElementById('id03').style.display='none'" class="close"
+                      title="Close Modal">&times;</span>
+                <img src="assets/img/success.jpg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
+            </div>
+            <a href="/" class="btn btn-success col-sm-2">
+                OK
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+
+</script>
+<script>
+
+    var type = '';
+    var ship = '';
+    function Ship(idx){
+        ship = idx;
+        document.getElementById("ship").value = idx;
+    }
+    function Type(idx){
+        type = idx;
+        document.getElementById("type").value = idx;
+    }
+
+    function CheckPhone(){
+        var obj =$("#phone");
+        $(".error").remove();
+        $.ajax({
+            type: "POST",
+            url: "./ajax/checkPhone",
+            data: "phone=" + obj.val(),
+            success: function (msg) {
+                //alert(msg);
+                data = msg;
+                if (data.status == 'success') {
+                    document.getElementById('name').value = data.detail[0].firstname + ' ' + data.detail[0].lastname;
+                    document.getElementById('email').value = data.detail[0].email;
+                    document.getElementById('address').value = data.detail[0].address;
+
+                }
+            }
+        });
+    }
+</script>
+<% include partials/index_Footer.ejs %>
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript"  src="/js/bootstrap.js"></script>
+<script  type="text/javascript" src="/js/slimmenu.js"></script>
+<script type="text/javascript"  src="/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript"  src="/js/bootstrap-timepicker.js"></script>
+<script type="text/javascript"  src="/js/nicescroll.js"></script>
+<script type="text/javascript"  src="/js/dropit.js"></script>
+<script  type="text/javascript" src="/js/ionrangeslider.js"></script>
+<script  type="text/javascript" src="/js/icheck.js"></script>
+<script type="text/javascript"  src="/js/fotorama.js"></script>
+<script type="text/javascript"  src="/js/typeahead.js"></script>
+<script  type="text/javascript" src="/js/card-payment.js"></script>
+<script type="text/javascript"  src="/js/magnific.js"></script>
+<script type="text/javascript"  src="/js/owl-carousel.js"></script>
+<script  type="text/javascript" src="/js/fitvids.js"></script>
+<script type="text/javascript"  src="/js/tweet.js"></script>
+<script  type="text/javascript" src="/js/countdown.js"></script>
+<script type="text/javascript"  src="/js/gridrotator.js"></script>
+<script type="text/javascript"  src="/js/custom.js"></script>
+</html>

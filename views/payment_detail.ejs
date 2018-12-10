@@ -60,15 +60,16 @@
                     </td>
 
                     <td class="text-center">
-                        <% if(result[i].disct_prices == null) { %>
-                        <%= result[i].prices.split(';')[j] %>
-                        <!-- <label style=" text-align: center"><font
-                                        color="black"><%= result[i].prices.split(';')[j] %> </font></label> -->
+                        <% if(result[i].discount_prices.split(';')[j] == null || result[i].discount_prices.split(';')[j] == '0') { %>
+
+                        <label style=" text-align: center"><font
+                                    color="black"><%= result[i].prices.split(';')[j] %> </font></label>
                         <% }else { %>
-                        <%= result[i].disct_prices.split(';')[j] %>
-                        <!-- <label style="text-decoration:line-through ; text-align: center"><font
-                                        color="black"><%= result[i].prices.split(';')[j] %></font></label>-><label style=" text-align: center"><font
-                                        color="red"><%= result[i].disct_prices.split(';')[j] %></font></label> -->
+
+                        <label style="text-decoration:line-through ; text-align: center"><font
+                                    color="black"><%= result[i].prices.split(';')[j] %></font></label>-><label
+                                style=" text-align: center"><font
+                                    color="red"><%= result[i].discount_prices.split(';')[j] %></font></label>
                         <% } %>
                     </td>
                     <td>
@@ -83,8 +84,9 @@
                                step="1" autocomplete="off" style="width: 50%;" disabled>
 
                     </td>-->
-                    <td class="text-center">
-                        <%= result[i].sums.split(';')[j] %>
+                    <td class="text-center ">
+                        <h4 class="font-custom currency"><%= result[i].sums.split(';')[j] %></h4>
+
                         <!-- <input class="booking-item-title"
                                style="text-align: center; background-color: transparent" disabled
                                value=""> -->
@@ -156,7 +158,7 @@
         <h4>Số sản phẩm</h4>
         <h4>Phí vận chuyển</h4>
         <h3>Tổng cộng: </h3>
-        <h2 id = "totalLabel" class="fa-money"><%=totalAll%></h2>
+        <h2 id = "totalLabel" class="font-custom currency"><%=totalAll%></h2>
     </div>
     <div class="row">
         <button class="btn btn-info col-sm-2" type="button" onclick="UpdateCart()">
@@ -305,4 +307,23 @@
     }
 </script>
 <% include partials/index_Footer.ejs %>
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript"  src="/js/bootstrap.js"></script>
+<script  type="text/javascript" src="/js/slimmenu.js"></script>
+<script type="text/javascript"  src="/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript"  src="/js/bootstrap-timepicker.js"></script>
+<script type="text/javascript"  src="/js/nicescroll.js"></script>
+<script type="text/javascript"  src="/js/dropit.js"></script>
+<script  type="text/javascript" src="/js/ionrangeslider.js"></script>
+<script  type="text/javascript" src="/js/icheck.js"></script>
+<script type="text/javascript"  src="/js/fotorama.js"></script>
+<script type="text/javascript"  src="/js/typeahead.js"></script>
+<script  type="text/javascript" src="/js/card-payment.js"></script>
+<script type="text/javascript"  src="/js/magnific.js"></script>
+<script type="text/javascript"  src="/js/owl-carousel.js"></script>
+<script  type="text/javascript" src="/js/fitvids.js"></script>
+<script type="text/javascript"  src="/js/tweet.js"></script>
+<script  type="text/javascript" src="/js/countdown.js"></script>
+<script type="text/javascript"  src="/js/gridrotator.js"></script>
+<script type="text/javascript"  src="/js/custom.js"></script>
 </html>

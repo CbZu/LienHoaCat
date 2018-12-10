@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `lhc`.`user` (
   `user_id` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(255) NOT NULL,
   `dob` INT NULL,
-  `phone` INT NULL,
+  `phone` VARCHAR(11) NULL,
   `firstname` VARCHAR(255) NOT NULL,
   `lastname` VARCHAR(255) NULL,
   `create_time` INT NULL,

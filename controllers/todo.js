@@ -423,10 +423,10 @@ module.exports.get_cart = function(req, res){
     var year = date.getUTCFullYear();
     var today = year+''+month+''+day;
     var user = '';
-    if(input.user == undefined){
+    if(req.query.user == undefined){
         user=req.session.user_id;
     }else{
-        user=input.user;
+        user=req.query.user ;
     }
     if(user == undefined){
         var sql = 'select \n' +
@@ -1201,84 +1201,98 @@ module.exports.update_promote_API = function(req, res){
 }
 module.exports.payment_detail = function(req, res){
     if(req.session.type==1){
-        var input=JSON.parse(JSON.stringify(req.body));
-        var date = new Date();
-        var month = date.getMonth() + 1;
-        month = (month < 10 ? "0" : "") + month;
+        if(req.query.id != undefined) {
+            var input = JSON.parse(JSON.stringify(req.body));
+            var date = new Date();
+            var month = date.getMonth() + 1;
+            month = (month < 10 ? "0" : "") + month;
 
-        var day  = date.getDate();
-        day = (day < 10 ? "0" : "") + day;
-        var year = date.getUTCFullYear();
-        var today = year+''+month+''+day;
-        var user = '';
-        if(input.user == undefined){
-            user=req.session.user_id;
-        }else{
-            user=input.user;
-        }
-        var sql = 'select c.user_id,c.payment_id,\n' +
-            '(select name from product where c.product_id = product_id ) as name,\n' +
-            'GROUP_CONCAT(c.amount SEPARATOR \'; \') as quantities,\n' +
-            'GROUP_CONCAT((select size from product where c.product_id = product_id ) SEPARATOR \'; \') as sizes,\n' +
-            'GROUP_CONCAT(FORMAT(c.price,0) SEPARATOR \'; \')  as prices,\n' +
-            'GROUP_CONCAT(FORMAT(c.disct_price,0) SEPARATOR \'; \')  as discount_prices,\n' +
-            'GROUP_CONCAT(\n' +
-            '\tIF(\n' +
-            '\t\tc.disct_price<>\'NULL\',\n' +
-            '        c.disct_price*c.amount,\n' +
-            '        c.price*c.amount)\n' +
-            '\t SEPARATOR \'; \') as sums,\n' +
-            'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as size_ids,\n' +
-            'GROUP_CONCAT((select url from image where c.product_id = product_id and type = 1 group by product_id) SEPARATOR \'; \') as images,\n' +
-            '(select status_id from payment where payment_id = c.payment_id ) as status_id,\n' +
-            '(select sum from payment where payment_id = c.payment_id ) as paymentSum,\n' +
-            '(select promotion from payment where payment_id = c.payment_id ) as promotion,\n' +
-            '(select ship from payment where payment_id = c.payment_id ) as ship,\n' +
-            '(select pay_type from payment where payment_id = c.payment_id ) as pay_type,\n' +
-            '(select total from payment where payment_id = c.payment_id ) as paymentTotal,\n' +
-            'sum(\n' +
-            '\tIF(\n' +
-            '\t\tc.disct_price <>\'NULL\',\n' +
-            '        c.disct_price *c.amount,\n' +
-            '        c.price*c.amount)) as total \n' +
-            'from cart c where payment_id = '+req.query.id+'  and user_id = '+user+' group by name ;';
-
-        var con = req.db.driver.db;
-        con.query(sql, function (err, rows) {
-            if(err){
-                var data = {status: 'error', code: '300',error: err};
-                res.json(data);
-            }else{
-                sql = 'select firstname,lastname,phone,email,address from user where user_id = ' +user + ';';
-                var con = req.db.driver.db;
-                con.query(sql, function (err, row1s) {
-                    var totalAll = 0;
-                    if(row1s.length > 0) {
-                        for(var i = 0 ; i < rows.length ;i++){
-                            totalAll += parseFloat(rows[i].sums);
-                        }
-                        var data = {status: 'success', code: '200',result:rows,fname:req.session.firstname,
-                            pic:req.session.pic,
-                            type:req.session.type,
-                            userid:req.session.user_id,
-                            totalAll : totalAll,
-                            userdetail : row1s,treefolder:req.session.treefolder};
-                        res.render("payment_detail",data);
-                    }else{
-                        var data = {status: 'success', code: '200',result:rows,fname:req.session.firstname,
-                            pic:req.session.pic,
-                            type:req.session.type,
-                            totalAll : totalAll,
-                            userid:req.session.user_id,treefolder:req.session.treefolder};
-                        res.render("payment_detail",data);
-                    }
-                });
-
-
-
+            var day = date.getDate();
+            day = (day < 10 ? "0" : "") + day;
+            var year = date.getUTCFullYear();
+            var today = year + '' + month + '' + day;
+            var user = '';
+            if (req.query.user == undefined) {
+                user = req.session.user_id;
+            } else {
+                user = req.query.user;
             }
+            var sql = 'select c.user_id,c.payment_id,\n' +
+                '(select name from product where c.product_id = product_id ) as name,\n' +
+                'GROUP_CONCAT(c.amount SEPARATOR \'; \') as quantities,\n' +
+                'GROUP_CONCAT((select size from product where c.product_id = product_id ) SEPARATOR \'; \') as sizes,\n' +
+                'GROUP_CONCAT(FORMAT(c.price,0) SEPARATOR \'; \')  as prices,\n' +
+                'GROUP_CONCAT(FORMAT(c.disct_price,0) SEPARATOR \'; \')  as discount_prices,\n' +
+                'GROUP_CONCAT(\n' +
+                '\tIF(\n' +
+                '\t\tc.disct_price<>\'NULL\',\n' +
+                '        c.disct_price*c.amount,\n' +
+                '        c.price*c.amount)\n' +
+                '\t SEPARATOR \'; \') as sums,\n' +
+                'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as size_ids,\n' +
+                'GROUP_CONCAT((select url from image where c.product_id = product_id and type = 1 group by product_id) SEPARATOR \'; \') as images,\n' +
+                '(select status_id from payment where payment_id = c.payment_id ) as status_id,\n' +
+                '(select sum from payment where payment_id = c.payment_id ) as paymentSum,\n' +
+                '(select promotion from payment where payment_id = c.payment_id ) as promotion,\n' +
+                '(select ship from payment where payment_id = c.payment_id ) as ship,\n' +
+                '(select pay_type from payment where payment_id = c.payment_id ) as pay_type,\n' +
+                '(select total from payment where payment_id = c.payment_id ) as paymentTotal,\n' +
+                'sum(\n' +
+                '\tIF(\n' +
+                '\t\tc.disct_price <>\'NULL\',\n' +
+                '        c.disct_price *c.amount,\n' +
+                '        c.price*c.amount)) as total \n' +
+                'from cart c where payment_id = ' + req.query.id + '  and user_id = ' + user + ' group by name ;';
 
-        });
+            var con = req.db.driver.db;
+            con.query(sql, function (err, rows) {
+                if (err) {
+                    var data = {status: 'error', code: '300', error: err};
+                    res.json(data);
+                } else {
+                    sql = 'select firstname,lastname,phone,email,address from user where user_id = ' + user + ';';
+                    var con = req.db.driver.db;
+                    con.query(sql, function (err, row1s) {
+                        var totalAll = 0;
+                        if (row1s.length > 0) {
+                            for (var i = 0; i < rows.length; i++) {
+                                for (var j = 0; j < rows[i].sums.split(";").length; j++) {
+                                    totalAll += parseFloat(rows[i].sums.split(";")[j]);
+                                }
+
+                            }
+                            var data = {
+                                status: 'success', code: '200', result: rows, fname: req.session.firstname,
+                                pic: req.session.pic,
+                                type: req.session.type,
+                                userid: req.session.user_id,
+                                totalAll: totalAll,
+                                userdetail: row1s, treefolder: req.session.treefolder
+                            };
+                            res.render("payment_detail", data);
+                        } else {
+                            var data = {
+                                status: 'success', code: '200', result: rows, fname: req.session.firstname,
+                                pic: req.session.pic,
+                                type: req.session.type,
+                                totalAll: totalAll,
+                                userid: req.session.user_id, treefolder: req.session.treefolder
+                            };
+                            res.render("payment_detail", data);
+                        }
+                    });
+
+
+                }
+
+            });
+        } else{
+            var data = {fname:req.session.firstname
+                ,type:req.session.type
+                ,userid:req.session.user_id
+                ,treefolder:req.session.treefolder};
+            res.render("create_payment",data)
+        }
     }else{
         data={title:'login|signup'};
         res.redirect('/');

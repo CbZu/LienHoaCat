@@ -47,6 +47,42 @@ exports.checkProduct=function(req,res){
     });
 
 };
+
+exports.checkPhone=function(req,res){
+    if(req.session.type == 1){
+        var input = JSON.parse(JSON.stringify(req.body));
+        console.log(input);
+        var data={
+            name:input.name
+        };
+
+        var sql = 'select * from user where phone = \''+input.phone+'\';';
+        var con = req.db.driver.db;
+        con.query(sql, function (err, rows) {
+            if (err){
+                data={status:'error',code:'400'};
+            }
+            else{
+                if(rows.length>0){
+                    data={status:'success',code:'200',detail: rows};
+
+                }
+                else{
+                    data={status:'not exist',code:'400'};
+
+                }
+                res.json(data);
+            }
+        });
+    } else{
+        var data={
+            status:'fail',code:'400'
+        };
+        res.json(data);
+    }
+
+
+};
 exports.updateSizeId=function(req,res){
     var input = JSON.parse(JSON.stringify(req.body));
     console.log(input);
@@ -166,13 +202,18 @@ exports.updateProduct=function(req,res){
             ', code = \''+input.OldCodes.split(",")[i]+'\', information = \''+input.OldInfos.split(",")[i]+'\', entity = '+input.OldEntities.split(",")[i]+' where product_id = ' +  input.OldIds.split(",")[i] +';';
         con.query(sql);
 
-        sql = 'update discount set disct_price = '+input.OldDiscounts.split(",")[i]+', expired_date ='+input.expired_date+' where product_id = ' +  input.OldIds.split(",")[i] +';'
+        if(input.OldDiscounts.split(",")[i] != '0'){
+            sql = 'update discount set disct_price = '+input.OldDiscounts.split(",")[i]+' , expired_date ='+input.expired_date+' where product_id = ' +  input.OldIds.split(",")[i] +';'
+        } else{
+            sql = 'update discount set disct_price = '+input.OldDiscounts.split(",")[i]+' where product_id = ' +  input.OldIds.split(",")[i] +';'
+
+        }
         con.query(sql);
         sql = 'update product set name = \''+input.name+'\'' +
             ' where product_id = ' +  input.OldIds.split(",")[i] +';'
         con.query(sql);
     }
-    sql = 'select max(expired_date) as max from discount where product_id = ' +  input.OldIds.split(",")[i] +';';
+    /*sql = 'select max(expired_date) as max from discount where product_id = ' +  input.OldIds.split(",")[i] +';';
     con.query(sql, function (err, rows) {
         if(err){
             console.log(err);
@@ -181,7 +222,7 @@ exports.updateProduct=function(req,res){
 
             }
         }
-    });
+    });*/
 
      sql = 'update thuoctinh set menh = \''+input.Menh+'\'' +
          ', mau =\''+input.Mau+'\'' +
