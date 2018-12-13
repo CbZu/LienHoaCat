@@ -32,6 +32,7 @@ module.exports = function (app, controllers) {
     app.post('/ajax/checkEmail', controllers.ajax.checkEmail);
     app.post('/ajax/checkProduct', controllers.ajax.checkProduct);
     app.post('/ajax/checkPhone', controllers.ajax.checkPhone);
+    app.post('/ajax/checkCode', controllers.ajax.checkCode);
     app.get('/logout', controllers.account.logout);
     app.post('/login', controllers.account.login_admin);
     app.get('/payment-detail', controllers.todo.payment_detail);

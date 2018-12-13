@@ -29,33 +29,67 @@
         </div>
         <h3>Thông tin sản phẩm</h3>
 
-        <div id="cartdetail" class = "row">
+        <div id="cartdetail" class="row">
             <table class="table table-bordered">
                 <thead>
-                <th class="text-right" style="text-align: center;"><h3>Tên sản phẩm</h3></th>
-                <th class="text-right" style="text-align: center;"><h3>Size</h3></th>
-                <th class="text-right" style="text-align: center;"><h3>Giá sản phẩm</h3></th>
-                <th class="text-right" style="text-align: center;"><h3>Số Lượng</h3></th>
-                <th class="text-right" style="text-align: center;"><h3>Thành Tiền</h3></th>
-                <!-- <td ><h4 style="text-align: center;">Size</h4></td>
-                <td class="text-right"><h4 style="text-align: center;"></h4></td>
-                <td class="text-right"><h4 style="text-align: center;"></h4></td>
-                <td class="text-right"><h4 style="text-align: center;"></h4></td> -->
+                <th class="text-right" style="text-align: center;"><h4>Mã sản phẩm</h4></th>
+                <th class="text-right" style="text-align: center;"><h4>Tên sản phẩm</h4></th>
+                <th class="text-right" style="text-align: center;"><h4>Size</h4></th>
+                <th class="text-right" style="text-align: center;"><h4>Giá sản phẩm</h4></th>
+                <th class="text-right" style="text-align: center;"><h4>Số Lượng</h4></th>
+                <th class="text-right" style="text-align: center;"><h4>Thành Tiền</h4></th>
                 </thead>
+                <tbody class = "body-prd">
+                <!--<tr>
+                    <td class="text-center">
+                        <input id='code'
+                               value="" onkeyup="CheckCode()">
+                    </td>
+                    <td class="text-center">
+                        <input id='name-prd'
+                               value="">
+                    </td>
+                    <td class="text-center">
+                        <input id='size'
+                               value="">
+                    </td>
+                    <td>
+                        <input id='price'
+                               value="">
+
+                    </td>
+                    <td>
+                        <input id='amount'
+                               value="" onkeyup="Calc()">
+
+                    </td>
+                    <td class="text-center ">
+                        <h4 class="font-custom currency" id = 'sum'></h4>
+
+
+                    </td>
+                </tr>-->
+
+                <tr id = 'rowInsertBtn'></tr>
+                </tbody>
             </table>
         </div>
+        <button class="btn btn-success" id="insertBtn" onclick="insert()">+</button>
 
+        <button class="btn btn-danger" id="insertBtn" onclick="Add()">OK</button>
 
 
     </div>
-    <input id = "ship" style="display: none" value = '0'>
-    <input id = "type" style="display: none" value = '0'>
+    <input id="prd-id" style="display: none" value=''>
+
+    <input id="ship" style="display: none" value='0'>
+    <input id="type" style="display: none" value='0'>
     <div class="col-sm-7">
 
         <div class="row solid-content">
             <h3>Hình thức giao hàng</h3>
             <div class="col-md-3">
-                <a class="thumbnail" >
+                <a class="thumbnail">
                     <img onclick="Ship(1)" class="dilivery" src="img/delivery_form/giaohangtietkiem.png" alt="...">
                 </a>
             </div>
@@ -90,15 +124,15 @@
         <h2>Thông tin đơn hàng</h2>
 
 
-        <h4>Tên: </h4><input id = "name">
-        <h4>Email: </h4><input id = "email">
-        <h4>Số điện thoại: </h4><input id = "phone" onkeyup="CheckPhone()">
-        <h4>Địa Chỉ: </h4><input id = "address">
+        <h4>Tên: </h4><input id="name">
+        <h4>Email: </h4><input id="email">
+        <h4>Số điện thoại: </h4><input id="phone" onkeyup="CheckPhone()">
+        <h4>Địa Chỉ: </h4><input id="address">
 
         <h4>Số sản phẩm</h4>
         <h4>Phí vận chuyển</h4>
         <h3>Tổng cộng: </h3>
-        <h2 id = "totalLabel" class="font-custom currency"></h2>
+        <h2 id="totalLabel" class="font-custom currency"></h2>
     </div>
     <div class="row">
         <button class="btn btn-info col-sm-2" type="button" onclick="CreateCart()">
@@ -134,17 +168,19 @@
 
     var type = '';
     var ship = '';
-    function Ship(idx){
+
+    function Ship(idx) {
         ship = idx;
         document.getElementById("ship").value = idx;
     }
-    function Type(idx){
+
+    function Type(idx) {
         type = idx;
         document.getElementById("type").value = idx;
     }
 
-    function CheckPhone(){
-        var obj =$("#phone");
+    function CheckPhone() {
+        var obj = $("#phone");
         $(".error").remove();
         $.ajax({
             type: "POST",
@@ -162,25 +198,175 @@
             }
         });
     }
+    function CheckCode(idx) {
+        var obj = $("#code"+idx);
+        $(".error").remove();
+        if(obj.val() != ''){
+            $.ajax({
+                type: "POST",
+                url: "./ajax/checkCode",
+                data: "code=" + obj.val(),
+                success: function (msg) {
+                    //alert(msg);
+                    data = msg;
+                    if (data.status == 'success') {
+                        document.getElementById('name-prd'+idx).value = data.detail[0].name;
+                        document.getElementById('size'+idx).value = data.detail[0].size;
+                        if(data.detail[0].disct_price == 'NULL' || data.detail[0].disct_price == '0' || data.detail[0].disct_price == undefined)
+                        {
+                            document.getElementById('price'+idx).value = data.detail[0].price;
+                        } else {
+                            document.getElementById('price'+idx).value = data.detail[0].disct_price;
+                        }
+                        document.getElementById('id'+idx).value = data.detail[0].product_id;
+
+
+                    }
+                }
+            });
+        } else {
+            document.getElementById('name-prd'+idx).value = '';
+            document.getElementById('size'+idx).value = '';
+            document.getElementById('price'+idx).value = '';
+        }
+
+    }
+    function Add() {
+        var formdata1 = new FormData();
+        var sizes = new Array();
+        var quantities = new Array();
+       /* sizes.push(document.getElementById('prd-id').value);
+        quantities.push(parseInt($("#amount").val()));*/
+
+        for(var i = 0 ; i < document.getElementsByName('id-input').length;i++){
+            sizes.push(document.getElementsByName('id-input')[i].value);
+        }
+        for(var i = 0 ; i < document.getElementsByName('amount-input').length;i++){
+            quantities.push(document.getElementsByName('amount-input')[i].value);
+        }
+        formdata1.append('size_id',sizes);
+        formdata1.append('quantity',quantities);
+        formdata1.append('firstname',$("#name").val());
+        formdata1.append('email',$("#email").val());
+        formdata1.append('phone',$("#phone").val());
+        formdata1.append('address',$("#address").val());
+
+        $.ajax({
+            url: "/PetMart/signup",
+            type: 'POST',
+            data: formdata1,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                if(response.code == '200'){
+                    $.ajax({
+                        url: "/PetMart/add-to-cart",
+                        type: 'POST',
+                        dataType : 'JSON',
+                        data: JSON.stringify({size_id:sizes,quantity:quantities,userId:response.user_id}),
+                        async: false,
+                        cache: false,
+                        contentType: 'application/json; charset=UTF-8',
+                        enctype: 'multipart/form-data',
+                        processData: false,
+                        success: function (response1) {
+                            var formdata = new FormData();
+                            formdata.append('ship', ship);
+                            formdata.append('type', type);
+                            formdata.append('user', response.user_id);
+                            if (document.getElementsByClassName('error').length == 0) {
+                                formdata.append('voucher', $("#voucher").val());
+                            }
+
+                            $.ajax({
+                                url: '/PetMart/add-to-payment',
+                                type: 'POST',
+                                data: formdata,
+                                async: false,
+                                cache: false,
+                                contentType: false,
+                                enctype: 'multipart/form-data',
+                                processData: false,
+                                success: function (response2) {
+                                    if (response2.code == '200') {
+                                        window.location = "/payment-detail?id="+response2.payment_id+"&user="+response.user_id;
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        });
+
+    }
+
+    function Calc(idx){
+        var obj = $("#amount"+idx);
+        if(obj.val() != '0' || obj.val().trim() != ''){
+            $("#sum"+idx).html(''+(parseInt(obj.val())*parseInt($("#price"+idx).val())))
+        }
+    }
+    var index = 0;
+    function insert(){
+        var element = " <tr>\n" +
+            "                    <td class=\"text-center\">\n" +
+            "                        <input id='id"+index+"' name = 'id-input' style='display:none;' \n" +
+            "                               value=\"\">\n" +
+            "                    </td>\n" +
+            "                    <td class=\"text-center\">\n" +
+            "                        <input id='code"+index+"' name = 'code-input'\n" +
+            "                               value=\"\" onkeyup=\"CheckCode("+index+")\">\n" +
+            "                    </td>\n" +
+            "                    <td class=\"text-center\">\n" +
+            "                        <input id='name-prd"+index+"' name = 'name-prd-input'\n" +
+            "                               value=\"\">\n" +
+            "                    </td>\n" +
+            "                    <td class=\"text-center\">\n" +
+            "                        <input id='size"+index+"' name = 'size-input'\n" +
+            "                               value=\"\">\n" +
+            "                    </td>\n" +
+            "                    <td>\n" +
+            "                        <input id='price"+index+"' name = 'price-input'\n" +
+            "                               value=\"\">\n" +
+            "\n" +
+            "                    </td>\n" +
+            "                    <td>\n" +
+            "                        <input id='amount"+index+"' name = 'amount-input'\n" +
+            "                               value=\"\" onkeyup=\"Calc("+index+")\">\n" +
+            "\n" +
+            "                    </td>\n" +
+            "                    <td class=\"text-center \">\n" +
+            "                        <h4 class=\"font-custom currency\" id = 'sum"+index+"'></h4>\n" +
+            "\n" +
+            "\n" +
+            "                    </td>\n" +
+            "                </tr>";
+        index++;
+        $(element).insertBefore($('#rowInsertBtn'));
+    }
 </script>
 <% include partials/index_Footer.ejs %>
 <script type="text/javascript" src="/js/jquery.js"></script>
-<script type="text/javascript"  src="/js/bootstrap.js"></script>
-<script  type="text/javascript" src="/js/slimmenu.js"></script>
-<script type="text/javascript"  src="/js/bootstrap-datepicker.js"></script>
-<script type="text/javascript"  src="/js/bootstrap-timepicker.js"></script>
-<script type="text/javascript"  src="/js/nicescroll.js"></script>
-<script type="text/javascript"  src="/js/dropit.js"></script>
-<script  type="text/javascript" src="/js/ionrangeslider.js"></script>
-<script  type="text/javascript" src="/js/icheck.js"></script>
-<script type="text/javascript"  src="/js/fotorama.js"></script>
-<script type="text/javascript"  src="/js/typeahead.js"></script>
-<script  type="text/javascript" src="/js/card-payment.js"></script>
-<script type="text/javascript"  src="/js/magnific.js"></script>
-<script type="text/javascript"  src="/js/owl-carousel.js"></script>
-<script  type="text/javascript" src="/js/fitvids.js"></script>
-<script type="text/javascript"  src="/js/tweet.js"></script>
-<script  type="text/javascript" src="/js/countdown.js"></script>
-<script type="text/javascript"  src="/js/gridrotator.js"></script>
-<script type="text/javascript"  src="/js/custom.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/slimmenu.js"></script>
+<script type="text/javascript" src="/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="/js/bootstrap-timepicker.js"></script>
+<script type="text/javascript" src="/js/nicescroll.js"></script>
+<script type="text/javascript" src="/js/dropit.js"></script>
+<script type="text/javascript" src="/js/ionrangeslider.js"></script>
+<script type="text/javascript" src="/js/icheck.js"></script>
+<script type="text/javascript" src="/js/fotorama.js"></script>
+<script type="text/javascript" src="/js/typeahead.js"></script>
+<script type="text/javascript" src="/js/card-payment.js"></script>
+<script type="text/javascript" src="/js/magnific.js"></script>
+<script type="text/javascript" src="/js/owl-carousel.js"></script>
+<script type="text/javascript" src="/js/fitvids.js"></script>
+<script type="text/javascript" src="/js/tweet.js"></script>
+<script type="text/javascript" src="/js/countdown.js"></script>
+<script type="text/javascript" src="/js/gridrotator.js"></script>
+<script type="text/javascript" src="/js/custom.js"></script>
 </html>

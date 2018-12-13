@@ -2,7 +2,7 @@
     var dateFormat = require('dateformat');
 //signup
 module.exports.signup=function(req,res){
-	var input = JSON.parse(JSON.stringify(req.body));
+    var input = JSON.parse(JSON.stringify(req.body));
 
     var date = new Date();
     var month = date.getMonth() + 1;
@@ -12,22 +12,16 @@ module.exports.signup=function(req,res){
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
 
-	var dt_join=Math.round(+new Date()/1000);
-	var birth = input.dob.split("/");
-	var newDOB = birth[2]+birth[0]+birth[1];
-		passwd=md5(input.password);
-		var dataUser = {
-            email   : input.email,
-            phone    : input.phone,
-            firstname    : input.firstname,
-            lastname : input.lastname,
-            dob:newDOB,
-            password:passwd,
-            create_time:parseInt(year+''+month+''+day),
-			type_id : parseInt(input.type)
-		};
-        var sqlCheck = 'select * from user where username = \''+input.username+'\'';
-        var con = req.db.driver.db;
+    var dt_join=Math.round(+new Date()/1000);
+    var userType = '';
+    if(input.type == undefined){
+        userType = '2';
+    }else{
+        userType = input.type;
+    }
+
+    var sqlCheck = 'select * from lhc.user where phone = '+input.phone +' or email = \''+input.email+'\' ;';
+    var con = req.db.driver.db;
     con.query(sqlCheck, function (err, rows) {
         if(err){
             data={status:'err',code:'300',description:err};
@@ -37,47 +31,28 @@ module.exports.signup=function(req,res){
                 data={status:'fail',code:'300',description:"username is exist."};
                 res.json(data);
             }else{
-                var sql = 'INSERT INTO `user`\n' +
+                var sql = 'INSERT INTO `lhc`.`user`\n' +
                     '(`email`,\n' +
-                    '`dob`,\n' +
                     '`phone`,\n' +
                     '`firstname`,\n' +
-                    '`lastname`,\n' +
                     '`create_time`,\n' +
                     '`type_id`,\n' +
-                    '`password`,`username`,`bank`,`bank_account`,`bank_address`)\n' +
+                    '`address`)\n' +
                     'VALUES (\n' +
                     '\''+input.email+'\',\n' +
-                    ''+newDOB+',\n' +
                     ''+input.phone+',\n' +
                     '\''+input.firstname+'\',\n' +
-                    '\''+input.lastname+'\',\n' +
                     ''+year+''+month+''+day+',\n' +
-                    ''+input.type+',\n' +
-                    '\''+passwd+'\',\''+input.username+'\',\''+input.bank+'\', \''+input.bank_account+'\' , \''+input.bank_address+'\');';
+                    ''+userType+',\n' +
+                    '\''+input.address+'\');';
                 console.log(sql);
                 con.query(sql, function (err, row1s) {
                     if(err){
                         data={status:'err',code:'300',description:err};
                         res.json(data);
                     }else{
-                        data = {
-                            user_id:row1s.insertId,
-                            address:input.address,
-                            city:input.city,
-                            country:input.country
-                        }
-                        req.models.places.create(data, function(err, row2s) {
-                            if(err){
-                                data={status:'err',code:'300',description:err};
-                                res.json(data);
-                            }else{
-                                data={status:'success',code:'200',user_id:row1s.user_id};
-                                res.json(data);
-                            }
-
-                        });
-
+                        data={status:'success',code:'200',user_id:row1s.insertId};
+                        res.json(data);
                     }
                 });
             }
@@ -85,7 +60,6 @@ module.exports.signup=function(req,res){
 
         }
     });
-
 
 
 };

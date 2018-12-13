@@ -83,6 +83,52 @@ exports.checkPhone=function(req,res){
 
 
 };
+
+exports.checkCode=function(req,res){
+    if(req.session.type == 1){
+        var date = new Date();
+        var month = date.getMonth() + 1;
+        month = (month < 10 ? "0" : "") + month;
+        var day  = date.getDate();
+        day = (day < 10 ? "0" : "") + day;
+        var year = date.getUTCFullYear();
+
+        var today = year+''+month+day;
+        var input = JSON.parse(JSON.stringify(req.body));
+        console.log(input);
+        var data={
+            name:input.name
+        };
+
+        var sql = 'select p.size,p.name,p.price,p.product_id, ' +
+            '(select disct_price from discount where product_id = p.product_id and effective_date <= '+year+''+month+day+' and '+year+''+month+''+day+'<=expired_date) as disct_price' +
+            ' from product p where code = \''+input.code+'\';';
+        var con = req.db.driver.db;
+        con.query(sql, function (err, rows) {
+            if (err){
+                data={status:'error',code:'400'};
+            }
+            else{
+                if(rows.length>0){
+                    data={status:'success',code:'200',detail: rows};
+
+                }
+                else{
+                    data={status:'not exist',code:'400'};
+
+                }
+                res.json(data);
+            }
+        });
+    } else{
+        var data={
+            status:'fail',code:'400'
+        };
+        res.json(data);
+    }
+
+
+};
 exports.updateSizeId=function(req,res){
     var input = JSON.parse(JSON.stringify(req.body));
     console.log(input);
