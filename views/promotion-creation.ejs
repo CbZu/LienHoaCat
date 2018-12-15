@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<% include partials/index_Header.ejs %>
+<body>
+<div class="container body-content">
+    <div class="row">
+        <ol class="breadcrumb">
+            <a href="/"><i class="icon fa fa-home"></i> Home</a>
+        </ol>
+
+    </div>
+    <form action = "add-promote" method="post" enctype="multipart/form-data">
+        <div class="row product-info">
+            <div class="col-md-4">
+                <a href="#" class="thumbnail">
+                    <img class="img-responsive" src="assets/img/testimonial3.jpg" alt="">
+                </a>
+            </div>
+            <div class="col-md-8">
+                <div class="col-md-8"><h3>Tiêu Đề</h3></div>
+                <div class="row center-block">
+                    <div class="col-md-8">
+                        <input class="col-md-8 form-control" type="text" id="name" name = "name" onkeyup="CheckPro()" value=""></input>
+                    </div>
+                    <div class="col-md-4">
+                        <input class="form-control newImgDv"  id = 'newImg'  name = "newImg" type = 'file' value = ''>
+                    </div>
+                </div>
+                <br>
+                <div class="row center-block">
+                    <div class="col-md-4">
+                        <h4>Ngày Hiệu Lực: </h4>
+                    </div>
+                    <div class="col-md-4">
+                        <input class="form-control"  id = 'effdate' name = "effdate" type = 'date' value = ''>
+                    </div>
+                </div>
+                <div class="row center-block">
+                    <div class="col-md-4">
+                        <h4>Ngày Kết Thúc: </h4>
+                    </div>
+                    <div class="col-md-4">
+                        <input class="form-control"  id = 'expiredDate' name = "expiredDate" type = 'date' value = ''>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <button class="btn btn-primary" id = "add" type="submit">Add</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <br>
+        <a type="button" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">
+            <span class="glyphicon glyphicon-upload"></span>
+        </a>
+        <div class="row product-info center-block">
+            <div>
+                <textarea style="width: 100%; min-height: 300px;" id="description" name="description"></textarea>
+            </div>
+        </div>
+    </form>
+
+
+
+    <!-- Modal -->
+    <div id="id02" class="modal">
+        <div class="container popup animate">
+            <div style="padding-top: 75px;">
+                    <span onclick="document.getElementById('id02').style.display='none'" class="close"
+                          title="Close Modal">&times;
+                    </span>
+                <img src="img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
+            </div>
+            <form class="form-horizontal" role="form" action="/add-promote" method="POST">
+                <div class="">
+                    <h4 class="modal-title">Thêm Hình</h4>
+                    <input class="form-control newImgModal"  id = 'newImgModal' type = 'file' value = ''>
+                </div>
+                <br>
+                <button class="center-block btn btn-primary" onclick="CloseModal()" data-dismiss="modal" type="button">Ok</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div id="modalExpired" class="modal-dialog" style="display: none" role="dialog">
+
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Ngày Hết Hạn Khuyến Mãi</h4>
+            </div>
+            <div class="modal-body">
+                <input class="form-control"  id = 'expiredDate' type = 'date' value = ''>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="CloseModalExpired()" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+
+    </div>
+
+
+    </div>
+
+
+</body>
+<% include partials/index_Footer.ejs %>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/slimmenu.js"></script>
+<script src="js/bootstrap-datepicker.js"></script>
+<script src="js/bootstrap-timepicker.js"></script>
+<script src="js/nicescroll.js"></script>
+<script src="js/dropit.js"></script>
+<script src="js/ionrangeslider.js"></script>
+<script src="js/icheck.js"></script>
+<script src="js/fotorama.js"></script>
+<script src="js/typeahead.js"></script>
+<script src="js/card-payment.js"></script>
+<script src="js/magnific.js"></script>
+<script src="js/owl-carousel.js"></script>
+<script src="js/fitvids.js"></script>
+<script src="js/tweet.js"></script>
+<script src="js/countdown.js"></script>
+<script src="js/gridrotator.js"></script>
+<script src="js/custom.js"></script>
+<script>
+    function selectAll(name){
+        var properties = document.getElementsByClassName(name);
+        if (properties[properties.length-1].checked){
+            for (i=0; i < properties.length; i++){
+                properties[i].checked = true;
+            }
+        } else {
+            for (i=0; i < properties.length; i++){
+                properties[i].checked = false;
+            }
+        }
+
+    }
+    function CloseModalExpired(){
+        document.getElementById('modalExpired').style.display = 'none';
+    }
+
+    function CloseModal(){
+        var formdata1 = new FormData()
+        var input = document.getElementsByClassName("form-control newImgModal")
+        for (var i = 0; i < input.length; i++) {
+            formdata1.append('images', input[i].files[0]);
+
+        }
+        $.ajax({
+            url: './ajax/addProductImages',
+            type: 'POST',
+            data: formdata1,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                $.ajax({
+                    type: "POST",
+                    url: "./PetMart/remove",
+                    data: "path=" + response.path,
+                    success: function (msg) {
+                        //alert(msg);
+                        data = msg;
+                        var description = document.getElementById("description").value;
+                        description +=  '<br>'+'<img border=0 hspace="0" alt="" src="/assets/img/'+response.image+'" align="baseline" class="img-responsive">' + '<br>';
+                        document.getElementById("description").value = description;
+                        document.getElementById("id02").style.display = 'none';
+
+                    }
+                });
+
+            }
+        });
+
+    }
+    function insert() {
+        var element = '<div class="row center-block">\n' +
+            '                            \n' +
+            '                            <div class="col-md-2"><input class="form-control" id = \'newSize\' value = \'\'>\n' +
+            '\n' +
+            '                            </input></div>\n' +
+            '\n' +
+            '                            <div class="col-md-2"><input class="form-control" id = \'newPrice\' value = \'\'>\n' +
+            '\n' +
+            '                            </input></div>\n' +
+            '                            <div class="col-md-2" ><input class="form-control" id = \'newDisc\' value = \'\'>\n' +
+            '\n' +
+            '                            </input></div>\n' +
+            '\n' +
+            '                           <div class="col-md-2"><input class="form-control" id = \'remaining\' value = \'\'>\n' +
+            '\n' +
+            '                            </input></div>\n' +
+            '\n' +
+            '                            <div  class="col-md-2"><input class="form-control"  id = \'infor\' value = \'\'>\n' +
+            '\n' +
+            '                            </input></div>\n' +
+            '\n' +
+            '                            <div  class="col-md-2"><input class="form-control"  id = \'newCode\' value = \'\'>\n' +
+            '\n' +
+            '                            </input></div>\n' +
+            '                        </div><br>';
+        $(element).insertBefore($('#rowInsertBtn'));
+    }
+
+    function OpenModal(){
+        document.getElementById('myModal').style.display = 'block';
+    }
+
+</script>
+<script>
+
+     function CheckPrd() {
+            var obj =$("#name");
+         $(".error").remove();
+            $.ajax({
+                type: "POST",
+                url: "./ajax/checkProduct",
+                data: "mode=check_email&name=" + obj.val(),
+                success: function (msg) {
+                    //alert(msg);
+                    data = msg;
+                    if (data.status == 'exist') {
+                        obj.after("<label class='error'>Product Name Aleady Exist</label>");
+                        document.getElementById('add').style.display = 'none'
+                    }
+                    else {
+                        document.getElementById('add').style.display = 'block'
+                    }
+                }
+            });
+        }
+
+
+
+</script>
+</html>

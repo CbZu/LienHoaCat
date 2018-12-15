@@ -77,6 +77,10 @@ module.exports = function (app, controllers) {
     app.get('/edit-product/:prdname', controllers.todo.edit_product);
     app.post('/save-account',controllers.account.save_account);
 
+    app.get('/promotions',controllers.todo.promotions);
+    app.get('/create-promotion',controllers.todo.create_promotions);
+    app.get('/promotion-detail/:title',controllers.todo.promotions_detail);
+
     /*app.get('/register',controllers.account.register);
 
 

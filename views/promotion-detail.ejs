@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<% include partials/index_Header.ejs %>
+<body>
+<div class="container body-content">
+    <div class="row">
+        <ol class="breadcrumb">
+            <a href="/"><i class="icon fa fa-home"></i> Home</a>
+        </ol>
+
+    </div>
+    <form action = "add-promote" method="post" enctype="multipart/form-data">
+        <div class="row product-info">
+            <div class="col-md-4">
+                <a href="#" class="thumbnail">
+                    <img class="img-responsive" src="/assets/img/<%=result[0].image%>" alt="">
+                </a>
+            </div>
+            <div class="col-md-8">
+                <div class="row center-block">
+                    <div class="col-md-8">
+                        <h3><%=result[0].title%></h3>
+                    </div>
+
+                </div>
+                <br>
+                <div class="row center-block">
+                    <div class="col-md-4">
+                        <h4>Ngày Hiệu Lực: </h4>
+                    </div>
+                    <div class="col-md-4">
+                        <input class="form-control"  id = 'effdate' name = "effdate" type = 'date' value = '' disabled>
+                    </div>
+                </div>
+                <div class="row center-block">
+                    <div class="col-md-4">
+                        <h4>Ngày Kết Thúc: </h4>
+                    </div>
+                    <div class="col-md-4">
+                        <input class="form-control"  id = 'expiredDate' name = "expiredDate" type = 'date' value = '' disabled>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <br>
+        <a type="button" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">
+            <span class="glyphicon glyphicon-upload"></span>
+        </a>
+        <div class="row product-info center-block">
+            <div class="col-xs-12">
+                <p id = 'descriptionArea' name = 'descriptionArea' >
+                </p>
+            </div>
+        </div>
+    </form>
+
+
+
+    <!-- Modal -->
+    <div id="id02" class="modal">
+        <div class="container popup animate">
+            <div style="padding-top: 75px;">
+                    <span onclick="document.getElementById('id02').style.display='none'" class="close"
+                          title="Close Modal">&times;
+                    </span>
+                <img src="img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
+            </div>
+            <form class="form-horizontal" role="form" action="/add-promote" method="POST">
+                <div class="">
+                    <h4 class="modal-title">Thêm Hình</h4>
+                    <input class="form-control newImgModal"  id = 'newImgModal' type = 'file' value = ''>
+                </div>
+                <br>
+                <button class="center-block btn btn-primary" onclick="CloseModal()" data-dismiss="modal" type="button">Ok</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div id="modalExpired" class="modal-dialog" style="display: none" role="dialog">
+
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Ngày Hết Hạn Khuyến Mãi</h4>
+            </div>
+            <div class="modal-body">
+                <input class="form-control"  id = 'expiredDate' type = 'date' value = ''>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="CloseModalExpired()" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+
+    </div>
+
+
+    </div>
+
+
+</body>
+<% include partials/index_Footer.ejs %>
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/slimmenu.js"></script>
+<script src="/js/bootstrap-datepicker.js"></script>
+<script src="/js/bootstrap-timepicker.js"></script>
+<script src="/js/nicescroll.js"></script>
+<script src="/js/dropit.js"></script>
+<script src="/js/ionrangeslider.js"></script>
+<script src="/js/icheck.js"></script>
+<script src="/js/fotorama.js"></script>
+<script src="/js/typeahead.js"></script>
+<script src="/js/card-payment.js"></script>
+<script src="/js/magnific.js"></script>
+<script src="/js/owl-carousel.js"></script>
+<script src="/js/fitvids.js"></script>
+<script src="/js/tweet.js"></script>
+<script src="/js/countdown.js"></script>
+<script src="/js/gridrotator.js"></script>
+<script src="/js/custom.js"></script>
+<script>
+
+
+</script>
+<script>
+
+
+    var effdate = '<%=result[0].effective_date%>';
+    var newEffdate = effdate.substring(0,4)+'-'+effdate.substring(4,6)+'-'+effdate.substring(6,8);
+    document.getElementById('effdate').value = newEffdate;
+    var expired = '<%=result[0].expired_date%>';
+    var newExpired = expired.substring(0,4)+'-'+expired.substring(4,6)+'-'+expired.substring(6,8);
+    document.getElementById('expiredDate').value = newExpired;
+
+    var  element = '<%=result[0].description%>';
+    var str  = element.replace(/&#39;/g, "\"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g,"\"");
+    document.getElementById('descriptionArea').innerHTML = str;
+
+</script>
+</html>

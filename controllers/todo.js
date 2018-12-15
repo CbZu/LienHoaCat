@@ -156,13 +156,6 @@ module.exports.remove = function(req, res){
     var data = {status: 'success', code: '200'};
     res.json(data);
 
-  /*  var oldpath = input.path;
-    var newpath = 'F:\\Nodejs\\LienHoaCat\\public\\assets\\img\\' + input.name;
-    fs.rename(oldpath, newpath, function (err) {
-        if (err) throw err;
-        res.redirect('maintenance-cat');
-    });*/
-
 };
 module.exports.get_product = function(req, res){
     var input=JSON.parse(JSON.stringify(req.body));
@@ -1709,36 +1702,61 @@ module.exports.add_promote=function(req,res){
     var day  = date.getDate();
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
+    var formidable = require('formidable');
+    var form = new formidable.IncomingForm({
+        keepExtensions: true
+    });
+    form.parse(req);
+
+    var i = 0;
+
+        var oldpath = req.files.newImg.path;
+        var newpath = __dirname.replace(__dirname.split('\\')[__dirname.split('\\').length-1],'public\\assets\\img\\'+oldpath.split("\\")[ oldpath.split("\\").length-1]);
+        console.log(__dirname.replace(__dirname.split('\\')[__dirname.split('\\').length-1],'public\\assets\\img\\'+oldpath.split("\\")[ oldpath.split("\\").length-1]));
+        fs.readFile(oldpath, function (err, data) {
+            if (err) throw err;
+            console.log('File read!');
+
+// Write the file
+            fs.writeFile(newpath, data, function (err) {
+                if (err) throw err;
+
+                console.log('File written!');
+            });
+
+// Delete the file
+            fs.unlink(oldpath, function (err) {
+                if (err) throw err;
+                console.log('File deleted!');
+            });
+        });
+
+
+
+
 
     var con = req.db.driver.db;
-    var sql = 'select user_id from user;';
-    con.query(sql, function (err, rows) {
-        if(!err){
-            rows.forEach(function (element){
-                var data={
-                    title:input.title,
-                    description:input.description,
-                    effective_date:convertDate(input.effdate),
-                    expired_date:convertDate(input.expired),
-                    image:input.avatar,
-                    user_id:element.user_id,
-                    seen_flag:'N'
-                };
-                if(typeof input.id=="undefined"){
-                    req.models.promotion.create(data,function(err,rows){
-                        if(err){
-                            console.log(err);
-                        }
-                        else{
-                        }
+    var data={
+        title:input.name,
+        description:input.description,
+        effective_date:input.effdate.replace(/-/g,''),
+        expired_date:input.expiredDate.replace(/-/g,''),
+        image:req.files.newImg.path.split("\\")[ req.files.newImg.path.split("\\").length-1],
+        user_id:0,
+        seen_flag:'N'
+    };
+    if(req.session.type == '1'){
+        req.models.promotion.create(data,function(err,rows){
+            if(err){
+                console.log(err);
+            }
+            else{
+            }
 
-                    });
-                }
-            });
-        }
-    });
+        });
+    }
 
-    res.redirect('promote-maintenance');
+    res.redirect('promotions');
 
     function convertDate(inputDate){
         var day = inputDate.split('/')[0];
@@ -2044,3 +2062,50 @@ module.exports.app_phongthuy = function (req, res) {
         });
     }
 }
+module.exports.promotions = function(req, res){
+        var sql = '';
+        sql += 'select * from promotion order by effective_date asc';
+        var con = req.db.driver.db;
+        con.query(sql, function (err, rows) {
+            if(err){
+                var data = {status: 'error', code: '300',error: err};
+                res.json(data);
+            }else{
+
+                    var data = {status: 'success', code: '200', result:rows,fname:req.session.firstname,type:req.session.type,treefolder:req.session.treefolder};
+                    res.render('promotions',data);
+
+            }
+
+        });
+
+};
+
+module.exports.create_promotions = function(req, res){
+    if(req.session.type == '1'){
+        var data = {status: 'success', code: '200',fname:req.session.firstname,type:req.session.type,treefolder:req.session.treefolder};
+        res.render('promotion-creation',data);
+    } else {
+        res.redirect('/');
+    }
+
+};
+
+module.exports.promotions_detail = function(req, res){
+    var sql = '';
+    sql += 'select * from promotion where title = \''+req.params.title.replace(/-/g,' ')+'\'';
+    var con = req.db.driver.db;
+    con.query(sql, function (err, rows) {
+        if(err){
+            var data = {status: 'error', code: '300',error: err};
+            res.json(data);
+        }else{
+
+            var data = {status: 'success', code: '200', result:rows,fname:req.session.firstname,type:req.session.type,treefolder:req.session.treefolder};
+            res.render('promotion-detail',data);
+
+        }
+
+    });
+
+};

@@ -80,6 +80,23 @@
     </div>
     <div class="container">
         <%for(var i = 0 ; i < treefolder.length ;i++){%>
+        <%if(treefolder[i].folder_name == 'Khuyến Mãi'){%>
+        <div class="dropdown">
+            <!-- <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: transparent;">
+            <span class="glyphicon glyphicon-th-list"></span> Menu
+            </button> -->
+            <ul class="nav navbar-nav navbar-left sm">
+
+                <li> <a href="/promotions" ><h4><font color="black"><%=treefolder[i].folder_name%></font></h4></a>
+
+                </li>
+
+
+            </ul>
+
+
+        </div>
+        <%} else {%>
         <div class="dropdown">
             <!-- <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: transparent;">
             <span class="glyphicon glyphicon-th-list"></span> Menu
@@ -89,7 +106,7 @@
                 <li> <a data-filter=".folder2" ><h4><font color="black"><%=treefolder[i].folder_name%></font></h4></a>
                     <ul class="dropdown-menu">
                         <%for(var j = 0 ; j < treefolder[i].cat_names.split(";").length ; j++){%>
-                        <li> <a href="/maintenance-prd/<%=treefolder[i].cat_names.split(";")[j].trim().replace(" ","-")%>"><h4><%=treefolder[i].cat_names.split(";")[j]%></h4></a></li>
+                        <li> <a href="/maintenance-prd/<%=treefolder[i].cat_names.split(";")[j].trim().replace(/ /g,"-")%>"><h4><%=treefolder[i].cat_names.split(";")[j]%></h4></a></li>
                         <%}%>
 
                     </ul>
@@ -100,7 +117,8 @@
 
 
         </div>
-        <%}%>
+
+        <%}}%>
         <div class="dropdown">
             <ul class="nav navbar-nav navbar-left sm">
 

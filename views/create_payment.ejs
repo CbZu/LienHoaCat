@@ -76,7 +76,6 @@
         </div>
         <button class="btn btn-success" id="insertBtn" onclick="insert()">+</button>
 
-        <button class="btn btn-danger" id="insertBtn" onclick="Add()">OK</button>
 
 
     </div>
@@ -135,7 +134,7 @@
         <h2 id="totalLabel" class="font-custom currency"></h2>
     </div>
     <div class="row">
-        <button class="btn btn-info col-sm-2" type="button" onclick="CreateCart()">
+        <button class="btn btn-info col-sm-2" type="button" onclick="Add()">
             Tạo Đơn Hàng
         </button>
     </div>
@@ -313,8 +312,8 @@
     var index = 0;
     function insert(){
         var element = " <tr>\n" +
-            "                    <td class=\"text-center\">\n" +
-            "                        <input id='id"+index+"' name = 'id-input' style='display:none;' \n" +
+            "                    <td class=\"text-center\" style='display:none;'>\n" +
+            "                        <input id='id"+index+"' name = 'id-input'  \n" +
             "                               value=\"\">\n" +
             "                    </td>\n" +
             "                    <td class=\"text-center\">\n" +
