@@ -69,8 +69,19 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <h2 style="color: red; font-weight: bold;" id ="dictprice" value = '0'>210.000 <a href="" style="font-weight: normal; color: #6b6b6c;">VNĐ</a></h2>
-                    <h3 style="color:  #6b6b6c;" id="price">Giá cũ là <a href="" style="text-decoration: line-through; color: #6b6b6c;">350.000</a></h3>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h2 class="currency" style="color: red; font-weight: bold; float: left;" id ="dictprice" value = '0'>210.000</h2><h2><a href="" style="font-weight: normal; color: #6b6b6c;">&nbspVNĐ</a></h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <%if(result[0].disct_price != null && result[0].disct_price != 0){%>
+                            <h3 style="color:  #6b6b6c; float: left;">Giá cũ là &nbsp</h3>
+                            <%}%>
+                            <h3 class="currency" style="color:  #6b6b6c; text-decoration: line-through;" id="price"></h3>
+                        </div>                        
+                    </div>
                 </div>
                 <div class="col-md-5 col-md-offset-1">
                     <h4>Số lượng: </h4>
@@ -219,12 +230,12 @@
 <script type="text/javascript">
 
         <%if(result[0].disct_price == null || result[0].disct_price == 0){%>
-        $("#dictprice").html('<%=result[0].price%> <a href="" style="font-weight: normal; color: #6b6b6c;">VNĐ</a>');
-        document.getElementById('dictprice').value = '<%=result[0].price%>'
+        $("#dictprice").html('<%=result[0].price%>');
+        document.getElementById('dictprice').value = '<%=result[0].price%>';
         $("#price").html('');
         <%} else {%>
-        $("#dictprice").html('<%=result[0].disct_price%> <a href="" style="font-weight: normal; color: #6b6b6c;">VNĐ</a>');
-        $("#price").html('Giá cũ là <a href="" style="text-decoration: line-through; color: #6b6b6c;"><%=result[0].price%></a>');
+        $("#dictprice").html('<%=result[0].disct_price%>');
+        $("#price").html('<%=result[0].price%>');
         document.getElementById('dictprice').value = '<%=result[0].disct_price%>'
         <%}%>
 
@@ -234,18 +245,46 @@
         <% for(i = 0;i < result.length;i++){ %>
         if('<%=result[i].product_id%>' == (''+n)){
             <%if(result[i].disct_price == null || result[i].disct_price == 0){%>
-            $("#dictprice").html('<%=result[i].price%> <a href="" style="font-weight: normal; color: #6b6b6c;">VNĐ</a>');
-            document.getElementById('dictprice').value = '<%=result[i].price%>'
+            $("#dictprice").html('<%=result[i].price%>');
+            document.getElementById('dictprice').value = '<%=result[i].price%>';
             $("#price").html('');
             ThanhTien();
             <%} else {%>
-            $("#dictprice").html('<%=result[i].disct_price%> <a href="" style="font-weight: normal; color: #6b6b6c;">VNĐ</a>');
-            $("#price").html('Giá cũ là <a href="" style="text-decoration: line-through; color: #6b6b6c;"><%=result[i].price%></a>');
+            $("#dictprice").html('<%=result[i].disct_price%>');
+            $("#price").html('<a href="" style="text-decoration: line-through; color: #6b6b6c;"><%=result[i].price%></a>');
             document.getElementById('dictprice').value = '<%=result[i].disct_price%>'
             ThanhTien();
             <%}%>
         }
         <% } %>
+
+        var currents = document.getElementsByClassName("currency");
+        var decimals = 0;               
+        for (i=0; i<currents.length; i++){
+            var pnumber = currents[i].innerHTML;
+            if (isNaN(pnumber)) { result = 0};
+            if (pnumber=='') { result = 0};
+            var snum = new String(pnumber);
+            var result = '';
+            j=snum.length-1;
+            dem = 1;
+            while(j>=0){
+                if (dem%4!=0){
+                    result = snum[j] + result;
+                    j--;
+                    dem++;
+                }else{
+                    result = '.' + result;
+                    dem=1;
+                }                        
+            }
+            if (currents[i].id == "dictprice"){
+                currents[i].innerHTML = result;
+            } else{
+                currents[i].innerHTML = "&nbsp;" +result+ "&nbsp";
+            }
+
+        }
 
     }
     $(document).ready(function(){
@@ -280,5 +319,34 @@
         document.getElementById("myDropdown").classList.toggle("show");
     }
 </script>
+<script type="text/javascript">
+    var currents = document.getElementsByClassName("currency");
+    var decimals = 0;               
+    for (i=0; i<currents.length; i++){
+        var pnumber = currents[i].innerHTML;
+        if (isNaN(pnumber)) { result = 0};
+        if (pnumber=='') { result = 0};
+        var snum = new String(pnumber);
+        var result = '';
+        j=snum.length-1;
+        dem = 1;
+        while(j>=0){
+            if (dem%4!=0){
+                result = snum[j] + result;
+                j--;
+                dem++;
+            }else{
+                result = '.' + result;
+                dem=1;
+            }                        
+        }
+        if (currents[i].id == "dictprice"){
+            currents[i].innerHTML = result;
+        } else{
+            currents[i].innerHTML = "&nbsp;" +result+ "&nbsp";
+        }
 
+    }
+
+</script>
 </html>
