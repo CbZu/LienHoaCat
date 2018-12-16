@@ -882,3 +882,22 @@ exports.checkUser=function(req,res){
         res.json(data);
     });
 };
+exports.updateSettingShop=function(req,res) {
+    var input = JSON.parse(JSON.stringify(req.body));
+    console.log(input);
+    var sql = 'update lhc.settingshop set transportMethod = \''+ input.vanchuyen
+                + '\', set paymentMethod = \'' + input.thanhtoan
+                + '\', set freeShip = ' + input.freeship
+                + ', set defaultShip = ' + input.shipdefault
+                + 'where id=0;';
+    var con = req.db.driver.db;
+    con.query(sql, function (err, rows) {
+        if(err){
+            var data = {status: 'error', code: '300',error: err};
+            res.json(data);
+        }else{
+            var data={status:"success"};
+            res.json(data);
+        }
+    });
+}

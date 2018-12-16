@@ -34,16 +34,16 @@
         </div>
         <div class="col-md-8">
             <label class="checkbox-inline">
-                <input type="checkbox" class="phuongthucvanchuyen" id="0" value="tm">Tiền mặt
+                <input type="checkbox" class="phuongthucthanhtoan" id="0" value="tm">Tiền mặt
             </label>
             <label class="checkbox-inline">
-                <input type="checkbox" class="phuongthucvanchuyen" id="1" value="COD">COD(Giao hàng thu tiền)
+                <input type="checkbox" class="phuongthucthanhtoan" id="1" value="COD">COD(Giao hàng thu tiền)
             </label>
             <label class="checkbox-inline">
-                <input type="checkbox" class="phuongthucvanchuyen" id="2" value="ck">Chuyển khoản
+                <input type="checkbox" class="phuongthucthanhtoan" id="2" value="ck">Chuyển khoản
             </label>
             <label class="checkbox-inline">
-                <input type="checkbox" class="phuongthucvanchuyen"  id="3" value="ttd">Thẻ tín dụng
+                <input type="checkbox" class="phuongthucthanhtoan"  id="3" value="ttd">Thẻ tín dụng
             </label>
         </div>
     </div>
@@ -53,7 +53,7 @@
             <h3><span class="label label-danger">Đơn hàng sẽ được miễn phí vận chuyển khi giá sau khuyến mãi lớn hơn:</span></h3>
         </div>
         <div class="col-md-3">
-            <input class="form-control">
+            <input class="form-control" id="freeship">
         </div>
     </div>
     <br>
@@ -62,7 +62,7 @@
             <h3><span class="label label-danger">Dưới số này đơn hàng có phí dịch vụ vận chuyển mặc định là:</span></h3>
         </div>
         <div class="col-md-3">
-            <input class="form-control">
+            <input class="form-control" id="shipdefault">
         </div>
     </div>
     <div class="row">
@@ -242,6 +242,56 @@
         });*/
 
 
+    }
+
+    function Update() {
+        var formdata = new FormData();
+        var obj =$("#name");
+
+        var vanchuyen = '';
+        var thanhtoan = '';
+        var freeship = '';
+        var shipdefault = '';
+        var vanchuyens = document.getElementsByClassName("phuongthucvanchuyen");
+        for (var i = 0; i < vanchuyens.length; i++) {
+            if(vanchuyens[i].checked){
+                vanchuyen +=vanchuyens[i].value +";";
+            }
+        }
+        var thanhtoans = document.getElementsByClassName("phuongthucthanhtoan");
+        for (var i = 0; i < thanhtoans.length; i++) {
+            if(thanhtoans[i].checked){
+                thanhtoan +=thanhtoans[i].value +";";
+            }
+        }
+        freeship = document.getElementById("freeship").value;
+        shipdefault = document.getElementById("shipdefault").value;
+        formdata.append('vanchuyen', vanchuyen);
+        formdata.append('thanhtoan', thanhtoan);
+        formdata.append('freeship', freeship);
+        formdata.append('shipdefault', shipdefault);
+        $.ajax({
+            url: './ajax/updateSettingShop',
+            type: 'POST',
+            data: formdata,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                $.ajax({
+                    type: "POST",
+                    url: "./PetMart/remove",
+                    data: "path=" + response.path,
+                    success: function (msg) {
+                        //alert(msg);
+                        data = msg;
+                        location.reload();
+                    }
+                });
+            }
+        });
     }
 
 

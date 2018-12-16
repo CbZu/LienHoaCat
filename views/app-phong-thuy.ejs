@@ -6,28 +6,26 @@
     	<% if(status == "init"){ %>
     	<div class="row" style="position: relative;">
     		<img class="img-responsive" src="assets/img/app-in.jpg" >
-    		<p class="font-custom" style="position: absolute; top: 0px; font-size: 50px; padding: 15px;">
+    		<!-- <p class="font-custom" style="position: absolute; top: 0px; font-size: 50px; padding: 15px;">
     			Liên Hoa Các rất hân hạnh xem tuổi và mệnh cho quý vị,
 				Xin quý vị vui lòng nhập năm sinh (âm lịch) vào khung bên dưới:
-    		</p>
+    		</p> -->
     		<form class="" role="search" style="position: absolute; top: 40%; left: 10%" action="/app-work" method="POST">
     			<input name="year" type="text" class="form-control" placeholder="Năm sinh" style="border: double; background-color: transparent; color: black; font-size: 40px; min-height: 100px; max-width: 320px; border-radius:10px;">
                 </input>
     			<br>
+                <div class="col-md-8">
     			<button type="submit" class="" style="background-color: transparent; border: 0px; padding: 0px;">
-    				<img src="img/hien.png">
+    				<img src="img/hien.png" class="img-responsive">
     			</button>
+                </div>
     		</form>
     	</div>
     	<% } else {%>
     	<div class="row" style="position: relative;">
     		<img class="img-responsive" src="assets/img/app-out.jpg" >
-    		<div class="row" style="position: absolute; top: 0px; left: 15%;">
-    			<p class="font-custom" style="font-size: 50px; padding-left: 15px;">
-    			Quý vị sinh năm:
-                </p>
+    		<div class="row" style="position: absolute; top: 150px; left: 15%;">
     			<p style="font-size: 70px;padding-left: 15px;"><b><%=year %></b></p>
-    			<p style="font-size: 50px;padding-left: 15px;">Âm lịch</p>
     		</div>
     	</div>
         <div class="row">
@@ -51,22 +49,25 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6" style="background-image: url(img/background.jpg);">
+            <!-- <div class="col-md-6" style="background-image: url(img/background.jpg);">
                 <p class="font-custom" style="font-size: 92px; text-align: justify;">
                     Quý vị được <%=phathomenh%> bảo vệ và che chở!
                 </p>
                 <img class="center-block" src="img/logo.png" alt="LienHoaCac" style="width: 150px;padding: 0px;">
-            </div>
-            <div class="col-md-6">
+            </div> -->
+            <div class="col-md-12">
                 <img class="img-responsive" src="img/phatbanmenh/<%=b%>.jpg">
             </div>
         </div>
+        <br>
         <div class="row">
 
             <div class="col-md-6">
                 <a href="/maintenance-prd/Search?keyword=<%=tuoi.split(" ")[1].toLowerCase()%>,<%=mang.toLowerCase()%>" src="img/phatbanmenh/<%=b%>.jpg">
-                    Sản Phẩm Phù Hợp Với Bạn.
-                </a>
+                    <button type="submit" class="" style="background-color: transparent; border: 0px; padding: 0px;">
+                        <img src="img/xemsp.png" class="img-responsive">
+                    </button>
+                </a>                
             </div>
         </div>
     	<% } %>

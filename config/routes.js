@@ -55,6 +55,7 @@ module.exports = function (app, controllers) {
     app.post('/ajax/addProduct', controllers.ajax.addProduct);
     app.post('/ajax/addProductImages', controllers.ajax.addProductImages);
     app.post('/ajax/add-to-cart-admin', controllers.ajax.addSizeToCart);
+    app.post('/ajax/updateSettingShop', controllers.ajax.updateSettingShop)
 
     app.post('/ajax/updateProductImage', controllers.ajax.updateProductImage);
     app.get('/noti-maintenance', controllers.todo.show_noti);
