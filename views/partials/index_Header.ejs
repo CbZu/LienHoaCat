@@ -38,36 +38,22 @@
         </div>
         <div class="col-xs-2 col-md-1 cursor">
             <a class="cursor" onclick="GetCart(0)">
-                        <!-- <button class="btn btn-default btn-lg"  style="margin-left: 5%;">
-                            <span class="glyphicon glyphicon-shopping-cart"></span>
-                        </button> -->
-                        <!-- <h3><span class="glyphicon glyphicon-shopping-cart" style="color: white;"></span></h3> -->
                 <img src="/img/cart.png" class="img-responsive cursor" style="max-width: 50px; margin: 15px 0px 15px 0px;">
             </a>
         </div>
-        <div class="col-xs-2 col-md-1" style="max-width: 50px; margin: 15px 0px 15px 0px;">
+        <div class="col-xs-4 col-md-2" style="max-width: 150px; margin: 15px 0px 0px 0px;">
             <% if(fname != undefined){ %>
-                    <div>
-                        <a href="/edit-account">
-                            <img class="img-circle origin" src="/img/40x40.png" alt="Image Alternative text"
-                                 title="AMaze"/>
-                        </a>
-                    </div>
+                <h5>Kính chào <%=fname%>!</h5>
             <% } %>
         </div>
         <div class="col-xs-2 col-md-1" style="max-width: 50px; margin: 15px 0px 15px 0px;">
-            <% if(fname != undefined){ %>
-                    <h5><%=fname%></h5>
-                    <% } %>
-        </div>
-        <div class="col-xs-2 col-md-1" style="max-width: 50px; margin: 15px 0px 15px 0px;">
             <% if(type != undefined){%>
-                    <a class="btn btn-success" style="min-width: 100px;" href="/logout"><p style="color: white;">Đăng Xuất</p></a>
-                    <% } %>
+                <a class="btn btn-success" style="min-width: 100px;" href="/logout"><p style="color: white;">Đăng Xuất</p></a>
+            <% } %>
 
-                    <% if(type == undefined){%>
-                    <a class="btn btn-success " onclick="document.getElementById('id01').style.display='block'"><p style="color: white;">Đăng nhập</p></a>
-                    <% } %>
+            <% if(type == undefined){%>
+                <a class="btn btn-success " onclick="document.getElementById('id01').style.display='block'"><p style="color: white;">Đăng nhập</p></a>
+            <% } %>
         </div>
     </div>
 </div>
