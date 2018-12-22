@@ -3,7 +3,7 @@ module.exports = function (orm, db) {
         user_id: {type: 'number',key : true, autoIncrement: true,},
         email: {type: 'text'},
         dob: {type: 'number'},
-        phone: {type: 'number'},
+        phone: {type: 'text'},
         firstname: {type: 'text'},
         lastname: {type: 'text'},
         create_time: {type: 'number'},

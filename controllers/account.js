@@ -28,8 +28,14 @@ module.exports.signup=function(req,res){
             res.json(data);
         }else{
             if(rows.length > 0){
-                data={status:'fail',code:'300',description:"username is exist."};
-                res.json(data);
+                if(input.mode == 'pay'){
+                    data={status:'fail',code:'200',description:"username is exist.",user_id:rows[0].user_id};
+                    res.json(data);
+                } else {
+                    data={status:'fail',code:'300',description:"username is exist."};
+                    res.json(data);
+                }
+
             }else{
                 var sql = 'INSERT INTO `lhc`.`user`\n' +
                     '(`email`,\n' +
@@ -48,6 +54,7 @@ module.exports.signup=function(req,res){
                 console.log(sql);
                 con.query(sql, function (err, row1s) {
                     if(err){
+
                         data={status:'err',code:'300',description:err};
                         res.json(data);
                     }else{

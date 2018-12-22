@@ -40,35 +40,6 @@
                 <th class="text-right" style="text-align: center;"><h4>Thành Tiền</h4></th>
                 </thead>
                 <tbody class = "body-prd">
-                <!--<tr>
-                    <td class="text-center">
-                        <input id='code'
-                               value="" onkeyup="CheckCode()">
-                    </td>
-                    <td class="text-center">
-                        <input id='name-prd'
-                               value="">
-                    </td>
-                    <td class="text-center">
-                        <input id='size'
-                               value="">
-                    </td>
-                    <td>
-                        <input id='price'
-                               value="">
-
-                    </td>
-                    <td>
-                        <input id='amount'
-                               value="" onkeyup="Calc()">
-
-                    </td>
-                    <td class="text-center ">
-                        <h4 class="font-custom currency" id = 'sum'></h4>
-
-
-                    </td>
-                </tr>-->
 
                 <tr id = 'rowInsertBtn'></tr>
                 </tbody>
@@ -128,7 +99,7 @@
         <h4>Số điện thoại: </h4><input id="phone" onkeyup="CheckPhone()">
         <h4>Địa Chỉ: </h4><input id="address">
 
-        <h4>Số sản phẩm</h4>
+        <h4>Voucher: </h4><input id="voucher" onkeyup="CheckVoucher()">
         <h4>Phí vận chuyển</h4>
         <h3>Tổng cộng: </h3>
         <h2 id="totalLabel" class="font-custom currency"></h2>
@@ -167,7 +138,6 @@
 
     var type = '';
     var ship = '';
-
     function Ship(idx) {
         ship = idx;
         document.getElementById("ship").value = idx;
@@ -249,7 +219,8 @@
         formdata1.append('email',$("#email").val());
         formdata1.append('phone',$("#phone").val());
         formdata1.append('address',$("#address").val());
-
+        formdata1.append('voucher',$("#voucher").val());
+        formdata1.append('mode','pay');
         $.ajax({
             url: "/PetMart/signup",
             type: 'POST',
@@ -302,11 +273,13 @@
         });
 
     }
-
+    var total = 0;
     function Calc(idx){
         var obj = $("#amount"+idx);
         if(obj.val() != '0' || obj.val().trim() != ''){
             $("#sum"+idx).html(''+(parseInt(obj.val())*parseInt($("#price"+idx).val())))
+            total += parseInt($("#sum"+idx).html());
+            $("#totalLabel").html(''+total);
         }
     }
     var index = 0;
@@ -346,6 +319,25 @@
             "                </tr>";
         index++;
         $(element).insertBefore($('#rowInsertBtn'));
+    }
+    function CheckVoucher() {
+        var obj = $("#voucher");
+        $(".error").remove();
+        $.ajax({
+            type: "POST",
+            url: "./PetMart/get-voucher",
+            data: "mode=check_email&voucher=" + obj.val() + "&total="+total,
+            success: function (msg) {
+                //alert(msg);
+                data = msg;
+                if (data.code == '404') {
+                    obj.after("<label class='error'>Voucher Hết Hạn Hoặc Không Tồn Tại</label>");
+                }
+                else {
+                    document.getElementById("totalLabel").innerHTML = "<label style='text-decoration: line-through'><font color='black'> "+total+"</font></lable><label><font color='red'> -> " + data.totalAfter + "</lable>";
+                }
+            }
+        });
     }
 </script>
 <% include partials/index_Footer.ejs %>
