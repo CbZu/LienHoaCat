@@ -10,6 +10,7 @@ module.exports = function (orm, db) {
         promotion: {type: 'number'},
         total: {type: 'number'},
         seen_flag: {type:'text'},
-        address: {type: 'text'}
+        address: {type: 'text'},
+        voucher: {type: 'text'}
     });
 };

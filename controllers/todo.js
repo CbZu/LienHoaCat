@@ -80,7 +80,7 @@ module.exports.add_category = function(req, res){
     var day  = date.getDate();
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
-    var formidable = require('formidable');
+   /* var formidable = require('formidable');
 
     var form = new formidable.IncomingForm({
         keepExtensions: true
@@ -97,25 +97,87 @@ module.exports.add_category = function(req, res){
     });
 
     form.parse(req);
+*/
 
-
-    var data={
-        cat_name:input.newCat,
-        image:req.files.upfile.path.split("\\")[ req.files.upfile.path.split("\\").length-1],
-        folder_id: input.newFolder
-    };
-    req.models.category.create(data,function(err,row1s) {
-        if (err) {
-            var data = {status: 'fail', code: '300', description : err.message};
+   var sql = 'select folder_id from treefolder where folder_name = \''+input.newFolder+'\'';
+    var con = req.db.driver.db;
+    con.query(sql, function (err, rows) {
+        if(err){
+            var data = {status: 'error', code: '300',error: err};
             res.json(data);
-        } else {
-            res.json(200, {
-                    path: req.files.upfile.path,
-                    name:req.files.upfile.name
-                }
-            );
+        }else{
+            if(rows.length>0){
+                var data={
+                    cat_name:input.newCat,
+                    /*image:req.files.upfile.path.split("\\")[ req.files.upfile.path.split("\\").length-1],*/
+                    folder_id: rows[0].folder_id
+                };
+                req.models.category.create(data,function(err,row1s) {
+                    if (err) {
+                        var data = {status: 'fail', code: '300', description : err.message};
+                        res.json(data);
+                    } else {
+                        res.json(200
+                        );
+                    }
+                });
+            } else {
+                sql = 'insert into treefolder(folder_name) values (\''+input.newFolder+'\');';
+                con.query(sql, function (err, row1s) {
+                    if(err){
+                        var data = {status: 'error', code: '300',error: err};
+                        res.json(data);
+                    }else{
+                        var data={
+                            cat_name:input.newCat,
+                            /*image:req.files.upfile.path.split("\\")[ req.files.upfile.path.split("\\").length-1],*/
+                            folder_id: row1s.insertId
+                        };
+                        req.models.category.create(data,function(err,row1s) {
+                            if (err) {
+                                var data = {status: 'fail', code: '300', description : err.message};
+                                res.json(data);
+                            } else {
+                                res.json(200
+                                );
+                            }
+                        });
+                    }
+
+                });
+            }
         }
+
     });
+
+};
+module.exports.update_category = function(req, res){
+    var input=JSON.parse(JSON.stringify(req.body));
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    var year = date.getUTCFullYear();
+    if(input.action == 'delete'){
+        var sql = 'delete from category where cat_id = '+input.id+'';
+    } else {
+        var sql = 'update category set cat_name = \''+input.name+'\' where cat_id = '+input.id+'';
+    }
+
+    var con = req.db.driver.db;
+    con.query(sql, function (err, rows) {
+        if(err){
+            var data = {status: 'error', code: '300'};
+            res.json(data);
+        }else{
+            var data = {status: 'success', code: '200'};
+            res.json(data);
+        }
+
+    });
+
 };
 
 module.exports.remove = function(req, res){
@@ -320,6 +382,9 @@ module.exports.add_to_cart = function(req, res){
                         console.log(element);
                         userid = rows[0].user_id;
                         var getAmount = 'select * from cart where product_id = '+element+' and user_id = '+userid+' and payment_id = 0;';
+                        if(input.payment_id != undefined){
+                            getAmount = 'select * from cart where product_id = '+element+' and user_id = '+userid+' and payment_id = '+input.payment_id+';';
+                        }
                         var dataCart ={
                             product_id:element,
                             user_id:userid,
@@ -332,7 +397,11 @@ module.exports.add_to_cart = function(req, res){
                             }else{
                                 if(input.quantity[i] != 0){
                                     if(row2s.length>0){
-                                        var sqlUpdate = 'update cart set amount = '+(parseInt(input.quantity[i])+parseInt(row2s[0].amount))+' where product_id = '+element+' and user_id = '+userid+';';
+                                        var sqlUpdate = 'update cart set amount = '+(parseInt(input.quantity[i])+parseInt(row2s[0].amount))+' where product_id = '+element+' and user_id = '+userid+' and payment_id = 0;';
+                                        if(input.payment_id != undefined){
+                                            sqlUpdate = 'update cart set amount = '+(parseInt(input.quantity[i])+parseInt(row2s[0].amount))+' where product_id = '+element+' and user_id = '+userid+' and payment_id = '+input.payment_id+';';
+                                        }
+
                                         con.query(sqlUpdate,function(err,row1s) {
                                             if (err) {
                                                 var data = {status: 'fail', code: '300', description : err.message};
@@ -342,26 +411,45 @@ module.exports.add_to_cart = function(req, res){
                                             }
                                         });
                                     }else{
-                                        var data={
-                                            user_id: parseInt(userid),
-                                            product_id:element,
-                                            amount:input.quantity[i],
-                                            payment_id:0,
-                                            create_time:parseInt(year+''+month+''+day),
-                                            status_id:0
-                                        };
+                                        if(input.payment_id != undefined){
+                                            var data={
+                                                user_id: parseInt(userid),
+                                                product_id:element,
+                                                amount:input.quantity[i],
+                                                payment_id:parseInt(input.payment_id),
+                                                create_time:parseInt(year+''+month+''+day),
+                                                status_id:0,
+                                                price : input.price[i]
+                                            };
+                                        } else {
+                                            var data={
+                                                user_id: parseInt(userid),
+                                                product_id:element,
+                                                amount:input.quantity[i],
+                                                payment_id:0,
+                                                create_time:parseInt(year+''+month+''+day),
+                                                status_id:0
+                                            };
+                                        }
+
                                         req.models.cart.create(data,function(err,row1s) {
                                             if (err) {
                                                 var data = {status: 'fail', code: '300', description : err.message};
                                                 res.json(data);
                                             } else {
+                                                if(input.payment_id == undefined) {
                                                 var updatePrice = 'update cart set disct_price = 0, price = 0' +
                                                     ' where product_id = '+element+' and user_id = '+userid+' and payment_id = 0  ;';
-                                                con.query(updatePrice, function (err, row4s) {
-                                                    if(!err){
 
-                                                    }
-                                                });
+                                                    updatePrice = 'update cart set disct_price = (), price = 0' +
+                                                        ' where product_id = ' + element + ' and user_id = ' + userid + ' and payment_id = ' + input.payment_id + '  ;';
+
+                                                    con.query(updatePrice, function (err, row4s) {
+                                                        if (!err) {
+
+                                                        }
+                                                    });
+                                                }
                                             }
                                         });
                                     }
@@ -657,7 +745,7 @@ module.exports.add_to_payment = function(req, res){
         '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)<>\'NULL\',\n' +
         '        (select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)*c.amount,\n' +
         '        (select price from product where product_id = c.product_id)*c.amount)) as total ';
-    if((input.voucher != undefined)&&(input.voucher.trim() != "")){
+    if((input.voucher != undefined)&&(input.voucher.trim != "")){
         sql += ',(select percent from voucher where code = \''+input.voucher+'\' and effective_date<='+today+' and '+today+'<=expired_date) as percent \n';
 
     }
@@ -676,15 +764,20 @@ module.exports.add_to_payment = function(req, res){
                 Sum = rows[0].total;
                 if((input.voucher != undefined)&&(input.voucher.trim() != "")){
                     if(rows[0].percent!='NULL')
-                    promotion = Sum*rows[0].percent/100;
+                        if(parseInt(rows[0].percent) > 100){
+                            promotion =  rows[0].percent;
+                        } else {
+                            promotion = Sum*rows[0].percent/100;
+                        }
+
                 }
 
                 totalAfterPromot = Sum-promotion;
                 var sqlIns = 'INSERT INTO `lhc`.`payment`\n' +
                     '(`user_id`,\n' +
                     '`sum`,\n' +
-                    '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`,`ship`)\n' +
-                    'VALUES ('+user+','+Sum+',1,'+parseInt(year+''+month+''+day)+',\'\',\''+input.type+'\','+promotion+','+totalAfterPromot+',\'N\',\''+input.ship+'\')';
+                    '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`,`ship`,`voucher`)\n' +
+                    'VALUES ('+user+','+Sum+',1,'+parseInt(year+''+month+''+day)+',\'\',\''+input.type+'\','+promotion+','+totalAfterPromot+',\'N\',\''+input.ship+'\',\''+input.voucher+'\')';
                 con.query(sqlIns, function (err, row1s) {
                     if(err){
                         var data = {status: 'error', code: '300',error: err};
@@ -775,11 +868,18 @@ module.exports.update_payment = function(req, res){
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
 
-    if(input.status == undefined){
-        var sql = 'update payment set seen_flag = \''+input.seen+'\' where payment_id = '+input.payment_id+'; ';
-    }else{
-        var sql = 'update payment set status_id = '+input.status+',seen_flag = \''+input.seen_flag+'\' where payment_id = '+input.payment_id+'; ';
+    if(input.mode == 'pay'){
+        var sql = 'select *,' +
+            '(select percent from voucher where code = (select voucher from payment where payment_id = c.payment_id)) as voucher' +
+            ' from cart c where payment_id = '+input.payment_id+'; ';
+    } else {
+        if(input.status == undefined){
+            var sql = 'update payment set seen_flag = \''+input.seen+'\' where payment_id = '+input.payment_id+'; ';
+        }else{
+            var sql = 'update payment set status_id = '+input.status+',seen_flag = \''+input.seen_flag+'\' where payment_id = '+input.payment_id+'; ';
+        }
     }
+
 
     var con = req.db.driver.db;
     con.query(sql, function (err, rows) {
@@ -787,6 +887,30 @@ module.exports.update_payment = function(req, res){
            var data = {status: 'err', code: '300',description:err};
            res.json(data);
        } else{
+           if(input.mode == 'pay'){
+               var sum = 0;
+               var promotion = 0;
+               var total = 0;
+               for( var i = 0; i < rows.length ; i++){
+                    if(rows[i].disct_price == null || rows[i].disct_price == 0 ){
+                        sum += rows[i].price * rows[i].amount;
+                    } else {
+                        sum += rows[i].disct_price;
+                    }
+               }
+
+               if(rows[0].voucher != 'NULL' && rows[0].voucher != '0'){
+                   if( parseInt(rows[0].voucher)  >100){
+                       promotion = rows[0].voucher;
+                   } else {
+                       promotion = sum * rows[0].voucher / 100;
+                   }
+
+               }
+               total = sum - promotion;
+               sql = 'update payment set sum = '+sum+', promotion = '+promotion+' , total = '+total+' where payment_id = '+input.payment_id+'; '
+               con.query(sql);
+           }
            var data = {status: 'success', code: '200'};
            res.json(data);
        }
@@ -1226,6 +1350,7 @@ module.exports.payment_detail = function(req, res){
                 '        c.price*c.amount)\n' +
                 '\t SEPARATOR \'; \') as sums,\n' +
                 'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as size_ids,\n' +
+                'GROUP_CONCAT((select code from product where c.product_id = product_id ) SEPARATOR \'; \') as codes,\n' +
                 'GROUP_CONCAT((select url from image where c.product_id = product_id and type = 1 group by product_id) SEPARATOR \'; \') as images,\n' +
                 '(select status_id from payment where payment_id = c.payment_id ) as status_id,\n' +
                 '(select sum from payment where payment_id = c.payment_id ) as paymentSum,\n' +
@@ -1453,7 +1578,7 @@ module.exports.maintenance_prd = function(req, res){
 
         var where = '';
         if(req.params.catflt != undefined && req.params.catflt != 'Search' && req.params.catflt != 'undefined'){
-            where += ' cat_id = (select cat_id from category where cat_name like \'%'+req.params.catflt.replace(/-/g,' ')+'%\') and';
+            where += ' cat_id = (select cat_id from category where cat_name = \''+req.params.catflt.replace(/-/g,' ')+'\') and';
         }
         if(req.query.prdflt != undefined && req.query.prdflt != '' ){
             where += ' name like \'%'+req.query.prdflt+'%\' and';

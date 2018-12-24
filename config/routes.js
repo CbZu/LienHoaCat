@@ -4,6 +4,7 @@ module.exports = function (app, controllers) {
     app.post('/PetMart/get-user', controllers.account.get_user);
     app.post('/PetMart/add-product', controllers.todo.add_product);
     app.post('/PetMart/add-category', controllers.todo.add_category);
+    app.post('/PetMart/update-category', controllers.todo.update_category);
     app.post('/PetMart/remove', controllers.todo.remove);
     app.post('/PetMart/get-product', controllers.todo.get_product);
     app.post('/PetMart/get-product-by-name', controllers.todo.get_product_by_name);
