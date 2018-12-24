@@ -27,6 +27,7 @@ module.exports = function (app, controllers) {
     app.post('/PetMart/get-wishlist', controllers.todo.get_wishlist);
     app.post('/PetMart/update-wishlist', controllers.todo.update_wishlist);
     app.post('/PetMart/get-voucher', controllers.todo.get_voucher);
+    app.get('/voucher', controllers.todo.voucher);
 
     app.get('/', controllers.index.home);
     app.post('/ajax/checkEmail', controllers.ajax.checkEmail);

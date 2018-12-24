@@ -177,8 +177,8 @@
     </div>
         <div class="row">
                 <% for(j = 0;j < result.length;j++){ %>
-
-                <div class="col-xs-6 col-md-4 folder<%= result[j].folder_ids %> ">
+                <%page = parseInt(j/12+1);%>
+                <div class="col-xs-6 col-md-4 folder<%= result[j].folder_ids %> <%= page %>">
                             <a href="/product-detail/<%=result[j].cat_name.replace(" ", "-")%>/<%=result[j].name.replace(/ /g, '-')%>" >
                                 <div class="product">
 				                    <%if(result[j].new == 'Y'){%>
@@ -234,6 +234,18 @@
 
 
                 <% } %>
+        </div>
+        <div>
+            <nav aria-label="Page navigation example" style="text-align: center;">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                    <li class="page-item"><a class="page-link active" href="#">1</a></li>
+            <% for(i=2;i < page; i++){ %>
+                    <li class="page-item"><a class="page-link" href="#"><%=i%></a></li>
+            <% } %>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
         </div>
 </div>
 
@@ -306,7 +318,7 @@
                     
                 }
 
-            </script>
+        </script>
 
 </body>
 <% include partials/index_Footer.ejs %>
