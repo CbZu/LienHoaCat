@@ -89,27 +89,20 @@
 
                 Nhóm Sản Phẩm </h4>
 
-            <h4 class="col-md-4">
 
-                Avarta </h4>
         </div>
 
         <div class="row">
             <form action='/PetMart/add-category' class="fileupload" method='POST' enctype="multipart/form-data">
                 <div class="col-md-4">
-                    <select class="form-control" name="newFolder">
-                        <% for(i = 0 ; i < tree.length ; i++) { %>
-                        <option value="<%= tree[i].folder_id %>"><%= tree[i].folder_name %></option>
-                        <% } %>
 
-                    </select></div>
+                    <input type="text" class="form-control" name="newFolder" value="">
+
+
+                </div>
                 <div class="col-md-4"><input class="form-control" name="newCat" value=""></div>
 
 
-                <div class="col-md-4">
-                    <input type="file" class="form-control" name="upfile" value="">
-                </div>
-                </br>
                 <button class="btn btn-danger" id='Ok' style="display: none" type='submit'>Ok</button>
             </form>
         </div>
@@ -137,15 +130,15 @@
                        value='<%= result[i].folder_name %>'></input>
             </div>
             <div class="col-md-4">
-                <input class="form-control" id='cat<%= result.cat_id %>'
+                <input class="form-control" id='cat<%= result[i].cat_id %>'
                        value='<%= result[i].cat_name %>'></input>
             </div>
             <div class="col-md-1">
-                <button class="form-control">OK</button>
+                <button class="form-control" onclick="OK(<%=result[i].cat_id%>)">OK</button>
             </div>
             <div class="col-md-2">
                 <a class="btn btn-success form-control"
-                   href="/maintenance-prd?catflt=<%= result[i].cat_name %>&catId=<%= result[i].cat_id %>">Products</a>
+                   href="/maintenance-prd/<%= result[i].cat_name %>">Products</a>
             </div>
         </div>
 
@@ -184,18 +177,7 @@
             enctype: 'multipart/form-data',
             processData: false,
             success: function (response) {
-                $.ajax({
-                    type: "POST",
-                    url: "./PetMart/remove",
-                    data: "path=" + response.path + "&name=" + response.name,
-                    success: function (msg) {
-                        //alert(msg);
-                        data = msg;
-
-                        location.reload();
-
-                    }
-                });
+                location.reload();
             }
         });
         return false;
@@ -208,40 +190,23 @@
         document.getElementById('Ok').style.display = 'block';
     }
 
-    function OK() {
-        /*var allElements = document.getElementsByTagName("input");
-        var cats = new Array();
-        var images = new Array();
-        var folders = new Array();
-        for (var i = 0; i < allElements.length; i++) {
-            if (allElements[i].id == 'newCat') {
-                cats.push(allElements[i].value);
-            }
-            if (allElements[i].id == 'newImg') {
-                images.push(allElements[i].value);
-            }
-        }
-        var allElements = document.getElementsByTagName("select");
-        for (var i = 0; i < allElements.length; i++) {
-            if (allElements[i].id == 'newFolder') {
-                folders.push(allElements[i].value);
-                break;
-            }
-        }
+    function OK(index) {
+        var formdata = new FormData();
+        formdata.append('name', document.getElementById('cat'+index).value);
+        formdata.append('id', index);
         $.ajax({
-            type: "POST",
-            url: "./PetMart/add-category",
-            data: "mode=update&description=" + cats + "&image=" + images + "&folder=" + folders,
-            success: function (msg) {
-                //alert(msg);
-                data = msg;
-
+            url: './PetMart/update-category',
+            type: 'POST',
+            data: formdata,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
                 location.reload();
-
             }
-        });*/
-
-
+        });
     }
 
     function Update() {

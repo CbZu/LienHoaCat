@@ -80,7 +80,7 @@ module.exports.add_category = function(req, res){
     var day  = date.getDate();
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
-    var formidable = require('formidable');
+   /* var formidable = require('formidable');
 
     var form = new formidable.IncomingForm({
         keepExtensions: true
@@ -97,25 +97,87 @@ module.exports.add_category = function(req, res){
     });
 
     form.parse(req);
+*/
 
-
-    var data={
-        cat_name:input.newCat,
-        image:req.files.upfile.path.split("\\")[ req.files.upfile.path.split("\\").length-1],
-        folder_id: input.newFolder
-    };
-    req.models.category.create(data,function(err,row1s) {
-        if (err) {
-            var data = {status: 'fail', code: '300', description : err.message};
+   var sql = 'select folder_id from treefolder where folder_name = \''+input.newFolder+'\'';
+    var con = req.db.driver.db;
+    con.query(sql, function (err, rows) {
+        if(err){
+            var data = {status: 'error', code: '300',error: err};
             res.json(data);
-        } else {
-            res.json(200, {
-                    path: req.files.upfile.path,
-                    name:req.files.upfile.name
-                }
-            );
+        }else{
+            if(rows.length>0){
+                var data={
+                    cat_name:input.newCat,
+                    /*image:req.files.upfile.path.split("\\")[ req.files.upfile.path.split("\\").length-1],*/
+                    folder_id: rows[0].folder_id
+                };
+                req.models.category.create(data,function(err,row1s) {
+                    if (err) {
+                        var data = {status: 'fail', code: '300', description : err.message};
+                        res.json(data);
+                    } else {
+                        res.json(200
+                        );
+                    }
+                });
+            } else {
+                sql = 'insert into treefolder(folder_name) values (\''+input.newFolder+'\');';
+                con.query(sql, function (err, row1s) {
+                    if(err){
+                        var data = {status: 'error', code: '300',error: err};
+                        res.json(data);
+                    }else{
+                        var data={
+                            cat_name:input.newCat,
+                            /*image:req.files.upfile.path.split("\\")[ req.files.upfile.path.split("\\").length-1],*/
+                            folder_id: row1s.insertId
+                        };
+                        req.models.category.create(data,function(err,row1s) {
+                            if (err) {
+                                var data = {status: 'fail', code: '300', description : err.message};
+                                res.json(data);
+                            } else {
+                                res.json(200
+                                );
+                            }
+                        });
+                    }
+
+                });
+            }
         }
+
     });
+
+};
+module.exports.update_category = function(req, res){
+    var input=JSON.parse(JSON.stringify(req.body));
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    var year = date.getUTCFullYear();
+    if(input.action == 'delete'){
+        var sql = 'delete from category where cat_id = '+input.id+'';
+    } else {
+        var sql = 'update category set cat_name = \''+input.name+'\' where cat_id = '+input.id+'';
+    }
+
+    var con = req.db.driver.db;
+    con.query(sql, function (err, rows) {
+        if(err){
+            var data = {status: 'error', code: '300'};
+            res.json(data);
+        }else{
+            var data = {status: 'success', code: '200'};
+            res.json(data);
+        }
+
+    });
+
 };
 
 module.exports.remove = function(req, res){
@@ -1513,7 +1575,7 @@ module.exports.maintenance_prd = function(req, res){
 
         var where = '';
         if(req.params.catflt != undefined && req.params.catflt != 'Search' && req.params.catflt != 'undefined'){
-            where += ' cat_id = (select cat_id from category where cat_name like \'%'+req.params.catflt.replace(/-/g,' ')+'%\') and';
+            where += ' cat_id = (select cat_id from category where cat_name = \''+req.params.catflt.replace(/-/g,' ')+'\') and';
         }
         if(req.query.prdflt != undefined && req.query.prdflt != '' ){
             where += ' name like \'%'+req.query.prdflt+'%\' and';
