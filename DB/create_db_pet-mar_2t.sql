@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `lhc`.`category` (
   `cat_name` VARCHAR(255) character set utf8 NOT NULL,
   `image` VARCHAR(255) NULL,
   PRIMARY KEY (`cat_id`),
-  UNIQUE INDEX `cat_name_UNIQUE` (`cat_name` ASC));
+  UNIQUE INDEX `cat_name_UNIQUE` (`citycat_name` ASC));
 
 CREATE TABLE IF NOT EXISTS `lhc`.`treefolder` (
   `folder_id` INT NOT NULL AUTO_INCREMENT,
@@ -188,6 +188,9 @@ CREATE TABLE IF NOT EXISTS `lhc`.`promotion` (
 	`percent` INT NULL,
   `effective_date` INT NULL,
   `expired_date` INT NULL,
+  `amount` INT NULL,
+  `min` INT NULL,
+  `name`  VARCHAR(255)  NULL,
   PRIMARY KEY (`voucher_id`));
   
   CREATE TABLE IF NOT EXISTS `lhc`.`notification` (

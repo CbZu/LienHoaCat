@@ -467,23 +467,30 @@ module.exports.add_to_cart = function(req, res){
                 }else{
                     var cart = '';
                     var amount = '';
+                    if(req.cookies.cart != undefined){
+                        cart = req.cookies.cart.id;
+                        amount = req.cookies.cart.amount;
+                    }
                     var i = 0
                     input.size_id.forEach(function(element) {
-                       cart += ';'+element ;
-                        amount += ';'+input.quantity[i] ;
+                       cart += ','+element ;
+                        amount += ','+input.quantity[i] ;
                         i++
                     });
 
-                    if(req.session.cart == undefined){
-                        req.session.cart = cart.replace(";","");
+                    if(req.cookies.cart != undefined){
+                        var carts = {
+                            id : cart,
+                            amount :amount
+                        }
                     } else {
-                        req.session.cart += cart.replace(";","");
+                        var carts = {
+                            id : cart.replace(",",""),
+                            amount :amount.replace(",","")
+                        }
                     }
-                    if(req.session.amount == undefined){
-                        req.session.amount = amount.replace(";","");
-                    } else {
-                        req.session.amount += amount.replace(";","");
-                    }
+
+                    res.cookie("cart", carts);
                     var data = {status: 'success', code: '200'};
                     res.json(data);
                 }
@@ -509,36 +516,48 @@ module.exports.get_cart = function(req, res){
     }else{
         user=req.query.user ;
     }
+    var array = [];
     if(user == undefined){
-        var sql = 'select \n' +
-            '(select name from product where c.product_id = product_id ) as name,\n' +
-            'GROUP_CONCAT((select size from product where c.product_id = product_id ) SEPARATOR \'; \') as sizes,\n' +
-            'GROUP_CONCAT(FORMAT((select price from product where product_id = c.product_id),0) SEPARATOR \'; \')  as prices,\n' +
-            'GROUP_CONCAT(FORMAT((select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date),0) SEPARATOR \'; \')  as discount_prices,\n' +
-            '(select 9999) as sums,\n' +
-            'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as size_ids,\n' +
-            'GROUP_CONCAT((select url from image where c.product_id = product_id and type = 1 group by product_id) SEPARATOR \'; \') as images,\n' +
-            '(select 9999) as total \n' +
-            'from product c where product_id in ('+req.session.cart+')  group by name ;';
+        for(var i = 0 ; i < req.cookies.cart.id.split(',').length ; i++){
+            var sql = 'select \n' +
+                '(select name from product where c.product_id = product_id ) as name,\n' +
+                'GROUP_CONCAT('+req.cookies.cart.amount.split(',')[i]+' SEPARATOR \'; \') as quantities,\n' +
+                'GROUP_CONCAT((select size from product where c.product_id = product_id ) SEPARATOR \'; \') as sizes,\n' +
+                'GROUP_CONCAT(FORMAT((select price from product where product_id = c.product_id),0) SEPARATOR \'; \')  as prices,\n' +
+                'GROUP_CONCAT(FORMAT((select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date),0) SEPARATOR \'; \')  as discount_prices,\n' +
+                'GROUP_CONCAT(\n' +
+                'FORMAT(\n' +
+                'IF(\n' +
+                '(select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)<>\'NULL\',\n' +
+                '        (select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)*'+req.cookies.cart.amount.split(',')[i]+',\n' +
+                '        (select price from product where product_id = c.product_id)*'+req.cookies.cart.amount.split(',')[i]+'),\n' +
+                '0) SEPARATOR \'; \') as sums,\n' +
+                'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as size_ids,\n' +
+                'GROUP_CONCAT((select url from image where c.product_id = product_id and type = 1 group by product_id) SEPARATOR \'; \') as images,\n' +
+                'sum(\n' +
+                'IF(\n' +
+                '(select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)<>\'NULL\',\n' +
+                '        (select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)*'+req.cookies.cart.amount.split(',')[i]+',\n' +
+                '        (select price from product where product_id = c.product_id)*'+req.cookies.cart.amount.split(',')[i]+')) as total \n' +
+                'from product c where product_id in  ('+req.cookies.cart.id.split(',')[i]+') group by name ;';
 
-        var con = req.db.driver.db;
-        con.query(sql, function (err, rows) {
-            if(err){
-                var data = {status: 'error', code: '300',error: err};
-                res.json(data);
-            }else{
-                for(var i = 0; i < rows.length ; i++){
-                    for(var j = 0; j < rows[i].discount_prices.split(";").length ; j++){
-                        if(rows[i].discount_prices.split(";")[j] != 'NULL'){
-
-                        }
+            var con = req.db.driver.db;
+            con.query(sql, function (err, rows) {
+                if(err){
+                    var data = {status: 'error', code: '300',error: err};
+                    res.json(data);
+                }else{
+                    array.push(rows[0]);
+                    if(array.length == req.cookies.cart.id.split(',').length){
+                        var data = {status: 'success', code: '200',result:array};
+                        res.json(data);
                     }
-                }
-                var data = {status: 'success', code: '200',result:rows};
-                res.json(data);
-            }
 
-        });
+
+                }
+            });
+        }
+
     } else{
         var sql = 'select \n' +
             '(select name from product where c.product_id = product_id ) as name,\n' +
@@ -698,7 +717,12 @@ module.exports.get_voucher = function(req, res){
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
     var today = year+''+month+''+day;
-    sql = 'select percent from voucher where code = \''+input.voucher+'\' and effective_date<='+today+' and '+today+'<=expired_date;';
+    if(input.mode = 'check_exist'){
+        sql = 'select code from voucher where code = \''+input.voucher+'\'';
+    } else {
+        sql = 'select percent from voucher where code = \''+input.voucher+'\' and effective_date<='+today+' and '+today+'<=expired_date;';
+
+    }
 
     var con = req.db.driver.db;
     con.query(sql, function (err, rows) {
@@ -720,8 +744,60 @@ module.exports.get_voucher = function(req, res){
 
     });
 };
+module.exports.add_voucher = function(req, res){
+    var input=JSON.parse(JSON.stringify(req.body));
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    var year = date.getUTCFullYear();
+    var today = year+''+month+''+day;
+    if(req.session.type == '1'){
+        for (var i = 0 ; i < input.vouchers.split(',').length ; i++){
+            data = {
+                code:input.vouchers.split(',')[i],
+                percent:input.percents.split(',')[i],
+                effective_date:input.effdates.split(',')[i].replace(/-/g,''),
+                expired_date:input.expireddates.split(',')[i].replace(/-/g,''),
+                amount:input.amounts.split(',')[i],
+                min:input.mins.split(',')[i],
+                name:input.names.split(',')[i]
+            }
+            req.models.voucher.create(data, function(err, row2s) {
+                if(err){
+                    data={status:'err',code:'300',description:err};
+                    res.json(data);
+                }else{
+
+                }
+
+            });
+        }
+        data={status:'success',code:'200'};
+        res.json(data);
+    }
+};
 module.exports.voucher = function(req, res){
-    res.render('voucher',data);
+
+    if(req.session.type == '1'){
+
+        var sql ='select * from voucher;';
+        var con = req.db.driver.db;
+        con.query(sql, function (err, rows) {
+            var data = {fname:req.session.firstname
+                ,type:req.session.type
+                ,userid:req.session.user_id
+                ,treefolder:req.session.treefolder
+                ,result:rows};
+            res.render('voucher',data);
+        });
+
+
+    } else {
+        res.redirect('/')
+    }
 };
 module.exports.add_to_payment = function(req, res){
     var input=JSON.parse(JSON.stringify(req.body));

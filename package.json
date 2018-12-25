@@ -9,11 +9,12 @@
 	"dependencies": {
 		"MD5": "*",
 		"connect-redis": "1.4.7",
+		"cookie-parser": "^1.4.3",
 		"dateformat": "*",
 		"ejs": "0.8.5",
 		"ejs-locals": "1.0.2",
 		"excel-export": "*",
-		"express": "3.x",
+		"express": "^3.21.2",
 		"formidable": "^1.2.1",
 		"just-mvc": "*",
 		"mysql": "^2.15.0",

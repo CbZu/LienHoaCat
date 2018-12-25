@@ -193,7 +193,7 @@ module.exports.login=function(req,res){
         }
 
 
-		});
+		});0
 };
     //login
     module.exports.login_admin=function(req,res){

@@ -10,30 +10,178 @@
         </ol>
 
     </div>
-    <div class="container solid-content">
+    <div class="container">
         <h3>Thông tin sản phẩm</h3>
 
         <div id="cartdetail" class = "row">
             <table class="table table-bordered">
                 <thead>
                 <th class="text-right" style="text-align: center;"><h3>Tên voucher</h3></th>
+                <th class="text-right" style="text-align: center;"><h3>Voucher</h3></th>
+                <th class="text-right" style="text-align: center;"><h3>Số Giảm</h3></th>
                 <th class="text-right" style="text-align: center;"><h3>Ngày bắt đầu</h3></th>
                 <th class="text-right" style="text-align: center;"><h3>Ngày kết thúc</h3></th>
                 <th class="text-right" style="text-align: center;"><h3>Số Lượng</h3></th>
                 <th class="text-right" style="text-align: center;"><h3>Giá tối thiểu</h3></th>
-                <!-- <td ><h4 style="text-align: center;">Size</h4></td>
-                <td class="text-right"><h4 style="text-align: center;"></h4></td>
-                <td class="text-right"><h4 style="text-align: center;"></h4></td>
-                <td class="text-right"><h4 style="text-align: center;"></h4></td> -->
+
                 </thead>
+                <tbody class = "body-voucher">
+                <%for (var i = 0 ; i < result.length ; i++){%>
+                    <tr>
+                        <td>
+                            <h4><%=result[i].name%></h4>
+                        </td>
+                        <td>
+                            <h4><%=result[i].code%></h4>
+                        </td>
+                        <td>
+                            <h4><%=result[i].percent%></h4>
+                        </td>
+                        <td>
+                            <h4><%=result[i].effective_date.toString().substring(0,4)+'-'+result[i].effective_date.toString().substring(4,6)+'-'+result[i].effective_date.toString().substring(6,8)%></h4>
+                        </td>
+                        <td>
+                            <h4><%=result[i].expired_date.toString().substring(0,4)+'-'+result[i].expired_date.toString().substring(4,6)+'-'+result[i].expired_date.toString().substring(6,8)%></h4>
+                        </td>
+                        <td>
+                            <h4><%=result[i].amount%></h4>
+                        </td>
+                        <td>
+                            <h4><%=result[i].min%></h4>
+                        </td>
+                    </tr>
+                <%}%>
+                <tr id = 'rowInsertBtn'></tr>
+                </tbody>
             </table>
         </div>
+        <button class="btn btn-success" id="insertBtn" onclick="insert()">+</button>
+        <button class="btn btn-success" id="okBtn" onclick="Add()">OK</button>
+
     </div>
 </div>
 
 
 </body>
+<script>
+    function insert(){
+        var index = 0;
+        var element = " <tr>\n" +
+            "                    <td class=\"text-center\" >\n" +
+            "                        <input  name = 'name-input'  \n" +
+            "                               value=\"\">\n" +
+            "                    </td>\n" +
+            "                    <td class=\"text-center\">\n" +
+            "                        <input class = 'checkCode"+index+"'  name = 'code-input'onkeyup='CheckCode("+index+")' \n" +
+            "                               value=\"\">\n" +
+            "                    </td>\n" +
+            "                    <td class=\"text-center\">\n" +
+            "                        <input  name = 'percent-input'\n" +
+            "                               value=\"\" >\n" +
+            "                    </td>\n" +
+            "                    <td class=\"text-center\">\n" +
+            "                        <input  name = 'effdate-input'\n" +
+            "                             type='date'  value=\"\">\n" +
+            "                    </td>\n" +
+            "                    <td class=\"text-center\">\n" +
+            "                        <input  name = 'expired-input'\n" +
+            "                             type='date'  value=\"\">\n" +
+            "                    </td>\n" +
+            "                    <td>\n" +
+            "                        <input  name = 'amount-input'\n" +
+            "                               value=\"\">\n" +
+            "\n" +
+            "                    </td>\n" +
+            "                    <td>\n" +
+            "                        <input  name = 'min-input'\n" +
+            "                               value=\"\">\n" +
+            "\n" +
+            "                    </td>\n" +
+            "                </tr>";
+        index++;
+        $(element).insertBefore($('#rowInsertBtn'));
+    }
 
+    function CheckCode(idx) {
+        var obj = document.getElementsByName('code-input')[idx];
+        $(".error").remove();
+        $.ajax({
+            type: "POST",
+            url: "./PetMart/get-voucher",
+            data: "mode=check_exist&voucher=" + obj.value,
+            success: function (msg) {
+                //alert(msg);
+                data = msg;
+                if (data.code == '200') {
+                    $( ".checkCode"+idx ).after( "<p class = 'error'>Voucher Tồn Tại</p>" );
+                    document.getElementById('okBtn').disabled = true;
+                } else {
+                    document.getElementById('okBtn').disabled = false;
+                }
+            }
+        });
+
+    }
+    function Add() {
+        var formdata1 = new FormData();
+        var names = new Array();
+        var vouchers = new Array();
+        var effdates = new Array();
+        var expireddates = new Array();
+        var amounts = new Array();
+        var mins = new Array();
+        var percents = new Array();
+
+        /* sizes.push(document.getElementById('prd-id').value);
+         quantities.push(parseInt($("#amount").val()));*/
+
+        for(var i = 0 ; i < document.getElementsByName('name-input').length;i++){
+            names.push(document.getElementsByName('name-input')[i].value);
+        }
+        for(var i = 0 ; i < document.getElementsByName('code-input').length;i++){
+            vouchers.push(document.getElementsByName('code-input')[i].value);
+        }
+        for(var i = 0 ; i < document.getElementsByName('effdate-input').length;i++){
+            effdates.push(document.getElementsByName('effdate-input')[i].value);
+        }
+        for(var i = 0 ; i < document.getElementsByName('expired-input').length;i++){
+            expireddates.push(document.getElementsByName('expired-input')[i].value);
+        }
+        for(var i = 0 ; i < document.getElementsByName('amount-input').length;i++){
+            amounts.push(document.getElementsByName('amount-input')[i].value);
+        }
+        for(var i = 0 ; i < document.getElementsByName('min-input').length;i++){
+            mins.push(document.getElementsByName('min-input')[i].value);
+        }
+        for(var i = 0 ; i < document.getElementsByName('percent-input').length;i++){
+            percents.push(document.getElementsByName('percent-input')[i].value);
+        }
+        formdata1.append('names',names);
+        formdata1.append('vouchers',vouchers);
+        formdata1.append('effdates',effdates);
+        formdata1.append('expireddates',expireddates);
+        formdata1.append('amounts',amounts);
+        formdata1.append('mins',mins);
+        formdata1.append('percents',percents);
+
+        $.ajax({
+            url: "/PetMart/add-voucher",
+            type: 'POST',
+            data: formdata1,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                if(response.code == '200'){
+                    location.reload();
+                }
+            }
+        });
+
+    }
+</script>
 <% include partials/index_Footer.ejs %>
 <script type="text/javascript" src="/js/jquery.js"></script>
 <script type="text/javascript"  src="/js/bootstrap.js"></script>

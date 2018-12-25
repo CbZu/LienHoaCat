@@ -4,6 +4,10 @@ module.exports = function (orm, db) {
         code: {type: 'text'},
         percent: {type: 'number'},
         effective_date: {type: 'number'},
-        expired_date: {type: 'number'}
+        expired_date: {type: 'number'},
+        amount: {type: 'number'},
+        min: {type: 'number'},
+        name: {type: 'text'},
+
     });
 };

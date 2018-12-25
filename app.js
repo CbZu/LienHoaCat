@@ -7,9 +7,8 @@ var config=iniparser.parseSync('./config.ini');
 var fs=require('fs');
 var connection  = require('express-myconnection');
 var upload = require('express-fileupload');
-
+var cookieParser = require('cookie-parser');
 var app=express();
-
 app.use(express.bodyParser({keepExtentions:true}));
 app.use(express.cookieParser());
 app.use(express.cookieSession({
@@ -47,6 +46,7 @@ app.use(function(req,res){
 
 		res.send('File Not Found');
 	});
+app.use(cookieParser());
 http.createServer(app).listen(config.port,function(){
 		console.log('App started on port '+config.port)
 	});
