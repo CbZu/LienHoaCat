@@ -11,22 +11,22 @@
 
     </div>
     <div class="container solid-content">
+        <%if (type == '1'){%>
         <div class="row">
             <div class="col-md-2">
                 <div class="form-group form-group-icon-left">
                     <h3>Status : </h3>
                     <select name="status" id="status">
                         <option value="none" selected>----Selected-----</option>
-                        <option value="0">Đã hủy</option>
-                        <option value="1">Đã Đặt Hàng</option>
-                        <option value="2">Đã Xác Nhận</option>
-                        <option value="3">Đang Giao Hàng</option>
-                        <option value="4">Giao Hàng Thành Công</option>
-                        <option value="5">Đã Thanh Toán</option>
+                       <%for(var i = result[0].status_id ; i < status.length; i++){%>
+                            <option value="<%=i%>" selected><%=status[i]%></option>
+                        <%}%>
                     </select>
                 </div>
             </div>
         </div>
+        <%}%>
+
         <h3>Thông tin sản phẩm</h3>
 
         <div id="cartdetail" class = "row">

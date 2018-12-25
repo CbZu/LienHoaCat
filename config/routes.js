@@ -70,7 +70,7 @@ module.exports = function (app, controllers) {
     app.get('/promote-maintenance', controllers.todo.show_promote);
     app.get('/promote-register', controllers.todo.promote_register);
     app.post('/add-promote', controllers.todo.add_promote);
-    app.get('/edit-promote', controllers.todo.edit_promote);
+    app.get('/edit-promote/:promote_id', controllers.todo.edit_promote);
     app.post('/update-promote', controllers.todo.update_promote);
     app.get('/show-payment', controllers.todo.show_payment);
     app.get('/checkout', controllers.todo.checkout);

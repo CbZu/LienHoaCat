@@ -3,11 +3,14 @@
 <% include partials/index_Header.ejs %>
 <body>
 	<div class="container">
+		<%if(type == '1'){%>
 		<div class="row">
 			<div class="col-md-2">
 				<a href="/payment-detail" class="btn btn-primary">Tạo Đơn Hàng</a>
 			</div>
 		</div>
+		<%}%>
+
 		<div class="row">
             	<div class="col-md-2">
                     <h4 class="booking-item-title">Title</h4>
