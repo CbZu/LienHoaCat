@@ -291,14 +291,14 @@
         $("#plus").click(function(){
             var value = $("#quantity").val();
             value = Number(value) + 1;
-            document.getElementById('quantity') .value = value;
+            document.getElementById('quantity').value = value;
            /* $("#quantity").val(value);*/
             ThanhTien();
         });
         $("#minus").click(function(){
             var value = $("#quantity").val() - 1;
             if (value>=0){
-                document.getElementById('quantity') .value = value;
+                document.getElementById('quantity').value = value;
                /* $("#quantity").val(value);*/
                 ThanhTien();
             }

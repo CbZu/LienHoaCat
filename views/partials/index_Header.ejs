@@ -265,7 +265,7 @@
                         }
                         inner +=  '                            </td>'
                         inner +=  '                            <td class="text-center">\n' +
-                            '                                <input  id = \'quantity\'class="form-control booking-item-title quantity_header" value=' + response.result[i].quantities.split(';')[j] + ' type="number" min="1" max=""  step="1" autocomplete="off" height="100%" width="50%">\n' +
+                            '                                <input  id = \'quantityCart\'class="form-control booking-item-title quantity_header" value=' + response.result[i].quantities.split(';')[j] + ' type="number" min="1" max=""  step="1" autocomplete="off" height="100%" width="50%">\n' +
                             '\n' +
                             '                            </td>\n' +
                             '                            <td class="text-center">\n' +
@@ -304,7 +304,7 @@
             quantities.push(input[i].value);
         }
         formdata1.append('size_id',sizes);
-        formdata1.append('quantity',quantities);
+        formdata1.append('quantityCart',quantities);
         $.ajax({
             url: "/PetMart/update-cart",
             type: 'POST',
