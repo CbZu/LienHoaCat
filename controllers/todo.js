@@ -717,7 +717,7 @@ module.exports.get_voucher = function(req, res){
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
     var today = year+''+month+''+day;
-    if(input.mode = 'check_exist'){
+    if(input.mode == 'check_exist'){
         sql = 'select code from voucher where code = \''+input.voucher+'\'';
     } else {
         sql = 'select percent from voucher where code = \''+input.voucher+'\' and effective_date<='+today+' and '+today+'<=expired_date;';
@@ -734,7 +734,12 @@ module.exports.get_voucher = function(req, res){
             if(rows.length == 0){
                 data = {status: 'not exist', code: '404'};
             }else{
-                var totalAfer = input.total*rows[0].percent/100;
+                if(parseInt(rows[0].percent) > 100){
+                    var totalAfer = input.total - parseInt(rows[0].percent);
+                } else {
+                    var totalAfer = input.total*rows[0].percent/100;
+                }
+
                 data = {status: 'success', code: '200', totalAfter:totalAfer};
             }
 
@@ -853,7 +858,7 @@ module.exports.add_to_payment = function(req, res){
                     '(`user_id`,\n' +
                     '`sum`,\n' +
                     '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`,`ship`,`voucher`)\n' +
-                    'VALUES ('+user+','+Sum+',1,'+parseInt(year+''+month+''+day)+',\'\',\''+input.type+'\','+promotion+','+totalAfterPromot+',\'N\',\''+input.ship+'\',\''+input.voucher+'\')';
+                    'VALUES ('+user+','+Sum+',0,'+parseInt(year+''+month+''+day)+',\'\',\''+input.type+'\','+promotion+','+totalAfterPromot+',\'N\',\''+input.ship+'\',\''+input.voucher+'\')';
                 con.query(sqlIns, function (err, row1s) {
                     if(err){
                         var data = {status: 'error', code: '300',error: err};
@@ -1396,7 +1401,7 @@ module.exports.update_promote_API = function(req, res){
     });
 }
 module.exports.payment_detail = function(req, res){
-    if(req.session.type==1){
+    if(req.session.type != undefined){
         if(req.query.id != undefined) {
             var input = JSON.parse(JSON.stringify(req.body));
             var date = new Date();
@@ -1455,7 +1460,7 @@ module.exports.payment_detail = function(req, res){
                     var data = {status: 'error', code: '300', error: err};
                     res.json(data);
                 } else {
-                    sql = 'select firstname,lastname,phone,email,address from user where user_id = ' + user + ';';
+                    sql = 'select firstname,lastname,phone,email,(select address from places where user_id = '+user+')as address from user where user_id = ' + user + ';';
                     var con = req.db.driver.db;
                     con.query(sql, function (err, row1s) {
                         var totalAll = 0;
@@ -2123,7 +2128,11 @@ module.exports.show_payment=function(req,res){
         if((req.query.statusflt != undefined) && (req.query.statusflt.trim()!='none')){
             where += ' p.status_id = '+req.query.statusflt+' and';
         }
-        if((req.query.createflt != undefined) && (req.query.createflt.trim()!='')){
+        if((req.query.phone != undefined) && (req.query.phone.trim()!='')){
+            where += ' p.user_id = (select user_id from user where phone = \''+req.query.phone+'\') and';
+        }
+
+            if((req.query.createflt != undefined) && (req.query.createflt.trim()!='')){
             var day = req.query.createflt.split('/')[1];
             var month = req.query.createflt.split('/')[0];
             var year = req.query.createflt.split('/')[2];
@@ -2203,7 +2212,9 @@ module.exports.checkout = function(req, res){
                 var totalAll = 0;
                 if(row1s.length > 0) {
                     for(var i = 0 ; i < rows.length ;i++){
-                        totalAll += parseFloat(rows[i].sums);
+                        for(var j = 0 ; j < rows[i].sums.split(';').length ;j++) {
+                            totalAll += parseFloat(rows[i].sums.split(';')[j]);
+                        }
                     }
                     var data = {status: 'success', code: '200',result:rows,fname:req.session.firstname,
                         pic:req.session.pic,

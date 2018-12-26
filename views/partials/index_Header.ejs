@@ -37,13 +37,44 @@
             </form>
         </div>
         <div class="col-xs-2 col-md-1 cursor">
+            <div style="position: relative; ">
+                <div class="col-md-3" style="position: absolute; padding: 0px; top: 0px; right: 0px;">
+                    <div style="position: relative;">
+                        <!--<img src="/img/sale.svg">-->
+                        <h4 id ='cartIcon' style="color: red; position: absolute; top: 0px; text-align: center; padding-left: 0px;background-color: white"></h4>
+                    </div>
+                    <!-- <h4 style="color: white;">-39%</h4>   -->
+                </div>
+            </div>
             <a class="cursor" onclick="GetCart(0)">
                 <img src="/img/cart.png" class="img-responsive cursor" style="max-width: 50px; margin: 15px 0px 15px 0px;">
+
             </a>
         </div>
         <div class="col-xs-4 col-md-2" style="max-width: 150px; margin: 15px 0px 0px 0px;">
             <% if(fname != undefined){ %>
-                <h5>Kính chào <%=fname%>!</h5>
+            <div class="dropdown">
+                <!-- <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: transparent;">
+                <span class="glyphicon glyphicon-th-list"></span> Menu
+                </button> -->
+                <ul class="nav navbar-nav navbar-left sm">
+
+                    <li> <h5>Kính chào <%=fname%>!</h5>
+                        <ul class="dropdown-menu">
+                            <li> <a href="/show-payment"><h4>Đơn Hàng</h4></a>
+                            </li>
+                            <li> <a href="/edit-account"><h4>Chỉnh Sửa Thông Tin</h4></a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+                </ul>
+
+
+            </div>
+
             <% } %>
         </div>
         <div class="col-xs-2 col-md-1" style="max-width: 50px; margin: 15px 0px 15px 0px;">
@@ -201,6 +232,22 @@
 </div>
 
 <script>
+    $.ajax({
+        url: '/PetMart/get-cart',
+        type: 'POST',
+        dataType: 'JSON',
+        async: false,
+        cache: false,
+        contentType: 'application/json; charset=UTF-8',
+        enctype: 'multipart/form-data',
+        processData: false,
+        success: function (response) {
+            document.getElementById('cartIcon').innerText = response.result.length
+        }
+    });
+</script>
+<script>
+
     // Get the modal
     var modal = document.getElementById('id01');
 

@@ -42,15 +42,13 @@ module.exports.signup=function(req,res){
                     '`phone`,\n' +
                     '`firstname`,\n' +
                     '`create_time`,\n' +
-                    '`type_id`,\n' +
-                    '`address`)\n' +
+                    '`type_id`)\n' +
                     'VALUES (\n' +
                     '\''+input.email+'\',\n' +
                     ''+input.phone+',\n' +
                     '\''+input.firstname+'\',\n' +
                     ''+year+''+month+''+day+',\n' +
-                    ''+userType+',\n' +
-                    '\''+input.address+'\');';
+                    ''+userType+');';
                 console.log(sql);
                 con.query(sql, function (err, row1s) {
                     if(err){
@@ -58,8 +56,21 @@ module.exports.signup=function(req,res){
                         data={status:'err',code:'300',description:err};
                         res.json(data);
                     }else{
-                        data={status:'success',code:'200',user_id:row1s.insertId};
-                        res.json(data);
+                        data = {
+                            user_id:row1s.insertId,
+                            address:input.address
+                        }
+                        req.models.places.create(data, function(err, row2s) {
+                            if(err){
+                                data={status:'err',code:'300',description:err};
+                                res.json(data);
+                            }else{
+                                data={status:'success',code:'200',user_id:row1s.insertId};
+                                res.json(data);
+                            }
+
+                        });
+
                     }
                 });
             }
@@ -319,64 +330,87 @@ module.exports.show_account = function(req, res){
     };
 
 module.exports.edit_account = function(req, res){
-    var sql = 'select *,a.city,a.address,a.country  from user u join places a on a.user_id = u.user_id where u.email = \''+req.query.email+'\';'
-    var con = req.db.driver.db;
-    con.query(sql, function (err, rows) {
-        if(!err){
-            data={title:'Edit Account | '+req.session.firstname
-                ,user:rows
-                ,fname:req.session.firstname
-                ,type:req.session.type
-                ,treefolder:req.session.treefolder};
+    if(req.session.type == '1'){
+        var sql = 'select *,a.city,a.address,a.country  from user u join places a on a.user_id = u.user_id where u.email = \''+req.query.email+'\';'
+        var con = req.db.driver.db;
+        con.query(sql, function (err, rows) {
+            if(!err){
+                data={title:'Edit Account | '+req.session.firstname
+                    ,user:rows
+                    ,fname:req.session.firstname
+                    ,type:req.session.type
+                    ,treefolder:req.session.treefolder};
+                res.render('edit_account',data);
+            }else{
+                data={status:'fail',code:'300'};
+            }
+
             res.render('edit_account',data);
-        }else{
-            data={status:'fail',code:'300'};
-        }
 
-        res.render('edit_account',data);
+        });
+    } else {
+        var sql = 'select *,a.city,a.address,a.country  from user u join places a on a.user_id = u.user_id where u.user_id = '+req.session.user_id+';'
+        var con = req.db.driver.db;
+        con.query(sql, function (err, rows) {
+            if(!err){
+                data={title:'Edit Account | '+req.session.firstname
+                    ,user:rows
+                    ,fname:req.session.firstname
+                    ,type:req.session.type
+                    ,treefolder:req.session.treefolder};
+                res.render('edit_account',data);
+            }else{
+                data={status:'fail',code:'300'};
+            }
 
-    });
+            res.render('edit_account',data);
+
+        });
+    }
+
 
     };
 module.exports.save_account = function(req, res){
     var input=JSON.parse(JSON.stringify(req.body));
-        req.models.user.get(input.id,function(err,rows){
-            if(err){
-                console.log(err);
-            }
-            else{
-                var date = new Date();
-                var month = date.getMonth() + 1;
-                month = (month < 10 ? "0" : "") + month;
 
-                var day  = date.getDate();
-                day = (day < 10 ? "0" : "") + day;
-                var year = date.getUTCFullYear();
+    req.models.user.get(input.id,function(err,rows){
+        if(err){
+            console.log(err);
+        }
+        else{
+            var date = new Date();
+            var month = date.getMonth() + 1;
+            month = (month < 10 ? "0" : "") + month;
 
-                var dt_join=Math.round(+new Date()/1000);
-                var birth = input.dob.split("/");
-                var newDOB = birth[2]+birth[1]+birth[0];
-                rows.email   = input.email;
-                rows.phone    = input.phone;
-                rows.firstname    = input.fname;
-                rows.lastname = input.lname;
-                rows.salary=parseFloat(input.salary);
-                rows.type_id = parseInt(input.type);
-                rows.country = input.country;
-                rows.city = input.city;
-                rows.address = input.addr;
-                rows.dob = parseInt(input.dob.replace(/-/g,''));
-                rows.save(data,function(err){
-                    console.log('saved');
-                });
-            }
-            if(req.session.type == 1){
-                res.redirect('/maintenance');
-            }else{
-                res.redirect('/');
-            }
+            var day  = date.getDate();
+            day = (day < 10 ? "0" : "") + day;
+            var year = date.getUTCFullYear();
 
-        });
+            var dt_join=Math.round(+new Date()/1000);
+            var birth = input.dob.split("/");
+            var newDOB = birth[2]+birth[1]+birth[0];
+            rows.email   = input.email;
+            rows.phone    = input.phone;
+            rows.firstname    = input.fname;
+            rows.lastname = input.lname;
+            rows.salary=parseFloat(input.salary);
+            rows.type_id = parseInt(input.type);
+            rows.dob = parseInt(input.dob.replace(/-/g,''));
+            rows.save(data,function(err){
+                console.log('saved');
+
+                var sql = 'update places set address = \''+input.addr+'\' , city = \''+input.city+'\' , country = \''+input.country+'\' where user_id = '+input.id+';'
+                var con = req.db.driver.db;
+                con.query(sql);
+            });
+        }
+
+    });
+    if(req.session.type == 1){
+        res.redirect('/maintenance');
+    }else{
+        res.redirect('/');
+    }
 
 
 };

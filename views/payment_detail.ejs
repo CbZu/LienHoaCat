@@ -16,10 +16,10 @@
             <div class="col-md-2">
                 <div class="form-group form-group-icon-left">
                     <h3>Status : </h3>
-                    <select name="status" id="status">
+                    <select name="status" id="status" class="form-control">
                         <option value="none" selected>----Selected-----</option>
                        <%for(var i = result[0].status_id ; i < status.length; i++){%>
-                            <option value="<%=i%>" selected><%=status[i]%></option>
+                            <option value="<%=i%>" selected><%=status[i]%> </option>
                         <%}%>
                     </select>
                 </div>
@@ -81,9 +81,15 @@
                         <% } %>
                     </td>
                     <td>
-                        <input id="quantity" class="center-block form-control booking-item-title quantity_header"
-                               value="<%= result[i].quantities.split(';')[j].trim() %>" type="number" min="1" max=""
-                               step="1" autocomplete="off" style="width: 50%;">
+                        <%if(type == '1'){%>
+                            <input id="quantity" class="center-block form-control booking-item-title quantity_header"
+                                   value="<%= result[i].quantities.split(';')[j].trim() %>" type="number" min="1" max=""
+                                   step="1" autocomplete="off" style="width: 50%;">
+                        <%} else {%>
+                        <h4 ><%= result[i].quantities.split(';')[j].trim() %></h4>
+
+                        <%}%>
+
 
                     </td>
                   <!--  <td >
@@ -174,12 +180,15 @@
         <h2 id = "totalLabel" class="font-custom currency"><%=totalAll%></h2>
     </div>
     <div class="row">
+        <% if(type == '1'){%>
         <button class="btn btn-info col-sm-2" type="button" onclick="UpdateCart()">
             Cập Nhật Đơn Hàng
         </button>
-        <button onclick="CheckOut()"  class="btn btn-success col-sm-2">
+        <%}%>
+
+        <!--<button onclick="CheckOut()"  class="btn btn-success col-sm-2">
             Thanh Toán
-        </button>
+        </button>-->
     </div>
 </div>
 
@@ -205,6 +214,7 @@
 </body>
 <script>
     $('#status').val("<%=result[0].status_id%>")
+    <% if(type == '1'){%>
     $('#status').change(function (e) {
         var value = document.getElementById('status').value;
         $.ajax({
@@ -220,14 +230,17 @@
         });
 
     });
+    <%}%>
+
 </script>
 <script>
     <%if(result[0].promotion!=0){%>
     document.getElementById("totalLabel").innerHTML = "<label style='text-decoration: line-through'><font color='black'> "+"<%=result[0].paymentSum%>"+"</font></lable><label><font color='red'> -> "+"<%=result[0].paymentTotal%>"+"</lable>";
     <%}%>
-
     document.getElementById("ship<%=result[0].ship%>").style.display = 'block';
     document.getElementById("type<%=result[0].pay_type%>").style.display = 'block';
+    <% if(type == '1'){%>
+
     var type = '';
     var ship = '';
     function Ship(idx){
@@ -467,6 +480,8 @@
         });
 
     }
+    <%}%>
+
 </script>
 <% include partials/index_Footer.ejs %>
 <script type="text/javascript" src="/js/jquery.js"></script>

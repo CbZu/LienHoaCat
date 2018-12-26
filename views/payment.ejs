@@ -37,7 +37,7 @@
                     </td>
 
                     <td class="text-center">
-                        <% if(result[i].discount_prices.split(';')[j] == null || result[i].discount_prices.split(';')[j] == '0') { %>
+                        <% if(result[i].discount_prices == null || result[i].discount_prices.split(';')[j] == null || result[i].discount_prices.split(';')[j] == '0') { %>
 
                         <label style=" text-align: center"><font
                                     color="black"><%= result[i].prices.split(';')[j] %> </font></label>
@@ -128,9 +128,9 @@
         <h4>Phí vận chuyển</h4>
         <div class="row">
             <div class="col-sm-8 form-group has-success has-feedback">
-                <input type="text" class="form-control" onkeyup="CheckVoucher()" id="voucher" placeholder="Mã giảm giá">
+                <input type="text" class="form-control"  id="voucher" placeholder="Mã giảm giá">
             </div>
-            <button class="col-sm-4 btn btn-success">Áp dụng</button>
+            <button class="col-sm-4 btn btn-success" onclick="CheckVoucher()">Áp dụng</button>
         </div>
         <h3>Tổng cộng: </h3>
         <h2 id="totalLabel" class="fa-money"><%= totalAll %></h2>
@@ -211,6 +211,8 @@
                 data = msg;
                 if (data.code == '404') {
                     obj.after("<label class='error'>Voucher Hết Hạn Hoặc Không Tồn Tại</label>");
+                    document.getElementById("totalLabel").innerHTML = "<%= totalAll %>";
+
                 }
                 else {
                     document.getElementById("totalLabel").innerHTML = "<label style='text-decoration: line-through'><font color='black'> <%= totalAll %></font></lable><label><font color='red'> -> " + data.totalAfter + "</lable>";

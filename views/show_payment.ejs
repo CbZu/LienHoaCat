@@ -3,6 +3,64 @@
 <% include partials/index_Header.ejs %>
 <body>
 	<div class="container">
+		<div class="row">
+			<form action = '/show-payment' method = 'get'>
+				<h2><span class="label label-primary">Lọc Sản Phẩm</span></h2>
+				<div class="row">
+					<div class="col-md-3">
+						<div class="form-group">
+							<h3><span class="label label-success">Số điện thoại :</span></h3>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<h3><span class="label label-success">Trạng thái: </span></h3>
+						</div>
+					</div>
+
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<div class="form-group">
+							<input  class=" form-control" name = 'phone' id = 'phone'   type="text" />
+						</div>
+
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<select name="statusflt" id="statusflt" class="form-control">
+								<option value="none" selected="">----Selected-----</option>
+
+								<option value="0" >Đặt hàng </option>
+
+								<option value="1" >Chốt Gửi </option>
+
+								<option value="2">Đang Giao Hàng </option>
+
+								<option value="3" >Thành Công </option>
+
+								<option value="4" >Boom </option>
+
+								<option value="5" >Chuyển Hoàn </option>
+								<option value="6" >Hủy </option>
+
+
+							</select>
+
+						</div>
+					</div>
+
+					<div class="col-md-3">
+						<div class="form-group">
+							<input class="btn btn-primary" value = 'Áp Dụng' type = 'submit'></input>
+						</div>
+
+					</div>
+
+				</div>
+
+			</form>
+		</div>
 		<%if(type == '1'){%>
 		<div class="row">
 			<div class="col-md-2">
@@ -18,7 +76,7 @@
                 <div class="col-md-2">
                     <h4 class="booking-item-title">User</h4>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <h4 class="booking-item-title">Quantity</h4>
                 </div>
                 <div class="col-md-2">
@@ -46,25 +104,12 @@
         						<%= payments[i].name +  ' (' + payments[i].email + ')'%>
         					</p>
         				</div>
-        				<div class="col-md-2">
+        				<div class="col-md-1">
         					<p class="booking-item-description"> <%= payments[i].products %></p>
         				</div>
         				<div class="col-md-2">
-        					<p class="booking-item-description">
-        						<%if(payments[i].status_id == 0) {%>
-        						Đơn hàng đã được hủy
-        						<%} else if(payments[i].status_id == 1) {%>
-        						Đơn hàng được đặt
-        						<%} else if(payments[i].status_id == 2) {%>
-        						Đã xác nhận
-        						<%} else if(payments[i].status_id == 3) {%>
-        						Đang giao hàng
-        						<%} else  if(payments[i].status_id == 4) {%>
-        						Giao hàng thành công
-        						<%} else  if(payments[i].status_id == 5) {%>
-        						Đã thanh toán
-        						<%} %>
-        					</p>
+							<img class="img-responsive" src="/assets/img/status/status<%=payments[i].status_id%>.png">
+
         				</div>
         				<div class="col-md-2">
         					<%= payments[i].total_after_promote%>
