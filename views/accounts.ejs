@@ -114,79 +114,56 @@
         <br/>
         <div class="row">
             <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-2 col-md-offset-1">
-                            <h4 class="booking-item-title" style="text-align: center;">First Name</h4>
-                        </div>
-                        <div class="col-md-2">
-                            <h4 class="booking-item-title" style="text-align: center;">Last Name</h4>
-                        </div>
-                        <div class="col-md-2">
-                            <h4 class="booking-item-title" style="text-align: center;">Email</h4>
-                        </div>
-                        <div class="col-md-2">
-                            <h4 class="booking-item-title" style="text-align: center;">User Name</h4>
-                        </div>
-                        <div class="col-md-2">
-                            <h4 class="booking-item-title" style="text-align: center;">Phone Numb</h4>
-                        </div>
-                    </div>
-                    <% for(i = 0;i < users.length;i++){ %>
-
-                            <div class="row">
-
-                                <div class="row">
-                                    <div class="col-md-2 col-md-offset-1">
-                                        <p class="booking-item-description" style="text-align: center;"><%= users[i].firstname %></p>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <p class="booking-item-description" style="text-align: center;">
-                                            <%= users[i].lastname %>
-
-                                        </p>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <p class="booking-item-description" style="text-align: center;"> <%= users[i].email %></p>
-                                    </div>
-
-                                    <div class="col-md-2">
-                                        <p class="booking-item-description" style="text-align: center;"> <%= users[i].username %></p>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <p class="booking-item-description" style="text-align: center;"><%= users[i].phone %></p>
-                                    </div>
-                                    <div class="col-md-2">
-
-
-
-                                        <table>
-                                            <tr>
-                                                <%if(data.type == 1){%>
-                                                <td>
-                                                    <a class="btn btn-primary" href="/reset-password?id=<%= users[i].user_id%>">Reset Password</a>
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-primary" onclick="GetCart(<%=users[i].user_id%>)">Cart</button>
-                                                </td>
-                                                <td>
-                                                    <a class="btn btn-primary" href="/noti-maintenance?id=<%= users[i].user_id%>">Notification</a>
-                                                </td>
-                                                <td>
-                                                    <a class="booking-item" href="/edit-account?email=<%=users[i].email%>">Edit</a>
-                                                </td>
-                                                <%}%>
-                                            </tr>
-
-                                        </table>
-                                    </div>
-                                </div>
-
-                            </div>
-
-
-                    <% } %>
+                <table class="table table-bordered">
+                    <thead>
+                        <th class="text-right" style="text-align: center;"><h4>Tên</h4></th>
+                        <th class="text-right" style="text-align: center;"><h4>Họ</h4></th>
+                        <th class="text-right" style="text-align: center;"><h4>Email</h4></th>
+                        <th class="text-right" style="text-align: center;"><h4>User name</h4></th>
+                        <th class="text-right" style="text-align: center;"><h4>Số điện thoại</h4></th>
+                        <th class="text-right" style="text-align: center;"><h4>Admin</h4></th>
+                    </thead>
+                    <tbody>
+                        <% for(i = 0;i < users.length;i++){ %>
+                        
+                            <tr>
+                                <td>
+                                    <%= users[i].firstname %>
+                                </td>
+                                <td>
+                                    <%= users[i].lastname %>
+                                </td>
+                                <td>
+                                    <%= users[i].email %>
+                                </td>
+                                <td>
+                                    <%= users[i].username %>
+                                </td>
+                                <td>
+                                    <%= users[i].phone %>
+                                </td>
+                                <td>
+                                    <%if(data.type == 1){%>
+                                    <!-- <td>
+                                        <a class="btn btn-primary" href="/reset-password?id=<%= users[i].user_id%>">Reset Password</a>
+                                    </td> -->
+                                    <button class="btn btn-primary" onclick="GetCart(<%=users[i].user_id%>)">Cart</button>
+<!--                                <td>
+                                        <a class="btn btn-primary" href="/noti-maintenance?id=<%= users[i].user_id%>">Notification</a>
+                                    </td> -->                                                
+                                    <a class="booking-item" href="/edit-account?email=<%=users[i].email%>"><button class="btn btn-primary">Edit</button></a>
+                                    <%}%>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-2">
+                
             </div>
         </div>
+
         <div class="gap"></div>
     </div>
 

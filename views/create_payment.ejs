@@ -141,11 +141,29 @@
     function Ship(idx) {
         ship = idx;
         document.getElementById("ship").value = idx;
+        var dilivery = document.getElementsByClassName("dilivery");
+        for (i=0; i<dilivery.length; i++){
+            var ind = i+1;
+            if (ind==ship){
+                dilivery[i].className += " selected";
+            } else{
+                dilivery[i].className = "dilivery";
+            }
+        }
     }
 
     function Type(idx) {
         type = idx;
         document.getElementById("type").value = idx;
+        var dilivery = document.getElementsByClassName("type-payment");
+        for (i=0; i<dilivery.length; i++){
+            var ind = i+1;
+            if (ind==type){
+                dilivery[i].className += " selected";
+            } else{
+                dilivery[i].className = "type-payment";
+            }
+        }
     }
 
     function CheckPhone() {

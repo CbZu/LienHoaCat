@@ -68,7 +68,43 @@
 			</div>
 		</div>
 		<%}%>
-
+        <br>
+        <!-- <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered">
+                    <thead>
+                        <th class="text-right" style="text-align: center;"><h4>Tiêu đề</h4></th>
+                        <th class="text-right" style="text-align: center;"><h4>User</h4></th>
+                        <th class="text-right" style="text-align: center;"><h4>Số lượng</h4></th>
+                        <th class="text-right" style="text-align: center;"><h4>Status</h4></th>
+                        <th class="text-right" style="text-align: center;"><h4>Tổng</h4></th>
+                        <th class="text-right" style="text-align: center;"><h4>Ngày tạo</h4></th>
+                    </thead>
+                </table>
+                <% for(i = 0;i < payments.length;i++){ %>
+                    <tr>
+                        <td>
+                            <%= payments[i].title %>
+                        </td>
+                        <td>
+                            <%= payments[i].name +  ' (' + payments[i].email + ')'%>
+                        </td>
+                        <td>
+                            <%= payments[i].products %>
+                        </td>
+                        <td>
+                            <img class="img-responsive" src="/assets/img/status/status<%=payments[i].status_id%>.png">
+                        </td>
+                        <td>
+                            <%= payments[i].total_after_promote%>
+                        </td>
+                        <td>
+                            <%=payments[i].date%>
+                        </td>
+                    </tr>
+                <% } %> 
+            </div>
+        </div> -->
 		<div class="row">
             	<div class="col-md-2">
                     <h4 class="booking-item-title">Title</h4>

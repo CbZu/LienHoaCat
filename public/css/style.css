@@ -5,6 +5,9 @@ body { font-family: Cambria; }
 a:hover{
     text-decoration: none;
 }
+.menu-hover:hover{
+    background-color: #da2f58;
+}
 .nav-hover:hover{
     background-color: transparent;
 }
