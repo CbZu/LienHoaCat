@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `lhc`.`category` (
   `cat_name` VARCHAR(255) character set utf8 NOT NULL,
   `image` VARCHAR(255) NULL,
   PRIMARY KEY (`cat_id`),
-  UNIQUE INDEX `cat_name_UNIQUE` (`citycat_name` ASC));
+  UNIQUE INDEX `cat_name_UNIQUE` (`cat_id` ASC));
 
 CREATE TABLE IF NOT EXISTS `lhc`.`treefolder` (
   `folder_id` INT NOT NULL AUTO_INCREMENT,

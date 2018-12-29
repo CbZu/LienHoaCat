@@ -97,23 +97,7 @@
     </div>
     <div class="container">
         <%for(var i = 0 ; i < treefolder.length ;i++){%>
-        <%if(treefolder[i].folder_name == 'Khuyến Mãi'){%>
-        <div class="dropdown">
-            <!-- <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: transparent;">
-            <span class="glyphicon glyphicon-th-list"></span> Menu
-            </button> -->
-            <ul class="nav navbar-nav navbar-left sm">
 
-                <li> <a href="/promotions" ><h4><font color="black"><%=treefolder[i].folder_name%></font></h4></a>
-
-                </li>
-
-
-            </ul>
-
-
-        </div>
-        <%} else {%>
         <div class="dropdown">
             <!-- <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: transparent;">
             <span class="glyphicon glyphicon-th-list"></span> Menu
@@ -135,7 +119,7 @@
 
         </div>
 
-        <%}}%>
+        <%}%>
         <div class="dropdown">
             <ul class="nav navbar-nav navbar-left sm">
 
@@ -144,6 +128,21 @@
 
 
             </ul>
+        </div>
+        <div class="dropdown">
+            <!-- <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: transparent;">
+            <span class="glyphicon glyphicon-th-list"></span> Menu
+            </button> -->
+            <ul class="nav navbar-nav navbar-left sm">
+
+                <li> <a href="/promotions" ><h4><font color="black">Khuyến Mãi</font></h4></a>
+
+                </li>
+
+
+            </ul>
+
+
         </div>
         <%if(type == '1'){%>
         <div class="dropdown">

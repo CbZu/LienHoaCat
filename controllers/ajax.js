@@ -391,15 +391,15 @@ exports.addProduct=function(req,res){
         var path = '';
         if(req.files.upfiles.length == undefined){
             path = req.files.upfiles.path;
-            avas = req.files.upfiles.path.split("\\")[ req.files.upfiles.path.split("\\").length-1];
+            avas = req.files.upfiles.path.split("/")[ req.files.upfiles.path.split("/").length-1];
         } else{
             for(j = 0 ; j < req.files.upfiles.length ; j++){
                 if(path == ''){
                     path = req.files.upfiles[j].path;
-                    avas = req.files.upfiles[j].path.split("\\")[ req.files.upfiles[j].path.split("\\").length-1];
+                    avas = req.files.upfiles[j].path.split("/")[ req.files.upfiles[j].path.split("/").length-1];
                 }else{
                     path += ';' +  req.files.upfiles[j].path;
-                    avas += ';' +  req.files.upfiles[j].path.split("\\")[ req.files.upfiles[j].path.split("\\").length-1];
+                    avas += ';' +  req.files.upfiles[j].path.split("/")[ req.files.upfiles[j].path.split("/").length-1];
                 }
             }
         }
@@ -517,7 +517,7 @@ exports.addProductImages=function(req,res){
 
     var path = req.files.images.path;
         var img = '';
-        img=req.files.images.path.split("\\")[ req.files.images.path.split("\\").length-1];
+        img=req.files.images.path.split("/")[ req.files.images.path.split("/").length-1];
         var data={status:'success',code:'400',path:path,image:img};
         res.json(data);
 

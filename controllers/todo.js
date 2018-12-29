@@ -193,8 +193,10 @@ module.exports.remove = function(req, res){
     var i = 0;
     input.path.split(';').forEach(function (element){
         var oldpath = element;
-        var newpath = __dirname.replace(__dirname.split('\\')[__dirname.split('\\').length-1],'public\\assets\\img\\'+oldpath.split("\\")[ oldpath.split("\\").length-1]);
-        console.log(__dirname.replace(__dirname.split('\\')[__dirname.split('\\').length-1],'public\\assets\\img\\'+oldpath.split("\\")[ oldpath.split("\\").length-1]));
+        var newpath = __dirname.replace(__dirname.split('/')[__dirname.split('/').length-1],'public/assets/img/'+oldpath.split("/")[ oldpath.split("/").length-1]);
+        console.log(oldpath);
+        console.log(newpath);
+        console.log(__dirname.replace(__dirname.split('/')[__dirname.split('/').length-1],'public/assets/img/'+oldpath.split("/")[ oldpath.split("/").length-1]));
         fs.readFile(oldpath, function (err, data) {
             if (err) throw err;
             console.log('File read!');
@@ -204,13 +206,14 @@ module.exports.remove = function(req, res){
                 if (err) throw err;
 
                 console.log('File written!');
+                // Delete the file
+                fs.unlink(oldpath, function (err) {
+                    if (err) throw err;
+                    console.log('File deleted!');
+                });
             });
 
-// Delete the file
-            fs.unlink(oldpath, function (err) {
-                if (err) throw err;
-                console.log('File deleted!');
-            });
+
         });
         i++;
     });
@@ -1928,8 +1931,11 @@ module.exports.add_promote=function(req,res){
     var i = 0;
 
         var oldpath = req.files.newImg.path;
-        var newpath = __dirname.replace(__dirname.split('\\')[__dirname.split('\\').length-1],'public\\assets\\img\\'+oldpath.split("\\")[ oldpath.split("\\").length-1]);
-        console.log(__dirname.replace(__dirname.split('\\')[__dirname.split('\\').length-1],'public\\assets\\img\\'+oldpath.split("\\")[ oldpath.split("\\").length-1]));
+        var newpath = __dirname.replace(__dirname.split('/')[__dirname.split('/').length-1],'public/assets/img/'+oldpath.split("/")[ oldpath.split("/").length-1]);
+    console.log(__dirname);
+    console.log(oldpath);
+    console.log(newpath);
+        console.log(__dirname.replace(__dirname.split('/')[__dirname.split('/').length-1],'public/assets/img/'+oldpath.split("/")[ oldpath.split("/").length-1]));
         fs.readFile(oldpath, function (err, data) {
             if (err) throw err;
             console.log('File read!');
@@ -1939,13 +1945,14 @@ module.exports.add_promote=function(req,res){
                 if (err) throw err;
 
                 console.log('File written!');
+                // Delete the file
+                fs.unlink(oldpath, function (err) {
+                    if (err) throw err;
+                    console.log('File deleted!');
+                });
             });
 
-// Delete the file
-            fs.unlink(oldpath, function (err) {
-                if (err) throw err;
-                console.log('File deleted!');
-            });
+
         });
 
 
@@ -1958,7 +1965,7 @@ module.exports.add_promote=function(req,res){
         description:input.description,
         effective_date:input.effdate.replace(/-/g,''),
         expired_date:input.expiredDate.replace(/-/g,''),
-        image:req.files.newImg.path.split("\\")[ req.files.newImg.path.split("\\").length-1],
+        image:req.files.newImg.path.split('/')[req.files.newImg.path.split('/').length-1],
         user_id:0,
         seen_flag:'N'
     };
