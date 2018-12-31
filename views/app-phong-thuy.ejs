@@ -11,7 +11,7 @@
 				Xin quý vị vui lòng nhập năm sinh (âm lịch) vào khung bên dưới:
     		</p> -->
     		<form class="" role="search" style="position: absolute; top: 40%; left: 10%" action="/app-work" method="POST">
-    			<input name="year" type="text" class="form-control" placeholder="Năm sinh" style="border: double; background-color: transparent; color: black; font-size: 40px; min-height: 100px; max-width: 320px; border-radius:10px;">
+    			<input name="year" type="text" class="form-control" placeholder="Năm sinh" style="border: double; background-color: transparent; color: black; font-size: 40px; min-height: 100px; max-width: 320px; border-radius:10px;" required>
                 </input>
     			<br>
                 <div class="col-md-8">
@@ -25,7 +25,7 @@
     	<div class="row" style="position: relative;">
     		<img class="img-responsive" src="assets/img/app-out.jpg" >
     		<div class="row" style="position: absolute; top: 150px; left: 15%;">
-    			<p style="font-size: 70px;padding-left: 15px;"><b><%=year %></b></p>
+    			<p style="font-size: 70px;padding-left: 15px; font-family: arial;"><b><%=year %></b></p>
     		</div>
     	</div>
         <div class="row">
@@ -45,7 +45,7 @@
             </div>
             <div class=".col-xs-12 col-md-8">
                 <p style="font-size: 100px; text-align: center;">
-                    Tuổi:<br> <b><%=tuoi%></b>
+                    Tuổi:<br> <b id="tuoi"><%=tuoi%></b>
                 </p>
             </div>
         </div>
@@ -75,6 +75,103 @@
     </div>
 </body>
 <% include partials/index_Footer.ejs %>
+<script type="text/javascript">
+    var tuoi = document.getElementById('tuoi').innerHTML;
+    var tuois = tuoi.split(" ");
+    switch (tuois[0]){
+        case 'CANH' : {
+            tuois[0] = 'CANH';
+            break;
+        }
+        case 'TAN' : {
+            tuois[0] = 'TÂN';
+            break;
+        }
+        case 'NHAM' : {
+            tuois[0] = 'NHÂM';
+            break;
+        }
+        case 'QUY' : {
+            tuois[0] = 'QUÝ';
+            break;
+        }
+        case 'GIAP' : {
+            tuois[0] = 'GIÁP';
+            break;
+        }
+        case 'AT' : {
+            tuois[0] = 'ẤT';
+            break;
+        }
+        case 'BINH' : {
+            tuois[0] = 'BÍNH';
+            break;
+        }
+        case 'DINH' : {
+            tuois[0] = 'ĐINH';
+            break;
+        }
+        case 'MAU' : {
+            tuois[0] = 'MẬU';
+            break;
+        }
+        case 'KY' : {
+            tuois[0] = 'KỶ';
+            break;
+        }
+    }
+    switch (tuois[1]){
+        case 'TI' : {
+            tuois[1] = 'TÝ';
+            break;
+        }
+        case 'SUU' : {
+            tuois[1] = 'SỬU';
+            break;
+        }
+        case 'DAN' : {
+            tuois[1] = 'DẦN';
+            break;
+        }
+        case 'MAO' : {
+            tuois[1] = 'MÃO';
+            break;
+        }
+        case 'THIN' : {
+            tuois[1] = 'THÌN';
+            break;
+        }
+        case 'TY' : {
+            tuois[1] = 'TỴ';
+            break;
+        }
+        case 'NGO' : {
+            tuois[1] = 'NGỌ';
+            break;
+        }
+        case 'MUI' : {
+            tuois[1] = 'MÙI';
+            break;
+        }
+        case 'THAN' : {
+            tuois[1] = 'THÂN';
+            break;
+        }
+        case 'DAU' : {
+            tuois[1] = 'DẬU';
+            break;
+        }
+        case 'TUAT' : {
+            tuois[1] = 'TUẤT';
+            break;
+        }
+        case 'HOI' : {
+            tuois[1] = 'HỢI';
+            break;
+        }
+    }
+    document.getElementById('tuoi').innerHTML = tuois[0] + ' ' +tuois[1];
+</script>
 </html>
 
 

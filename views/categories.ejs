@@ -14,16 +14,16 @@
         </div>
         <div class="col-md-8">
             <label class="checkbox-inline">
-                <input type="checkbox" class="phuongthucvanchuyen" id="0" value="ghtk"> Giao hàng tiết kiệm
+                <input type="checkbox" class="phuongthucvanchuyen" id="vanchuyen0" value="ghtk"> Giao hàng tiết kiệm
             </label>
             <label class="checkbox-inline">
-                <input type="checkbox" class="phuongthucvanchuyen" id="1" value="bd"> Bưu điện (VN POST)
+                <input type="checkbox" class="phuongthucvanchuyen" id="vanchuyen1" value="bd"> Bưu điện (VN POST)
             </label>
             <label class="checkbox-inline">
-                <input type="checkbox" class="phuongthucvanchuyen" id="2" value="vtp"> Viettel POST
+                <input type="checkbox" class="phuongthucvanchuyen" id="vanchuyen2" value="vtp"> Viettel POST
             </label>
             <label class="checkbox-inline">
-                <input type="checkbox" class="phuongthucvanchuyen"  id="3" value="ghn"> Giao Hàng Nhanh
+                <input type="checkbox" class="phuongthucvanchuyen"  id="vanchuyen3" value="ghn"> Giao Hàng Nhanh
             </label>
         </div>
     </div>
@@ -163,7 +163,40 @@
 <script type="text/javascript" src="assets/js/wow.min.js"></script>
 <script type="text/javascript" src="assets/js/owl.carousel.min.js"></script>
 <script>
-
+    var transportMethod = "<%=setting[0].transportMethod%>".split(";");
+    var paymentMethod = "<%=setting[0].paymentMethod%>".split(";");
+    var freeShip = <%=setting[0].freeShip%>;
+    var defaultShip = <%=setting[0].defaultShip%>;
+    for (i=0; i<transportMethod.length; i++){
+        if (transportMethod[i] == "ghtk"){
+            document.getElementById("vanchuyen0").checked = true;
+        }
+        if (transportMethod[i] == "bd"){
+            document.getElementById("vanchuyen1").checked = true;
+        }
+        if (transportMethod[i] == "vtp"){
+            document.getElementById("vanchuyen2").checked = true;
+        }
+        if (transportMethod[i] == "ghn"){
+            document.getElementById("vanchuyen3").checked = true;
+        }
+    }
+    for (i=0; i<paymentMethod.length; i++){
+        if (paymentMethod[i] == "tm"){
+            document.getElementById("0").checked = true;
+        }
+        if (paymentMethod[i] == "COD"){
+            document.getElementById("1").checked = true;
+        }
+        if (paymentMethod[i] == "ck"){
+            document.getElementById("2").checked = true;
+        }
+        if (paymentMethod[i] == "ttd"){
+            document.getElementById("3").checked = true;
+        }
+    }
+    document.getElementById("freeship").value = freeShip;
+    document.getElementById("shipdefault").value = defaultShip;
     $("form").submit(function (evt) {
         evt.preventDefault();
         var formData = new FormData($(this)[0]);

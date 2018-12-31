@@ -1775,8 +1775,11 @@ module.exports.maintenance_cat = function(req, res){
                     '(select folder_name from treefolder where folder_id = c.folder_id) as folder_name\n' +
                     'from lhc.category c order by folder_id asc';
                 con.query(sql, function (err, row1s) {
-                    var data = {status: 'success', code: '200',tree:rows, result:row1s,fname:req.session.firstname,type:req.session.type,treefolder:req.session.treefolder};
-                    res.render('categories',data);
+                    sql = 'select * from lhc.settingshop';
+                    con.query(sql, function (err, row1set) {
+                        var data = {status: 'success', code: '200', setting:row1set, tree:rows, result:row1s,fname:req.session.firstname,type:req.session.type,treefolder:req.session.treefolder};
+                        res.render('categories',data);
+                    });
                 });
 
             }
