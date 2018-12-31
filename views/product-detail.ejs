@@ -6,7 +6,8 @@
     <div class="row ">
         <ol class="breadcrumb">
             <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a
-                    href="/maintenance-prd/<%= result[0].catflt.replace(/ /g,'-')%>"> <%= result[0].catflt %></a> / <a href="#">Tạo
+                    href="/maintenance-prd/<%= result[0].catflt.replace(/ /g, '-') %>"> <%= result[0].catflt %></a> / <a
+                    href="#">Tạo
                 Sản Phẩm</a>
         </ol>
 
@@ -14,26 +15,29 @@
     <div class="row product-info thumbnail">
         <div class="col-md-4 col-md-offset-1">
             <div class="row">
-                    <div class="col-md-2" style="position: absolute; background-color: #cf69f9; opacity: 1; z-index: 10;">
-                        <h4 style="color: white;">MỚI</h4>
-                    </div>
-                    <div class="col-md-4 col-md-offset-2" style="position: absolute; background-color: #69d9f9;  z-index: 10;">
-                        <h4 style="color: white;">FREESHIP</h4>
-                    </div>
+                <div class="col-md-2" style="position: absolute; background-color: #cf69f9; opacity: 1; z-index: 10;">
+                    <h4 style="color: white;">MỚI</h4>
+                </div>
+                <div class="col-md-4 col-md-offset-2"
+                     style="position: absolute; background-color: #69d9f9;  z-index: 10;">
+                    <h4 style="color: white;">FREESHIP</h4>
+                </div>
+                <% for(j = 0;j < image[0].url.split(";").length;j++){ %>
+                <div class="Slide-product">
+                    <img onclick="zoomImg()" class="list-image img-responsive fade"
+                         src="/assets/img/<%= image[0].url.split(";")[j] %>" alt="">
+                </div>
+                <% } %>
+                <div style="position: relative;">
                     <% for(j = 0;j < image[0].url.split(";").length;j++){ %>
-                    <div class="Slide-product">
-                        <img onclick="zoomImg()"  class="list-image img-responsive fade" src="/assets/img/<%=image[0].url.split(";")[j]%>" alt="">
+                    <div class="" style="float: left; width: 25%;">
+                        <img onclick="currentSlide(<%= j+1 %>)" class="img-responsive cursor item-product-detail"
+                             src="/assets/img/<%= image[0].url.split(";")[j] %>" alt="image">
                     </div>
                     <% } %>
-                    <div style="position: relative;">
-                        <% for(j = 0;j < image[0].url.split(";").length;j++){ %>                    
-                        <div class="" style="float: left; width: 25%;">
-                            <img  onclick="currentSlide(<%=j+1%>)" class="img-responsive cursor item-product-detail" src="/assets/img/<%=image[0].url.split(";")[j]%>" alt="image">
-                        </div>
-                        <% } %>
-                        <a class="prev" onclick="plusSlides(-1)">❮</a>
-                        <a class="next" onclick="plusSlides(1)">❯</a>
-                    </div>
+                    <a class="prev" onclick="plusSlides(-1)">❮</a>
+                    <a class="next" onclick="plusSlides(1)">❯</a>
+                </div>
             </div>
             <div id="myModal" class="modal">
                 <span id="closeImg" class="close">&times;</span>
@@ -42,45 +46,55 @@
         </div>
         <div class="col-md-6">
             <div class="row">
-                    <div class="col-md-6">
-                        <h2 style="margin: 5px;"><b><%=result[0].name%></b></h2>
-                    </div>
-                    <div class="col-md-4 col-md-offset-2">
-                        <h3 style="margin: 10px;">Mã SP: <a href="#" style="color: red;"><%= result[0].code %></a></h3>
-                    </div>
-            </div>
-            <div class="row">
-                <div class="col-md-10">            
-                        <h4 style="color: #2b70fc;">Hợp với mệnh: <a href="#" style="color: black;"><%=result[0].menh.substring(0,result[0].menh.length-1).replace(/;/g,',')%></a></h4>
-                        <h4 style="color: #2b70fc;">Hợp với tuổi: <a href="#" style="color: black;"><%=result[0].tuoi.substring(0,result[0].tuoi.length-1).replace(/;/g,',')%></a></h4>
-                        <h4 style="color: #2b70fc;">Hợp với màu: <a href="#" style="color: black;"><%=result[0].mau.substring(0,result[0].mau.length-1).replace(/;/g,',')%></a></h4>
+                <div class="col-md-6">
+                    <h2 style="margin: 5px;"><b><%= result[0].name %></b></h2>
+                </div>
+                <div class="col-md-4 col-md-offset-2">
+                    <h3 style="margin: 10px;">Mã SP: <a href="#" style="color: red;"><%= result[0].code %></a></h3>
                 </div>
             </div>
             <div class="row">
-                    <div class="col-md-6 col-md-offset-3">
-                        <div style="position: relative;">
-                            <select class="form-control" id="idselect" onchange="optionSelected()">
-                                <% for(i = 0;i < result.length;i++){ %>
-                                <option onclick="optionSelected(<%=result[i].product_id%>)" class="dropdown-content1" value="<%=result[i].product_id%>"><%=result[i].size%></option>
-                                <% } %>
-                            </select>
-                        </div>                   
+                <div class="col-md-10">
+                    <h4 style="color: #2b70fc;">Hợp với mệnh: <a href="#"
+                                                                 style="color: black;"><%= result[0].menh.substring(0, result[0].menh.length - 1).replace(/;/g, ',') %></a>
+                    </h4>
+                    <h4 style="color: #2b70fc;">Hợp với tuổi: <a href="#"
+                                                                 style="color: black;"><%= result[0].tuoi.substring(0, result[0].tuoi.length - 1).replace(/;/g, ',') %></a>
+                    </h4>
+                    <h4 style="color: #2b70fc;">Hợp với màu: <a href="#"
+                                                                style="color: black;"><%= result[0].mau.substring(0, result[0].mau.length - 1).replace(/;/g, ',') %></a>
+                    </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div style="position: relative;">
+                        <select class="form-control" id="idselect" onchange="optionSelected()">
+                            <% for(i = 0;i < result.length;i++){ %>
+                            <option onclick="optionSelected(<%= result[i].product_id %>)" class="dropdown-content1"
+                                    value="<%= result[i].product_id %>"><%= result[i].size %></option>
+                            <% } %>
+                        </select>
                     </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-xs-12">
-                            <h2 class="currency" style="color: red; font-weight: bold; float: left;" id ="dictprice" value = '0'>210.000</h2><h2><a href="" style="font-weight: normal; color: #6b6b6c;">&nbspVNĐ</a></h2>
+                            <h2 class="currency" style="color: red; font-weight: bold; float: left;" id="dictprice"
+                                value='0'>210.000</h2>
+                            <h2><a href="" style="font-weight: normal; color: #6b6b6c;">&nbspVNĐ</a></h2>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
-                            <%if(result[0].disct_price != null && result[0].disct_price != 0){%>
-                            <h3 style="color:  #6b6b6c; float: left;">Giá cũ là &nbsp</h3>
-                            <%}%>
-                            <h3 class="currency" style="color:  #6b6b6c; text-decoration: line-through;" id="price"></h3>
-                        </div>                        
+                            <% if(result[0].disct_price != null && result[0].disct_price != 0){ %>
+                            <h3 style="color:  #6b6b6c; float: left;">Giá cũ là </h3>
+                            <% } %>
+                            <h3 class="currency" style="color:  #6b6b6c; text-decoration: line-through;"
+                                id="price"></h3>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-5 col-md-offset-1">
@@ -91,35 +105,42 @@
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button" id="minus">-</button>
                                 </span>
-                                <input class="form-control" id="quantity" style="font-weight: bold; font-size: 200%; text-align: center;">
+                                <input class="form-control" id="quantity"
+                                       style="font-weight: bold; font-size: 200%; text-align: center;" value="0">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button" id="plus">+</button>
                                 </span>
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
-                    <h4 style="color: #6b6b6c; font-style: italic;">Thành tiền: <a href="" style="color: red; font-style: italic" id = "thanhtien">0</a> vnđ</h4>
-                </div>                
+                    <h4 style="color: #6b6b6c; font-style: italic;">Thành tiền: <a href=""
+                                                                                   style="color: red; font-style: italic"
+                                                                                   id="thanhtien">0</a> vnđ</h4>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-4 col-md-offset-2">
-                    <button class="button-image"><img src="/img/muangay.svg" class="img-responsive" onclick=""></button>                   
+                    <button class="button-image"><img src="/img/muangay.svg" class="img-responsive" onclick=""></button>
                 </div>
                 <div class="col-md-4 ">
-                    <button class="button-image"><img src="/img/themvaogio.svg" class="img-responsive" onclick="AddCart()"></button>                
+                    <button class="button-image"><img src="/img/themvaogio.svg" class="img-responsive"
+                                                      onclick="AddCart()"></button>
                 </div>
             </div>
             <div class="row" style="position: relative;">
-                <div class="col-md-8" >
-                    <div style="background-color: #f3e6e6; min-height: 100px;">Thông tin thêm nếu có nền không có màu.</div>                    
+                <div class="col-md-8">
+                    <div style="background-color: #f3e6e6; min-height: 100px;" id="information">Không có thông tin
+                        thêm
+                    </div>
                 </div>
                 <div class="col-md-4">
-                    <a href="/maintenance-prd/<%= result[0].catflt.replace(/ /g,'-')%>" class="button-image" style="position: absolute; right: 0px; top: 30px;">
+                    <a href="/maintenance-prd/<%=(keyword=='undefine'||keyword.trim()=='')?result[0].catflt.replace(/ /g, '-'):'Search?'+keyword %>" class="button-image"
+                       style="position: absolute; right: 0px; top: 30px;">
                         <img src="/img/xemthem.svg">
                     </a>
                 </div>
@@ -132,7 +153,7 @@
         <br>
         <br>
         <div class="col-xs-12">
-            <p id = 'descriptionArea' name = 'descriptionArea' >
+            <p id='descriptionArea' name='descriptionArea'>
             </p>
         </div>
     </div>
@@ -141,8 +162,8 @@
 <% include /partials/index_Footer.ejs %>
 
 <script>
-    var  element = '<%=description%>';
-    var str  = element.replace(/&#39;/g, "\"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g,"\"");
+    var element = '<%= description %>';
+    var str = element.replace(/&#39;/g, "\"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, "\"");
 
     document.getElementById('descriptionArea').innerHTML = str;
 
@@ -150,31 +171,32 @@
 </script>
 <script>
 
-    function AddCart(idx){
+    function AddCart(idx) {
         var formdata1 = new FormData();
         var sizes = new Array();
         var quantities = new Array();
-       var input = document.getElementsByClassName('booking-item-title size_id');
+        var input = document.getElementsByClassName('booking-item-title size_id');
         sizes.push(document.getElementById('idselect').value);
         quantities.push(parseInt($("#quantity").val()));
-        formdata1.append('size_id',sizes);
-        formdata1.append('quantity',quantities);
-                $.ajax({
-                    url: "/PetMart/add-to-cart",
-                    type: 'POST',
-                    dataType : 'JSON',
-                    data: JSON.stringify({size_id:sizes,quantity:quantities}),
-                    async: false,
-                    cache: false,
-                    contentType: 'application/json; charset=UTF-8',
-                    enctype: 'multipart/form-data',
-                    processData: false,
-                    success: function (response) {
-                        alert('success');
-                        $("#quantity").val('1');
-                        ThanhTien();
-                    }
-                });
+        formdata1.append('size_id', sizes);
+        formdata1.append('quantity', quantities);
+        $.ajax({
+            url: "/PetMart/add-to-cart",
+            type: 'POST',
+            dataType: 'JSON',
+            data: JSON.stringify({size_id: sizes, quantity: quantities}),
+            async: false,
+            cache: false,
+            contentType: 'application/json; charset=UTF-8',
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                alert('success');
+                $("#quantity").val('1');
+                ThanhTien();
+                location.reload();
+            }
+        });
     }
 </script>
 
@@ -198,108 +220,126 @@
         var captionText = document.getElementById("caption");
         var listImg = document.getElementsByClassName("list-image");
 
-        if (n > slides.length) {slideIndex = 1}
-            if (n < 1) {slideIndex = slides.length}
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-                listImg[i].id = "";
-            }
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" active", "");
-            }
-            slides[slideIndex-1].style.display = "block";
-            listImg[slideIndex-1].id = "myImg";
-            dots[slideIndex-1].className += " active";
+        if (n > slides.length) {
+            slideIndex = 1
+        }
+        if (n < 1) {
+            slideIndex = slides.length
+        }
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+            listImg[i].id = "";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex - 1].style.display = "block";
+        listImg[slideIndex - 1].id = "myImg";
+        dots[slideIndex - 1].className += " active";
     }
-    function zoomImg(){    
+
+    function zoomImg() {
         var modal = document.getElementById("myModal");
         var img = document.getElementById('myImg');
         var modalImg = document.getElementById("img01");
         /*$(".list-image")*/
-        $(".Slide-product").on('click', function (){
+        $(".Slide-product").on('click', function () {
             modal.style.display = "block";
-            modalImg.src = img.src; 
+            modalImg.src = img.src;
         });
         var span = document.getElementById("closeImg");
-        span.onclick = function() { 
+        span.onclick = function () {
             modal.style.display = "none";
         }
-}
+    }
 </script>
 <!-- quantity -->
 <script type="text/javascript">
 
-        <%if(result[0].disct_price == null || result[0].disct_price == 0){%>
-        $("#dictprice").html('<%=result[0].price%>');
-        document.getElementById('dictprice').value = '<%=result[0].price%>';
-        $("#price").html('');
-        <%} else {%>
-        $("#dictprice").html('<%=result[0].disct_price%>');
-        $("#price").html('<%=result[0].price%>');
-        document.getElementById('dictprice').value = '<%=result[0].disct_price%>'
-        <%}%>
+    <% if(result[0].disct_price == null || result[0].disct_price == 0){ %>
+    $("#dictprice").html('<%= result[0].price %>');
+    document.getElementById('dictprice').value = '<%= result[0].price %>';
+    $("#price").html('');
+    <% } else { %>
+    $("#dictprice").html('<%= result[0].disct_price %>');
+    $("#price").html('<%= result[0].price %>');
+    document.getElementById('dictprice').value = '<%= result[0].disct_price %>'
+    <% } %>
+    document.getElementById('information').innerHTML = '<%= result[0].information %>'
 
 
-    function optionSelected(){
+    function optionSelected() {
         var n = document.getElementById('idselect').value;
         <% for(i = 0;i < result.length;i++){ %>
-        if('<%=result[i].product_id%>' == (''+n)){
-            <%if(result[i].disct_price == null || result[i].disct_price == 0){%>
-            $("#dictprice").html('<%=result[i].price%>');
-            document.getElementById('dictprice').value = '<%=result[i].price%>';
+        if ('<%= result[i].product_id %>' == ('' + n)) {
+            <% if(result[i].disct_price == null || result[i].disct_price == 0){ %>
+            $("#dictprice").html('<%= result[i].price %>');
+            document.getElementById('dictprice').value = '<%= result[i].price %>';
             $("#price").html('');
             ThanhTien();
-            <%} else {%>
-            $("#dictprice").html('<%=result[i].disct_price%>');
-            $("#price").html('<a href="" style="text-decoration: line-through; color: #6b6b6c;"><%=result[i].price%></a>');
-            document.getElementById('dictprice').value = '<%=result[i].disct_price%>'
+            <% } else { %>
+            /* $("#dictprice").html('<%= result[i].disct_price %>');
+            $("#price").html('<a href="" style="text-decoration: line-through; color: #6b6b6c;"><%= result[i].price %></a>');*/
+
+            document.getElementById('dictprice').value = '<%= result[i].disct_price %>';
+
+            document.getElementById('dictprice').innerHTML = '<%= result[i].disct_price %>'
+            document.getElementById('price').innerHTML = '<%= result[i].price %>';
             ThanhTien();
-            <%}%>
+            <% } %>
         }
+        document.getElementById('information').innerHTML = '<%= result[i].information %>'
         <% } %>
 
         var currents = document.getElementsByClassName("currency");
-        var decimals = 0;               
-        for (i=0; i<currents.length; i++){
+        var decimals = 0;
+        for (i = 0; i < currents.length; i++) {
             var pnumber = currents[i].innerHTML;
-            if (isNaN(pnumber)) { result = 0};
-            if (pnumber=='') { result = 0};
+            if (isNaN(pnumber)) {
+                result = 0
+            }
+            ;
+            if (pnumber == '') {
+                result = 0
+            }
+            ;
             var snum = new String(pnumber);
             var result = '';
-            j=snum.length-1;
+            j = snum.length - 1;
             dem = 1;
-            while(j>=0){
-                if (dem%4!=0){
+            while (j >= 0) {
+                if (dem % 4 != 0) {
                     result = snum[j] + result;
                     j--;
                     dem++;
-                }else{
+                } else {
                     result = '.' + result;
-                    dem=1;
-                }                        
+                    dem = 1;
+                }
             }
-            if (currents[i].id == "dictprice"){
+            if (currents[i].id == "dictprice") {
                 currents[i].innerHTML = result;
-            } else{
-                currents[i].innerHTML = "&nbsp;" +result+ "&nbsp";
+            } else {
+                currents[i].innerHTML = "&nbsp;" + result + "&nbsp";
             }
 
         }
 
     }
-    $(document).ready(function(){
-        $("#plus").click(function(){
+
+    $(document).ready(function () {
+        $("#plus").click(function () {
             var value = $("#quantity").val();
             value = Number(value) + 1;
             document.getElementById('quantity').value = value;
-           /* $("#quantity").val(value);*/
+            /* $("#quantity").val(value);*/
             ThanhTien();
         });
-        $("#minus").click(function(){
+        $("#minus").click(function () {
             var value = $("#quantity").val() - 1;
-            if (value>=0){
+            if (value >= 0) {
                 document.getElementById('quantity').value = value;
-               /* $("#quantity").val(value);*/
+                /* $("#quantity").val(value);*/
                 ThanhTien();
             }
         });
@@ -307,11 +347,11 @@
 
     });
 
-        function ThanhTien(){
-            var n = document.getElementById('idselect').value;
-            var total = $("#quantity").val() * parseInt(document.getElementById('dictprice').value);
-            $("#thanhtien").html(total);
-        }
+    function ThanhTien() {
+        var n = document.getElementById('idselect').value;
+        var total = $("#quantity").val() * parseInt(document.getElementById('dictprice').value);
+        $("#thanhtien").html(total);
+    }
 </script>
 <!-- Menu size -->
 <script>
@@ -321,29 +361,35 @@
 </script>
 <script type="text/javascript">
     var currents = document.getElementsByClassName("currency");
-    var decimals = 0;               
-    for (i=0; i<currents.length; i++){
+    var decimals = 0;
+    for (i = 0; i < currents.length; i++) {
         var pnumber = currents[i].innerHTML;
-        if (isNaN(pnumber)) { result = 0};
-        if (pnumber=='') { result = 0};
+        if (isNaN(pnumber)) {
+            result = 0
+        }
+        ;
+        if (pnumber == '') {
+            result = 0
+        }
+        ;
         var snum = new String(pnumber);
         var result = '';
-        j=snum.length-1;
+        j = snum.length - 1;
         dem = 1;
-        while(j>=0){
-            if (dem%4!=0){
+        while (j >= 0) {
+            if (dem % 4 != 0) {
                 result = snum[j] + result;
                 j--;
                 dem++;
-            }else{
+            } else {
                 result = '.' + result;
-                dem=1;
-            }                        
+                dem = 1;
+            }
         }
-        if (currents[i].id == "dictprice"){
+        if (currents[i].id == "dictprice") {
             currents[i].innerHTML = result;
-        } else{
-            currents[i].innerHTML = "&nbsp;" +result+ "&nbsp";
+        } else {
+            currents[i].innerHTML = "&nbsp;" + result + "&nbsp";
         }
 
     }

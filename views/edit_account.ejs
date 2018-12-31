@@ -61,16 +61,15 @@
                         </div>
                     </div>
 
-                    <div class="datepicker" data-date-format="mm/dd/yyyy">
+
                         <div class="row">
                             <div class="col-md-2">
-                                <div class="form-group form-group-icon-left"><i class="fa fa-calendar input-icon input-icon-hightlight"></i>
-                                    <label>Date Of Birth</label>
-                                    <input class="form-control" name="dob" type="date" value = '<%=user[0].dob%>' />
-                                </div>
+                                <label>Date Of Birth</label>
+                                <input class="form-control"  id = 'dob' name = "dob" type = 'date' value = '' >
                             </div>
+
                         </div>
-                    </div>
+
 
                     <div class="row">
                         <div class="form-group form-group-icon-left col-md-6"><i
@@ -154,6 +153,10 @@
 </body>
 <% include partials/index_Footer.ejs %>
 <script type="text/javascript">
+    var effdate = '<%=user[0].dob%>';
+    var newEffdate = effdate.substring(0,4)+'-'+effdate.substring(4,6)+'-'+effdate.substring(6,8);
+    document.getElementById('dob').value = newEffdate;
+
     $(document).ready(function () {
         $('#email').keyup(function () {
             $(".error").remove();
@@ -216,22 +219,6 @@
         });
     });
 </script>
-<script>
 
-    document.getElementById('dob').value = convertDate('<%= user[0].dob %>');
-    if ('<%= user[0].type_id %>' == '1') {
-        $("#type1").attr('selected', 'selected');
-    } else if ('<%= user[0].type_id %>' == '2') {
-        $("#type2").attr('selected', 'selected');
-    } else {
-        $("#type3").attr('selected', 'selected');
-    }
-
-
-    function convertDate(i) {
-        return i.substring(6, 8) + '/' + i.substring(4, 6) + '/' + i.substring(0, 4);
-    }
-
-</script>
 </html>
 

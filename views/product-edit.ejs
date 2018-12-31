@@ -383,7 +383,7 @@
         '                            <div class="col-md-2"><input class="form-control oldPrice"  value = \'<%=result[i].price%>\'>\n' +
         '\n' +
         '                            </input></div>\n' +
-        '                            <div class="col-md-2" ><input class="form-control oldDisc"  value = \'<%=result[i].disct_price%>\'>\n' +
+        '                            <div class="col-md-2" ><input class="form-control oldDisc"  value = \'<%result[i].disct_price=='null'?"":result[i].disct_price%>\'>\n' +
         '\n' +
         '                            </input></div>\n' +
         '\n' +
@@ -683,6 +683,7 @@
                 });*/
 
                 /*location.reload();*/
+                alert('success');
                 window.location.href="/edit-product/"+name.replace(/ /g,'-');
             }
         });

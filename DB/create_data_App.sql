@@ -1,6 +1,6 @@
 CREATE TABLE `lhc`.`can` (
   `A` INT NOT NULL,
-  `CAN` VARCHAR(45) NULL,
+  `CAN` VARCHAR(45) character set utf8 NULL,
   `AC` INT NULL,
   PRIMARY KEY (`A`));
   
@@ -18,7 +18,7 @@ insert lhc.can value(9,'KỶ',3);
 CREATE TABLE `lhc`.`chi` (
   `B` INT NOT NULL,
   `CHI` VARCHAR(45) NULL,
-  `PHATHOMENH` VARCHAR(100) NULL,
+  `PHATHOMENH` VARCHAR(100) character set utf8 NULL,
   `BC` INT NULL,
   PRIMARY KEY (`B`));
 
@@ -37,7 +37,7 @@ insert lhc.chi value(11,'MÙI','Như Lai Đại Nhật',0);
 
 CREATE TABLE `lhc`.`mang` (
   `id` INT NOT NULL,
-  `MANG` VARCHAR(45) NULL,
+  `MANG` VARCHAR(45) character set utf8 NULL,
   PRIMARY KEY (`id`));
 
 insert lhc.mang value(0,'MỘC');

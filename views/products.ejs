@@ -57,7 +57,7 @@
             </div>
         </div>-->
     <div class = "row">
-        <form action = '/maintenance-prd/<%=catflt%>' method = 'get'>
+        <form action = '<%=catflt=='undefined'?'/maintenance-prd/Search?keyword='+keyword:/maintenance-prd/+catflt%>' method = 'get'>
             <h2><span class="label label-primary">Lọc Sản Phẩm</span></h2>
             <div class="row">
                 <div class="col-md-3">

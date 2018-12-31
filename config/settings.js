@@ -7,7 +7,7 @@ module.exports = {
 			port: 3306,
 			protocol: 'mysql',
 			user: 'root',
-			password: 'Lin3ho@cac123',
+			password: 'root',
 			database: 'lhc',
 			connectionLimit: 100
 			}

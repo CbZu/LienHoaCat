@@ -331,7 +331,12 @@ module.exports.show_account = function(req, res){
 
 module.exports.edit_account = function(req, res){
     if(req.session.type == '1'){
-        var sql = 'select *,a.city,a.address,a.country  from user u join places a on a.user_id = u.user_id where u.email = \''+req.query.email+'\';'
+        if(req.query.email == undefined){
+            var sql = 'select *,a.city,a.address,a.country  from user u join places a on a.user_id = u.user_id where u.user_id = '+req.session.user_id+';'
+        } else {
+            var sql = 'select *,a.city,a.address,a.country  from user u join places a on a.user_id = u.user_id where u.email = \''+req.query.email+'\';'
+        }
+
         var con = req.db.driver.db;
         con.query(sql, function (err, rows) {
             if(!err){
@@ -345,7 +350,6 @@ module.exports.edit_account = function(req, res){
                 data={status:'fail',code:'300'};
             }
 
-            res.render('edit_account',data);
 
         });
     } else {

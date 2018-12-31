@@ -389,6 +389,22 @@ exports.addProduct=function(req,res){
     var prdId = '';
     var avas = '';
         var path = '';
+    if(__dirname.split('/').length <= 1){
+        if(req.files.upfiles.length == undefined){
+            path = req.files.upfiles.path;
+            avas = req.files.upfiles.path.split("\\")[ req.files.upfiles.path.split("\\").length-1];
+        } else{
+            for(j = 0 ; j < req.files.upfiles.length ; j++){
+                if(path == ''){
+                    path = req.files.upfiles[j].path;
+                    avas = req.files.upfiles[j].path.split("\\")[ req.files.upfiles[j].path.split("\\").length-1];
+                }else{
+                    path += ';' +  req.files.upfiles[j].path;
+                    avas += ';' +  req.files.upfiles[j].path.split("\\")[ req.files.upfiles[j].path.split("\\").length-1];
+                }
+            }
+        }
+    }else{
         if(req.files.upfiles.length == undefined){
             path = req.files.upfiles.path;
             avas = req.files.upfiles.path.split("/")[ req.files.upfiles.path.split("/").length-1];
@@ -403,6 +419,8 @@ exports.addProduct=function(req,res){
                 }
             }
         }
+    }
+
         var desc = input.description;
         var sql = 'insert into description(description) value (\''+desc.replace('\n','<br>')+'\');';
         con.query(sql, function (err, rows) {

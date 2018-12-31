@@ -193,7 +193,12 @@ module.exports.remove = function(req, res){
     var i = 0;
     input.path.split(';').forEach(function (element){
         var oldpath = element;
-        var newpath = __dirname.replace(__dirname.split('/')[__dirname.split('/').length-1],'public/assets/img/'+oldpath.split("/")[ oldpath.split("/").length-1]);
+        if(__dirname.split('/').length <= 1){
+            var newpath = __dirname.replace(__dirname.split('\\')[__dirname.split('\\').length-1],'public\\assets\\img\\'+oldpath.split("\\")[ oldpath.split("\\").length-1]);
+        }else{
+            var newpath = __dirname.replace(__dirname.split('/')[__dirname.split('/').length-1],'public/assets/img/'+oldpath.split("/")[ oldpath.split("/").length-1]);
+        }
+
         console.log(oldpath);
         console.log(newpath);
         console.log(__dirname.replace(__dirname.split('/')[__dirname.split('/').length-1],'public/assets/img/'+oldpath.split("/")[ oldpath.split("/").length-1]));
@@ -1548,7 +1553,8 @@ module.exports.product_detail = function(req, res){
                                     ,fname:req.session.firstname
                                     ,type:req.session.type
                                     ,userid:req.session.user_id
-                                    ,treefolder:req.session.treefolder};
+                                    ,treefolder:req.session.treefolder
+                                    , keyword:req.cookies.keyword};
                                 res.render('product-detail',data);
                             }
                         });
@@ -1655,6 +1661,7 @@ module.exports.maintenance_prd = function(req, res){
     var day  = date.getDate();
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
+
         var sql = '';
         sql += '\n' +
             'select name,p.product_id,cat_id,image, \n' +
@@ -1687,6 +1694,7 @@ module.exports.maintenance_prd = function(req, res){
     if(req.query.size != undefined && req.query.size != '' ){
         where += ' t.sizefrom < '+req.query.size+' and t.sizeto > '+req.query.size+' and';
     }
+    var keyword='keyword='+req.query.keyword+'&size='+req.query.size+'&menh='+req.query.menh+'&mau='+req.query.mau+'&tuoi='+req.query.tuoi+'';
     if(req.query.keyword != 'undefined' && req.query.keyword != '' && req.query.keyword != undefined ){
         where += ' (t.mau REGEXP \''+req.query.keyword.replace(",","|")+'\'\n' +
             'or t.menh REGEXP \''+req.query.keyword.replace(",","|")+'\' \n' +
@@ -1694,7 +1702,13 @@ module.exports.maintenance_prd = function(req, res){
             'or d.description REGEXP \''+req.query.keyword.replace(",","|")+'\' \n' +
             'or p.name REGEXP \''+req.query.keyword.replace(",","|")+'\' \n' +
             'or p.size REGEXP \''+req.query.keyword.replace(",","|")+'\') and';
+
+
+    } else {
+        keyword = '';
     }
+
+    res.cookie("keyword", keyword);
         if(where.trim() == ''){
             sql+= '  group by name order by p.product_id;'
         }else{
