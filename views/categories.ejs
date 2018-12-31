@@ -68,7 +68,7 @@
     <div class="row">
         <br>
         <div class="col-md-8">
-            <button class="btn btn-danger" id='' onclick="">Update Setting Shop</button>
+            <button class="btn btn-danger" id='' onclick="Update()">Update Setting Shop</button>
         </div>
     </div>
     <br>
@@ -245,16 +245,7 @@
             enctype: 'multipart/form-data',
             processData: false,
             success: function (response) {
-                $.ajax({
-                    type: "POST",
-                    url: "./PetMart/remove",
-                    data: "path=" + response.path,
-                    success: function (msg) {
-                        //alert(msg);
-                        data = msg;
-                        location.reload();
-                    }
-                });
+                location.reload();
             }
         });
     }
