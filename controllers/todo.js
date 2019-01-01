@@ -1682,16 +1682,16 @@ module.exports.maintenance_prd = function(req, res){
         if(req.query.prdflt != undefined && req.query.prdflt != '' ){
             where += ' name like \'%'+req.query.prdflt+'%\' and';
         }
-    if(req.query.menh != undefined && req.query.menh != '' ){
+    if(req.query.menh != undefined && req.query.menh != '' && req.query.menh != 'undefined' ){
         where += ' t.menh like \'%'+req.query.menh+'%\' and';
     }
-    if(req.query.tuoi != undefined && req.query.tuoi != '' ){
+    if(req.query.tuoi != undefined && req.query.tuoi != ''  && req.query.tuoi != 'undefined'){
         where += ' t.tuoi like \'%'+req.query.tuoi+'%\' and';
     }
-    if(req.query.mau != undefined && req.query.mau != '' ){
+    if(req.query.mau != undefined && req.query.mau != ''  && req.query.mau != 'undefined'){
         where += ' t.mau like \'%'+req.query.mau+'%\' and';
     }
-    if(req.query.size != undefined && req.query.size != '' ){
+    if(req.query.size != undefined && req.query.size != ''  && req.query.size != 'undefined'){
         where += ' t.sizefrom < '+req.query.size+' and t.sizeto > '+req.query.size+' and';
     }
     var keyword='keyword='+req.query.keyword+'&size='+req.query.size+'&menh='+req.query.menh+'&mau='+req.query.mau+'&tuoi='+req.query.tuoi+'';
@@ -2134,7 +2134,7 @@ module.exports.show_payment=function(req,res){
         var sql = '';
         var sql = 'select p.payment_id,title,pay_type,p.user_id,\n' +
             '(select concat(firstname,\' \',lastname) from user where user_id = p.user_id) as name,\n' +
-            '(select email from user where user_id = p.user_id) as email,\n' +
+            '(select phone from user where user_id = p.user_id) as phone,\n' +
             '(select COUNT(product_id) from cart where payment_id = p.payment_id) as products,\n' +
             'p.status_id,\n' +
             'p.promotion,\n' +
@@ -2153,7 +2153,7 @@ module.exports.show_payment=function(req,res){
             where += ' p.status_id = '+req.query.statusflt+' and';
         }
         if((req.query.phone != undefined) && (req.query.phone.trim()!='')){
-            where += ' p.user_id = (select user_id from user where phone = \''+req.query.phone+'\') and';
+            where += ' p.user_id = (select user_id from user where phone = \''+req.query.phone+'\' limit 1) and';
         }
 
             if((req.query.createflt != undefined) && (req.query.createflt.trim()!='')){

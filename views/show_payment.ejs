@@ -106,9 +106,6 @@
             </div>
         </div> -->
 		<div class="row">
-            	<div class="col-md-2">
-                    <h4 class="booking-item-title">Title</h4>
-                </div>
                 <div class="col-md-2">
                     <h4 class="booking-item-title">User</h4>
                 </div>
@@ -127,17 +124,14 @@
         </div>
 
         <% for(i = 0;i < payments.length;i++){ %>
-        <li>
+
         	<a class="booking-item" href="/payment-detail?id=<%= payments[i].payment_id%>&user=<%=payments[i].user_id%>">
         		<div class="row">
 
         			<div class="row">
         				<div class="col-md-2">
-        					<h5 class="booking-item-title"><%= payments[i].title %></h5>
-        				</div>
-        				<div class="col-md-2">
         					<p class="booking-item-description">
-        						<%= payments[i].name +  ' (' + payments[i].email + ')'%>
+        						<%= payments[i].name +  ' (' + payments[i].phone + ')'%>
         					</p>
         				</div>
         				<div class="col-md-1">
@@ -156,7 +150,7 @@
         			</div>
         		</div>
         	</a>
-        </li>
+
         <% } %>		
 	</div>
 </body>

@@ -389,7 +389,7 @@ exports.addProduct=function(req,res){
     var prdId = '';
     var avas = '';
         var path = '';
-    if(__dirname.split('/').length <= 1){
+    if(__dirname.split('\\').length > 1){
         if(req.files.upfiles.length == undefined){
             path = req.files.upfiles.path;
             avas = req.files.upfiles.path.split("\\")[ req.files.upfiles.path.split("\\").length-1];
@@ -428,85 +428,132 @@ exports.addProduct=function(req,res){
                 console.log(err);
             }else{
                 var i = 0;
+                    if(input.mode == 'dv'){
+                        var data={
+                            cat_id:input.category,
+                            create_time:parseInt(year+''+month+''+day),
+                            name:input.name,
+                            price:0,
+                            disct_price:0,
+                            size:0,
+                            image:'',
+                            code:input.Codes.split(',')[i],
+                            description : rows.insertId,
+                            information :'',
+                            entity:0,
+                        };
+                        var j=0;
+                        req.models.product.create(data,function(err,row1s){
+                            if(err){
+                                var data={status:'fail',code:'300',description:err.message};
+                                res.json(data);
+                            } else {
+                                var sql = 'update image set product_id = '+row1s.product_id+' where product_id = 0 ;';
+                                con.query(sql);
+                                sql = 'INSERT INTO `lhc`.`image`\n' +
+                                    '(`product_id`,\n' +
+                                    '`url`,\n' +
+                                    '`type`)\n' +
+                                    'VALUES\n' +
+                                    '('+row1s.product_id+',\n' +
+                                    '\''+avas+'\',\n' +
+                                    '\'1\');\n';
+                                con.query(sql);
+                                sql = 'INSERT INTO `lhc`.`thuoctinh`\n' +
+                                    '(`product_id`,\n' +
+                                    '`mau`,\n' +
+                                    '`tuoi`,\n' +
+                                    '`menh`,`sizefrom`,`sizeto`)\n' +
+                                    'VALUES\n' +
+                                    '('+row1s.product_id+',\n' +
+                                    '\'\',\n' +
+                                    '\'\',\n' +
+                                    '\'\',0,0);\n'
+                                con.query(sql);
+                            }
+                        });
+                    } else {
+                        for (var i=0; i < input.Sizes.split(',').length ;i++){
+                            if(input.Sizes.split(',')[i].trim() != ''){
+                                var img = path.split(";")[0];
 
-                    for (var i=0; i < input.Sizes.split(',').length ;i++){
-                        if(input.Sizes.split(',')[i].trim() != ''){
-                            var img = path.split(";")[0];
-
-                            var data={
-                                cat_id:input.category,
-                                create_time:parseInt(year+''+month+''+day),
-                                name:input.name,
-                                price:input.Prices.split(',')[i]!=''?input.Prices.split(',')[i].trim():0,
-                                disct_price:0,
-                                size:input.Sizes.split(',')[i],
-                                image:'',
-                                code:input.Codes.split(',')[i],
-                                description : rows.insertId,
-                                information : input.Infos.split(',')[i],
-                                entity:input.Entities.split(',')[i]!=''?input.Entities.split(',')[i].trim():0,
-                            };
-                            var j=0;
-                            req.models.product.create(data,function(err,row1s){
-                                if(err){
-                                    var data={status:'fail',code:'300',description:err.message};
-                                    res.json(data);
-                                }
-                                else{
-
-                                    if(prdId == ''){
-
-                                        var sql = 'update image set product_id = '+row1s.product_id+' where product_id = 0 ;';
-                                        con.query(sql);
-                                        sql = 'INSERT INTO `lhc`.`image`\n' +
-                                            '(`product_id`,\n' +
-                                            '`url`,\n' +
-                                            '`type`)\n' +
-                                            'VALUES\n' +
-                                            '('+row1s.product_id+',\n' +
-                                            '\''+avas+'\',\n' +
-                                            '\'1\');\n';
-                                        con.query(sql);
-                                        sql = 'INSERT INTO `lhc`.`thuoctinh`\n' +
-                                            '(`product_id`,\n' +
-                                            '`mau`,\n' +
-                                            '`tuoi`,\n' +
-                                            '`menh`,`sizefrom`,`sizeto`)\n' +
-                                            'VALUES\n' +
-                                            '('+row1s.product_id+',\n' +
-                                            '\''+input.Mau+'\',\n' +
-                                            '\''+input.Tuoi+'\',\n' +
-                                            '\''+input.Menh+'\','+input.SizeFrom+','+input.SizeTo+');\n'
-                                        con.query(sql);
+                                var data={
+                                    cat_id:input.category,
+                                    create_time:parseInt(year+''+month+''+day),
+                                    name:input.name,
+                                    price:input.Prices.split(',')[i]!=''?input.Prices.split(',')[i].trim():0,
+                                    disct_price:0,
+                                    size:input.Sizes.split(',')[i],
+                                    image:'',
+                                    code:input.Codes.split(',')[i],
+                                    description : rows.insertId,
+                                    information : input.Infos.split(',')[i],
+                                    entity:input.Entities.split(',')[i]!=''?input.Entities.split(',')[i].trim():0,
+                                };
+                                var j=0;
+                                req.models.product.create(data,function(err,row1s){
+                                    if(err){
+                                        var data={status:'fail',code:'300',description:err.message};
+                                        res.json(data);
                                     }
-                                    prdId += row1s.product_id;
-                                    sql = 'INSERT INTO `lhc`.`discount`\n' +
-                                        '(`product_id`,\n' +
-                                        '`effective_date`,\n' +
-                                        '`expired_date`,\n' +
-                                        '`disct_price`)\n' +
-                                        'VALUES\n' +
-                                        '('+row1s.product_id+',\n' +
-                                        ''+year+''+month+''+day+',\n' +
-                                        ''+input.expired_date+',\n' +
-                                        ''+input.Discounts.split(',')[j]+');'
-                                    j++;
-                                    con.query(sql);
+                                    else{
 
-                                }
+                                        if(prdId == ''){
 
-                            });
+                                            var sql = 'update image set product_id = '+row1s.product_id+' where product_id = 0 ;';
+                                            con.query(sql);
+                                            sql = 'INSERT INTO `lhc`.`image`\n' +
+                                                '(`product_id`,\n' +
+                                                '`url`,\n' +
+                                                '`type`)\n' +
+                                                'VALUES\n' +
+                                                '('+row1s.product_id+',\n' +
+                                                '\''+avas+'\',\n' +
+                                                '\'1\');\n';
+                                            con.query(sql);
+                                            sql = 'INSERT INTO `lhc`.`thuoctinh`\n' +
+                                                '(`product_id`,\n' +
+                                                '`mau`,\n' +
+                                                '`tuoi`,\n' +
+                                                '`menh`,`sizefrom`,`sizeto`)\n' +
+                                                'VALUES\n' +
+                                                '('+row1s.product_id+',\n' +
+                                                '\''+input.Mau+'\',\n' +
+                                                '\''+input.Tuoi+'\',\n' +
+                                                '\''+input.Menh+'\','+input.SizeFrom+','+input.SizeTo+');\n'
+                                            con.query(sql);
+                                        }
+                                        prdId += row1s.product_id;
+                                        sql = 'INSERT INTO `lhc`.`discount`\n' +
+                                            '(`product_id`,\n' +
+                                            '`effective_date`,\n' +
+                                            '`expired_date`,\n' +
+                                            '`disct_price`)\n' +
+                                            'VALUES\n' +
+                                            '('+row1s.product_id+',\n' +
+                                            ''+year+''+month+''+day+',\n' +
+                                            ''+input.expired_date+',\n' +
+                                            ''+input.Discounts.split(',')[j]+');'
+                                        j++;
+                                        con.query(sql);
+
+                                    }
+
+                                });
+                            }
                         }
+                        i = 0;
+                        prdId.split(',').forEach(function (element){
+                            if(input.Discounts.split(',')[i]!=''){
+
+                                i++;
+                            }
+                        });
                     }
 
 
-                i = 0;
-                prdId.split(',').forEach(function (element){
-                    if(input.Discounts.split(',')[i]!=''){
 
-                            i++;
-                    }
-                });
+
 
             }
         });
@@ -882,9 +929,16 @@ exports.check_pass=function(req,res){
 exports.checkUser=function(req,res){
     var input = JSON.parse(JSON.stringify(req.body));
     console.log(input);
-    var data={
-        username:input.username
-    };
+    if(input.mode == 'check_phone'){
+        var data={
+            phone:input.username
+        };
+    } else {
+        var data={
+            username:input.username
+        };
+    }
+
     req.models.user.find(data, function(err, rows,next) {
         if (err){
             data={status:'error',code:'200'};

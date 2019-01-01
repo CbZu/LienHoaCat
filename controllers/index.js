@@ -31,7 +31,7 @@ module.exports.home = function(req, res){
             '(select GROUP_CONCAT(product_id SEPARATOR \',\') from product where name = p.name) as size_id ,\n' +
             '(select url from image where product_id = p.product_id and type = 1) as image, \n' +
             '(select \'Y\') as new \n'+
-            'from product p join thuoctinh t on p.product_id = t.product_id join description d on p.description = d.description_id where ('+year+month+day+' - p.create_time ) < 100 group by name order by p.product_id LIMIT 9;';
+            'from product p join thuoctinh t on p.product_id = t.product_id join description d on p.description = d.description_id where (('+year+month+day+' - p.create_time)/(24*3600*1000) ) < 30 group by name order by p.product_id LIMIT 12;';
         con.query(sql, function (err, row1s) {
             sql = 'select title,image from promotion where effective_date <= '+year+''+month+''+day+' and '+year+''+month+''+day+'<=expired_date';
             con.query(sql, function (err, row2s) {

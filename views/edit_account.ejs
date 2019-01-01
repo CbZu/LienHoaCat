@@ -156,7 +156,9 @@
     var effdate = '<%=user[0].dob%>';
     var newEffdate = effdate.substring(0,4)+'-'+effdate.substring(4,6)+'-'+effdate.substring(6,8);
     document.getElementById('dob').value = newEffdate;
-
+    <% if(type == '1'){ %>
+    document.getElementById('type').value = '<%=user[0].type_id%>';
+    <%}%>
     $(document).ready(function () {
         $('#email').keyup(function () {
             $(".error").remove();
