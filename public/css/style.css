@@ -198,7 +198,7 @@ form.search::after {
 }
 
 }
-.cursor{
+.cursor:hover{
     cursor: pointer;
 }
 
