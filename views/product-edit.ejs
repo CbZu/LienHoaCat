@@ -353,7 +353,7 @@
     function XemTruoc() {
         document.getElementById('description').style.display = 'none';
         document.getElementById('descriptionArea').style.display = 'block';
-        var  element = document.getElementById('description').innerHTML;
+        var  element = document.getElementById('description').value;
         var str  = element.replace(/&#39;/g, "\"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g,"\"");
         document.getElementById('descriptionArea').innerHTML = str;
 
