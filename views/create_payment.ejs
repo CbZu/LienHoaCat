@@ -15,15 +15,27 @@
             <div class="col-md-2">
                 <div class="form-group form-group-icon-left">
                     <h3>Status : </h3>
-                    <select name="status" id="status">
-                        <option value="none" selected>----Selected-----</option>
-                        <option value="0">Đã hủy</option>
-                        <option value="1">Đã Đặt Hàng</option>
-                        <option value="2">Đã Xác Nhận</option>
-                        <option value="3">Đang Giao Hàng</option>
-                        <option value="4">Giao Hàng Thành Công</option>
-                        <option value="5">Đã Thanh Toán</option>
-                    </select>
+                    <div class="form-group">
+                        <select name="status" id="status" class="form-control">
+                            <option value="none" selected="">----Selected-----</option>
+
+                            <option value="0" >Đặt hàng </option>
+
+                            <option value="1" >Chốt Gửi </option>
+
+                            <option value="2">Đang Giao Hàng </option>
+
+                            <option value="3" >Thành Công </option>
+
+                            <option value="4" >Boom </option>
+
+                            <option value="5" >Chuyển Hoàn </option>
+                            <option value="6" >Hủy </option>
+
+
+                        </select>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -96,7 +108,7 @@
 
         <h4>Tên: </h4><input id="name">
         <h4>Email: </h4><input id="email">
-        <h4>Số điện thoại: </h4><input id="phone" onkeyup="CheckPhone()">
+        <h4>Số điện thoại: </h4><input id="phone" onkeyup="CheckPhone()"> <label id = 'fs'></label>
         <h4>Địa Chỉ: </h4><input id="address">
 
         <h4>Voucher: </h4><input id="voucher" onkeyup="CheckVoucher()">
@@ -180,6 +192,7 @@
                     document.getElementById('name').value = data.detail[0].firstname + ' ' + data.detail[0].lastname;
                     document.getElementById('email').value = data.detail[0].email;
                     document.getElementById('address').value = data.detail[0].address;
+                    document.getElementById('fs').innerHTML = data.fail +' đơn Thất Bại / ' + data.success+' đơn Thành Công  ';
 
                 }
             }

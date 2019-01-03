@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `lhc`.`user` (
   `bank_account` VARCHAR(255) NULL,
   `bank_address` VARCHAR(255) NULL,
   `bank` VARCHAR(255) NULL,
+   `gender` VARCHAR(1) NULL,
   PRIMARY KEY (`user_id`, `email`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC));
 

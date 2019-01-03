@@ -54,6 +54,8 @@ module.exports = function (app, controllers) {
     app.post('/ajax/getPrd', controllers.ajax.getPrd);
     app.get('/product-detail/:catflt/:prdname', controllers.todo.product_detail);
     app.post('/ajax/updateProduct', controllers.ajax.updateProduct);
+    app.post('/ajax/updateProductEntity', controllers.ajax.updateProductEntity);
+
     app.post('/ajax/updateProductOk', controllers.ajax.updateProductOk);
     app.post('/ajax/addProduct', controllers.ajax.addProduct);
     app.post('/ajax/addProductImages', controllers.ajax.addProductImages);

@@ -13,6 +13,7 @@ module.exports = function (orm, db) {
         address: {type: 'text'},
         bank_account: {type: 'text'},
         bank_address: {type: 'text'},
-        bank: {type: 'text'}
+        bank: {type: 'text'},
+        gender : {type: 'text'}
     });
 };

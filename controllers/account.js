@@ -132,16 +132,16 @@ module.exports.signup=function(req,res){
                         '`lastname`,\n' +
                         '`create_time`,\n' +
                         '`type_id`,\n' +
-                        '`password`,`username`)\n' +
+                        '`password`,`username`,`gender`)\n' +
                         'VALUES (\n' +
                         '\''+input.email+'\',\n' +
-                        ''+newDOB+',\n' +
+                        ''+input.dob.replace(/-/g,'')+',\n' +
                         ''+input.phone+',\n' +
                         '\''+input.firstname+'\',\n' +
                         '\''+input.lastname+'\',\n' +
                         ''+year+''+month+''+day+',\n' +
                         ''+userType+',\n' +
-                        '\''+passwd+'\',\''+input.username+'\');';
+                        '\''+passwd+'\',\''+input.username+'\',\''+input.gender+'\');';
                     console.log(sql);
                     con.query(sql, function (err, row1s) {
                         if(err){
@@ -362,7 +362,7 @@ module.exports.edit_account = function(req, res){
                     ,fname:req.session.firstname
                     ,type:req.session.type
                     ,treefolder:req.session.treefolder};
-                res.render('edit_account',data);
+
             }else{
                 data={status:'fail',code:'300'};
             }
@@ -398,7 +398,10 @@ module.exports.save_account = function(req, res){
             rows.firstname    = input.fname;
             rows.lastname = input.lname;
             rows.salary=parseFloat(input.salary);
-            rows.type_id = parseInt(input.type);
+            if(req.session.type == '1'){
+                rows.type_id = parseInt(input.type);
+            }
+            rows.gender = input.gender;
             rows.dob = parseInt(input.dob.replace(/-/g,''));
             rows.save(data,function(err){
                 console.log('saved');

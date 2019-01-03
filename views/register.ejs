@@ -41,8 +41,42 @@
                 <form action="signup" novalidate method="post" enctype="multipart/form-data" id="frmId">
                     <div class="row">
                         <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                            <label>Tên</label>
+                            <input class="form-control" type="text" name="firstname" required>
+                        </div>
+                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                            <label>Họ</label>
+                            <input class="form-control" type="text" name="lastname" required>
+                        </div>
+
+                    </div>
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group form-group-icon-left">
+                                    <label>Sinh Ngày</label>
+                                    <input class="form-control" name="dob" type="date" />
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="row" >
+                        <div class="col-md-2">
+                            <label>Giới Tính</label>
+                            <select class="form-control" id = "gender" name = "gender">
+                                <option value = "M">Quý Ông</option>
+                                <option value = "F">Quý Bà</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" >
+                        <div class="form-group form-group-icon-left col-md-6" style="display: none"><i class="fa fa-user input-icon input-icon-show"></i>
                             <label>Tên tài khoản</label>
-                            <input class="form-control" type="text" name="username" id="username" required>
+                            <input class="form-control" type="text" name="username" id="username" >
+                        </div>
+                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                            <label>Số điện thoại</label>
+                            <input class="form-control" type="text" name="phone" id="phone" required>
                         </div>
                     </div>
                     <div class="row">
@@ -52,36 +86,10 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
-                            <label>Tên</label>
-                            <input class="form-control" type="text" name="firstname" required>
-                        </div>
-                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
-                            <label>Họ</label>
-                            <input class="form-control" type="text" name="lastname" required>
-                        </div>
-                    </div>
-
-                    <div class="datepicker" data-date-format="mm/dd/yyyy">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group form-group-icon-left"><i class="fa fa-calendar input-icon input-icon-hightlight"></i>
-                                    <label>Date Of Birth</label>
-                                    <input class="form-control" name="dob" type="date" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                    <div class="row" style="display: none">
+                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show" ></i>
                             <label>Email</label>
-                            <input class="form-control" type="text" name="email" id="email" required>
-                        </div>
-                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
-                            <label>Số điện thoại</label>
-                            <input class="form-control" type="text" name="phone" id="phone" required>
+                            <input class="form-control" type="text" name="email" id="email" >
                         </div>
                     </div>
 
@@ -89,14 +97,14 @@
                         <label>Địa chỉ</label>
                         <input class="form-control" type="text" name="address" id="address" required>
                     </div>
-                    <div class="row">
+                    <div class="row" style="display: none">
                         <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
                             <label>Thành phố</label>
-                            <input class="form-control" type="text" name="city" id="city" required>
+                            <input class="form-control" type="text" name="city" id="city" >
                         </div>
                         <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
                             <label>Quốc gia</label>
-                            <input class="form-control" type="text" name="country" id="country" required>
+                            <input class="form-control" type="text" name="country" id="country" >
                         </div>
                     </div>
 
@@ -198,8 +206,17 @@
                     else {
                         $("#frmId .btn").removeAttr('disabled');
                     }
+
+                    if (obj.val().length > 11) {
+                        obj.after("<label class='error'>Số điện thoại không hợp lệ</label>");
+                        $("#frmId .btn").attr('disabled', 'disabled');
+                    }
+                    else {
+                        $("#frmId .btn").removeAttr('disabled');
+                    }
                 }
             });
+            document.getElementById('username').value = obj.val();
         });
         $('#frmId').submit(function () {
             if ($(this).find('.error').length == 0) {

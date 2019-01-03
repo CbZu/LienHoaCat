@@ -64,14 +64,23 @@ exports.checkPhone=function(req,res){
             }
             else{
                 if(rows.length>0){
-                    data={status:'success',code:'200',detail: rows};
+                    sql = 'select count(payment_id) as fail from payment where user_id = '+rows[0].user_id+' and status_id in (4,5,6);';
+                    con.query(sql, function (err, rowsfail) {
+                        sql = 'select count(payment_id) as success from payment where user_id = '+rows[0].user_id+' and status_id in (3);';
+                        con.query(sql, function (err, rowssuccess) {
+                            data={status:'success',code:'200',detail: rows,fail: rowsfail[0].fail, success: rowssuccess[0].success};
+                            res.json(data);
+                        });
+                    });
+
 
                 }
                 else{
                     data={status:'not exist',code:'400'};
+                    res.json(data);
 
                 }
-                res.json(data);
+
             }
         });
     } else{
@@ -239,10 +248,75 @@ exports.deleteSizeId=function(req,res){
     });
 };
 
+exports.updateProductEntity=function(req,res){
+    var input = JSON.parse(JSON.stringify(req.body));
+    var con = req.db.driver.db;
+
+    sql = 'select * from product where  product_id = ' +  input.id +';' ;
+    con.query(sql, function (err, rows) {
+        var sum = parseInt(rows[0].entity) + parseInt(input.entity);
+        sql = 'update product set entity = '+sum+' where product_id = '+input.id+';';
+        con.query(sql);
+        var data={
+           status:'success'
+        };
+        res.json(data)
+    });
+
+};
 exports.updateProduct=function(req,res){
     var input = JSON.parse(JSON.stringify(req.body));
     var con = req.db.driver.db;
     var sql = '';
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    var year = date.getUTCFullYear();
+    //add new product
+    sql = 'select * from product where  product_id = ' +  input.OldIds.split(",")[0] +';' ;
+    con.query(sql, function (err, rows) {
+        if(input.Sizes.trim() != ''){
+            for(var i = 0;i < input.Sizes.split(",").length ; i++){
+                var data={
+                    cat_id:rows[0].cat_id,
+                    create_time:parseInt(year+''+month+''+day),
+                    name:rows[0].name,
+                    price:input.Prices.split(',')[i]!=''?input.Prices.split(',')[i].trim():0,
+                    disct_price:0,
+                    size:input.Sizes.split(',')[i],
+                    image:'',
+                    code:input.Codes.split(',')[i],
+                    description : rows[0].description,
+                    information : input.Infos.split(',')[i],
+                    entity:input.Entities.split(',')[i]!=''?input.Entities.split(',')[i].trim():0,
+                };
+                var j=0;
+                req.models.product.create(data,function(err,row1s){
+                    sql = 'INSERT INTO `lhc`.`discount`\n' +
+                        '(`product_id`,\n' +
+                        '`effective_date`,\n' +
+                        '`expired_date`,\n' +
+                        '`disct_price`)\n' +
+                        'VALUES\n' +
+                        '('+row1s.product_id+',\n' +
+                        ''+year+''+month+''+day+',\n' +
+                        ''+input.expired_date+',\n' +
+                        ''+input.Discounts.split(',')[j]+');'
+                    j++;
+                    con.query(sql);
+                });
+            }
+        }
+
+
+
+
+    });
+
+    //end add new
+
     for(var i = 0;i < input.OldIds.split(",").length ; i++){
          sql = 'update product set price = '+input.OldPrices.split(",")[i]+' , size = \''+input.OldSizes.split(",")[i]+'\' '+
             ', code = \''+input.OldCodes.split(",")[i]+'\', information = \''+input.OldInfos.split(",")[i]+'\', entity = '+input.OldEntities.split(",")[i]+' where product_id = ' +  input.OldIds.split(",")[i] +';';
@@ -259,16 +333,6 @@ exports.updateProduct=function(req,res){
             ' where product_id = ' +  input.OldIds.split(",")[i] +';'
         con.query(sql);
     }
-    /*sql = 'select max(expired_date) as max from discount where product_id = ' +  input.OldIds.split(",")[i] +';';
-    con.query(sql, function (err, rows) {
-        if(err){
-            console.log(err);
-        } else{
-            for(var i = 0;i < input.OldIds.split(",").length ; i++){
-
-            }
-        }
-    });*/
 
      sql = 'update thuoctinh set menh = \''+input.Menh+'\'' +
          ', mau =\''+input.Mau+'\'' +

@@ -11,11 +11,7 @@
 
         </div>
 
-        <div class="row">
-            <div class="col-md-3">
-                <a class="btn btn-primary" href="/create-prd?cat=<%= catflt %>&catId=<%= catId %>">Add Product</a>
-            </div>
-        </div>
+
         <!--<div class="container-fluid row">
             <div class="col-md-2">
                 <div class="nav">
@@ -56,6 +52,12 @@
                 </div> 
             </div>
         </div>-->
+    <%if(catflt != 'All'){%>
+    <div class="row">
+        <div class="col-md-3">
+            <a class="btn btn-primary" href="/create-prd?cat=<%= catflt %>&catId=<%= catId %>">Add Product</a>
+        </div>
+    </div>
     <div class = "row">
         <form action = '<%=catflt=='undefined'?'/maintenance-prd/Search?keyword='+keyword:/maintenance-prd/+catflt%>' method = 'get'>
             <h2><span class="label label-primary">Lọc Sản Phẩm</span></h2>
@@ -152,17 +154,17 @@
                     <input  class=" form-control" name = 'keyword' id = 'keyword' style="display: none" value="<%=keyword%>" type="text" />
                 </div>
                 <div class="col-md-3">
-                    
+
 
                 </div>
                 <div class="col-md-3">
-                    
+
                 </div>
                 <div class="col-md-3">
-                    
+
                 </div>
                 <div class="col-md-3">
-                    
+
                 </div>
 
                 <div class="col-md-3">
@@ -178,66 +180,116 @@
 
         </form>
     </div>
-        <div class="row">
-            <%page = 0;%>
-                <% for(j = 0;j < result.length;j++){ %>
-                <%page = parseInt(j/12+1);%>
-                <div class="col-xs-6 col-md-4 folder<%= result[j].folder_ids %> <%= page %>">
-                            <a href="/product-detail/<%=result[j].cat_name.replace(" ", "-")%>/<%=result[j].name.replace(/ /g, '-')%>" >
-                                <div class="product">
-				                    <%if(result[j].new == 'Y'){%>
-                                    <div class="col-xs-3 col-md-2" style="position: absolute; padding: 0px;">
-                                        <img class="shake img-responsive" src="/img/moi.svg">
-                                    </div>
-				                    <%}%>
-                                    <div class="col-xs-3 col-md-2 col-md-offset-2 col-xs-offset-3" style="position: absolute; padding: 0px;">
-                                        <img class="img-responsive" src="/img/freeship.svg">
-                                    </div>
-                                    <div class="" style="">
-                                        <img src="/assets/img/<%= result[j].image==null?result[j].image:result[j].image.split(";")[0]%>" class="img-responsive">
-                                        
-                                        <!-- <a href="/maintenance-prd?catflt=<%= result[j].cat_names %>&catId=<%= result[j].cat_ids %>" class="portfolio_item work-grid"style="width: 90%; color: #B28D34;font-weight: bold; margin-bottom: 10px;overflow: hidden; margin-top: 20px;">
-                                            <button type="button" class="btn btn-default center-block">
-                                                     Xem Thêm                                       
-                                            </button>
-                                        </a> -->
-                                    </div>
+    <%}%>
 
-                                    <% if(result[j].prices != 0){ %>
-                                        <% if(result[j].disct_prices == null){ %>
-                                        <h3 class="font-custom" style="margin: 0px;"><%= result[j].name %></h3>
-                                        <h3><a href="" style="font-weight: bold; color: #6b6b6c; float: left;">Từ&nbsp;</a></h3>
-                                        <h3 class="font-custom currency" style="color: red; font-weight: bold; margin-top: 10px;" id ="dictprice"><%= result[j].prices %></h3>
-                                        <% } else { %>
-                                        <div style="position: relative;">
-                                            <div class="col-md-3" style="position: absolute; padding: 0px; top: 0px; right: 0px;">
-                                                <div style="position: relative;">
-                                                    <img src="/img/sale.svg">
-                                                    <h5 style="color: white; position: absolute; top: 0px; text-align: center; padding-left: 15px;">-<%=Math.round((1 - parseInt(result[j].disct_prices) / parseInt(result[j].prices)) * 100)%>%</h5>
-                                                </div>
-                                                <!-- <h4 style="color: white;">-39%</h4>   -->
-                                            </div>
-                                            <h3 class="font-custom" style="margin: 0px;"><%= result[j].name %></h3>
-                                            <h3><a href="" style="font-weight: bold; color: #6b6b6c; float: left;">Từ&nbsp;</a></h3>
-                                            <h3 class="font-custom currency" style="color: red; font-weight: bold; margin-top: 10px;" id ="dictprice"><%= result[j].disct_prices %></h3>
-                                            <h4 class="currency" style="text-decoration: line-through; color: #6b6b6c; margin: 0px;"><%= result[j].prices %></h4>
-                                        </div>
-                                        <% } %>
-                                    <%} else {%>
-                                    <h3 class="font-custom" style="margin: 0px;"><%= result[j].name %></h3>
-                                    <%}%>
+        <div class="row">
+            <%if(catflt == 'All'){%>
+            <table class="table table-bordered">
+                <thead>
+                <th class="text-right" style="text-align: center;"><h3>Mã sản phẩm</h3></th>
+                <th class="text-right" style="text-align: center;"><h3>Tên sản phẩm</h3></th>
+                <th class="text-right" style="text-align: center;"><h3>Size</h3></th>
+                <th class="text-right" style="text-align: center;"><h3>Số Lượng</h3></th>
+                <th class="text-right" style="text-align: center;"><h3>Nhập thêm</h3></th>
+                </thead>
+                <tbody>
+                <% for(i = 0;i < result.length;i++){ %>
+                    <% for(j = 0;j < result[i].size_id.split(',').length;j++){ %>
+                        <tr>
+                            <td style="text-align: center;">
+                                <%=result[i].codes.split(',')[j]%>
+                            </td>
+                            <td style="text-align: center;">
+                                <%=result[i].name%>
+                            </td>
+                            <td style="text-align: center;">
+                                <%=result[i].sizes.split(',')[j]%>
+                            </td>
+                            <td style="text-align: center;">
+                                <%=result[i].entities.split(',')[j]%>
+                            </td>
+                            <td style="text-align: center;">
+                                <div class="row" style="text-align: center;">
+                                    <div class="col-md-3">
+                                        <input class="form-control" id="product<%=result[i].size_id.split(',')[j]%>" value = '0'>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button class="form-control btn-success" onclick="add(<%=result[i].size_id.split(',')[j]%>)">OK</button>
+                                    </div>
 
                                 </div>
-                        </a>
-                        <%if (type == 1){%>
-                        <div class="col-md-3">
 
-                            <a class="btn btn-primary" href="/edit-product/<%=result[j].name.replace(/ /g, '-')%>">Edit</a>
 
+                            </td>
+                        </tr>
+
+
+                    <%}%>
+                <%}%>
+                </tbody>
+            </table>
+            <%} else {%>
+            <%page = 0;%>
+            <% for(j = 0;j < result.length;j++){ %>
+            <%page = parseInt(j/12+1);%>
+            <div class="col-xs-6 col-md-4 folder<%= result[j].folder_ids %> <%= page %>">
+                <a href="/product-detail/<%=result[j].cat_name.replace(" ", "-")%>/<%=result[j].name.replace(/ /g, '-')%>" >
+                    <div class="product">
+                        <%if(result[j].new == 'Y'){%>
+                        <div class="col-xs-3 col-md-2" style="position: absolute; padding: 0px;">
+                            <img class="shake img-responsive" src="/img/moi.svg">
                         </div>
                         <%}%>
+                        <div class="col-xs-3 col-md-2 col-md-offset-2 col-xs-offset-3" style="position: absolute; padding: 0px;">
+                            <img class="img-responsive" src="/img/freeship.svg">
+                        </div>
+                        <div class="" style="">
+                            <img src="/assets/img/<%= result[j].image==null?result[j].image:result[j].image.split(";")[0]%>" class="img-responsive">
+
+                            <!-- <a href="/maintenance-prd?catflt=<%= result[j].cat_names %>&catId=<%= result[j].cat_ids %>" class="portfolio_item work-grid"style="width: 90%; color: #B28D34;font-weight: bold; margin-bottom: 10px;overflow: hidden; margin-top: 20px;">
+                                            <button type="button" class="btn btn-default center-block">
+                                                     Xem Thêm
+                                            </button>
+                                        </a> -->
+                        </div>
+
+                        <% if(result[j].prices != 0){ %>
+                        <% if(result[j].disct_prices == null){ %>
+                        <h3 class="font-custom" style="margin: 0px;"><%= result[j].name %></h3>
+                        <h3><a href="" style="font-weight: bold; color: #6b6b6c; float: left;">Từ&nbsp;</a></h3>
+                        <h3 class="font-custom currency" style="color: red; font-weight: bold; margin-top: 10px;" id ="dictprice"><%= result[j].prices %></h3>
+                        <% } else { %>
+                        <div style="position: relative;">
+                            <div class="col-md-3" style="position: absolute; padding: 0px; top: 0px; right: 0px;">
+                                <div style="position: relative;">
+                                    <img src="/img/sale.svg">
+                                    <h5 style="color: white; position: absolute; top: 0px; text-align: center; padding-left: 15px;">-<%=Math.round((1 - parseInt(result[j].disct_prices) / parseInt(result[j].prices)) * 100)%>%</h5>
+                                </div>
+                                <!-- <h4 style="color: white;">-39%</h4>   -->
+                            </div>
+                            <h3 class="font-custom" style="margin: 0px;"><%= result[j].name %></h3>
+                            <h3><a href="" style="font-weight: bold; color: #6b6b6c; float: left;">Từ&nbsp;</a></h3>
+                            <h3 class="font-custom currency" style="color: red; font-weight: bold; margin-top: 10px;" id ="dictprice"><%= result[j].disct_prices %></h3>
+                            <h4 class="currency" style="text-decoration: line-through; color: #6b6b6c; margin: 0px;"><%= result[j].prices %></h4>
+                        </div>
+                        <% } %>
+                        <%} else {%>
+                        <h3 class="font-custom" style="margin: 0px;"><%= result[j].name %></h3>
+                        <%}%>
+
                     </div>
-                <% } %>
+                </a>
+                <%if (type == 1){%>
+                <div class="col-md-3">
+
+                    <a class="btn btn-primary" href="/edit-product/<%=result[j].name.replace(/ /g, '-')%>">Edit</a>
+
+                </div>
+                <%}%>
+            </div>
+            <% } %>
+            <%}%>
+
         </div>
         <div>
             <nav aria-label="Page navigation example" style="text-align: center;">
@@ -273,6 +325,28 @@
             <script  type="text/javascript" src="/js/countdown.js"></script>
             <script type="text/javascript"  src="/js/gridrotator.js"></script>
             <script type="text/javascript"  src="/js/custom.js"></script>
+<script>
+    function add(idx){
+        var val = document.getElementById('product'+idx).value;
+        var formdata = new FormData();
+        formdata.append('id', idx);
+        formdata.append('entity', val);
+        $.ajax({
+            url: '/ajax/updateProductEntity',
+            type: 'POST',
+            data: formdata,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                alert('success');
+                window.location.href="/maintenance-prd/All";
+            }
+        });
+    }
+</script>
             <script>
                 if ('<%=catflt%>' != 'undefined') {
                     document.getElementById('catflt').value = '<%= catflt %>';
