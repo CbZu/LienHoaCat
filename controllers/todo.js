@@ -1676,7 +1676,7 @@ module.exports.maintenance_prd = function(req, res){
             'from product p join thuoctinh t on p.product_id = t.product_id join description d on p.description = d.description_id ';
 
         var where = '';
-        if(req.params.catflt != undefined && req.params.catflt != 'Search' && req.params.catflt != 'undefined'){
+        if(req.params.catflt != undefined && req.params.catflt != 'Search' && req.params.catflt != 'All' && req.params.catflt != 'undefined'){
             where += ' cat_id = (select cat_id from category where cat_name = \''+req.params.catflt.replace(/-/g,' ')+'\') and';
         }
         if(req.query.prdflt != undefined && req.query.prdflt != '' ){
@@ -1710,10 +1710,10 @@ module.exports.maintenance_prd = function(req, res){
 
     res.cookie("keyword", keyword);
         if(where.trim() == ''){
-            sql+= '  group by name order by p.product_id;'
+            sql+= '  group by name  order by p.entity asc ;'
         }else{
             where = where.substring(0,where.length-3);
-            sql += ' where ' +  where  + '  group by name order by p.product_id;'
+            sql += ' where ' +  where  + '  group by name order by p.entity asc;'
         }
         var con = req.db.driver.db;
         con.query(sql, function (err, rows) {
