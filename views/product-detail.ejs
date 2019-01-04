@@ -56,15 +56,15 @@
             <%if(result[0].price != 0){%>
             <div class="row">
                 <div class="col-md-10">
-                    <h4 style="color: #2b70fc;">Hợp với mệnh: <a href="#"
+                    <h3 style="color: #2b70fc;">Hợp với mệnh: <a href="#"
                                                                  style="color: black;"><%= result[0].menh.substring(0, result[0].menh.length - 1).replace(/;/g, ',') %></a>
-                    </h4>
-                    <h4 style="color: #2b70fc;">Hợp với tuổi: <a href="#"
+                    </h3>
+                    <h3 style="color: #2b70fc;">Hợp với tuổi: <a href="#"
                                                                  style="color: black;"><%= result[0].tuoi.substring(0, result[0].tuoi.length - 1).replace(/;/g, ',') %></a>
-                    </h4>
-                    <h4 style="color: #2b70fc;">Hợp với màu: <a href="#"
+                    </h3>
+                    <h3 style="color: #2b70fc;">Hợp với màu: <a href="#"
                                                                 style="color: black;"><%= result[0].mau.substring(0, result[0].mau.length - 1).replace(/;/g, ',') %></a>
-                    </h4>
+                    </h3>
                 </div>
             </div>
             <div class="row">
@@ -72,7 +72,7 @@
                     <div style="position: relative;">
                         <select class="form-control" id="idselect" onchange="optionSelected()">
                             <% for(i = 0;i < result.length;i++){ %>
-                            <option onclick="optionSelected(<%= result[i].product_id %>)" class="dropdown-content1"
+                            <option onclick="optionSelected()" class="dropdown-content1"
                                     value="<%= result[i].product_id %>"><%= result[i].size %></option>
                             <% } %>
                         </select>
@@ -125,25 +125,26 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 col-md-offset-2">
+                <div class="col-md-4 ">
                     <button class="button-image"><img src="/img/muangay.svg" class="img-responsive" onclick=""></button>
                 </div>
                 <div class="col-md-4 ">
                     <button class="button-image"><img src="/img/themvaogio.svg" class="img-responsive"
                                                       onclick="AddCart()"></button>
                 </div>
+                <div class="col-md-4">
+                    <a href="/maintenance-prd/<%=(keyword=='undefine'||keyword.trim()=='')?result[0].catflt.replace(/ /g, '-'):'Search?'+keyword %>" class="button-image">
+                            <img src="/img/xemthem.svg" class="img-responsive" style="margin-left: 8px;">
+                    </a>
+                </div>
             </div>
             <div class="row" style="position: relative;">
-                <div class="col-md-8">
-                    <div style="background-color: #f3e6e6; min-height: 100px;" id="information">Không có thông tin
-                        thêm
+                <div class="row">
+                    <div class="col-md-12">
+                        <div style="background-color: #f3e6e6; min-height: 100px;" id="information">Không có thông tin
+                            thêm
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <a href="/maintenance-prd/<%=(keyword=='undefine'||keyword.trim()=='')?result[0].catflt.replace(/ /g, '-'):'Search?'+keyword %>" class="button-image"
-                       style="position: absolute; right: 0px; top: 30px;">
-                        <img src="/img/xemthem.svg">
-                    </a>
                 </div>
             </div>
             <%}%>
@@ -298,10 +299,18 @@
             document.getElementById('dictprice').innerHTML = '<%= result[i].disct_price %>'
             document.getElementById('price').innerHTML = '<%= result[i].price %>';
             ThanhTien();
+            document.getElementById('information').innerHTML = '<%= result[i].information %>'
             <% } %>
         }
-        document.getElementById('information').innerHTML = '<%= result[i].information %>'
+        
         <% } %>
+        if (document.getElementById('information').innerHTML.trim() == '') {
+            document.getElementById('information').style.backgroundColor = "transparent";
+            document.getElementById('information').style.display = "none";
+        } else{
+            document.getElementById('information').style.backgroundColor = "#f3e6e6";
+            document.getElementById('information').style.display = "block";
+        }
 
         var currents = document.getElementsByClassName("currency");
         var decimals = 0;
