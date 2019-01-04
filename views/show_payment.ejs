@@ -11,48 +11,43 @@
 						<div class="form-group">
 							<h3><span class="label label-success">Số điện thoại :</span></h3>
 						</div>
+                        <div class="form-group">
+                            <input  class=" form-control" name = 'phone' id = 'phone'   type="text" />
+                        </div>
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
 							<h3><span class="label label-success">Trạng thái: </span></h3>
 						</div>
+                        <div class="form-group">
+                            <select name="statusflt" id="statusflt" class="form-control">
+                                <option value="none" selected="">----Selected-----</option>
+
+                                <option value="0" >Đặt hàng </option>
+
+                                <option value="1" >Chốt Gửi </option>
+
+                                <option value="2">Đang Giao Hàng </option>
+
+                                <option value="3" >Thành Công </option>
+
+                                <option value="4" >Boom </option>
+
+                                <option value="5" >Chuyển Hoàn </option>
+                                <option value="6" >Hủy </option>
+
+
+                            </select>
+
+                        </div>
 					</div>
 
 				</div>
 				<div class="row">
-					<div class="col-md-3">
+
+					<div class="col-md-12">
 						<div class="form-group">
-							<input  class=" form-control" name = 'phone' id = 'phone'   type="text" />
-						</div>
-
-					</div>
-					<div class="col-md-3">
-						<div class="form-group">
-							<select name="statusflt" id="statusflt" class="form-control">
-								<option value="none" selected="">----Selected-----</option>
-
-								<option value="0" >Đặt hàng </option>
-
-								<option value="1" >Chốt Gửi </option>
-
-								<option value="2">Đang Giao Hàng </option>
-
-								<option value="3" >Thành Công </option>
-
-								<option value="4" >Boom </option>
-
-								<option value="5" >Chuyển Hoàn </option>
-								<option value="6" >Hủy </option>
-
-
-							</select>
-
-						</div>
-					</div>
-
-					<div class="col-md-3">
-						<div class="form-group">
-							<input class="btn btn-primary" value = 'Áp Dụng' type = 'submit'></input>
+							<input class="btn btn-primary" value = 'Áp Dụng' type = 'submit'/>
 						</div>
 
 					</div>
@@ -105,53 +100,43 @@
                 <% } %> 
             </div>
         </div> -->
-		<div class="row">
-                <div class="col-md-2">
-                    <h4 class="booking-item-title">User</h4>
-                </div>
-                <div class="col-md-1">
-                    <h4 class="booking-item-title">Quantity</h4>
-                </div>
-                <div class="col-md-2">
-                    <h4 class="booking-item-title">Status</h4>
-                </div>
-                <div class="col-md-2">
-                    <h4 class="booking-item-title">Total</h4>
-                </div>
-                <div class="col-md-2">
-                    <h4 class="booking-item-title">Created Date</h4>
-                </div>
-        </div>
+        <table class="table table-bordered">
+            <thead>
+                <th class="text-right" style="text-align: center;"><h4>Người dùng</h4></th>
+                <th class="text-right" style="text-align: center;"><h4>Số lượng</h4></th>
+                <th class="text-right" style="text-align: center;"><h4>Trạng thái</h4></th>
+                <th class="text-right" style="text-align: center;"><h4>Tổng tiền</h4></th>
+                <th class="text-right" style="text-align: center;"><h4>Ngày tạo</h4></th>
+                <!-- <td ><h4 style="text-align: center;">Size</h4></td>
+                <td class="text-right"><h4 style="text-align: center;"></h4></td>
+                <td class="text-right"><h4 style="text-align: center;"></h4></td>
+                <td class="text-right"><h4 style="text-align: center;"></h4></td> -->
+            </thead>
+            <tbody>
+                <% for(i = 0;i < payments.length;i++){ %>
 
-        <% for(i = 0;i < payments.length;i++){ %>
-
-        	<a class="booking-item" href="/payment-detail?id=<%= payments[i].payment_id%>&user=<%=payments[i].user_id%>">
-        		<div class="row">
-
-        			<div class="row">
-        				<div class="col-md-2">
-        					<p class="booking-item-description">
-        						<%= payments[i].name +  ' (' + payments[i].phone + ')'%>
-        					</p>
-        				</div>
-        				<div class="col-md-1">
-        					<p class="booking-item-description"> <%= payments[i].products %></p>
-        				</div>
-        				<div class="col-md-2">
-							<img class="img-responsive" src="/assets/img/status/status<%=payments[i].status_id%>.png">
-
-        				</div>
-        				<div class="col-md-2">
-        					<%= payments[i].total_after_promote%>
-        				</div>
-        				<div class="col-md-2">
-        					<p class="booking-item-description"><%=payments[i].date%></p>
-        				</div>
-        			</div>
-        		</div>
-        	</a>
-
-        <% } %>		
+                <tr>
+                    <td class="text-center">
+                        <a class="booking-item" href="/payment-detail?id=<%= payments[i].payment_id%>&user=<%=payments[i].user_id%>">
+                            <%= payments[i].name +  ' (' + payments[i].phone + ')'%>
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <%= payments[i].products %>
+                    </td>
+                    <td class="text-center">
+                        <img class="img-responsive center-block" src="/assets/img/status/status<%=payments[i].status_id%>.png">
+                    </td>
+                    <td class="text-center">
+                        <%= payments[i].total_after_promote%>
+                    </td>
+                    <td class="text-center">
+                        <%=payments[i].date%>
+                    </td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>	
 	</div>
 </body>
 <% include partials/index_Footer.ejs %>
