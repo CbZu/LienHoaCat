@@ -999,6 +999,39 @@ module.exports.update_payment = function(req, res){
                total = sum - promotion;
                sql = 'update payment set sum = '+sum+', promotion = '+promotion+' , total = '+total+' where payment_id = '+input.payment_id+'; '
                con.query(sql);
+           } else {
+               if(input.status == '1'){
+                   sql ='select product_id,amount,(select entity from product where product_id = c.product_id) as entity from cart c where payment_id = '+input.payment_id+';';
+                   con.query(sql, function (err, row1s) {
+                      if(!err){
+
+                          row1s.forEach(function(element) {
+                              var result = parseInt(element.entity) - parseInt(element.amount);
+                              sql = 'update product set entity = '+result+' where product_id = '+element.product_id+';';
+                              con.query(sql);
+                          });
+                      }
+                   });
+               }
+               if(input.status == '4' || input.status == '5'){
+                   sql ='select product_id,amount,(select entity from product where product_id = c.product_id) as entity from cart c where payment_id = '+input.payment_id+';';
+                   con.query(sql, function (err, row1s) {
+                       if(!err){
+
+                           row1s.forEach(function(element) {
+                               var result = parseInt(element.entity) + parseInt(element.amount);
+                               sql = 'update product set entity = '+result+' where product_id = '+element.product_id+';';
+                               con.query(sql);
+                           });
+                       }
+                   });
+               }
+               if(input.status == '6'){
+                   sql = 'delete from cart where payment_id = '+input.payment_id+';';
+                   con.query(sql);
+                   sql = 'delete from payment where payment_id = '+input.payment_id+';';
+                   con.query(sql);
+               }
            }
            var data = {status: 'success', code: '200'};
            res.json(data);
@@ -1151,40 +1184,61 @@ module.exports.update_cart = function(req, res){
     var i = 0;
     var data;
     var sql = '';
-    input.size_id.forEach(function(element) {
-        if(input.userpayment != undefined){
-             sql = 'select * from cart where user_id = '+input.userpayment+' and product_id = '+element+' and payment_id='+input.payment+'; ';
-        } else{
-             sql = 'select * from cart where user_id = '+userid+' and product_id = '+element+' and payment_id=0; ';
-        }
-
-        var con = req.db.driver.db;
-        con.query(sql, function (err, rows) {
-            if(rows==undefined){
-                var data = {status: 'err', code: '300',description:"Product is not exist!!!"};
-                res.json(data);
-            } else{
-                if(input.quantity[i] != '0'){
-                    if(input.userpayment != undefined){
-                        sql = 'update cart set amount = '+input.quantity[i]+' where user_id = '+input.userpayment+' and product_id = '+element+' and payment_id='+input.payment+'; ';
-                    } else {
-                        sql = 'update cart set amount = '+input.quantity[i]+' where user_id = '+userid+' and product_id = '+element+' and payment_id=0;'
-                    }
-                }
-                else{
-                    if(input.userpayment != undefined){
-                        sql = 'delete from cart where user_id = '+input.userpayment+' and product_id = '+element+' and payment_id='+input.payment+'; ';
-                    } else {
-                        sql = 'delete from cart where user_id = '+userid+' and product_id = '+element+' and payment_id=0; '
-                    }
-
-                }
-                con.query(sql) ;
-                i++;
+    if(req.session.user_id == undefined){
+        var cart = '';
+        var amount = '';
+        var i = 0
+        input.size_id.forEach(function(element) {
+            if(input.quantity[i] != 0){
+                cart += ','+element ;
+                amount += ','+input.quantity[i] ;
             }
+            i++
         });
 
-    });
+        var carts = {
+            id : cart.replace(",",""),
+            amount :amount.replace(",","")
+        }
+
+        res.cookie("cart", carts);
+    } else {
+        input.size_id.forEach(function(element) {
+            if(input.userpayment != undefined){
+                sql = 'select * from cart where user_id = '+input.userpayment+' and product_id = '+element+' and payment_id='+input.payment+'; ';
+            } else{
+                sql = 'select * from cart where user_id = '+userid+' and product_id = '+element+' and payment_id=0; ';
+            }
+
+            var con = req.db.driver.db;
+            con.query(sql, function (err, rows) {
+                if(rows==undefined){
+                    var data = {status: 'err', code: '300',description:"Product is not exist!!!"};
+                    res.json(data);
+                } else{
+                    if(input.quantity[i] != '0'){
+                        if(input.userpayment != undefined){
+                            sql = 'update cart set amount = '+input.quantity[i]+' where user_id = '+input.userpayment+' and product_id = '+element+' and payment_id='+input.payment+'; ';
+                        } else {
+                            sql = 'update cart set amount = '+input.quantity[i]+' where user_id = '+userid+' and product_id = '+element+' and payment_id=0;'
+                        }
+                    }
+                    else{
+                        if(input.userpayment != undefined){
+                            sql = 'delete from cart where user_id = '+input.userpayment+' and product_id = '+element+' and payment_id='+input.payment+'; ';
+                        } else {
+                            sql = 'delete from cart where user_id = '+userid+' and product_id = '+element+' and payment_id=0; '
+                        }
+
+                    }
+                    con.query(sql) ;
+                    i++;
+                }
+            });
+
+        });
+    }
+
     data = {status: 'success', code: '200'};
     res.json(data);
 

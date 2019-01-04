@@ -218,7 +218,9 @@
 
                 }
                 else {
-                    document.getElementById("totalLabel").innerHTML = "<label style='text-decoration: line-through'><font color='black'> <%= totalAll %></font></lable><label><font color='red'> -> " + data.totalAfter + "</lable>";
+                    var result = parseFloat('<%=totalAll%>') - parseFloat(data.totalAfter);
+
+                    document.getElementById("totalLabel").innerHTML = "<label style='text-decoration: line-through'><font color='black'> <%= totalAll %></font></lable><label><font color='red'> -> " + result + "</lable>";
                 }
             }
         });

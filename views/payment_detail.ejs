@@ -224,7 +224,12 @@
             success: function (msg) {
                 //alert(msg);
                 data = msg;
-                location.reload();
+                if(value == '6'){
+                    window.location.href = '/show-payment';
+                } else {
+                    location.reload();
+                }
+
 
             }
         });

@@ -165,6 +165,10 @@
 <% include /partials/index_Footer.ejs %>
 
 <script>
+    <%if(keyword != undefined){%>
+    document.getElementById('keyword-search').value = '<%=keyword.split('&')[0].split('=')[1]%>'
+
+    <%}%>
     var element = '<%= description %>';
     var str = element.replace(/&#39;/g, "\"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, "\"");
 
@@ -175,31 +179,36 @@
 <script>
 
     function AddCart(idx) {
-        var formdata1 = new FormData();
-        var sizes = new Array();
-        var quantities = new Array();
-        var input = document.getElementsByClassName('booking-item-title size_id');
-        sizes.push(document.getElementById('idselect').value);
-        quantities.push(parseInt($("#quantity").val()));
-        formdata1.append('size_id', sizes);
-        formdata1.append('quantity', quantities);
-        $.ajax({
-            url: "/PetMart/add-to-cart",
-            type: 'POST',
-            dataType: 'JSON',
-            data: JSON.stringify({size_id: sizes, quantity: quantities}),
-            async: false,
-            cache: false,
-            contentType: 'application/json; charset=UTF-8',
-            enctype: 'multipart/form-data',
-            processData: false,
-            success: function (response) {
-                alert('success');
-                $("#quantity").val('1');
-                ThanhTien();
-                location.reload();
-            }
-        });
+        if(parseInt($("#quantity").val()) == 0){
+            alert('Xin mời nhập số lượng !!!')
+        } else {
+            var formdata1 = new FormData();
+            var sizes = new Array();
+            var quantities = new Array();
+            var input = document.getElementsByClassName('booking-item-title size_id');
+            sizes.push(document.getElementById('idselect').value);
+            quantities.push(parseInt($("#quantity").val()));
+            formdata1.append('size_id', sizes);
+            formdata1.append('quantity', quantities);
+            $.ajax({
+                url: "/PetMart/add-to-cart",
+                type: 'POST',
+                dataType: 'JSON',
+                data: JSON.stringify({size_id: sizes, quantity: quantities}),
+                async: false,
+                cache: false,
+                contentType: 'application/json; charset=UTF-8',
+                enctype: 'multipart/form-data',
+                processData: false,
+                success: function (response) {
+                    alert('success');
+                    $("#quantity").val('1');
+                    ThanhTien();
+                    location.reload();
+                }
+            });
+        }
+
     }
 </script>
 

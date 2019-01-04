@@ -326,6 +326,9 @@
             <script type="text/javascript"  src="/js/gridrotator.js"></script>
             <script type="text/javascript"  src="/js/custom.js"></script>
 <script>
+    <%if(keyword != undefined){%>
+    document.getElementById('keyword-search').value = '<%=keyword%>'
+    <%}%>
     function add(idx){
         var val = document.getElementById('product'+idx).value;
         var formdata = new FormData();
