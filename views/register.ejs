@@ -203,20 +203,20 @@
                 success: function (msg) {
                     //alert(msg);
                     data = msg;
-                    if (data.status == 'exist') {
-                        obj.after("<label class='error'>Số điện thoại này đã được đăng kí</label>");
-                        $("#frmId .btn").attr('disabled', 'disabled');
-                    }
-                    else {
-                        $("#frmId .btn").removeAttr('disabled');
-                    }
+
 
                     if ((obj.val().length > 11) || (isNaN(obj.val()))) {
                         obj.after("<label class='error'>Số điện thoại không hợp lệ</label>");
                         $("#frmId .btn").attr('disabled', 'disabled');
                     }
                     else {
-                        $("#frmId .btn").removeAttr('disabled');
+                        if (data.status == 'exist') {
+                            obj.after("<label class='error'>Số điện thoại này đã được đăng kí</label>");
+                            $("#frmId .btn").attr('disabled', 'disabled');
+                        }
+                        else {
+                            $("#frmId .btn").removeAttr('disabled');
+                        }
                     }
                 }
             });

@@ -370,7 +370,7 @@ exports.updateProduct=function(req,res){
     });
 
     data={status:'success',code:'400'};
-    res.redirect("/edit-product/"+input.name.replace(/ /g,'-'))
+    res.json(data)
 };
 exports.updateProductImage=function(req,res){
     var input = JSON.parse(JSON.stringify(req.body));

@@ -87,7 +87,8 @@ module.exports = function (app, controllers) {
     app.get('/promotions',controllers.todo.promotions);
     app.get('/create-promotion',controllers.todo.create_promotions);
     app.get('/promotion-detail/:title',controllers.todo.promotions_detail);
-
+    app.get('/reset-password',controllers.account.reset_password);
+    app.post('/update-password',controllers.account.update_password);
     /*app.get('/register',controllers.account.register);
 
 

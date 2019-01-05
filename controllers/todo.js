@@ -2317,20 +2317,24 @@ module.exports.checkout = function(req, res){
                         var data = {status: 'error', code: '300',error: err};
                         res.json(data);
                     }else{
-                        array.push(rows[0]);
-                        totalAll += parseFloat(rows[0].sums.replace(/,/g , ''));
-                        if(array.length == req.cookies.cart.id.split(',').length) {
-                            var data = {
-                                status: 'success', code: '200', result: array, fname: req.session.firstname,
-                                pic: req.session.pic,
-                                type: req.session.type,
-                                userid: req.session.user_id,
-                                totalAll: totalAll,
-                                userdetail:undefined,
-                                treefolder: req.session.treefolder
-                            };
-                            res.render("payment", data);
-                        }
+                        sql = 'select * from lhc.settingshop';
+                        con.query(sql, function (err, row1setting){
+                            array.push(rows[0]);
+                            totalAll += parseFloat(rows[0].sums.replace(/,/g , ''));
+                            if(array.length == req.cookies.cart.id.split(',').length) {
+                                var data = {
+                                    status: 'success', code: '200', setting:row1setting, result: array, fname: req.session.firstname,
+                                    pic: req.session.pic,
+                                    type: req.session.type,
+                                    userid: req.session.user_id,
+                                    totalAll: totalAll,
+                                    userdetail:undefined,
+                                    treefolder: req.session.treefolder
+                                };
+                                res.render("payment", data);
+                            }
+                        });
+
 
 
                     }
