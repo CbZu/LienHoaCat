@@ -184,7 +184,7 @@
         <h4>Phí vận chuyển</h4>
         <h3>Tổng cộng: </h3>
         <h2 id = "totalLabel" class="font-custom currency"><%=totalAll%></h2>
-        <%if(result[0].voucher != 'undefined') {%>
+        <%if(result[0].voucher != 'undefined' && result[0].voucher != '') {%>
         <h2> (<%=result[0].voucher%>)</h2>
         <%}%>
     </div>
