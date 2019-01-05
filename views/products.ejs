@@ -240,17 +240,13 @@
                             <img class="shake img-responsive" src="/img/moi.svg">
                         </div>
                         <%}%>
+                        <% if(result[j].prices > result[j].freeship || result[j].disct_prices > result[j].freeship){ %>
                         <div class="col-xs-3 col-md-2 col-md-offset-2 col-xs-offset-3" style="position: absolute; padding: 0px;">
                             <img class="img-responsive" src="/img/freeship.svg">
                         </div>
+                        <%}%>
                         <div class="" style="">
                             <img src="/assets/img/<%= result[j].image==null?result[j].image:result[j].image.split(";")[0]%>" class="img-responsive">
-
-                            <!-- <a href="/maintenance-prd?catflt=<%= result[j].cat_names %>&catId=<%= result[j].cat_ids %>" class="portfolio_item work-grid"style="width: 90%; color: #B28D34;font-weight: bold; margin-bottom: 10px;overflow: hidden; margin-top: 20px;">
-                                            <button type="button" class="btn btn-default center-block">
-                                                     Xem Thêm
-                                            </button>
-                                        </a> -->
                         </div>
 
                         <% if(result[j].prices != 0){ %>

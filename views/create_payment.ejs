@@ -12,6 +12,13 @@
     </div>
     <div class="container solid-content">
         <div class="row">
+
+            <div  class="col-md-2">
+                <h3>Mã đơn Hàng : </h3>
+            <input class="form-control" id = 'title' name = 'title' value='<%=title%>'>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-2">
                 <div class="form-group form-group-icon-left">
                     <h3>Status : </h3>
@@ -189,7 +196,7 @@
                 //alert(msg);
                 data = msg;
                 if (data.status == 'success') {
-                    document.getElementById('name').value = data.detail[0].firstname + ' ' + data.detail[0].lastname;
+                    document.getElementById('name').value = data.detail[0].firstname
                     document.getElementById('email').value = data.detail[0].email;
                     document.getElementById('address').value = data.detail[0].address;
                     document.getElementById('fs').innerHTML = data.fail +' đơn Thất Bại / ' + data.success+' đơn Thành Công  ';
@@ -252,6 +259,8 @@
         formdata1.append('address',$("#address").val());
         formdata1.append('voucher',$("#voucher").val());
         formdata1.append('mode','pay');
+        formdata1.append('title',$("#title").val());
+
         $.ajax({
             url: "/PetMart/signup",
             type: 'POST',

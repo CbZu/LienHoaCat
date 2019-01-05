@@ -20,7 +20,7 @@ module.exports.signup=function(req,res){
         userType = input.type;
     }
 
-    var sqlCheck = 'select * from lhc.user where phone = '+input.phone +' or email = \''+input.email+'\' ;';
+    var sqlCheck = 'select * from lhc.user where phone = '+input.phone +' ;';
     var con = req.db.driver.db;
     con.query(sqlCheck, function (err, rows) {
         if(err){
@@ -37,18 +37,26 @@ module.exports.signup=function(req,res){
                 }
 
             }else{
+                if(input.password.trim() == ''){
+                    passwd='akfgbksjdahfkljdash';
+                } else {
+                    passwd=md5(input.password);
+                }
+
                 var sql = 'INSERT INTO `lhc`.`user`\n' +
                     '(`email`,\n' +
                     '`phone`,\n' +
+                    '`password`,\n' +
                     '`firstname`,\n' +
                     '`create_time`,\n' +
-                    '`type_id`)\n' +
+                    '`type_id`, `username`)\n' +
                     'VALUES (\n' +
                     '\''+input.email+'\',\n' +
                     ''+input.phone+',\n' +
+                    '\''+passwd+'\',\n' +
                     '\''+input.firstname+'\',\n' +
                     ''+year+''+month+''+day+',\n' +
-                    ''+userType+');';
+                    ''+userType+', \''+input.phone+'\');';
                 console.log(sql);
                 con.query(sql, function (err, row1s) {
                     if(err){
@@ -108,7 +116,7 @@ module.exports.signup=function(req,res){
             phone    : input.phone,
             firstname    : input.firstname,
             lastname : input.lastname,
-            dob: parseInt(input.dob.replace(/-/g,'')),
+            dob: input.dob.replace(/-/g,''),
             password:passwd,
             create_time:parseInt(year+''+month+''+day),
             type_id : parseInt(input.type)
@@ -136,9 +144,9 @@ module.exports.signup=function(req,res){
                         'VALUES (\n' +
                         '\''+input.email+'\',\n' +
                         ''+input.dob.replace(/-/g,'')+',\n' +
-                        ''+input.phone+',\n' +
+                        '\''+input.phone+'\',\n' +
                         '\''+input.firstname+'\',\n' +
-                        '\''+input.lastname+'\',\n' +
+                        '\'\',\n' +
                         ''+year+''+month+''+day+',\n' +
                         ''+userType+',\n' +
                         '\''+passwd+'\',\''+input.username+'\',\''+input.gender+'\');';
@@ -210,37 +218,31 @@ module.exports.login=function(req,res){
     module.exports.login_admin=function(req,res){
         var input=JSON.parse(JSON.stringify(req.body));
         var data={
-            username:input.email,
-            password:md5(input.password)
+            username:req.query.email,
+            password:md5(req.query.password)
         };
         req.models.user.find(data, function(err, rows,next) {
             if(err){
                 console.log(err);
             }else{
                 if(rows.length>0){
-                    req.session.firstname=rows[0].firstname;
+                    req.session.firstname=rows[0].firstname.split(' ')[rows[0].firstname.split(' ').length-1];
                     req.session.lastname=rows[0].lastname;
                     req.session.user_id=rows[0].user_id;
                     req.session.type=rows[0].type_id;
                     req.session.email=rows[0].email;
                     console.log(rows);
-                }/*else{
-                    var data={
-                        username:input.email,
-                        password:md5(input.password)
+                    var data = {
+                        status : 'success',code:'200'
                     };
-                    req.models.user.find(data, function(err, row1s,next) {
-                        if(row1s.length>0){
-                            req.session.firstname=row1s[0].firstname;
-                            req.session.lastname=row1s[0].lastname;
-                            req.session.user_id=row1s[0].user_id;
-                            req.session.type=row1s[0].type_id;
-                            req.session.email=row1s[0].email;
-                            console.log(row1s);
-                        }
-                    });
-                }*/
-                res.redirect('/');
+                    res.json(data)
+                } else {
+                    var data = {
+                        status : 'fail',code:'404'
+                    };
+                    res.json(data)
+                }
+
             }
 
 
@@ -278,7 +280,10 @@ module.exports.show_account = function(req, res){
         if(req.session.type=='1'
      /*       &&  (req.session.type == 1)*/){
 
-            var sql = 'select * from user ';
+            var sql = 'select c.user_id,c.phone,c.dob,c.gender,c.firstname,p.address,' +
+                '(select count(payment_id) from payment where user_id = c.user_id and status_id in (4,5,6)) as fail ,'+
+                '(select count(payment_id) from payment where user_id = c.user_id) as success ,'+
+                'c.checked from user c join places p on p.user_id = c.user_id where c.password <> \'akfgbksjdahfkljdash\'';
             if( (req.query.fname != undefined &&  req.query.fname != '')
                 ||  (req.query.lname != undefined &&  req.query.lname != '')
                 ||  (req.query.email != undefined &&  req.query.email != '')
@@ -286,16 +291,16 @@ module.exports.show_account = function(req, res){
                 sql += ' where  ';
             }
             if(req.query.fname != '' && req.query.fname != undefined){
-                sql += ' firstname = \''+req.query.fname+'\' and';
+                sql += ' c.firstname = \''+req.query.fname+'\' and';
             }
             if(req.query.lname != '' && req.query.lname != undefined){
-                sql += ' lastname = \''+req.query.lname+'\' and';
+                sql += ' c.lastname = \''+req.query.lname+'\' and';
             }
             if(req.query.email != '' && req.query.email != undefined){
-                sql += ' email = \''+req.query.email+'\' and';
+                sql += ' c.email = \''+req.query.email+'\' and';
             }
             if(req.query.type != '0' && req.query.type != undefined){
-                sql += ' type_id = '+req.query.type+' and';
+                sql += ' c.type_id = '+req.query.type+' and';
             }
 
             if( (req.query.fname != undefined &&  req.query.fname != '')
@@ -311,6 +316,7 @@ module.exports.show_account = function(req, res){
                     console.log(err);
                     res.redirect('/maintenance')
                 }else{
+
                     data={title:req.session.firstname+' | home',fname:req.session.firstname,users:rows,dateFormat:dateFormat,pic:req.session.pic,type:req.session.type,
                         fnameflt:req.query.fname,
                         lnameflt:req.query.lname,
@@ -331,10 +337,10 @@ module.exports.show_account = function(req, res){
 
 module.exports.edit_account = function(req, res){
     if(req.session.type == '1'){
-        if(req.query.email == undefined){
+        if(req.query.phone == undefined){
             var sql = 'select *,a.city,a.address,a.country  from user u join places a on a.user_id = u.user_id where u.user_id = '+req.session.user_id+';'
         } else {
-            var sql = 'select *,a.city,a.address,a.country  from user u join places a on a.user_id = u.user_id where u.email = \''+req.query.email+'\';'
+            var sql = 'select *,a.city,a.address,a.country  from user u join places a on a.user_id = u.user_id where u.phone = \''+req.query.phone+'\';'
         }
 
         var con = req.db.driver.db;

@@ -166,24 +166,22 @@
                           title="Close Modal">&times;</span>
                 <img src="/img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
             </div>
-            <form class="form-horizontal" role="form" action="/login" method="POST">
                 <div class="form-group has-success">
                     <label for="inputEmail3" class="col-sm-2 control-label">Tài khoản:</label>
                     <div class="col-sm-10">
-                        <input type="text" placeholder="Enter Username" required  class="form-control" name="email">
+                        <input type="text" placeholder="Enter Username" required  class="form-control" id = "email" name="email">
                     </div>
                 </div>
                 <div class="form-group has-success">
                     <label for="inputPassword3" class="col-sm-2 control-label">Mật khẩu:</label>
                     <div class="col-sm-10">
-                        <input type="password" placeholder="Enter Password" class="form-control" name="password">
+                        <input type="password" placeholder="Enter Password" class="form-control" id = "password" name="password">
                     </div>
                 </div>
                 <!-- <input type="checkbox" checked="checked" name="remember"> Remember me -->
-                <button class="center-block btn btn-primary" type="submit">Đăng nhập</button>
-            </form>
-            <div class="col-md-5">
+                <button class="center-block btn btn-primary" onclick="Submit()">Đăng nhập</button>
 
+            <div class="col-md-5">
 
             </div>
             <div class="col-md-2">
@@ -194,7 +192,30 @@
         </div>
     </div>
 </div>
+<script>
+    function Submit() {
+        $(".error").remove();
+        $.ajax({
+            url: '/login?email='+$("#email").val()+'&password='+$("#password").val(),
+            type: 'POST',
+            dataType: 'JSON',
+            async: false,
+            cache: false,
+            contentType: 'application/json; charset=UTF-8',
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                if(response.code == '404'){
+                    $("#password").after("<label class='error'>Tài Khoản hoặc Mật Khẩu không đúng</label>");
+                } else {
+                    alert("Đăng Nhập thành công");
+                    window.location.reload();
+                }
+            }
+        });
+    }
 
+</script>
 <div class="row">
     <div id="id03" class="modal">
         <div class="container popup animate">

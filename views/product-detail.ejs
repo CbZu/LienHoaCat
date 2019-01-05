@@ -18,7 +18,7 @@
                 <div class="col-md-2" style="position: absolute; background-color: #cf69f9; opacity: 1; z-index: 10;">
                     <h4 style="color: white;">MỚI</h4>
                 </div>
-                <div class="col-md-4 col-md-offset-2"
+                <div class="col-md-4 col-md-offset-2" id="freeshipicon"
                      style="position: absolute; background-color: #69d9f9;  z-index: 10;">
                     <h4 style="color: white;">FREESHIP</h4>
                 </div>
@@ -166,7 +166,7 @@
 <% include /partials/index_Footer.ejs %>
 
 <script>
-    <%if(keyword != undefined){%>
+    <%if(keyword != undefined && keyword != 'undefined'){%>
     document.getElementById('keyword-search').value = '<%=keyword.split('&')[0].split('=')[1]%>'
 
     <%}%>
@@ -270,14 +270,26 @@
 <script type="text/javascript">
 
     <% if(result[0].disct_price == null || result[0].disct_price == 0){ %>
-    $("#dictprice").html('<%= result[0].price %>');
-    document.getElementById('dictprice').value = '<%= result[0].price %>';
-    $("#price").html('');
+        $("#dictprice").html('<%= result[0].price %>');
+        document.getElementById('dictprice').value = '<%= result[0].price %>';
+        $("#price").html('');
+        <%if(result[0].price > result[0].freeship){%>
+            document.getElementById('freeshipicon').style.display='block';
+        <%} else {%>
+            document.getElementById('freeshipicon').style.display='none';
+        <%}%>
     <% } else { %>
-    $("#dictprice").html('<%= result[0].disct_price %>');
-    $("#price").html('<%= result[0].price %>');
-    document.getElementById('dictprice').value = '<%= result[0].disct_price %>'
+        $("#dictprice").html('<%= result[0].disct_price %>');
+        $("#price").html('<%= result[0].price %>');
+        document.getElementById('dictprice').value = '<%= result[0].disct_price %>'
+        <%if(result[0].disct_price > result[0].freeship){%>
+        document.getElementById('freeshipicon').style.display='block';
+        <%} else {%>
+        document.getElementById('freeshipicon').style.display='none';
+        <%}%>
     <% } %>
+
+
     document.getElementById('information').innerHTML = '<%= result[0].information %>'
 
 
@@ -289,15 +301,22 @@
             $("#dictprice").html('<%= result[i].price %>');
             document.getElementById('dictprice').value = '<%= result[i].price %>';
             $("#price").html('');
+            <%if(result[i].price > result[0].freeship){%>
+            document.getElementById('freeshipicon').style.display='block';
+            <%} else {%>
+            document.getElementById('freeshipicon').style.display='none';
+            <%}%>
             ThanhTien();
             <% } else { %>
-            /* $("#dictprice").html('<%= result[i].disct_price %>');
-            $("#price").html('<a href="" style="text-decoration: line-through; color: #6b6b6c;"><%= result[i].price %></a>');*/
-
             document.getElementById('dictprice').value = '<%= result[i].disct_price %>';
 
             document.getElementById('dictprice').innerHTML = '<%= result[i].disct_price %>'
             document.getElementById('price').innerHTML = '<%= result[i].price %>';
+            <%if(result[i].disct_price > result[0].freeship){%>
+            document.getElementById('freeshipicon').style.display='block';
+            <%} else {%>
+            document.getElementById('freeshipicon').style.display='none';
+            <%}%>
             ThanhTien();
             document.getElementById('information').innerHTML = '<%= result[i].information %>'
             <% } %>

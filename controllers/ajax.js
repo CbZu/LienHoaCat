@@ -49,14 +49,14 @@ exports.checkProduct=function(req,res){
 };
 
 exports.checkPhone=function(req,res){
-    if(req.session.type == 1){
+
         var input = JSON.parse(JSON.stringify(req.body));
         console.log(input);
         var data={
             name:input.name
         };
 
-        var sql = 'select * from user where phone = \''+input.phone+'\';';
+        var sql = 'select u.user_id,u.firstname,u.email,u.phone,p.address from user u join places p on u.user_id = p.user_id where u.phone = \''+input.phone+'\';';
         var con = req.db.driver.db;
         con.query(sql, function (err, rows) {
             if (err){
@@ -83,12 +83,7 @@ exports.checkPhone=function(req,res){
 
             }
         });
-    } else{
-        var data={
-            status:'fail',code:'400'
-        };
-        res.json(data);
-    }
+
 
 
 };
@@ -137,6 +132,23 @@ exports.checkCode=function(req,res){
     }
 
 
+};
+exports.checkeduser=function(req,res){
+    if(req.session.type == 1){
+        var sql = 'update user set checked = \'Y\' where user_id = '+req.query.id+';'
+        var con = req.db.driver.db;
+        con.query(sql);
+        var data={
+            status:'success',code:'200'
+        };
+
+    } else{
+        var data={
+            status:'fail',code:'400'
+        };
+
+    }
+    res.json(data);
 };
 exports.updateSizeId=function(req,res){
     var input = JSON.parse(JSON.stringify(req.body));

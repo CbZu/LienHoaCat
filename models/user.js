@@ -14,6 +14,8 @@ module.exports = function (orm, db) {
         bank_account: {type: 'text'},
         bank_address: {type: 'text'},
         bank: {type: 'text'},
-        gender : {type: 'text'}
+        gender : {type: 'text'},
+        checked : {type: 'text'}
+
     });
 };

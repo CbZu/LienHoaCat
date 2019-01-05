@@ -11,6 +11,13 @@
 
     </div>
     <div class="solid-content">
+        <div class="row">
+
+            <div  class="col-md-2">
+                <h3>Mã đơn Hàng : </h3>
+                <input class="form-control" id = 'title' name = 'title' value='<%=result[0].title%>' disabled>
+            </div>
+        </div>
         <%if (type == '1'){%>
         <div class="row">
             <div class="col-md-2">
@@ -169,15 +176,17 @@
     <div class="col-sm-4 solid-content">
         <h2>Thông tin đơn hàng</h2>
         <%if(userdetail != undefined){%>
-        <h4>Tên: <%=userdetail[0].firstname%> <%=userdetail[0].lastname%></h4>
+        <h4>Tên: <%=userdetail[0].firstname%></h4>
         <h4>Email: <%=userdetail[0].email%></h4>
         <h4>Số điện thoại: <%=userdetail[0].phone%></h4>
         <h4>Địa Chỉ: <%=userdetail[0].address%></h4>
         <%}%>
-        <h4>Số sản phẩm</h4>
         <h4>Phí vận chuyển</h4>
         <h3>Tổng cộng: </h3>
         <h2 id = "totalLabel" class="font-custom currency"><%=totalAll%></h2>
+        <%if(result[0].voucher != 'undefined') {%>
+        <h2> (<%=result[0].voucher%>)</h2>
+        <%}%>
     </div>
     <div class="row">
         <% if(type == '1'){%>

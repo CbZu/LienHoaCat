@@ -30,7 +30,7 @@
             <%}%>
         </div>
 
-        <form action = '/maintenance' method = 'get'>
+        <form action = '/maintenance' method = 'get' style="display: none">
             <h2><span class="label label-primary">Filtered By </span></h2>
             <div class="row">
                 <div class="col-md-3">
@@ -116,31 +116,32 @@
             <div class="col-md-12">
                 <table class="table table-bordered">
                     <thead>
-                        <th class="text-right" style="text-align: center;"><h4>Tên</h4></th>
-                        <th class="text-right" style="text-align: center;"><h4>Họ</h4></th>
-                        <th class="text-right" style="text-align: center;"><h4>Email</h4></th>
-                        <th class="text-right" style="text-align: center;"><h4>User name</h4></th>
                         <th class="text-right" style="text-align: center;"><h4>Số điện thoại</h4></th>
+                        <th class="text-right" style="text-align: center;"><h4>Họ Tên</h4></th>
+                        <th class="text-right" style="text-align: center;"><h4>Năm Sinh</h4></th>
+                        <th class="text-right" style="text-align: center;"><h4>Giới Tính</h4></th>
+                        <th class="text-right" style="text-align: center;"><h4>Địa chỉ</h4></th>
                         <th class="text-right" style="text-align: center;"><h4>Admin</h4></th>
+                        <th class="text-right" style="text-align: center;"><h4>Tỉ lệ</h4></th>
                     </thead>
                     <tbody>
                         <% for(i = 0;i < users.length;i++){ %>
                         
                             <tr>
                                 <td>
+                                    <%= users[i].phone %>
+                                </td>
+                                <td>
                                     <%= users[i].firstname %>
                                 </td>
                                 <td>
-                                    <%= users[i].lastname %>
+                                    <%= parseInt(users[i].dob/10000)%>
                                 </td>
                                 <td>
-                                    <%= users[i].email %>
+                                    <%= users[i].gender=="M"?"Quý Ông":"Quý Bà" %>
                                 </td>
                                 <td>
-                                    <%= users[i].username %>
-                                </td>
-                                <td>
-                                    <%= users[i].phone %>
+                                    <%= users[i].address %>
                                 </td>
                                 <td>
                                     <%if(data.type == 1){%>
@@ -151,11 +152,18 @@
 <!--                                <td>
                                         <a class="btn btn-primary" href="/noti-maintenance?id=<%= users[i].user_id%>">Notification</a>
                                     </td> -->                                                
-                                    <a class="booking-item" href="/edit-account?email=<%=users[i].email%>"><button class="btn btn-primary">Edit</button></a>
+                                    <a class="booking-item" href="/edit-account?phone=<%=users[i].phone%>"><button class="btn btn-primary">Edit</button></a>
+                                    <%if(users[i].checked == 'Y'){%>
+                                    <img src="assets/img/success.jpg" alt="Avatar" class="icon center-block" style="max-width: 75px">
+                                    <%} else {%>
+                                    <button class="btn btn-primary" onclick="Check(<%=users[i].user_id%>)">Check</button>
                                     <%}%>
                                 </td>
+                                <td>
+                                    <%= users[i].fail %> / <%= users[i].success %>
+                                </td>
                             </tr>
-                        <% } %>
+                        <% } }%>
                     </tbody>
                 </table>
             </div>
@@ -208,6 +216,22 @@
         <% } else if (data.typeflt == 3){%>
              $("#type").val("3").change();
         <%}%>
+
+        function Check(idx) {
+            $.ajax({
+                url: 'ajax/checkeduser?id='+idx,
+                type: 'GET',
+                dataType: 'JSON',
+                async: false,
+                cache: false,
+                contentType: 'application/json; charset=UTF-8',
+                enctype: 'multipart/form-data',
+                processData: false,
+                success: function (response) {
+                    window.location.reload();
+                }
+            });
+        }
     </script>
 </div>
 </body>

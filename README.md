@@ -12,6 +12,7 @@ npm install node-mv -g
 npm install --save quick-local-ip
 npm install request --save
 npm install express cookie-parser --save
+npm install --save pad-start 
 $ node server
 
 and go to your browser and open http://localhost:8080

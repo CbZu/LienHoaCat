@@ -41,13 +41,13 @@
                 <form action="signup" novalidate method="post" enctype="multipart/form-data" id="frmId">
                     <div class="row">
                         <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
-                            <label>Tên</label>
+                            <label>Họ và Tên</label>
                             <input class="form-control" type="text" name="firstname" required>
                         </div>
-                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <!--<div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
                             <label>Họ</label>
                             <input class="form-control" type="text" name="lastname" required>
-                        </div>
+                        </div>-->
 
                     </div>
 
@@ -87,15 +87,19 @@
                     </div>
 
                     <div class="row" style="display: none">
-                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show" ></i>
+                        <div class="form-group form-group-icon-left col-md-4"><i class="fa fa-user input-icon input-icon-show" ></i>
                             <label>Email</label>
                             <input class="form-control" type="text" name="email" id="email" >
                         </div>
+
                     </div>
 
-                    <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
-                        <label>Địa chỉ</label>
-                        <input class="form-control" type="text" name="address" id="address" required>
+                    <div class="row" >
+
+                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                            <label>Địa chỉ</label>
+                            <input class="form-control" type="text" name="address" id="address" required>
+                        </div>
                     </div>
                     <div class="row" style="display: none">
                         <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
@@ -207,7 +211,7 @@
                         $("#frmId .btn").removeAttr('disabled');
                     }
 
-                    if (obj.val().length > 11) {
+                    if ((obj.val().length > 11) || (isNaN(obj.val()))) {
                         obj.after("<label class='error'>Số điện thoại không hợp lệ</label>");
                         $("#frmId .btn").attr('disabled', 'disabled');
                     }

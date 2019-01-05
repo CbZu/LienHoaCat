@@ -23,6 +23,12 @@
                 <tbody>
                 <% for (var j = 0; j < result[i].sizes.split(';').length; j++) { %>
                 <tr>
+                    <td class="text-center" style="display: none">
+                        <input id="id-input" name = "id-input" value = "<%=result[i].product_id.split(';')[j]%>">
+                        <!-- <input id='size_id' class="booking-item-title size_id_header"
+                                   style="text-align: center; background-color: transparent" disabled
+                                   value="<%= result[i].name %>"></input> -->
+                    </td>
                     <td class="text-center">
                         <%= result[i].name %>
                         <!-- <input id='size_id' class="booking-item-title size_id_header"
@@ -52,6 +58,7 @@
                     <td>
                         <input id="quantity" class="center-block form-control booking-item-title quantity_header"
                                value="<%= result[i].quantities.split(';')[j].trim() %>" type="number" min="1" max=""
+                               name = "amount-input"
                                step="1" autocomplete="off" style="width: 50%;">
 
                     </td>
@@ -76,7 +83,51 @@
             </table>
         </div>
 
+        <div class="row">
+            <div id="signup" class="modal">
+                <div class="container popup animate">
+                    <div style="padding-top: 75px;">
+                    <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                          title="Close Modal">&times;</span>
+                        <img src="/img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
+                        <div class="row" style="text-align: center">
+                            <label>
+                                Bạn có muốn đăng kí tài khoàn không?
+                                Nếu có vui lòng nhập Mật Khẩu.
+                            </label>
+                        </div>
 
+                    </div>
+                    <form class="form-horizontal" role="form" action="/login" method="POST">
+                        <div class="row">
+                            <label for="inputEmail3" class="col-sm-2 control-label">Tài khoản:</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="Enter Username" required  class="form-control" id ="username" value = "" disabled>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Mật khẩu:</label>
+                            <div class="col-sm-10">
+                                <input type="password" placeholder="Enter Password" class="form-control" name="password" id ="password">
+                            </div>
+                        </div>
+
+                    </form>
+                    <div class="col-md-5">
+
+
+                    </div>
+                    <div class="col-md-2">
+                        <br>
+                        <button class="form-control btn-success" onclick="SignUp()"> Đăng kí</button>
+                        <br>
+                        <button class="form-control btn-danger" onclick="Cancel()"> Không</button>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
     </div>
     <input id="ship" style="display: none" value='0'>
     <input id="type" style="display: none" value='0'>
@@ -120,11 +171,16 @@
         <h2>Thông tin đơn hàng</h2>
         <% if(userdetail != undefined){ %>
         <h4>Tên: <%= userdetail[0].firstname %> <%= userdetail[0].lastname %></h4>
-        <h4>Email: <%= userdetail[0].email %></h4>
         <h4>Số điện thoại: <%= userdetail[0].phone %></h4>
         <h4>Địa Chỉ: <%= userdetail[0].address %></h4>
-        <% } %>
-        <h4>Số sản phẩm</h4>
+        <h4>Email: <%= userdetail[0].email %></h4>
+        <% } else { %>
+        <h4>Tên: </h4><input id="name">
+        <h4>Số điện thoại: </h4><input id="phone" onkeyup="CheckPhone()"> <label id = 'fs'></label>
+        <h4>Địa Chỉ: </h4><input id="address">
+        <h4>Email: </h4><input id="email">
+        <%}%>
+
         <h4>Phí vận chuyển</h4>
         <div class="row">
             <div class="col-sm-8 form-group has-success has-feedback">
@@ -201,7 +257,107 @@
             }
         }
     }
+    function CheckPhone() {
+        var obj = $("#phone");
+        $(".error").remove();
+        $.ajax({
+            type: "POST",
+            url: "./ajax/checkPhone",
+            data: "phone=" + obj.val(),
+            success: function (msg) {
+                //alert(msg);
+                data = msg;
+                if (data.status == 'success') {
+                    document.getElementById('name').value = data.detail[0].firstname ;
+                    document.getElementById('email').value = data.detail[0].email;
+                    document.getElementById('address').value = data.detail[0].address;
 
+                }
+            }
+        });
+    }
+
+    function Cancel(){
+        document.getElementById('signup').style.display = 'none';
+        SignUp();
+    }
+    function SignUp(){
+        document.getElementById('signup').style.display = 'none';
+        var formdata1 = new FormData();
+        var sizes = new Array();
+        var quantities = new Array();
+        /* sizes.push(document.getElementById('prd-id').value);
+         quantities.push(parseInt($("#amount").val()));*/
+
+        for(var i = 0 ; i < document.getElementsByName('id-input').length;i++){
+            sizes.push(document.getElementsByName('id-input')[i].value);
+        }
+        for(var i = 0 ; i < document.getElementsByName('amount-input').length;i++){
+            quantities.push(document.getElementsByName('amount-input')[i].value);
+        }
+        formdata1.append('size_id',sizes);
+        formdata1.append('quantity',quantities);
+        formdata1.append('firstname',$("#name").val());
+        formdata1.append('email',$("#email").val());
+        formdata1.append('phone',$("#phone").val());
+        formdata1.append('address',$("#address").val());
+        formdata1.append('voucher',$("#voucher").val());
+        formdata1.append('password',$("#password").val());
+
+        formdata1.append('mode','pay');
+        formdata1.append('title',$("#title").val());
+
+        $.ajax({
+            url: "/PetMart/signup",
+            type: 'POST',
+            data: formdata1,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                if(response.code == '200'){
+                    $.ajax({
+                        url: "/PetMart/add-to-cart",
+                        type: 'POST',
+                        dataType : 'JSON',
+                        data: JSON.stringify({size_id:sizes,quantity:quantities,userId:response.user_id}),
+                        async: false,
+                        cache: false,
+                        contentType: 'application/json; charset=UTF-8',
+                        enctype: 'multipart/form-data',
+                        processData: false,
+                        success: function (response1) {
+                            var formdata = new FormData();
+                            formdata.append('ship', ship);
+                            formdata.append('type', type);
+                            formdata.append('user', response.user_id);
+                            if (document.getElementsByClassName('error').length == 0) {
+                                formdata.append('voucher', $("#voucher").val());
+                            }
+
+                            $.ajax({
+                                url: '/PetMart/add-to-payment',
+                                type: 'POST',
+                                data: formdata,
+                                async: false,
+                                cache: false,
+                                contentType: false,
+                                enctype: 'multipart/form-data',
+                                processData: false,
+                                success: function (response2) {
+                                    if (response2.code == '200') {
+                                        window.location = "/payment-detail?id="+response2.payment_id+"&user="+response.user_id;
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        });
+    }
     function CheckVoucher() {
         var obj = $("#voucher");
         $(".error").remove();
@@ -227,6 +383,11 @@
     }
 
     function CheckOut() {
+
+        <%if (userdetail == undefined){%>
+            document.getElementById('signup').style.display = 'block';
+        document.getElementById('username').value = document.getElementById('phone').value;
+        <%} else {%>
         var formdata = new FormData();
         formdata.append('ship', ship);
         formdata.append('type', type);
@@ -249,6 +410,8 @@
                 }
             }
         });
+        <%}%>
+
 
     }
 
