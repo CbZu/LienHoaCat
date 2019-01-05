@@ -2368,27 +2368,31 @@ module.exports.checkout = function(req, res){
                     var con = req.db.driver.db;
                     con.query(sql, function (err, row1s) {
                         var totalAll = 0;
-                        if(row1s.length > 0) {
-                            for(var i = 0 ; i < rows.length ;i++){
-                                for(var j = 0 ; j < rows[i].sums.split(';').length ;j++) {
-                                    totalAll += parseFloat(rows[i].sums.split(';')[j]);
+
+                        sql = 'select * from lhc.settingshop';
+                        con.query(sql, function (err, row1setting){
+                            if(row1s.length > 0) {
+                                for(var i = 0 ; i < rows.length ;i++){
+                                    for(var j = 0 ; j < rows[i].sums.split(';').length ;j++) {
+                                        totalAll += parseFloat(rows[i].sums.split(';')[j]);
+                                    }
                                 }
+                                var data = {status: 'success', code: '200', setting:row1setting, result:rows,fname:req.session.firstname,
+                                    pic:req.session.pic,
+                                    type:req.session.type,
+                                    userid:req.session.user_id,
+                                    totalAll : totalAll,
+                                    userdetail : row1s,treefolder:req.session.treefolder};
+                                res.render("payment",data);
+                            }else{
+                                var data = {status: 'success', code: '200', setting:row1setting, result:rows,fname:req.session.firstname,
+                                    pic:req.session.pic,
+                                    type:req.session.type,
+                                    totalAll : totalAll,
+                                    userid:req.session.user_id,treefolder:req.session.treefolder};
+                                res.render("payment",data);
                             }
-                            var data = {status: 'success', code: '200',result:rows,fname:req.session.firstname,
-                                pic:req.session.pic,
-                                type:req.session.type,
-                                userid:req.session.user_id,
-                                totalAll : totalAll,
-                                userdetail : row1s,treefolder:req.session.treefolder};
-                            res.render("payment",data);
-                        }else{
-                            var data = {status: 'success', code: '200',result:rows,fname:req.session.firstname,
-                                pic:req.session.pic,
-                                type:req.session.type,
-                                totalAll : totalAll,
-                                userid:req.session.user_id,treefolder:req.session.treefolder};
-                            res.render("payment",data);
-                        }
+                        });
 
                     });
 
