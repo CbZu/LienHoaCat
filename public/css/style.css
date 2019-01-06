@@ -124,11 +124,9 @@ form.search::after {
     background-color: #fefefe;
     margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
     border: 1px solid #888;
-    width: 80%;
     border-radius:5px;
-    width: 60%;
     min-height: 400px;
-    min-width:  320px;
+    min-width:  500px;
 }
 @-webkit-keyframes animatezoom {
     from {-webkit-transform: scale(0)} 
@@ -342,4 +340,10 @@ form.search::after {
 
 .prev:hover, .next:hover {
     background-color: rgba(0,0,0,0.8);
+}
+
+.zoom:hover {
+  -ms-transform: scale(1.5); /* IE 9 */
+  -webkit-transform: scale(1.5); /* Safari 3-8 */
+  transform: scale(1.5); 
 }

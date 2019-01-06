@@ -4,6 +4,59 @@
      page_id="802412829969294"
      minimized="true">
 </div>
+<script type="text/javascript">
+    var mobile = function(){
+
+        return {
+
+            detect:function(){
+
+                var uagent = navigator.userAgent.toLowerCase();
+
+                var list = this.mobiles;
+
+                var ismobile = false;
+
+                for(var d=0;d<list.length;d+=1){
+
+                    if(uagent.indexOf(list[d])!=-1){
+
+                        ismobile = true;
+
+                    }
+
+                }
+
+                return ismobile;
+
+            },
+
+            mobiles:[
+
+                "midp","240x320","blackberry","netfront","nokia","panasonic",
+
+                "portalmmm","sharp","sie-","sonyericsson","symbian",
+
+                "windows ce","benq","mda","mot-","opera mini",
+
+                "philips","pocket pc","sagem","samsung","sda",
+
+                "sgh-","vodafone","xda","palm","iphone",
+
+                "ipod","android"
+
+            ]
+
+        };
+
+    }();
+    
+    if(mobile.detect()){
+        document.getElementById('mobile').className = "container-fluid";
+    }else{
+        document.getElementById('mobile').className = "container";
+    }
+</script>
 <script>
     window.fbAsyncInit = function() {
         FB.init({
@@ -110,7 +163,7 @@
             </div> 
             <div class="row">
                 <div class="col-md-12">
-                    <h1 style="text-align: center; color: white;">Bản quyền thuộc về <b>Hệ thống Liên Hoa Các</b> Copyright © 2018</h1>
+                    <h3 style="text-align: center; color: white;">Bản quyền thuộc về <b>Hệ thống Liên Hoa Các</b> Copyright © 2018</h3>
                 </div>
             </div>
     </div>

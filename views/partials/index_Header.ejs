@@ -38,7 +38,7 @@
         </div>
         <div class="col-xs-2 col-md-1 cursor">
             <button class="cursor" onclick="GetCart(0)" style="background-color: transparent; border: 0px; padding: 0px; position: relative;">
-                <img src="/img/cart.png" class="img-responsive cursor" style="max-width: 50px; margin: 15px 10px 15px 0px;">
+                <img src="/img/cart.png" class="img-responsive cursor shopping-cart" style="max-width: 50px; margin: 15px 10px 15px 0px;">
                 <h4 id ='cartIcon' style="color: red; background-color: transparent; position: absolute; top: 0px; right: 0px;"></h4>
             </button>
         </div>
@@ -168,23 +168,26 @@
             </div>
                 <div class="form-group has-success" style="text-align: center;">
                     <label for="inputEmail3" class="control-label center-block">Tài khoản</label>
-                    <input type="text" placeholder="Enter Username" required  class="form-control" id = "email" name="email">
+                    <input type="text" placeholder="Enter Username" required  class="form-control center-block" id = "email" name="email" style="width: 300px;">
                 </div>
                 <div class="form-group has-success" style="text-align: center;">
                     <label for="inputPassword3" class="control-label">Mật khẩu</label>
-                    <input type="password" placeholder="Enter Password" class="form-control" id = "password" name="password">
+                    <input type="password" placeholder="Enter Password" class="form-control center-block" id = "password" name="password" style="width: 300px;">
                 </div>
                 <!-- <input type="checkbox" checked="checked" name="remember"> Remember me -->
-                <button class="center-block btn btn-primary" onclick="Submit()">Đăng nhập</button>
-
-            <div class="col-md-5">
-
+            <div class="row">
+                <div class="col-xs-16 col-md-12">
+                    <button class="center-block btn btn-primary" onclick="Submit()" style="width: 100px;">Đăng nhập</button>
+                </div>
             </div>
-            <div class="col-md-2">
-                <br>
-                <a href="/register" class="center-block btn btn-primary" >Đăng kí</a>
+            <br>
+            <div class="row">
+                <div class="col-xs-16 col-md-12">
+                    <a href="/register">
+                        <button class="center-block btn btn-primary" style="width: 100px;">Đăng kí</button>
+                    </a>
+                </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -226,15 +229,26 @@
                 </div>
 
             </form>
-            <button class="btn btn-danger col-sm-2 col-md-offset-3" type="button" onclick="document.getElementById('id03').style.display='none'">
-                Thoát
-            </button>
-            <button class="btn btn-info col-sm-2" type="button" onclick="UpdateCart()">
-                Cập Nhật Giỏ
-            </button>
-            <a class="btn btn-success col-sm-2" type="button" href="/checkout" >
-                Thanh Toán
-            </a>
+            <div class="row">
+                <div class="col-xs-4 col-md-4" style="text-align: right;">
+                    <button class="btn btn-danger" type="button" onclick="document.getElementById('id03').style.display='none'" style="min-width: 150px;">
+                        Thoát
+                    </button>
+                </div>
+                <div class="col-xs-4 col-md-4">
+                    <button class="btn btn-info center-block" type="button" onclick="UpdateCart()" style="min-width: 150px;">
+                        Cập Nhật Giỏ
+                    </button>
+                </div>
+                <div class="col-xs-4 col-md-4" style="text-align: left;">
+                    <a href="/checkout" >
+                        <button class="btn btn-success" type="button" style="min-width: 150px;">
+                            Thanh Toán
+                        </button>                        
+                    </a>
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>
