@@ -35,12 +35,13 @@
         </div>
 
         <div class="row" data-gutter="60">
-            <div class="col-md-12">
+            
+            <div class="col-md-offset-3 col-md-6">
+                
                 <h2><span class="label label-success center-block">Đăng kí tài khoản</span></h2>
-
                 <form action="signup" novalidate method="post" enctype="multipart/form-data" id="frmId">
                     <div class="row">
-                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <div class="form-group form-group-icon-left col-md-offset-2 col-md-8"><i class="fa fa-user input-icon input-icon-show"></i>
                             <label>Họ và Tên</label>
                             <input class="form-control" type="text" name="firstname" required>
                         </div>
@@ -52,7 +53,7 @@
                     </div>
 
                         <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-offset-2 col-md-4">
                                 <div class="form-group form-group-icon-left">
                                     <label>Sinh Ngày</label>
                                     <input class="form-control" name="dob" type="date" />
@@ -61,7 +62,7 @@
                         </div>
 
                     <div class="row" >
-                        <div class="col-md-2">
+                        <div class="col-md-offset-2 col-md-4">
                             <label>Giới Tính</label>
                             <select class="form-control" id = "gender" name = "gender">
                                 <option value = "M">Quý Ông</option>
@@ -70,17 +71,17 @@
                         </div>
                     </div>
                     <div class="row" >
-                        <div class="form-group form-group-icon-left col-md-6" style="display: none"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <div class="form-group form-group-icon-left col-md-offset-2 col-md-8" style="display: none"><i class="fa fa-user input-icon input-icon-show"></i>
                             <label>Tên tài khoản</label>
                             <input class="form-control" type="text" name="username" id="username" >
                         </div>
-                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <div class="form-group form-group-icon-left col-md-offset-2 col-md-8"><i class="fa fa-user input-icon input-icon-show"></i>
                             <label>Số điện thoại</label>
                             <input class="form-control" type="text" name="phone" id="phone" required>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group form-group-icon-left col-md-6" id = "passwordRow"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <div class="form-group form-group-icon-left col-md-offset-2 col-md-8" id = "passwordRow"><i class="fa fa-user input-icon input-icon-show"></i>
                             <label>Mật khẩu</label>
                             <input class="form-control" type="password" name="password" id="password" required>
                         </div>
@@ -96,9 +97,10 @@
 
                     <div class="row" >
 
-                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                        <div class="form-group form-group-icon-left col-md-offset-2 col-md-8"><i class="fa fa-user input-icon input-icon-show"></i>
                             <label>Địa chỉ</label>
-                            <input class="form-control" type="text" name="address" id="address" required>
+                            <textarea class="form-control" type="text" name="address" id="address" required>
+                            </textarea>
                         </div>
                     </div>
                     <div class="row" style="display: none">

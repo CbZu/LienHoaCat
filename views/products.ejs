@@ -53,18 +53,20 @@
             </div>
         </div>-->
     <%if(catflt != 'All'){%>
-    <div class="row">
-        <div class="col-md-3">
-            <a class="btn btn-primary" href="/create-prd?cat=<%= catflt %>&catId=<%= catId %>">Add Product</a>
-        </div>
-    </div>
+    <%if (type == '1'){%>
+         <div class="row">
+                <div class="col-md-3">
+                    <a class="btn btn-primary" href="/create-prd?cat=<%= catflt %>&catId=<%= catId %>">Add Product</a>
+                </div>
+            </div>
+    <%}%>
+   
     <div class = "row">
         <form action = '<%=catflt=='undefined'?'/maintenance-prd/Search?keyword='+keyword:/maintenance-prd/+catflt%>' method = 'get'>
-            <h2><span class="label label-primary">Lọc Sản Phẩm</span></h2>
             <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
-                        <h3><span class="label label-success">Size(mm) :</span></h3>
+                        <h3><span class="label label-success">Kích thước(mm) :</span></h3>
                     </div>
                     <div class="form-group">
                         <input  class=" form-control" name = 'size' id = 'size'   type="number" placeholder="Chỉ nhập nếu bạn cần 1 size cụ thể!" />
@@ -72,7 +74,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <h3><span class="label label-success">Mệnh: </span></h3>
+                        <h3><span class="label label-success">Hợp mệnh: </span></h3>
                     </div>
                     <div class="form-group">
                         <select class=" form-control" name = 'menh' id = 'menh'>
@@ -91,7 +93,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <h3><span class="label label-success">Màu:</span></h3>
+                        <h3><span class="label label-success">Màu sắc:</span></h3>
                     </div>
                     <div class="form-group">
                         <select class=" form-control" name = 'mau' id = 'mau'>
@@ -115,7 +117,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <h3><span class="label label-success">Tuổi:</span></h3>
+                        <h3><span class="label label-success">Hợp tuổi:</span></h3>
                     </div>
                     <div class="form-group">
                         <select class=" form-control" name = 'tuoi' id = 'tuoi'>
@@ -167,11 +169,11 @@
 
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-12">
                     <div class = "row">
-                        <div class="col-md-3">
+                        <div class="col-md-offset-5 col-md-2 col-xs-offset-5 col-xs-3">
                             <div class="form-group">
-                                <input class="btn btn-primary" value = 'Áp Dụng' type = 'submit'></input>
+                                <input class="btn btn-primary" value = 'Áp Dụng' type = 'submit'>
                             </div>
                         </div>
                     </div>
@@ -188,7 +190,7 @@
                 <thead>
                 <th class="text-right" style="text-align: center;"><h3>Mã sản phẩm</h3></th>
                 <th class="text-right" style="text-align: center;"><h3>Tên sản phẩm</h3></th>
-                <th class="text-right" style="text-align: center;"><h3>Size</h3></th>
+                <th class="text-right" style="text-align: center;"><h3>Phân loại</h3></th>
                 <th class="text-right" style="text-align: center;"><h3>Số Lượng</h3></th>
                 <th class="text-right" style="text-align: center;"><h3>Nhập thêm</h3></th>
                 </thead>

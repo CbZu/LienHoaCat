@@ -77,22 +77,22 @@
 
         <div class="row solid-content">
             <h3>Hình thức giao hàng</h3>
-            <div class="col-xs-3 col-md-3" id='ghtk' style="display: none;">
+            <div class="col-xs-3 col-md-3" id='ghtk'>
                 <a class="thumbnail" >
                     <img onclick="Ship(1)" class="dilivery" src="img/delivery_form/giaohangtietkiem.png" alt="...">
                 </a>
             </div>
-            <div class="col-xs-3 col-md-3" id='ghn' style="display: none;">
+            <div class="col-xs-3 col-md-3" id='ghn'>
                 <a class="thumbnail">
                     <img onclick="Ship(2)" class="dilivery" src="img/delivery_form/giaohangnhanh.png" alt="...">
                 </a>
             </div>
-            <div class="col-xs-3 col-md-3" id='vtp' style="display: none;">
+            <div class="col-xs-3 col-md-3" id='vtp'>
                 <a class="thumbnail">
                     <img onclick="Ship(3)" class="dilivery" src="img/delivery_form/viettel_post.jpg" alt="...">
                 </a>
             </div>
-            <div class="col-xs-3 col-md-3" id='bd' style="display: none;">
+            <div class="col-xs-3 col-md-3" id='bd'>
                 <a class="thumbnail">
                     <img onclick="Ship(4)" class="dilivery" src="img/delivery_form/vnpost.png" alt="...">
                 </a>
@@ -101,22 +101,22 @@
         <div class="row solid-content">
 
             <h3>Hình thức thanh toán</h3>
-            <div class="col-xs-3 col-md-3" id="tm" style="display: none;">
+            <div class="col-xs-3 col-md-3" id="tm">
                 <a class="thumbnail" onclick="Type(1)">
                     <img class="type-payment" src="img/payment_method/cash.jpg" alt="...">
                 </a>
             </div>
-            <div class="col-xs-3 col-md-3" id="COD" style="display: none;">
+            <div class="col-xs-3 col-md-3" id="COD">
                 <a class="thumbnail" onclick="Type(2)">
                     <img class="type-payment" src="img/payment_method/transfer.jpg" alt="...">
                 </a>
             </div>
-            <div class="col-xs-3 col-md-3" id="ck" style="display: none;">
+            <div class="col-xs-3 col-md-3" id="ck">
                 <a class="thumbnail" onclick="Type(3)">
                     <img class="type-payment" src="img/payment_method/COD.jpg" alt="...">
                 </a>
             </div>
-            <div class="col-xs-3 col-md-3" id="ttd" style="display: none;">
+            <div class="col-xs-3 col-md-3" id="ttd">
                 <a class="thumbnail" onclick="Type(4)">
                     <img class="type-payment" src="img/payment_method/credit.png" alt="...">
                 </a>
@@ -130,7 +130,8 @@
 
         <h4>Tên: </h4><input id="name">
         <h4>Email: </h4><input id="email">
-        <h4>Số điện thoại: </h4><input id="phone" onkeyup="CheckPhone()"> <label id = 'fs'></label>
+        <h4>Số điện thoại: </h4><input id="phone" onkeyup="CheckPhone()"> <label id = 'fs'> </label>
+
         <h4>Địa Chỉ: </h4><input id="address">
 
         <h4>Voucher: </h4><input id="voucher" onkeyup="CheckVoucher()">
@@ -169,38 +170,6 @@
 
 </script>
 <script>
-    var transportMethod = "<%=setting[0].transportMethod%>".split(";");
-    var paymentMethod = "<%=setting[0].paymentMethod%>".split(";");
-    var freeShip = <%=setting[0].freeShip%>;
-    var defaultShip = <%=setting[0].defaultShip%>;
-    for (i=0; i<transportMethod.length; i++){
-        if (transportMethod[i] == "ghtk"){
-            document.getElementById("ghtk").style.display = "block";
-        }
-        if (transportMethod[i] == "bd"){
-            document.getElementById("bd").style.display = "block";
-        }
-        if (transportMethod[i] == "vtp"){
-            document.getElementById("vtp").style.display = "block";
-        }
-        if (transportMethod[i] == "ghn"){
-            document.getElementById("ghn").style.display = "block";
-        }
-    }
-    for (i=0; i<paymentMethod.length; i++){
-        if (paymentMethod[i] == "tm"){
-            document.getElementById("tm").style.display = "block";
-        }
-        if (paymentMethod[i] == "COD"){
-            document.getElementById("COD").style.display = "block";
-        }
-        if (paymentMethod[i] == "ck"){
-            document.getElementById("ck").style.display = "block";
-        }
-        if (paymentMethod[i] == "ttd"){
-            document.getElementById("ttd").style.display = "block";
-        }
-    }
     
     var type = '';
     var ship = '';
@@ -246,8 +215,12 @@
                     document.getElementById('name').value = data.detail[0].firstname
                     document.getElementById('email').value = data.detail[0].email;
                     document.getElementById('address').value = data.detail[0].address;
-                    document.getElementById('fs').innerHTML = data.fail +' đơn Thất Bại / ' + data.success+' đơn Thành Công  ';
 
+                    if( data.detail[0].checked = 'Y'){
+                        document.getElementById('fs').innerHTML = data.fail +' đơn Thất Bại / ' + data.success+' đơn  ' +'<img src="assets/img/success.jpg" alt="Avatar" id = "checked" class="icon center-block" style="max-width: 75px;display: block">';
+                    }else {
+                        document.getElementById('fs').innerHTML = data.fail +' đơn Thất Bại / ' + data.success+' đơn   ';
+                    }
                 }
             }
         });

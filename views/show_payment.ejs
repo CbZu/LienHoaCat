@@ -41,6 +41,22 @@
 
                         </div>
 					</div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <h3><span class="label label-success">Mã Đơn:</span></h3>
+                        </div>
+                        <div class="form-group">
+                            <input  class=" form-control" name = 'titleflt' id = 'titleflt'   type="text" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <h3><span class="label label-success">Mã vận chuyển :</span></h3>
+                        </div>
+                        <div class="form-group">
+                            <input  class=" form-control" name = 'shipflt' id = 'shipflt'   type="text" />
+                        </div>
+                    </div>
 
 				</div>
 				<div class="row">
@@ -116,7 +132,7 @@
                 <% for(i = 0;i < payments.length;i++){ %>
 
                 <tr>
-                    <td class="text-center">
+                    <td class="text-right">
                         <a class="booking-item" href="/payment-detail?id=<%= payments[i].payment_id%>&user=<%=payments[i].user_id%>">
                             <%= payments[i].name +  ' (' + payments[i].phone + ')'%>
                         </a>

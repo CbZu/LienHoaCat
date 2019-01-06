@@ -64,20 +64,41 @@
         <div class="row">
 
             <div class="col-md-6">
-                <a href="/maintenance-prd/Search?keyword=<%=tuoi.split(" ")[1].toLowerCase()%>,<%=mang.toLowerCase()%>" src="img/phatbanmenh/<%=b%>.jpg">
+                <a href="/maintenance-prd/Search?keyword=<%=tuoi.split(" ")[1].toLowerCase()%>,<%=mang.toLowerCase()%>" src="img/phatbanmenh/<%=b%>.jpg" id="search">
                     <button type="submit" class="" style="background-color: transparent; border: 0px; padding: 0px;">
                         <img src="img/xemsp.png" class="img-responsive">
                     </button>
                 </a>                
             </div>
         </div>
-    	<% } %>
-    </div>
-</body>
-<% include partials/index_Footer.ejs %>
-<script type="text/javascript">
+        <script type="text/javascript">
     var tuoi = document.getElementById('tuoi').innerHTML;
     var tuois = tuoi.split(" ");
+    <% if(mang!=undefined) {%>
+    var mang = "<%=mang.toLowerCase()%>";
+    <% } %>
+    switch (mang){
+        case 'kim' :{
+            mang = 'kim';
+            break;
+        }
+        case 'moc' :{
+            mang = 'mộc';
+            break;
+        }
+        case 'thuy' :{
+            mang = 'thủy';
+            break;
+        }
+        case 'hoa' :{
+            mang = 'hỏa';
+            break;
+        }
+        case 'tho' :{
+            mang = 'thổ';
+            break;
+        }
+    }
     switch (tuois[0]){
         case 'CANH' : {
             tuois[0] = 'CANH';
@@ -171,7 +192,13 @@
         }
     }
     document.getElementById('tuoi').innerHTML = tuois[0] + ' ' +tuois[1];
+    document.getElementById('search').href = '/maintenance-prd/Search?keyword=' + tuois[1].toLowerCase() + ','+ mang;
 </script>
+    	<% } %>
+    </div>
+</body>
+<% include partials/index_Footer.ejs %>
+
 </html>
 
 

@@ -43,10 +43,10 @@ CREATE TABLE `lhc`.`mang` (
   `MANG` VARCHAR(45) character set utf8 NULL,
   PRIMARY KEY (`id`));
 
-insert lhc.mang value(0,'MỘC');
+insert lhc.mang value(0,'MOC');
 insert lhc.mang value(1,'KIM');
-insert lhc.mang value(2,'THỦY');
-insert lhc.mang value(3,'HỎA');
-insert lhc.mang value(4,'THỔ');
+insert lhc.mang value(2,'THUY');
+insert lhc.mang value(3,'HOA');
+insert lhc.mang value(4,'THO');
 
 

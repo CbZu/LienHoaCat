@@ -2234,7 +2234,12 @@ module.exports.show_payment=function(req,res){
         if((req.query.phone != undefined) && (req.query.phone.trim()!='')){
             where += ' p.user_id = (select user_id from user where phone = \''+req.query.phone+'\' limit 1) and';
         }
-
+        if((req.query.titleflt != undefined) && (req.query.titleflt.trim()!='')){
+            where += ' p.title = \''+req.query.titleflt+'\' and';
+        }
+        if((req.query.shipflt != undefined) && (req.query.shipflt.trim()!='')){
+            where += ' p.shipcode = \''+req.query.shipflt+'\' and';
+        }
             if((req.query.createflt != undefined) && (req.query.createflt.trim()!='')){
             var day = req.query.createflt.split('/')[1];
             var month = req.query.createflt.split('/')[0];
@@ -2244,7 +2249,7 @@ module.exports.show_payment=function(req,res){
 
         if(where.trim()!=''){
             where = where.substring(0,where.length-3);
-            sql += ' where '+where + ' ;';
+            sql += ' where '+where + ' order by p.status_id asc, p.create_time desc;';
         }else{
             sql += ' ;';
         }
