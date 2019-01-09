@@ -13,7 +13,7 @@
     <div class="container">
         <h3>Thông tin sản phẩm</h3>
 
-        <div id="cartdetail" class = "row">
+        <div id="cartdetail" class="row">
             <table class="table table-bordered">
                 <thead>
                 <th class="text-right" style="text-align: center;"><h3>Tên voucher</h3></th>
@@ -25,33 +25,69 @@
                 <th class="text-right" style="text-align: center;"><h3>Giá tối thiểu</h3></th>
 
                 </thead>
-                <tbody class = "body-voucher">
-                <%for (var i = 0 ; i < result.length ; i++){%>
-                    <tr>
+                <tbody class="body-voucher">
+                <% for (var i = 0 ; i < result.length ; i++){ %>
+                <form action="/updateVoucher/<%=result[i].voucher_id %>" method="POST">
+                    <% if (result[i].oldnew == 'Y' || result[i].amount == 0){ %>
+
+                    <tr style="color: red">
                         <td>
-                            <h4><%=result[i].name%></h4>
+                            <input class="form-control" name = "name" value="<%= result[i].name %>"></input>
                         </td>
                         <td>
-                            <h4><%=result[i].code%></h4>
+                            <input class="form-control" name = "code" value="<%= result[i].code %>"></input>
                         </td>
                         <td>
-                            <h4><%=result[i].percent%></h4>
+                            <input class="form-control" name = "percent" value="<%= result[i].percent %>"></input>
                         </td>
                         <td>
-                            <h4><%=result[i].effective_date.toString().substring(0,4)+'-'+result[i].effective_date.toString().substring(4,6)+'-'+result[i].effective_date.toString().substring(6,8)%></h4>
+                            <input class="form-control" name = "effdate" type="date" value="<%= result[i].effective_date.toString().substring(0, 4)+'-'+result[i].effective_date.toString().substring(4, 6)+'-'+result[i].effective_date.toString().substring(6, 8) %>"></input>
                         </td>
                         <td>
-                            <h4><%=result[i].expired_date.toString().substring(0,4)+'-'+result[i].expired_date.toString().substring(4,6)+'-'+result[i].expired_date.toString().substring(6,8)%></h4>
+                            <input class="form-control" name = "expired" type="date" value="<%= result[i].expired_date.toString().substring(0, 4)+'-'+result[i].expired_date.toString().substring(4, 6)+'-'+result[i].expired_date.toString().substring(6, 8) %>"></input>
                         </td>
                         <td>
-                            <h4><%=result[i].amount%></h4>
+                            <input class="form-control" name = "amount" value="<%= result[i].amount %>"></input>
                         </td>
                         <td>
-                            <h4><%=result[i].min%></h4>
+                            <input class="form-control" name = "min" value="<%= result[i].min %>"></input>
+                        </td>
+                        <td>
+                            <button class="form-control btn-danger" type="submit" > Update</button>
                         </td>
                     </tr>
-                <%}%>
-                <tr id = 'rowInsertBtn'></tr>
+                    <% } else { %>
+                    <tr>
+                        <td>
+                            <input class="form-control" name = "name" value="<%= result[i].name %>"></input>
+                        </td>
+                        <td>
+                            <input class="form-control" name = "code" value="<%= result[i].code %>"></input>
+                        </td>
+                        <td>
+                            <input class="form-control" name = "percent" value="<%= result[i].percent %>"></input>
+                        </td>
+                        <td>
+                            <input class="form-control" name = "effdate" type="date" value="<%= result[i].effective_date.toString().substring(0, 4)+'-'+result[i].effective_date.toString().substring(4, 6)+'-'+result[i].effective_date.toString().substring(6, 8) %>"></input>
+                        </td>
+                        <td>
+                            <input class="form-control" name = "expired" type="date" value="<%= result[i].expired_date.toString().substring(0, 4)+'-'+result[i].expired_date.toString().substring(4, 6)+'-'+result[i].expired_date.toString().substring(6, 8) %>"></input>
+                        </td>
+                        <td>
+                            <input class="form-control" name = "amount" value="<%= result[i].amount %>"></input>
+                        </td>
+                        <td>
+                            <input class="form-control" name = "min" value="<%= result[i].min %>"></input>
+                        </td>
+                        <td>
+                            <button class="form-control btn-danger" type="submit" > Update</button>
+                        </td>
+                    </tr>
+                    <% } %>
+                </form>
+
+                <% } %>
+                <tr id='rowInsertBtn'></tr>
                 </tbody>
             </table>
         </div>
@@ -64,7 +100,7 @@
 
 </body>
 <script>
-    function insert(){
+    function insert() {
         var index = 0;
         var element = " <tr>\n" +
             "                    <td class=\"text-center\" >\n" +
@@ -72,7 +108,7 @@
             "                               value=\"\">\n" +
             "                    </td>\n" +
             "                    <td class=\"text-center\">\n" +
-            "                        <input class = 'checkCode"+index+"'  name = 'code-input'onkeyup='CheckCode("+index+")' \n" +
+            "                        <input class = 'checkCode" + index + "'  name = 'code-input'onkeyup='CheckCode(" + index + ")' \n" +
             "                               value=\"\">\n" +
             "                    </td>\n" +
             "                    <td class=\"text-center\">\n" +
@@ -113,7 +149,7 @@
                 //alert(msg);
                 data = msg;
                 if (data.code == '200') {
-                    $( ".checkCode"+idx ).after( "<p class = 'error'>Voucher Tồn Tại</p>" );
+                    $(".checkCode" + idx).after("<p class = 'error'>Voucher Tồn Tại</p>");
                     document.getElementById('okBtn').disabled = true;
                 } else {
                     document.getElementById('okBtn').disabled = false;
@@ -122,6 +158,7 @@
         });
 
     }
+
     function Add() {
         var formdata1 = new FormData();
         var names = new Array();
@@ -135,34 +172,34 @@
         /* sizes.push(document.getElementById('prd-id').value);
          quantities.push(parseInt($("#amount").val()));*/
 
-        for(var i = 0 ; i < document.getElementsByName('name-input').length;i++){
+        for (var i = 0; i < document.getElementsByName('name-input').length; i++) {
             names.push(document.getElementsByName('name-input')[i].value);
         }
-        for(var i = 0 ; i < document.getElementsByName('code-input').length;i++){
+        for (var i = 0; i < document.getElementsByName('code-input').length; i++) {
             vouchers.push(document.getElementsByName('code-input')[i].value);
         }
-        for(var i = 0 ; i < document.getElementsByName('effdate-input').length;i++){
+        for (var i = 0; i < document.getElementsByName('effdate-input').length; i++) {
             effdates.push(document.getElementsByName('effdate-input')[i].value);
         }
-        for(var i = 0 ; i < document.getElementsByName('expired-input').length;i++){
+        for (var i = 0; i < document.getElementsByName('expired-input').length; i++) {
             expireddates.push(document.getElementsByName('expired-input')[i].value);
         }
-        for(var i = 0 ; i < document.getElementsByName('amount-input').length;i++){
+        for (var i = 0; i < document.getElementsByName('amount-input').length; i++) {
             amounts.push(document.getElementsByName('amount-input')[i].value);
         }
-        for(var i = 0 ; i < document.getElementsByName('min-input').length;i++){
+        for (var i = 0; i < document.getElementsByName('min-input').length; i++) {
             mins.push(document.getElementsByName('min-input')[i].value);
         }
-        for(var i = 0 ; i < document.getElementsByName('percent-input').length;i++){
+        for (var i = 0; i < document.getElementsByName('percent-input').length; i++) {
             percents.push(document.getElementsByName('percent-input')[i].value);
         }
-        formdata1.append('names',names);
-        formdata1.append('vouchers',vouchers);
-        formdata1.append('effdates',effdates);
-        formdata1.append('expireddates',expireddates);
-        formdata1.append('amounts',amounts);
-        formdata1.append('mins',mins);
-        formdata1.append('percents',percents);
+        formdata1.append('names', names);
+        formdata1.append('vouchers', vouchers);
+        formdata1.append('effdates', effdates);
+        formdata1.append('expireddates', expireddates);
+        formdata1.append('amounts', amounts);
+        formdata1.append('mins', mins);
+        formdata1.append('percents', percents);
 
         $.ajax({
             url: "/PetMart/add-voucher",
@@ -174,7 +211,7 @@
             enctype: 'multipart/form-data',
             processData: false,
             success: function (response) {
-                if(response.code == '200'){
+                if (response.code == '200') {
                     location.reload();
                 }
             }
@@ -184,22 +221,22 @@
 </script>
 <% include partials/index_Footer.ejs %>
 <script type="text/javascript" src="/js/jquery.js"></script>
-<script type="text/javascript"  src="/js/bootstrap.js"></script>
-<script  type="text/javascript" src="/js/slimmenu.js"></script>
-<script type="text/javascript"  src="/js/bootstrap-datepicker.js"></script>
-<script type="text/javascript"  src="/js/bootstrap-timepicker.js"></script>
-<script type="text/javascript"  src="/js/nicescroll.js"></script>
-<script type="text/javascript"  src="/js/dropit.js"></script>
-<script  type="text/javascript" src="/js/ionrangeslider.js"></script>
-<script  type="text/javascript" src="/js/icheck.js"></script>
-<script type="text/javascript"  src="/js/fotorama.js"></script>
-<script type="text/javascript"  src="/js/typeahead.js"></script>
-<script  type="text/javascript" src="/js/card-payment.js"></script>
-<script type="text/javascript"  src="/js/magnific.js"></script>
-<script type="text/javascript"  src="/js/owl-carousel.js"></script>
-<script  type="text/javascript" src="/js/fitvids.js"></script>
-<script type="text/javascript"  src="/js/tweet.js"></script>
-<script  type="text/javascript" src="/js/countdown.js"></script>
-<script type="text/javascript"  src="/js/gridrotator.js"></script>
-<script type="text/javascript"  src="/js/custom.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/slimmenu.js"></script>
+<script type="text/javascript" src="/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="/js/bootstrap-timepicker.js"></script>
+<script type="text/javascript" src="/js/nicescroll.js"></script>
+<script type="text/javascript" src="/js/dropit.js"></script>
+<script type="text/javascript" src="/js/ionrangeslider.js"></script>
+<script type="text/javascript" src="/js/icheck.js"></script>
+<script type="text/javascript" src="/js/fotorama.js"></script>
+<script type="text/javascript" src="/js/typeahead.js"></script>
+<script type="text/javascript" src="/js/card-payment.js"></script>
+<script type="text/javascript" src="/js/magnific.js"></script>
+<script type="text/javascript" src="/js/owl-carousel.js"></script>
+<script type="text/javascript" src="/js/fitvids.js"></script>
+<script type="text/javascript" src="/js/tweet.js"></script>
+<script type="text/javascript" src="/js/countdown.js"></script>
+<script type="text/javascript" src="/js/gridrotator.js"></script>
+<script type="text/javascript" src="/js/custom.js"></script>
 </html>

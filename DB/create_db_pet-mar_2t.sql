@@ -143,8 +143,9 @@ CREATE TABLE IF NOT EXISTS `lhc`.`payment` (
     `seen_flag` VARCHAR(1) NULL,
     `ship` VARCHAR(1) NULL,
   `address` VARCHAR(50) NULL,
+  `shipcode` INT NULL,
+  `shipfee` VARCHAR(50) NULL,
   PRIMARY KEY (`payment_id`));
-
 
 -- -----------------------------------------------------
 -- Table `lhc`.`places`

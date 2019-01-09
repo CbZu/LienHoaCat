@@ -132,7 +132,31 @@
         <button class="btn btn-success" id="insertBtn" onclick="insert()">+</button>
         <%}%>
 
+        <div class="row" >
+            <div class="col-sm-3">
+                <h4>Phí vận chuyển</h4>
+                <%if(totalAll > setting[0].freeShip){%>
+                <input class="form-control" id = 'shipfee' value = '0' disabled>
+                <%} else {%>
+                <input class="form-control" id = 'shipfee' value = '<%=result[0].shipfee%>' disabled>
+                <%}%>
 
+            </div>
+
+
+        </div>
+        <br>
+        <h4>Voucher</h4>
+        <div class="row" >
+            <div class="col-sm-3 ">
+                <input type="text" class="form-control"  id="voucher" placeholder="Mã giảm giá" value = '<%=result[0].voucher%>' disabled>
+            </div>
+            <div class="col-sm-3">
+                <button class=" btn btn-success" onclick="CheckVoucher()">Áp dụng</button>
+            </div>
+
+        </div>
+        <br>
 
     </div>
     <input id = "ship" style="display: none" value = '0'>
@@ -197,8 +221,10 @@
         <h4>Địa Chỉ: <%=userdetail[0].address%></h4>
         <%}%>
         <h4>Phí vận chuyển</h4>
-        <h3>Tổng cộng: </h3>
-        <h2 id = "totalLabel" class="font-custom currency"><%=totalAll%></h2>
+        <h3>Tổng giá sản phẩm: </h3>
+        <h2 id="totalLabel" class="fa-money"><%= totalAll %></h2>
+        <h3>Tổng giá đơn hàng: </h3>
+        <h2 id="totalship" class="fa-money"></h2>
         <%if(result[0].voucher != 'undefined' && result[0].voucher != '') {%>
         <h2> (<%=result[0].voucher%>)</h2>
         <%}%>
@@ -237,6 +263,9 @@
 </div>
 </body>
 <script>
+    var total = '<%= totalAll %>';
+    var ship = document.getElementById('shipfee').value;
+    document.getElementById('totalship').innerHTML = parseFloat(total) + parseFloat(ship)
     $('#status').val("<%=result[0].status_id%>")
     <% if(type == '1'){%>
     $('#status').change(function (e) {
@@ -266,7 +295,10 @@
     <%if(result[0].promotion!=0){%>
     document.getElementById("totalLabel").innerHTML = "<label style='text-decoration: line-through'><font color='black'> "+"<%=result[0].paymentSum%>"+"</font></lable><label><font color='red'> -> "+"<%=result[0].paymentTotal%>"+"</lable>";
     <%}%>
+    <%if(result[0].ship != 0) {%>
     document.getElementById("ship<%=result[0].ship%>").style.display = 'block';
+    <%}%>
+
     document.getElementById("type<%=result[0].pay_type%>").style.display = 'block';
     <% if(type == '1'){%>
 

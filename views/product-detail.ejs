@@ -126,7 +126,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-4 col-md-4">
-                    <button class="button-image"><img src="/img/muangay.svg" class="img-responsive" onclick=""></button>
+                    <button  onclick="muangay()" class="button-image"><img src="/img/muangay.svg" class="img-responsive"></button>
                 </div>
                 <div class="col-xs-4 col-md-4">
                     <button class="button-image"><img src="/img/themvaogio.svg" class="img-responsive"
@@ -174,7 +174,6 @@
     var str = element.replace(/&#39;/g, "\"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, "\"");
 
     document.getElementById('descriptionArea').innerHTML = str;
-
 
 </script>
 <script>
@@ -437,5 +436,11 @@
 
     }
 
+</script>
+
+<script>
+    function muangay(){
+        window.location.href = "/checkout/"+document.getElementById('idselect').value+"/"+document.getElementById('quantity').value;
+    }
 </script>
 </html>

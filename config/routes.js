@@ -30,6 +30,7 @@ module.exports = function (app, controllers) {
     app.post('/PetMart/get-voucher', controllers.todo.get_voucher);
     app.post('/PetMart/add-voucher', controllers.todo.add_voucher);
     app.get('/voucher', controllers.todo.voucher);
+    app.post('/updateVoucher/:id', controllers.todo.updatevoucher);
 
     app.get('/', controllers.index.home);
     app.post('/ajax/checkEmail', controllers.ajax.checkEmail);
@@ -76,7 +77,7 @@ module.exports = function (app, controllers) {
     app.get('/edit-promote/:promote_id', controllers.todo.edit_promote);
     app.post('/update-promote', controllers.todo.update_promote);
     app.get('/show-payment', controllers.todo.show_payment);
-    app.get('/checkout', controllers.todo.checkout);
+    app.get('/checkout/:product/:amount', controllers.todo.checkout);
     app.post('/app-work', controllers.todo.app_phongthuy);
     app.get('/app-phongthuy', controllers.todo.app_phongthuy);
 

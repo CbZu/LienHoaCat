@@ -11,6 +11,8 @@ module.exports = function (orm, db) {
         total: {type: 'number'},
         seen_flag: {type:'text'},
         address: {type: 'text'},
-        voucher: {type: 'text'}
+        voucher: {type: 'text'},
+        shipfee: {type: 'number'},
+        shipcode: {type:'text'}
     });
 };
