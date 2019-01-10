@@ -781,6 +781,115 @@ exports.addSizeToCart=function(req,res){
 
     });
 };
+exports.add_to_payment_now=function(req,res){
+    var input=JSON.parse(JSON.stringify(req.body));
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    var year = date.getUTCFullYear();
+    var today = year+''+month+''+day;
+    var user = '';
+    if(input.user == undefined){
+        user=req.session.user_id;
+    }else{
+        user=input.user;
+    }
+    var sql = 'select \n' +
+        '(select title from payment order by title desc limit 1\n) as title' +
+        ',(select price from product where product_id = c.product_id) as price' +
+        ',sum(\n' +
+        '\tIF(\n' +
+        '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)<>\'NULL\',\n' +
+        '        (select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)*'+input.quantity[0]+',\n' +
+        '        (select price from product where product_id = c.product_id)*'+input.quantity[0]+')) as total ';
+    if((input.voucher != undefined)&&(input.voucher.trim != "")){
+        sql += ',(select percent from voucher where code = \''+input.voucher+'\' and effective_date<='+today+' and '+today+'<=expired_date) as percent \n';
+
+    }
+
+    sql+='from product c where product_id = '+input.size_id[0]+';';
+    var Sum = 0;
+    var promotion = 0;
+    var totalAfterPromot = 0
+    var con = req.db.driver.db;
+    con.query(sql, function (err, rows) {
+        if(err){
+            var data = {status: 'error', code: '300',error: err};
+            res.json(data);
+        }else{
+            if(rows.length > 0){
+                Sum = rows[0].total;
+                if((input.voucher != undefined)&&(input.voucher.trim() != "")){
+                    if(rows[0].percent!='NULL')
+                        if(parseInt(rows[0].percent) > 100){
+                            promotion =  rows[0].percent;
+                        } else {
+                            promotion = Sum*rows[0].percent/100;
+                        }
+
+                }
+
+                totalAfterPromot = Sum-promotion;
+                var padStart = require('pad-start');
+                var title = rows[0].title.substring(3);
+                var newtitle = parseInt(title) + 1;
+                newtitle = 'LHC' + padStart(newtitle.toString(),6,'0');
+                var sqlIns = 'INSERT INTO `lhc`.`payment`\n' +
+                '(`user_id`,\n' +
+                '`sum`,\n' +
+                '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`,`ship`,`voucher`,`shipfee`)\n';
+
+                sqlIns += ' VALUES ('+user+','+Sum+',0,'+parseInt(year+''+month+''+day)+',\''+newtitle+'\',\''+input.type+'\','+promotion+','+totalAfterPromot+',\'N\',\''+input.ship+'\',\''+input.voucher+'\','+input.shipfee+')';
+                con.query(sqlIns, function (err, row1s) {
+                    if(err){
+                        var data = {status: 'error', code: '300',error: err};
+                        res.json(data);
+                    }else{
+
+                        var data={
+                            user_id: input.userId,
+                            product_id:input.size_id[0],
+                            amount:input.quantity[0],
+                            payment_id:parseInt(row1s.insertId),
+                            create_time:parseInt(year+''+month+''+day),
+                            status_id:0,
+                            price : rows[0].price
+                        };
+
+                        req.models.cart.create(data,function(err,row1s) {
+                            var sqlGet = 'select * from cart where user_id = '+input.userId+' and payment_id = '+row1s.payment_id+';'
+                            con.query(sqlGet, function (err, rowsCart) {
+                                if(err){
+                                    var data = {status: 'error', code: '300',error: err};
+                                    res.json(data);
+                                }else{
+                                    for(var i = 0 ; i < rowsCart.length ; i++){
+                                        var sqlUpdate = 'update cart set disct_price = (select disct_price from discount where product_id = '+rowsCart[i].product_id+' and effective_date<='+today+' and '+today+'<=expired_date)' +
+                                            ', price = (select price from product where product_id = '+rowsCart[i].product_id+') where user_id = '+input.userId+' and payment_id = '+row1s.payment_id+' and product_id = '+rowsCart[i].product_id+';';
+                                        con.query(sqlUpdate);
+                                    }
+
+                                    var data = {status: 'success', code: '200',user_id:input.userId,Sum:Sum, payment_id:row1s.payment_id};
+                                    res.json(data);
+                                }
+                            });
+                        });
+
+                    }
+                });
+
+            }else{
+                var data = {status: 'Empty', code: '400',description:"There is no products in cart !!!"};
+                res.json(data);
+            }
+
+        }
+
+    });
+};
 exports.checkEmailAddProject=function(req,res){
     var input = JSON.parse(JSON.stringify(req.body));
     console.log(input);

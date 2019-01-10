@@ -523,7 +523,36 @@
                     $("#passwordpaymentLogin").after("<label class='error'>Tài Khoản hoặc Mật Khẩu không đúng</label>");
                 } else {
                     $("#passwordpaymentLogin").after("<label class='error'>Đăng Nhập thành công</label>");
-                    Cancel()
+                    document.getElementById('signup').style.display = 'none';
+
+                    var sizes = new Array();
+                    var quantities = new Array();
+                    /* sizes.push(document.getElementById('prd-id').value);
+                     quantities.push(parseInt($("#amount").val()));*/
+
+                    for(var i = 0 ; i < document.getElementsByName('id-input').length;i++){
+                        sizes.push(document.getElementsByName('id-input')[i].value);
+                    }
+                    for(var i = 0 ; i < document.getElementsByName('amount-input').length;i++){
+                        quantities.push(document.getElementsByName('amount-input')[i].value);
+                    }
+
+                    $.ajax({
+                        url: "/../ajax/add-to-payment-now",
+                        type: 'POST',
+                        dataType : 'JSON',
+                        data: JSON.stringify({size_id:sizes,quantity:quantities,userId:response.user_id,ship:ship,type:type,shipfee:$("#shipfee").val(),voucher:$("#voucher").val()}),
+                        async: false,
+                        cache: false,
+                        contentType: 'application/json; charset=UTF-8',
+                        enctype: 'multipart/form-data',
+                        processData: false,
+                        success: function (response1) {
+                            if (response1.code == '200') {
+                                window.location = "/payment-detail?id="+response1.payment_id+"&user="+response1.user_id;
+                            }
+                        }
+                    });
                 }
             }
         });

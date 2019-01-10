@@ -133,7 +133,7 @@
                                                       onclick="AddCart()"></button>
                 </div>
                 <div class="col-xs-4 col-md-4">
-                    <a href="/maintenance-prd/<%=(keyword=='undefined'||keyword.trim()=='')?result[0].catflt.replace(/ /g, '-'):'Search?'+keyword %>" class="button-image">
+                    <a href="/maintenance-prd/<%=(keyword==undefined || keyword=='undefined'||keyword.trim()=='')?result[0].catflt.replace(/ /g, '-'):'Search?'+keyword %>" class="button-image">
                             <img src="/img/xemthem.svg" class="img-responsive" style="margin-left: 8px;">
                     </a>
                 </div>

@@ -233,7 +233,7 @@ module.exports.login=function(req,res){
                     req.session.email=rows[0].email;
                     console.log(rows);
                     var data = {
-                        status : 'success',code:'200'
+                        status : 'success',code:'200',user_id:rows[0].user_id
                     };
                     res.json(data)
                 } else {
