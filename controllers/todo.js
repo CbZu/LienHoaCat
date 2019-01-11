@@ -905,8 +905,8 @@ module.exports.add_to_payment = function(req, res){
                 var sqlIns = 'INSERT INTO `lhc`.`payment`\n' +
                     '(`user_id`,\n' +
                     '`sum`,\n' +
-                    '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`,`ship`,`voucher`,`shipfee`)\n' +
-                    'VALUES ('+user+','+Sum+',0,'+parseInt(year+''+month+''+day)+',\''+newtitle+'\',\''+input.type+'\','+promotion+','+totalAfterPromot+',\'N\',\''+input.ship+'\',\''+input.voucher==undefined?'':input.voucher()+'\','+input.shipfee+')';
+                    '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`,`ship`,`voucher`,`shipfee`)\n';
+                sqlIns +='VALUES ('+user+','+Sum+',0,'+parseInt(year+''+month+''+day)+',\''+newtitle+'\',\''+input.type+'\','+promotion+','+totalAfterPromot+',\'N\',\''+input.ship+'\',\''+input.voucher+'\','+input.shipfee+')';
                 con.query(sqlIns, function (err, row1s) {
                     if(err){
                         var data = {status: 'error', code: '300',error: err};
@@ -2477,7 +2477,7 @@ module.exports.checkout = function(req, res){
                         var data = {status: 'error', code: '300',error: err};
                         res.json(data);
                     }else{
-                        sql = 'select firstname,lastname,phone,email,address from user where user_id = ' +user + ';';
+                        sql = 'select firstname,lastname,phone,email,address,user_id from user where user_id = ' +user + ';';
                         var con = req.db.driver.db;
                         con.query(sql, function (err, row1s) {
                             var totalAll = 0;
@@ -2542,7 +2542,7 @@ module.exports.checkout = function(req, res){
                         var data = {status: 'error', code: '300',error: err};
                         res.json(data);
                     }else{
-                        sql = 'select firstname,lastname,phone,email,address from user where user_id = ' +user + ';';
+                        sql = 'select firstname,lastname,phone,email,address,user_id from user where user_id = ' +user + ';';
                         var con = req.db.driver.db;
                         con.query(sql, function (err, row1s) {
                             var totalAll = 0;

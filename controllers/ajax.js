@@ -56,7 +56,7 @@ exports.checkPhone=function(req,res){
             name:input.name
         };
 
-        var sql = 'select u.user_id,u.firstname,u.email,u.phone,p.address,u.checked from user u join places p on u.user_id = p.user_id where u.phone = \''+input.phone+'\';';
+        var sql = 'select u.user_id,u.firstname,u.email,u.phone,p.address,u.checked from user u join places p on u.user_id = p.user_id where u.phone = \''+input.phone+'\' and password <> \'akfgbksjdahfkljdash\';';
         var con = req.db.driver.db;
         con.query(sql, function (err, rows) {
             if (err){

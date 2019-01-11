@@ -495,6 +495,12 @@
                     obj.after("<label class='error'>Voucher Hết Hạn Hoặc Không Tồn Tại</label>");
                     document.getElementById("totalLabel").innerHTML = "<%= totalAll %>";
                     document.getElementById('totalship').innerHTML ="<%= totalAll %>";
+
+                    var result = parseFloat('<%=totalAll%>');
+                    if(result < parseFloat('<%=setting[0].freeShip%>')){
+                        document.getElementById("shipfee").value = '<%=setting[0].defaultShip%>';
+                        document.getElementById('totalship').innerHTML = parseFloat(document.getElementById("shipfee").value) + result
+                    }
                 }
                 else {
                     var result = parseFloat('<%=totalAll%>') - parseFloat(data.totalAfter);
@@ -569,28 +575,61 @@
 
         document.getElementById('username').value = document.getElementById('phone').value;
         <%} else {%>
-        var formdata = new FormData();
-        formdata.append('ship', ship);
-        formdata.append('type', type);
-        if (document.getElementsByClassName('error').length == 0) {
-            formdata.append('voucher', $("#voucher").val());
+        var pathname = window.location.pathname;
+        if(pathname.split('/')[pathname.split('/').length-2] == 'cart'){
+            var formdata = new FormData();
+            formdata.append('ship', ship);
+            formdata.append('type', type);
+            if (document.getElementsByClassName('error').length == 0) {
+                formdata.append('voucher', $("#voucher").val());
+            }
+            formdata.append('shipfee', $("#shipfee").val());
+            $.ajax({
+                url: '/../PetMart/add-to-payment',
+                type: 'POST',
+                data: formdata,
+                async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                success: function (response) {
+                    if (response.code == '200') {
+                        document.getElementById('idSuccess').style.display = 'block';
+                    }
+                }
+            });
+        } else {
+            var sizes = new Array();
+            var quantities = new Array();
+            /* sizes.push(document.getElementById('prd-id').value);
+             quantities.push(parseInt($("#amount").val()));*/
+
+            for(var i = 0 ; i < document.getElementsByName('id-input').length;i++){
+                sizes.push(document.getElementsByName('id-input')[i].value);
+            }
+            for(var i = 0 ; i < document.getElementsByName('amount-input').length;i++){
+                quantities.push(document.getElementsByName('amount-input')[i].value);
+            }
+
+            $.ajax({
+                url: "/../ajax/add-to-payment-now",
+                type: 'POST',
+                dataType : 'JSON',
+                data: JSON.stringify({size_id:sizes,quantity:quantities,userId:'<%=userdetail[0].user_id%>',ship:ship,type:type,shipfee:$("#shipfee").val(),voucher:$("#voucher").val()}),
+                async: false,
+                cache: false,
+                contentType: 'application/json; charset=UTF-8',
+                enctype: 'multipart/form-data',
+                processData: false,
+                success: function (response1) {
+                    if (response1.code == '200') {
+                        window.location = "/payment-detail?id="+response1.payment_id+"&user="+response1.user_id;
+                    }
+                }
+            });
         }
 
-        $.ajax({
-            url: '/../PetMart/add-to-payment',
-            type: 'POST',
-            data: formdata,
-            async: false,
-            cache: false,
-            contentType: false,
-            enctype: 'multipart/form-data',
-            processData: false,
-            success: function (response) {
-                if (response.code == '200') {
-                    document.getElementById('idSuccess').style.display = 'block';
-                }
-            }
-        });
         <%}%>
 
 

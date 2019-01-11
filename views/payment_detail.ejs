@@ -26,6 +26,7 @@
                     <select name="status" id="status" class="form-control">
                         <option value="none" selected>----Selected-----</option>
                        <%for(var i = result[0].status_id ; i < status.length; i++){%>
+
                             <option value="<%=i%>" selected><%=status[i]%> </option>
                         <%}%>
                     </select>
@@ -135,11 +136,9 @@
         <div class="row" >
             <div class="col-sm-3">
                 <h4>Phí vận chuyển</h4>
-                <%if(totalAll > setting[0].freeShip){%>
-                <input class="form-control" id = 'shipfee' value = '0' disabled>
-                <%} else {%>
+
                 <input class="form-control" id = 'shipfee' value = '<%=result[0].shipfee%>' disabled>
-                <%}%>
+
 
             </div>
 
@@ -263,10 +262,22 @@
 </div>
 </body>
 <script>
-    var total = '<%= totalAll %>';
+    var total = '<%=result[0].paymentTotal%>';
     var ship = document.getElementById('shipfee').value;
     document.getElementById('totalship').innerHTML = parseFloat(total) + parseFloat(ship)
     $('#status').val("<%=result[0].status_id%>")
+
+    <%if ( result[0].status_id == 3){%>
+        $("#status option[value=4]").remove();
+        $("#status option[value=5]").remove();
+    <% } else if (result[0].status_id == 4) {%>
+    $("#status option[value=3]").remove();
+    $("#status option[value=5]").remove();
+    <% } else if (result[0].status_id == 5) {%>
+    $("#status option[value=3]").remove();
+    $("#status option[value=4]").remove();
+    <%}%>
+
     <% if(type == '1'){%>
     $('#status').change(function (e) {
         var value = document.getElementById('status').value;
