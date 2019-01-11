@@ -88,7 +88,7 @@
     </div>
     <div class="container">
         <%for(var i = 0 ; i < treefolder.length ;i++){%>
-
+        <%if (treefolder[i].folder_name != 'VIP') {%>
         <div class="dropdown">
             <!-- <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: transparent;">
             <span class="glyphicon glyphicon-th-list"></span> Menu
@@ -109,17 +109,11 @@
 
 
         </div>
+        <%}%>
+
 
         <%}%>
-        <div class="dropdown">
-            <ul class="nav navbar-nav navbar-left sm">
 
-                <li class="menu-hover"> <a href="/app-phongthuy" data-filter=".folder2" ><h4><font color="black">App Phong Thủy</font></h4></a>
-                </li>
-
-
-            </ul>
-        </div>
         <div class="dropdown">
             <!-- <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: transparent;">
             <span class="glyphicon glyphicon-th-list"></span> Menu
@@ -135,6 +129,25 @@
 
 
         </div>
+        <div class="dropdown">
+            <ul class="nav navbar-nav navbar-left sm">
+
+                <li class="menu-hover"> <a href="/maintenance-prd/VIP"><h4>VIP</h4></a>
+                </li>
+
+
+            </ul>
+        </div>
+        <div class="dropdown">
+            <ul class="nav navbar-nav navbar-left sm">
+
+                <li class="menu-hover"> <a href="/app-phongthuy" data-filter=".folder2" ><h4><font color="black">App Phong Thủy</font></h4></a>
+                </li>
+
+
+            </ul>
+        </div>
+
         <%if(type == '1'){%>
         <div class="dropdown">
             <ul class="nav navbar-nav navbar-left sm">
@@ -153,7 +166,15 @@
             </ul>
         </div>
         <%}%>
+        <div class="dropdown">
+            <ul class="nav navbar-nav navbar-left sm">
 
+                <li class="menu-hover"> <a href="/app-phongthuy" data-filter=".folder2" ><h4><font color="black">Tin Tức</font></h4></a>
+                </li>
+
+
+            </ul>
+        </div>
     </div>
 </nav>
 
