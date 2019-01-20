@@ -473,28 +473,33 @@ module.exports.add_to_cart = function(req, res){
                     var data = {status: 'success', code: '200'};
                     res.json(data);
                 }else{
-                        var cart = '';
-                        var amount = '';
+                        var cart = new Array();
+                        var amount = new Array();
                         if(req.cookies.cart != undefined){
-                            cart = req.cookies.cart.id;
-                            amount = req.cookies.cart.amount;
+                            cart = req.cookies.cart.id.split(',');
+                            amount = req.cookies.cart.amount.split(',');
                         }
                         var i = 0
                         input.size_id.forEach(function(element) {
-                            cart += ','+element ;
-                            amount += ','+input.quantity[i] ;
+                            if(cart.indexOf(element) > -1){
+                                amount[cart.indexOf(element)] = parseInt(amount[cart.indexOf(element)]) + parseInt(input.quantity[i]);
+                            } else {
+                                cart.push(element);
+                                amount.push(input.quantity[i]);
+                            }
+
                             i++
                         });
 
                         if(req.cookies.cart != undefined){
                             var carts = {
-                                id : cart,
-                                amount :amount
+                                id : cart.toString(),
+                                amount :amount.toString()
                             }
                         } else {
                             var carts = {
-                                id : cart.replace(",",""),
-                                amount :amount.replace(",","")
+                                id : cart.toString(),
+                                amount :amount.toString()
                             }
                         }
 
@@ -1229,23 +1234,50 @@ module.exports.update_cart = function(req, res){
     var data;
     var sql = '';
     if(req.session.user_id == undefined){
-        var cart = '';
-        var amount = '';
+        var cart = new Array();
+        var amount = new Array();
+        if(req.cookies.cart != undefined){
+            cart = req.cookies.cart.id.split(',');
+            amount = req.cookies.cart.amount.split(',');
+        }
         var i = 0
         input.size_id.forEach(function(element) {
-            if(input.quantity[i] != 0){
-                cart += ','+element ;
-                amount += ','+input.quantity[i] ;
+            if(cart.indexOf(element.toString()) > -1){
+                if(input.quantity[i] == '0'){
+                    cart.splice(cart.indexOf(element),1);
+                    amount.splice(cart.indexOf(element),1);
+                } else {
+                    amount[cart.indexOf(element)] =  parseInt(input.quantity[i]);
+                }
+
+            } else {
+                cart.push(element);
+                amount.push(input.quantity[i]);
             }
+
             i++
         });
 
-        var carts = {
-            id : cart.replace(",",""),
-            amount :amount.replace(",","")
+        if(req.cookies.cart != undefined){
+            var carts = {
+                id : cart.toString(),
+                amount :amount.toString()
+            }
+        } else {
+            var carts = {
+                id : cart.toString(),
+                amount :amount.toString()
+            }
+        }
+        if(cart.length == 0){
+            res.clearCookie('cart');
+        } else {
+            res.cookie("cart", carts);
         }
 
-        res.cookie("cart", carts);
+
+
+
     } else {
         input.size_id.forEach(function(element) {
             if(input.userpayment != undefined){
@@ -2394,57 +2426,62 @@ module.exports.checkout = function(req, res){
                     }
                 });
             } else{
-                for(var i = 0 ; i < req.cookies.cart.id.split(',').length ; i++){
-                    var sql = 'select \n' +
-                        '(select name from product where c.product_id = product_id ) as name,\n' +
-                        'GROUP_CONCAT('+req.cookies.cart.amount.split(',')[i]+' SEPARATOR \'; \') as quantities,\n' +
-                        'GROUP_CONCAT((select size from product where c.product_id = product_id ) SEPARATOR \'; \') as sizes,\n' +
-                        'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as product_id,\n' +
-                        'GROUP_CONCAT((select price from product where product_id = c.product_id) SEPARATOR \'; \')  as prices,\n' +
-                        'GROUP_CONCAT((select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date) SEPARATOR \'; \')  as discount_prices,\n' +
-                        'GROUP_CONCAT(\n' +
-                        'FORMAT(\n' +
-                        'IF(\n' +
-                        '(select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)<>\'NULL\',\n' +
-                        '        (select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)*'+req.cookies.cart.amount.split(',')[i]+',\n' +
-                        '        (select price from product where product_id = c.product_id)*'+req.cookies.cart.amount.split(',')[i]+'),\n' +
-                        '0) SEPARATOR \'; \') as sums,\n' +
-                        'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as size_ids,\n' +
-                        'GROUP_CONCAT((select url from image where c.product_id = product_id and type = 1 group by product_id) SEPARATOR \'; \') as images,\n' +
-                        'sum(\n' +
-                        'IF(\n' +
-                        '(select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)<>\'NULL\',\n' +
-                        '        (select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)*'+req.cookies.cart.amount.split(',')[i]+',\n' +
-                        '        (select price from product where product_id = c.product_id)*'+req.cookies.cart.amount.split(',')[i]+')) as total \n' +
-                        'from product c where product_id in  ('+req.cookies.cart.id.split(',')[i]+') group by name ;';
+                if( req.cookies.cart != undefined){
+                    for(var i = 0 ; i < req.cookies.cart.id.split(',').length ; i++){
+                        var sql = 'select \n' +
+                            '(select name from product where c.product_id = product_id ) as name,\n' +
+                            'GROUP_CONCAT('+req.cookies.cart.amount.split(',')[i]+' SEPARATOR \'; \') as quantities,\n' +
+                            'GROUP_CONCAT((select size from product where c.product_id = product_id ) SEPARATOR \'; \') as sizes,\n' +
+                            'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as product_id,\n' +
+                            'GROUP_CONCAT((select price from product where product_id = c.product_id) SEPARATOR \'; \')  as prices,\n' +
+                            'GROUP_CONCAT((select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date) SEPARATOR \'; \')  as discount_prices,\n' +
+                            'GROUP_CONCAT(\n' +
+                            'FORMAT(\n' +
+                            'IF(\n' +
+                            '(select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)<>\'NULL\',\n' +
+                            '        (select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)*'+req.cookies.cart.amount.split(',')[i]+',\n' +
+                            '        (select price from product where product_id = c.product_id)*'+req.cookies.cart.amount.split(',')[i]+'),\n' +
+                            '0) SEPARATOR \'; \') as sums,\n' +
+                            'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as size_ids,\n' +
+                            'GROUP_CONCAT((select url from image where c.product_id = product_id and type = 1 group by product_id) SEPARATOR \'; \') as images,\n' +
+                            'sum(\n' +
+                            'IF(\n' +
+                            '(select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)<>\'NULL\',\n' +
+                            '        (select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)*'+req.cookies.cart.amount.split(',')[i]+',\n' +
+                            '        (select price from product where product_id = c.product_id)*'+req.cookies.cart.amount.split(',')[i]+')) as total \n' +
+                            'from product c where product_id in  ('+req.cookies.cart.id.split(',')[i]+') group by name ;';
 
-                    var con = req.db.driver.db;
-                    con.query(sql, function (err, rows) {
-                        if(err){
-                            var data = {status: 'error', code: '300',error: err};
-                            res.json(data);
-                        }else{
+                        var con = req.db.driver.db;
+                        con.query(sql, function (err, rows) {
+                            if(err){
+                                var data = {status: 'error', code: '300',error: err};
+                                res.json(data);
+                            }else{
                                 array.push(rows[0]);
                                 totalAll += parseFloat(rows[0].sums.replace(/,/g , ''));
                                 if(array.length == req.cookies.cart.id.split(',').length) {
                                     sql = 'select * from lhc.settingshop';
                                     con.query(sql, function (err, row1setting){
-                                    var data = {
-                                        status: 'success', code: '200', setting:row1setting, result: array, fname: req.session.firstname,
-                                        pic: req.session.pic,
-                                        type: req.session.type,
-                                        userid: req.session.user_id,
-                                        totalAll: totalAll,
-                                        userdetail:undefined,
-                                        treefolder: req.session.treefolder,
-                                        muangay:'N'
-                                    };
-                                    res.render("payment", data);
+                                        var data = {
+                                            status: 'success', code: '200', setting:row1setting, result: array, fname: req.session.firstname,
+                                            pic: req.session.pic,
+                                            type: req.session.type,
+                                            userid: req.session.user_id,
+                                            totalAll: totalAll,
+                                            userdetail:undefined,
+                                            treefolder: req.session.treefolder,
+                                            muangay:'N'
+                                        };
+                                        res.render("payment", data);
                                     });
                                 }
-                        }
-                    });
+                            }
+                        });
+                    }
+                } else {
+                    res.redirect('/');
                 }
+
             }
 
         } else {

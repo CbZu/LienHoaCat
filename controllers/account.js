@@ -20,7 +20,7 @@ module.exports.signup=function(req,res){
         userType = input.type;
     }
 
-    var sqlCheck = 'select * from lhc.user where phone = '+input.phone +' ;';
+    var sqlCheck = 'select * from lhc.user where phone = '+input.phone +' and password <> \'akfgbksjdahfkljdash\';';
     var con = req.db.driver.db;
     con.query(sqlCheck, function (err, rows) {
         if(err){

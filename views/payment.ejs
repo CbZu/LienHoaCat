@@ -56,10 +56,20 @@
                         <% } %>
                     </td>
                     <td>
-                        <input id="quantity" class="center-block form-control booking-item-title quantity_header"
-                               value="<%= result[i].quantities.split(';')[j].trim() %>" type="number" min="1" max=""
-                               name = "amount-input"
-                               step="1" autocomplete="off" style="width: 50%;">
+                        <div class="input-group">
+                                <span class="input-group-btn input-number-decrement">
+                                <button class="btn btn-default" type="button" onclick="minuspayment(<%=result[i].product_id.split(';')[j].trim()%>)">-</button>
+                                </span>
+                            <input id="quantity<%=result[i].product_id.split(';')[j].trim()%>" class="center-block form-control booking-item-title quantity_header"
+                            value="<%= result[i].quantities.split(';')[j].trim() %>"
+                            name = "amount-input"
+                                   style="font-weight: bold; font-size: 150%; text-align: center; min-width: 60px;"
+                            >
+                            <span class="input-group-btn input-number-increment">
+                                <button class="btn btn-default" type="button" onclick="pluspayment(<%=result[i].product_id.split(';')[j].trim()%>)">+</button>
+                                </span>
+                        </div>
+
 
                     </td>
                     <td class="text-center">
@@ -68,6 +78,11 @@
                                style="text-align: center; background-color: transparent" disabled
                                value=""> -->
 
+                    </td>
+                    <td class="text-center">
+                      <span class="glyphicon glyphicon-remove"  onclick="removepayment(<%=result[i].product_id.split(';')[j].trim()%>)">
+
+                                </span>
                     </td>
                 </tr>
                 <% } %>
@@ -685,6 +700,47 @@
         <%}%>
 
 
+    }
+    function minuspayment(idx){
+        var value = $("#quantity"+idx).val();
+        value = Number(value) - 1;
+        if (value >= 1) {
+            document.getElementById('quantity'+idx).value = value;
+        }
+    }
+
+    function pluspayment(idx){
+        var value = $("#quantity"+idx).val();
+        value = Number(value) + 1;
+        if (value >= 1) {
+            document.getElementById('quantity'+idx).value = value;
+        }
+    }
+    function removepayment(idx){
+        var formdata1 = new FormData();
+        var sizes = new Array();
+        var quantities = new Array();
+        var input = document.getElementsByClassName('booking-item-title size_id_header');
+        sizes.push(idx);
+        quantities.push(0);
+        formdata1.append('size_id',sizes);
+        formdata1.append('quantityCart',quantities);
+        $.ajax({
+            url: "/PetMart/update-cart",
+            type: 'POST',
+            dataType : 'JSON',
+            data: JSON.stringify({size_id:sizes,quantity:quantities}),
+            async: false,
+            cache: false,
+            contentType: 'application/json; charset=UTF-8',
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                alert(response.status);
+                document.getElementById('id03').style.display='none';
+                window.location.reload();
+            }
+        });
     }
 </script>
 </html>
