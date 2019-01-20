@@ -11,18 +11,6 @@
 </head>
 
 <div class="container">
-    <!-- <div class="header">
-        <div class="col-sm-12 col-md-1">
-            <a href="/"><img src="img/LOGO.svg" alt="LienHoaCac"
-                style="width: 80px; margin: auto; padding-top: 10px;"></a>
-        </div>
-
-    </div> -->
-</div>
-<div class="container-fluid">
-
-</div>
-<div class="container">
     <div class="row">
         <div class="col-xs-3 col-md-2" style="text-align: center;">
             <a href="/"><img src="/img/logo.png" alt="LienHoaCac" style="width: 120px;padding: 0px;"></a>
@@ -82,23 +70,15 @@
 
 <nav class="navbar navbar-default">
     <div class="container">
-
-    </div>
-
-    </div>
-    <div class="container">
         <%for(var i = 0 ; i < treefolder.length ;i++){%>
         <%if (treefolder[i].folder_name != 'VIP') {%>
         <div class="dropdown">
-            <!-- <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: transparent;">
-            <span class="glyphicon glyphicon-th-list"></span> Menu
-            </button> -->
             <ul class="nav navbar-nav navbar-left sm">
 
-                <li class="menu-hover"> <a data-filter=".folder2" ><h4><font color="black"><%=treefolder[i].folder_name%></font></h4></a>
+                <li class="menu-hover"> <a data-filter=".folder2" ><h3><font color="black"><%=treefolder[i].folder_name%></font></h3></a>
                     <ul class="dropdown-menu">
                         <%for(var j = 0 ; j < treefolder[i].cat_names.split(";").length ; j++){%>
-                        <li> <a href="/maintenance-prd/<%=treefolder[i].cat_names.split(";")[j].trim().replace(/ /g,"-")%>"><h4><%=treefolder[i].cat_names.split(";")[j]%></h4></a></li>
+                        <li> <a href="/maintenance-prd/<%=treefolder[i].cat_names.split(";")[j].trim().replace(/ /g,"-")%>"><h3><%=treefolder[i].cat_names.split(";")[j]%></h3></a></li>
                         <%}%>
 
                     </ul>
@@ -110,49 +90,31 @@
 
         </div>
         <%}%>
-
-
         <%}%>
 
         <div class="dropdown">
-            <!-- <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: transparent;">
-            <span class="glyphicon glyphicon-th-list"></span> Menu
-            </button> -->
             <ul class="nav navbar-nav navbar-left sm">
-
-                <li class="menu-hover"> <a href="/promotions" ><h4><font color="black">Khuyến Mãi</font></h4></a>
-
+                <li class="menu-hover"> <a href="/promotions" ><h3><font color="black">Khuyến Mãi</font></h3></a>
                 </li>
-
-
-            </ul>
-
-
-        </div>
-        <div class="dropdown">
-            <ul class="nav navbar-nav navbar-left sm">
-
-                <li class="menu-hover"> <a href="/maintenance-prd/VIP"><h4>VIP</h4></a>
-                </li>
-
-
             </ul>
         </div>
         <div class="dropdown">
             <ul class="nav navbar-nav navbar-left sm">
-
-                <li class="menu-hover"> <a href="/app-phongthuy" data-filter=".folder2" ><h4><font color="black">App Phong Thủy</font></h4></a>
+                <li class="menu-hover"> <a href="/maintenance-prd/VIP"><h3 style="color: black;">VIP</h3></a>
                 </li>
-
-
+            </ul>
+        </div>
+        <div class="dropdown">
+            <ul class="nav navbar-nav navbar-left sm">
+                <li class="menu-hover"> <a href="/app-phongthuy" data-filter=".folder2" ><h3><font color="black">Xem tuổi</font></h3></a>
+                </li>
             </ul>
         </div>
 
         <%if(type == '1'){%>
         <div class="dropdown">
             <ul class="nav navbar-nav navbar-left sm">
-
-                <li class="menu-hover"> <a><h4><font color="black">Administrator</font></h4></a>
+                <li class="menu-hover"> <a><h3><font color="black">Administrator</font></h3></a>
                     <ul class="dropdown-menu">
                         <li> <a href="/maintenance"><h4>Tài Khoản</h4></a></li>
                         <li> <a href="/show-payment"><h4>Đơn Hàng</h4></a></li>
@@ -161,18 +123,13 @@
                         <li> <a href="/maintenance-prd/All"><h4>Kho</h4></a></li>
                     </ul>
                 </li>
-
-
             </ul>
         </div>
         <%}%>
         <div class="dropdown">
             <ul class="nav navbar-nav navbar-left sm">
-
-                <li class="menu-hover"> <a href="/app-phongthuy" data-filter=".folder2" ><h4><font color="black">Tin Tức</font></h4></a>
+                <li class="menu-hover"> <a href="/" data-filter=".folder2" ><h3><font color="black">Tin Tức</font></h3></a>
                 </li>
-
-
             </ul>
         </div>
     </div>
@@ -413,7 +370,7 @@
 '<button class="btn btn-default" type="button" onclick="minus('+response.result[i].size_ids.split(';')[j]+')" >-</button>'+
 '</span>'+
 '<input class="form-control booking-item-title quantity_header" id="quantityCart'+response.result[i].size_ids.split(';')[j]+'"'+
-'   style="font-weight: bold; font-size: 200%; text-align: center;" value="'+response.result[i].quantities.split(';')[j]+'">'+
+'   style="font-weight: bold; font-size: 200%; text-align: center; min-width: 60px;" value="'+response.result[i].quantities.split(';')[j]+'">'+
 '<span class="input-group-btn">'+
 '<button class="btn btn-default" type="button" onclick="plus('+response.result[i].size_ids.split(';')[j]+')" >+</button>'+
 '</span>'+
@@ -515,3 +472,4 @@
 
     }
 </script>
+</html>
