@@ -2,12 +2,12 @@
 <html lang="en">
 <% include partials/index_Header.ejs %>
 <body>
-<div class="container">
-    <div class="container solid-content">
+<div class="container" id="mobile">
+    <div class="container-fuild solid-content">
         <h3>Thông tin sản phẩm</h3>
 
         <div id="cartdetail" class="row">
-            <table class="table table-bordered">
+            <table class="table table-bordered center-block" style="table-layout: fixed; width: 95%;">
                 <thead>
                 <th class="text-right" style="text-align: center;"><h3>Tên sản phẩm</h3></th>
                 <th class="text-right" style="text-align: center;"><h3>Size</h3></th>
@@ -29,33 +29,33 @@
                                    style="text-align: center; background-color: transparent" disabled
                                    value="<%= result[i].name %>"></input> -->
                     </td>
-                    <td class="text-center">
-                        <%= result[i].name %>
+                    <td class="text-center" width="20%">
+                        <h3><%= result[i].name %></h3>
                         <!-- <input id='size_id' class="booking-item-title size_id_header"
                                    style="text-align: center; background-color: transparent" disabled
                                    value="<%= result[i].name %>"></input> -->
                     </td>
-                    <td class="text-center">
-                        <%= result[i].sizes.split(';')[j] %>
+                    <td class="text-center" width="10%">
+                        <h3><%= result[i].sizes.split(';')[j] %></h3>
                         <!-- <input id='size_id' class="booking-item-title size_id_header"
                                    style="text-align: center; background-color: transparent" disabled
                                    value="<%= result[i].sizes.split(';')[j] %>"></input> -->
                     </td>
 
-                    <td class="text-center">
+                    <td class="text-center" width="30%">
                         <% if(result[i].discount_prices == null || result[i].discount_prices.split(';')[j] == null || result[i].discount_prices.split(';')[j] == '0') { %>
 
-                        <label style=" text-align: center"><font
-                                    color="black"><%= result[i].prices.split(';')[j] %> </font></label>
+                        <h3 style=" text-align: center"><font
+                                    color="black"><%= result[i].prices.split(';')[j] %> </font></h3>
                         <% }else { %>
 
-                        <label style="text-decoration:line-through ; text-align: center"><font
-                                    color="black"><%= result[i].prices.split(';')[j] %></font></label>-><label
+                        <h3 style="text-decoration:line-through ; text-align: center"><font
+                                    color="black"><%= result[i].prices.split(';')[j] %></font></h3>-><h3
                                 style=" text-align: center"><font
-                                    color="red"><%= result[i].discount_prices.split(';')[j] %></font></label>
+                                    color="red"><%= result[i].discount_prices.split(';')[j] %></font></h3>
                         <% } %>
                     </td>
-                    <td>
+                    <td width="20%">
                         <div class="input-group">
                                 <span class="input-group-btn input-number-decrement">
                                 <button class="btn btn-default" type="button" onclick="minuspayment(<%=result[i].product_id.split(';')[j].trim()%>)">-</button>
@@ -72,17 +72,13 @@
 
 
                     </td>
-                    <td class="text-center">
-                        <%= result[i].sums.split(';')[j] %>
+                    <td class="text-center" width="20%">
+                        <h2 class="currency"><%= result[i].sums.split(';')[j] %></h2>
                         <!-- <input class="booking-item-title"
                                style="text-align: center; background-color: transparent" disabled
                                value=""> -->
-
-                    </td>
-                    <td class="text-center">
-                      <span class="glyphicon glyphicon-remove"  onclick="removepayment(<%=result[i].product_id.split(';')[j].trim()%>)">
-
-                                </span>
+                        <span class="glyphicon glyphicon-remove"  onclick="removepayment(<%=result[i].product_id.split(';')[j].trim()%>)">
+                      </span>       
                     </td>
                 </tr>
                 <% } %>
@@ -97,29 +93,30 @@
                 <% } %>
             </table>
         </div>
-        <div class="row" >
-            <div class="col-sm-3">
+        <div class="row" style="padding-left: 20px;">
+            <div class="col-xs-4 col-md-4">
                 <h4>Phí vận chuyển</h4>
                 <%if(totalAll > setting[0].freeShip){%>
                 <input class="form-control" id = 'shipfee' value = '0' disabled>
                 <%} else {%>
                 <input class="form-control" id = 'shipfee' value = '<%=setting[0].defaultShip%>' disabled>
                 <%}%>
-
             </div>
-
-
         </div>
         <br>
-        <h4>Voucher</h4>
-        <div class="row" >
-            <div class="col-sm-3 ">
+        
+        <div class="row" style="padding-left: 20px;">
+            <div class="col-xs-4 col-md-4">
+                <h4>Voucher</h4>
+            </div>            
+        </div>       
+        <div class="row" style="padding-left: 20px;">
+            <div class="col-xs-4 col-md-4">                
                 <input type="text" class="form-control"  id="voucher" placeholder="Mã giảm giá">
             </div>
             <div class="col-sm-3">
                 <button class=" btn btn-success" onclick="CheckVoucher()">Áp dụng</button>
             </div>
-
         </div>
         <br>
         <div class="row">
@@ -226,87 +223,98 @@
     </div>
     <input id="ship" style="display: none" value='0'>
     <input id="type" style="display: none" value='0'>
-    <div class="col-sm-7">
+    <div class="row">
+        <div class="col-xs-7 col-md-7">
 
-        <div class="row solid-content">
-            <h3>Hình thức giao hàng</h3>
-            <div class="col-xs-3 col-md-3" id='ghtk' style="display: none;">
-                <a class="thumbnail" >
-                    <img onclick="Ship(1)" class="dilivery" src="/img/delivery_form/giaohangtietkiem.png" alt="...">
-                </a>
+            <div class="row solid-content">
+                <h3>Hình thức giao hàng</h3>
+                <div class="col-xs-3 col-md-3" id='ghtk' style="display: none;">
+                    <a class="thumbnail" >
+                        <img onclick="Ship(1)" class="dilivery" src="/img/delivery_form/giaohangtietkiem.png" alt="...">
+                    </a>
+                </div>
+                <div class="col-xs-3 col-md-3" id='ghn' style="display: none;">
+                    <a class="thumbnail">
+                        <img onclick="Ship(2)" class="dilivery" src="/img/delivery_form/giaohangnhanh.png" alt="...">
+                    </a>
+                </div>
+                <div class="col-xs-3 col-md-3" id='vtp' style="display: none;">
+                    <a class="thumbnail">
+                        <img onclick="Ship(3)" class="dilivery" src="/img/delivery_form/viettel_post.jpg" alt="...">
+                    </a>
+                </div>
+                <div class="col-xs-3 col-md-3" id='bd' style="display: none;">
+                    <a class="thumbnail">
+                        <img onclick="Ship(4)" class="dilivery" src="/img/delivery_form/vnpost.png" alt="...">
+                    </a>
+                </div>
             </div>
-            <div class="col-xs-3 col-md-3" id='ghn' style="display: none;">
-                <a class="thumbnail">
-                    <img onclick="Ship(2)" class="dilivery" src="/img/delivery_form/giaohangnhanh.png" alt="...">
-                </a>
+            <div class="row solid-content">
+
+                <h3>Hình thức thanh toán</h3>
+                <div class="col-xs-3 col-md-3" id="tm" style="display: none;">
+                    <a class="thumbnail" onclick="Type(1)">
+                        <img class="type-payment" src="/img/payment_method/cash.jpg" alt="...">
+                    </a>
+                </div>
+                <div class="col-xs-3 col-md-3" id="COD" style="display: none;">
+                    <a class="thumbnail" onclick="Type(2)">
+                        <img class="type-payment" src="/img/payment_method/transfer.jpg" alt="...">
+                    </a>
+                </div>
+                <div class="col-xs-3 col-md-3" id="ck" style="display: none;">
+                    <a class="thumbnail" onclick="Type(3)">
+                        <img class="type-payment" src="/img/payment_method/COD.jpg" alt="...">
+                    </a>
+                </div>
+                <div class="col-xs-3 col-md-3" id="ttd" style="display: none;">
+                    <a class="thumbnail" onclick="Type(4)">
+                        <img class="type-payment" src="/img/payment_method/credit.png" alt="...">
+                    </a>
+                </div>
             </div>
-            <div class="col-xs-3 col-md-3" id='vtp' style="display: none;">
-                <a class="thumbnail">
-                    <img onclick="Ship(3)" class="dilivery" src="/img/delivery_form/viettel_post.jpg" alt="...">
-                </a>
-            </div>
-            <div class="col-xs-3 col-md-3" id='bd' style="display: none;">
-                <a class="thumbnail">
-                    <img onclick="Ship(4)" class="dilivery" src="/img/delivery_form/vnpost.png" alt="...">
-                </a>
-            </div>
+
         </div>
-        <div class="row solid-content">
+        <div class="col-xs-4 col-md-4 solid-content">
+            <h2>Thông tin đơn hàng</h2>
+            <% if(userdetail != undefined){ %>
+            <h3>Tên: <%= userdetail[0].firstname %> <%= userdetail[0].lastname %></h3>
+            <h3>Số điện thoại: <%= userdetail[0].phone %></h3>
+            <h3>Địa Chỉ: <%= userdetail[0].address %></h3>
+            <h3>Email: <%= userdetail[0].email %></h3>
+            <% } else { %>
+            <h3>Tên: </h3><input class="form-control" id="name">
+            <h3>Số điện thoại: </h3><input class="form-control" id="phone" onkeyup="CheckPhone()"> <label id = 'fs'></label>
+            <h3>Địa Chỉ: </h3><input class="form-control" id="address">
+            <h3>Email: </h3><input class="form-control" id="email">
+            <%}%>
 
-            <h3>Hình thức thanh toán</h3>
-            <div class="col-xs-3 col-md-3" id="tm" style="display: none;">
-                <a class="thumbnail" onclick="Type(1)">
-                    <img class="type-payment" src="/img/payment_method/cash.jpg" alt="...">
-                </a>
-            </div>
-            <div class="col-xs-3 col-md-3" id="COD" style="display: none;">
-                <a class="thumbnail" onclick="Type(2)">
-                    <img class="type-payment" src="/img/payment_method/transfer.jpg" alt="...">
-                </a>
-            </div>
-            <div class="col-xs-3 col-md-3" id="ck" style="display: none;">
-                <a class="thumbnail" onclick="Type(3)">
-                    <img class="type-payment" src="/img/payment_method/COD.jpg" alt="...">
-                </a>
-            </div>
-            <div class="col-xs-3 col-md-3" id="ttd" style="display: none;">
-                <a class="thumbnail" onclick="Type(4)">
-                    <img class="type-payment" src="/img/payment_method/credit.png" alt="...">
-                </a>
-            </div>
+            <h3>Tổng giá sản phẩm: </h3>
+            <h2 id="totalLabel" class="fa-money currency"><%= totalAll %></h2>
+            <h3>Tổng giá đơn hàng: </h3>
+            <h2 id="totalship" class="fa-money currency"></h2>
         </div>
-
     </div>
-    <div class="col-sm-4 solid-content">
-        <h2>Thông tin đơn hàng</h2>
-        <% if(userdetail != undefined){ %>
-        <h4>Tên: <%= userdetail[0].firstname %> <%= userdetail[0].lastname %></h4>
-        <h4>Số điện thoại: <%= userdetail[0].phone %></h4>
-        <h4>Địa Chỉ: <%= userdetail[0].address %></h4>
-        <h4>Email: <%= userdetail[0].email %></h4>
-        <% } else { %>
-        <h4>Tên: </h4><input class="form-control" id="name">
-        <h4>Số điện thoại: </h4><input class="form-control" id="phone" onkeyup="CheckPhone()"> <label id = 'fs'></label>
-        <h4>Địa Chỉ: </h4><input class="form-control" id="address">
-        <h4>Email: </h4><input class="form-control" id="email">
-        <%}%>
-
-        <h3>Tổng giá sản phẩm: </h3>
-        <h2 id="totalLabel" class="fa-money"><%= totalAll %></h2>
-        <h3>Tổng giá đơn hàng: </h3>
-        <h2 id="totalship" class="fa-money"></h2>
+    <div class="row">
+        <div class="col-xs-4 col-md-4">
+            <button class="btn btn-danger center-block" type="button"
+                onclick="document.getElementById('id03').style.display='none'">
+                Hủy
+            </button>
+        </div>
+        <div class="col-xs-4 col-md-4 center-block">
+            <button class="btn btn-info center-block" type="button" onclick="UpdateCart()">
+                Cập Nhật Giỏ
+            </button>
+        </div>
+        <div class="col-xs-4 col-md-4 center-block">
+            <button onclick="CheckOut()" class="btn btn-success center-block">
+                Thanh Toán
+            </button>
+        </div>       
     </div>
-    <button class="btn btn-danger col-sm-2 col-md-offset-3" type="button"
-            onclick="document.getElementById('id03').style.display='none'">
-        Hủy
-    </button>
-    <button class="btn btn-info col-sm-2" type="button" onclick="UpdateCart()">
-        Cập Nhật Giỏ
-    </button>
-    <button onclick="CheckOut()" class="btn btn-success col-sm-2">
-        Thanh Toán
-    </button>
 </div>
+<br>
 <div class="row">
     <div id="idSuccess" class="modal">
         <div class="container popup animate">
@@ -742,5 +750,32 @@
             }
         });
     }
+    var currents = document.getElementsByClassName("currency");
+                var decimals = 0;               
+                for (i=0; i<currents.length; i++){
+                    var pnumber = currents[i].innerHTML;
+                    if (isNaN(pnumber)) { result = 0};
+                    if (pnumber=='') { result = 0};
+                    var snum = new String(pnumber);
+                    var result = '';
+                    j=snum.length-1;
+                    dem = 1;
+                    while(j>=0){
+                        if (dem%4!=0){
+                            result = snum[j] + result;
+                            j--;
+                            dem++;
+                        }else{
+                            result = '.' + result;
+                            dem=1;
+                        }                        
+                    }
+                    if (currents[i].id == "dictprice"){
+                        currents[i].innerHTML = result;
+                    } else{
+                        currents[i].innerHTML = "&nbsp;" +result+ "&nbsp";
+                    }
+                    
+                }
 </script>
 </html>
