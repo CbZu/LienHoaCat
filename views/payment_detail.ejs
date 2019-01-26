@@ -10,12 +10,23 @@
         </ol>
 
     </div>
-    <div class="solid-content">
+    <div class="solid-content" style="padding-left: 20px;">
         <div class="row">
 
             <div  class="col-md-2">
                 <h3>Mã đơn Hàng : </h3>
                 <input class="form-control" id = 'title' name = 'title' value='<%=result[0].title%>' disabled>
+            </div>
+
+            <div  class="col-md-3">
+                <h3>Mã Vận Chuyển : </h3>
+                <%if(type == 1){%>
+                <input class="form-control" id = 'shipcode' name = 'shipcode' value='<%=result[0].shipcode==undefined?'':result[0].shipcode%>' >
+
+                <%} else {%>
+                <input class="form-control" id = 'shipcode' name = 'shipcode' value='<%=result[0].shipcode==undefined?'':result[0].shipcode%>'  disabled>
+
+                <%}%>
             </div>
         </div>
         <%if (type == '1'){%>
@@ -132,30 +143,57 @@
         <% if(type == '1'){%>
         <button class="btn btn-success" id="insertBtn" onclick="insert()">+</button>
         <%}%>
-
-        <div class="row" >
-            <div class="col-sm-3">
+        <div class="row" style="padding-left: 20px;">
+            <div class="col-md-6">
                 <h4>Phí vận chuyển</h4>
+                <div class="row" >
+                    <div class="col-sm-8">
 
-                <input class="form-control" id = 'shipfee' value = '<%=result[0].shipfee%>' disabled>
+                        <%if(type == 1){%>
+                        <input class="form-control" id = 'shipfee' value = '<%=result[0].shipfee%>' >
+                        <%} else {%>
+                        <input class="form-control" id = 'shipfee' value = '<%=result[0].shipfee%>' disabled>
+                        <%}%>
 
+                    </div>
+                    <div class="col-sm-4">
+                        <button class=" btn btn-success" onclick="ChangeShipFee()">Áp dụng</button>
+                    </div>
 
+                </div>
+                <br>
+                <h4>Voucher</h4>
+                <div class="row"  >
+                    <div class="col-sm-8 ">
+                        <%if(type == 1){%>
+                        <input type="text" class="form-control"  id="voucher" placeholder="Mã giảm giá" value = '<%=result[0].voucher%>' >
+                        <%} else {%>
+                        <input type="text" class="form-control"  id="voucher" placeholder="Mã giảm giá" value = '<%=result[0].voucher%>' disabled>
+                        <%}%>
+
+                    </div>
+
+                    <div class="col-sm-4">
+                        <button class=" btn btn-success" onclick="CheckVoucher()">Áp dụng</button>
+                    </div>
+
+                </div>
             </div>
-
-
+            <div class="col-md-6">
+                <div class="row" style="padding-left: 20px;">
+                    <div class="col-xs-4 col-md-4">
+                        <h4>Ghi chú</h4>
+                    </div>
+                </div>
+                <div class="row" >
+                    <div>
+                        <textarea class="form-control" style="width: 90%; height: 200%;" id="note" name="note"> <%=result[0].note%></textarea>
+                    </div>
+                </div>
+            </div>
+            <br>
         </div>
-        <br>
-        <h4>Voucher</h4>
-        <div class="row" >
-            <div class="col-sm-3 ">
-                <input type="text" class="form-control"  id="voucher" placeholder="Mã giảm giá" value = '<%=result[0].voucher%>' disabled>
-            </div>
-            <div class="col-sm-3">
-                <button class=" btn btn-success" onclick="CheckVoucher()">Áp dụng</button>
-            </div>
 
-        </div>
-        <br>
 
     </div>
     <input id = "ship" style="display: none" value = '0'>
@@ -166,22 +204,22 @@
             <h3>Hình thức giao hàng</h3>
             <div class="col-xs-3 col-md-3" id = "ship1" style="display: none">
                 <a  class="thumbnail" onclick="Ship('1')">
-                    <img src="img/delivery_form/giaohangtietkiem.png" alt="...">
+                    <img class="dilivery" src="img/delivery_form/giaohangtietkiem.png" alt="...">
                 </a>
             </div>
             <div class="col-xs-3 col-md-3" id = "ship2" style="display: none">
                 <a  class="thumbnail" onclick="Ship('2')">
-                    <img src="img/delivery_form/giaohangnhanh.png" alt="...">
+                    <img class="dilivery" src="img/delivery_form/giaohangnhanh.png" alt="...">
                 </a>
             </div>
             <div class="col-xs-3 col-md-3" id = "ship3" style="display: none">
                 <a  class="thumbnail" onclick="Ship('3')">
-                    <img src="img/delivery_form/viettel_post.jpg" alt="...">
+                    <img class="dilivery" src="img/delivery_form/viettel_post.jpg" alt="...">
                 </a>
             </div>
             <div class="col-xs-3 col-md-3" id = "ship4" style="display: none">
                 <a  class="thumbnail" onclick="Ship('4')">
-                    <img src="img/delivery_form/vnpost.png" alt="...">
+                    <img class="dilivery" src="img/delivery_form/vnpost.png" alt="...">
                 </a>
             </div>
         </div>
@@ -190,22 +228,22 @@
             <h3>Hình thức thanh toán</h3>
             <div class="col-xs-3 col-md-3" id = "type1" style="display: none">
                 <a  class="thumbnail"  onclick="Type('1')">
-                    <img src="img/payment_method/cash.jpg" alt="...">
+                    <img class="type-payment" src="img/payment_method/cash.jpg" alt="...">
                 </a>
             </div>
             <div class="col-xs-3 col-md-3" id = "type2" style="display: none">
                 <a  class="thumbnail"  onclick="Type('2')">
-                    <img src="img/payment_method/transfer.jpg" alt="...">
+                    <img class="type-payment" src="img/payment_method/transfer.jpg" alt="...">
                 </a>
             </div>
             <div class="col-xs-3 col-md-3" id = "type3" style="display: none">
                 <a  class="thumbnail"  onclick="Type('3')">
-                    <img src="img/payment_method/COD.jpg" alt="...">
+                    <img class="type-payment" src="img/payment_method/COD.jpg" alt="...">
                 </a>
             </div>
             <div class="col-xs-3 col-md-3" id = "type4" style="display: none">
                 <a  class="thumbnail"  onclick="Type('4')">
-                    <img src="img/payment_method/credit.jpg" alt="...">
+                    <img class="type-payment" src="img/payment_method/credit.jpg" alt="...">
                 </a>
             </div>
         </div>
@@ -219,7 +257,7 @@
         <h4>Số điện thoại: <%=userdetail[0].phone%></h4>
         <h4>Địa Chỉ: <%=userdetail[0].address%></h4>
         <%}%>
-        <h4>Phí vận chuyển</h4>
+
         <h3>Tổng giá sản phẩm: </h3>
         <h2 id="totalLabel" class="fa-money"><%= totalAll %></h2>
         <h3>Tổng giá đơn hàng: </h3>
@@ -304,15 +342,32 @@
 </script>
 <script>
     <%if(result[0].promotion!=0){%>
-    document.getElementById("totalLabel").innerHTML = "<label style='text-decoration: line-through'><font color='black'> "+"<%=result[0].paymentSum%>"+"</font></lable><label><font color='red'> -> "+"<%=result[0].paymentTotal%>"+"</lable>";
+    document.getElementById("totalLabel").innerHTML = "<label style='text-decoration: line-through'><font color='black'> "+"<%=result[0].paymentSum%>"+"</font></lable><label><font color='red' id = 'total-after-promote'> -> "+"<%=result[0].paymentTotal%>"+"</lable>";
     <%}%>
-    <%if(result[0].ship != 0) {%>
-    document.getElementById("ship<%=result[0].ship%>").style.display = 'block';
-    <%}%>
-
-    document.getElementById("type<%=result[0].pay_type%>").style.display = 'block';
     <% if(type == '1'){%>
+        document.getElementById("ship1").style.display = 'block';
+        document.getElementById("ship2").style.display = 'block';
+        document.getElementById("ship3").style.display = 'block';
+        document.getElementById("ship4").style.display = 'block';
+        document.getElementById("type1").style.display = 'block';
+        document.getElementById("type2").style.display = 'block';
+        document.getElementById("type3").style.display = 'block';
+        document.getElementById("type4").style.display = 'block';
+    <%if(result[0].ship != 0) {%>
+        document.getElementById("ship<%=result[0].ship%>").childNodes[1].childNodes[1].className = document.getElementById("ship<%=result[0].ship%>").childNodes[1].childNodes[1].className +' selected'
+        <%}%>
+        document.getElementById("type<%=result[0].pay_type%>").childNodes[1].childNodes[1].className = document.getElementById("type<%=result[0].ship%>").childNodes[1].childNodes[1].className+' selected'
 
+    <% }else {%>
+        <%if(result[0].ship != 0) {%>
+        document.getElementById("ship<%=result[0].ship%>").style.display = 'block'
+        <%}%>
+        document.getElementById("type<%=result[0].pay_type%>").style.display = 'block'
+
+    <%}%>
+     <% if(type == '1'){%>
+    document.getElementById("ship").value = '<%=result[0].ship%>';
+    document.getElementById("type").value = '<%=result[0].type%>';
     var type = '';
     var ship = '';
     function Ship(idx){
@@ -352,13 +407,35 @@
                 //alert(msg);
                 data = msg;
                 if (data.code == '404') {
-                    obj.after("<label class='error'>Voucher Hết Hạn Hoặc Không Tồn Tại</label>");
+                    obj.after("<label class='error'>Voucher Hết Hạn Hoặc Không Tồn Tại Hoăc Hóa Đơn Không Đủ Số Tiền Tối Thiểu</label>");
+                    document.getElementById("totalLabel").innerHTML = "<%= totalAll %>";
+                    document.getElementById('totalship').innerHTML ="<%= totalAll %>";
+                    document.getElementById("shipfee").value = '0';
+                    var result = parseFloat('<%=totalAll%>');
+                    if(result < parseFloat('<%=setting[0].freeShip%>')){
+                        document.getElementById("shipfee").value = '<%=setting[0].defaultShip%>';
+                        document.getElementById('totalship').innerHTML = parseFloat(document.getElementById("shipfee").value) + result
+                    }
                 }
                 else {
-                    document.getElementById("totalLabel").innerHTML = "<label style='text-decoration: line-through'><font color='black'> <%=totalAll%></font></lable><label><font color='red'> -> "+data.totalAfter+"</lable>";
+                    var result = parseFloat('<%=totalAll%>') - parseFloat(data.totalAfter);
+                    if(result < parseFloat('<%=setting[0].freeShip%>')){
+                        document.getElementById("shipfee").value = '<%=setting[0].defaultShip%>';
+                        document.getElementById('totalship').innerHTML = parseFloat(document.getElementById("shipfee").value) + result
+                    }
+                    document.getElementById("totalLabel").innerHTML = "<label style='text-decoration: line-through'><font color='black'> <%= totalAll %></font></lable><label><font color='red' id = 'total-after-promote'> -> " + result + "</lable>";
                 }
             }
         });
+    }
+    function ChangeShipFee(){
+        var result = parseFloat(document.getElementById('totalLabel').innerHTML);
+        if(document.getElementById('totalLabel').childNodes[0].localName == 'label'){
+            result  = parseFloat(document.getElementById('total-after-promote').innerHTML.replace('-&gt;',''));
+            document.getElementById('totalship').innerHTML = parseFloat(document.getElementById("shipfee").value) + result;
+        } else {
+            document.getElementById('totalship').innerHTML = parseFloat(document.getElementById("shipfee").value) + result;
+        }
     }
     function CheckOut(){
         var formdata = new FormData();
@@ -403,6 +480,12 @@
         formdata1.append('quantity', quantities);
         formdata1.append('userpayment', '<%= result[0].user_id%>');
         formdata1.append('payment', '<%= result[0].payment_id%>');
+        formdata1.append('voucher',$("#voucher").val());
+        formdata1.append('note',$("#note").val());
+        formdata1.append('shipfee',$("#shipfee").val());
+        formdata1.append('shipcode',$("#shipcode").val());
+        formdata1.append('ship',$("#ship").val());
+        formdata1.append('type',$("#type").val());
         $.ajax({
             url: "./PetMart/update-cart",
             type: 'POST',
@@ -418,7 +501,7 @@
                     url: "./PetMart/update-payment",
                     type: 'POST',
                     dataType: 'JSON',
-                    data: JSON.stringify({ mode: 'pay', userpayment: '<%= result[0].user_id%>', payment_id:'<%= result[0].payment_id%>'}),
+                    data: JSON.stringify({ mode: 'pay', userpayment: '<%= result[0].user_id%>', payment_id:'<%= result[0].payment_id%>',voucher :$("#voucher").val() ,shipcode:$("#shipcode").val(),shipfee:$("#shipfee").val(),note:$("#note").val(),ship:$("#ship").val(),type:$("#type").val()}),
                     async: false,
                     cache: false,
                     contentType: 'application/json; charset=UTF-8',
@@ -539,6 +622,11 @@
         formdata1.append('phone',$("#phone").val());
         formdata1.append('address',$("#address").val());
         formdata1.append('voucher',$("#voucher").val());
+        formdata1.append('note',$("#note").val());
+        formdata1.append('shipfee',$("#shipfee").val());
+        formdata1.append('shipcode',$("#shipcode").val());
+        formdata1.append('ship',$("#ship").val());
+        formdata1.append('type',$("#type").val());
         formdata1.append('mode','pay');
         $.ajax({
             url: "/PetMart/add-to-cart",

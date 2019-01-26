@@ -734,7 +734,7 @@ module.exports.get_voucher = function(req, res){
     if(input.mode == 'check_exist'){
         sql = 'select code from voucher where code = \''+input.voucher+'\'';
     } else {
-        sql = 'select percent from voucher where code = \''+input.voucher+'\' and effective_date<='+today+' and '+today+'<=expired_date;';
+        sql = 'select percent,min from voucher where code = \''+input.voucher+'\' and effective_date<='+today+' and '+today+'<=expired_date and min < '+input.total+';';
 
     }
 
@@ -910,8 +910,8 @@ module.exports.add_to_payment = function(req, res){
                 var sqlIns = 'INSERT INTO `lhc`.`payment`\n' +
                     '(`user_id`,\n' +
                     '`sum`,\n' +
-                    '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`,`ship`,`voucher`,`shipfee`)\n';
-                sqlIns +='VALUES ('+user+','+Sum+',0,'+parseInt(year+''+month+''+day)+',\''+newtitle+'\',\''+input.type+'\','+promotion+','+totalAfterPromot+',\'N\',\''+input.ship+'\',\''+input.voucher+'\','+input.shipfee+')';
+                    '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`,`ship`,`voucher`,`shipfee`,`note`)\n';
+                sqlIns +='VALUES ('+user+','+Sum+',0,'+parseInt(year+''+month+''+day)+',\''+newtitle+'\',\''+input.type+'\','+promotion+','+totalAfterPromot+',\'N\',\''+input.ship+'\',\''+input.voucher+'\','+input.shipfee+',\''+input.note+'\')';
                 con.query(sqlIns, function (err, row1s) {
                     if(err){
                         var data = {status: 'error', code: '300',error: err};
@@ -997,95 +997,102 @@ module.exports.get_payment_detail = function(req, res){
     });
 };
 module.exports.update_payment = function(req, res){
-    var input=JSON.parse(JSON.stringify(req.body));
-    var date = new Date();
-    var month = date.getMonth() + 1;
-    month = (month < 10 ? "0" : "") + month;
+    if(req.session.type == '1'){
+        var input=JSON.parse(JSON.stringify(req.body));
+        var date = new Date();
+        var month = date.getMonth() + 1;
+        month = (month < 10 ? "0" : "") + month;
 
-    var day  = date.getDate();
-    day = (day < 10 ? "0" : "") + day;
-    var year = date.getUTCFullYear();
+        var day  = date.getDate();
+        day = (day < 10 ? "0" : "") + day;
+        var year = date.getUTCFullYear();
 
-    if(input.mode == 'pay'){
-        var sql = 'select *,' +
-            '(select percent from voucher where code = (select voucher from payment where payment_id = c.payment_id)) as voucher' +
-            ' from cart c where payment_id = '+input.payment_id+'; ';
-    } else {
-        if(input.status == undefined){
-            var sql = 'update payment set seen_flag = \''+input.seen+'\' where payment_id = '+input.payment_id+'; ';
-        }else{
-            var sql = 'update payment set status_id = '+input.status+',seen_flag = \''+input.seen_flag+'\' where payment_id = '+input.payment_id+'; ';
+        if(input.mode == 'pay'){
+            var sql = 'select *,' +
+                '(select percent from voucher where code = \''+input.voucher+'\') as voucher' +
+                ' from cart c where payment_id = '+input.payment_id+'; ';
+        } else {
+            if(input.status == undefined){
+                var sql = 'update payment set seen_flag = \''+input.seen+'\' where payment_id = '+input.payment_id+'; ';
+            }else{
+                var sql = 'update payment set status_id = '+input.status+',seen_flag = \''+input.seen_flag+'\' where payment_id = '+input.payment_id+'; ';
+            }
         }
+
+
+        var con = req.db.driver.db;
+        con.query(sql, function (err, rows) {
+            if(err){
+                var data = {status: 'err', code: '300',description:err};
+                res.json(data);
+            } else{
+                if(input.mode == 'pay'){
+                    var sum = 0;
+                    var promotion = 0;
+                    var total = 0;
+                    for( var i = 0; i < rows.length ; i++){
+                        if(rows[i].disct_price == null || rows[i].disct_price == 0 ){
+                            sum += rows[i].price * rows[i].amount;
+                        } else {
+                            sum += rows[i].disct_price;
+                        }
+                    }
+
+                    if(rows[0].voucher != 'NULL' && rows[0].voucher != '0' && rows[0].voucher != null){
+                        if( parseInt(rows[0].voucher)  >100){
+                            promotion = rows[0].voucher;
+                        } else {
+                            promotion = sum * rows[0].voucher / 100;
+                        }
+
+                    }
+                    total = sum - promotion;
+                    sql = 'update payment set sum = '+sum+', promotion = '+promotion+' , total = '+total+',voucher = \''+input.voucher+'\', shipfee = '+input.shipfee+' , shipcode = \''+input.shipcode+'\',ship = \''+input.ship+'\',pay_type = \''+input.type+'\', note = \''+input.note+'\' ' +
+                        'where payment_id = '+input.payment_id+'; '
+                    con.query(sql);
+                } else {
+                    if(input.status == '1'){
+                        sql ='select product_id,amount,(select entity from product where product_id = c.product_id) as entity from cart c where payment_id = '+input.payment_id+';';
+                        con.query(sql, function (err, row1s) {
+                            if(!err){
+
+                                row1s.forEach(function(element) {
+                                    var result = parseInt(element.entity) - parseInt(element.amount);
+                                    sql = 'update product set entity = '+result+' where product_id = '+element.product_id+';';
+                                    con.query(sql);
+                                });
+                            }
+                        });
+                    }
+                    if(input.status == '4' || input.status == '5'){
+                        sql ='select product_id,amount,(select entity from product where product_id = c.product_id) as entity from cart c where payment_id = '+input.payment_id+';';
+                        con.query(sql, function (err, row1s) {
+                            if(!err){
+
+                                row1s.forEach(function(element) {
+                                    var result = parseInt(element.entity) + parseInt(element.amount);
+                                    sql = 'update product set entity = '+result+' where product_id = '+element.product_id+';';
+                                    con.query(sql);
+                                });
+                            }
+                        });
+                    }
+                    if(input.status == '6'){
+                        sql = 'delete from cart where payment_id = '+input.payment_id+';';
+                        con.query(sql);
+                        sql = 'delete from payment where payment_id = '+input.payment_id+';';
+                        con.query(sql);
+                    }
+                }
+                var data = {status: 'success', code: '200'};
+                res.json(data);
+            }
+        });
+    } else {
+        var data = {status: 'fail', code: '300'};
+        res.json(data);
     }
 
-
-    var con = req.db.driver.db;
-    con.query(sql, function (err, rows) {
-       if(err){
-           var data = {status: 'err', code: '300',description:err};
-           res.json(data);
-       } else{
-           if(input.mode == 'pay'){
-               var sum = 0;
-               var promotion = 0;
-               var total = 0;
-               for( var i = 0; i < rows.length ; i++){
-                    if(rows[i].disct_price == null || rows[i].disct_price == 0 ){
-                        sum += rows[i].price * rows[i].amount;
-                    } else {
-                        sum += rows[i].disct_price;
-                    }
-               }
-
-               if(rows[0].voucher != 'NULL' && rows[0].voucher != '0'){
-                   if( parseInt(rows[0].voucher)  >100){
-                       promotion = rows[0].voucher;
-                   } else {
-                       promotion = sum * rows[0].voucher / 100;
-                   }
-
-               }
-               total = sum - promotion;
-               sql = 'update payment set sum = '+sum+', promotion = '+promotion+' , total = '+total+' where payment_id = '+input.payment_id+'; '
-               con.query(sql);
-           } else {
-               if(input.status == '1'){
-                   sql ='select product_id,amount,(select entity from product where product_id = c.product_id) as entity from cart c where payment_id = '+input.payment_id+';';
-                   con.query(sql, function (err, row1s) {
-                      if(!err){
-
-                          row1s.forEach(function(element) {
-                              var result = parseInt(element.entity) - parseInt(element.amount);
-                              sql = 'update product set entity = '+result+' where product_id = '+element.product_id+';';
-                              con.query(sql);
-                          });
-                      }
-                   });
-               }
-               if(input.status == '4' || input.status == '5'){
-                   sql ='select product_id,amount,(select entity from product where product_id = c.product_id) as entity from cart c where payment_id = '+input.payment_id+';';
-                   con.query(sql, function (err, row1s) {
-                       if(!err){
-
-                           row1s.forEach(function(element) {
-                               var result = parseInt(element.entity) + parseInt(element.amount);
-                               sql = 'update product set entity = '+result+' where product_id = '+element.product_id+';';
-                               con.query(sql);
-                           });
-                       }
-                   });
-               }
-               if(input.status == '6'){
-                   sql = 'delete from cart where payment_id = '+input.payment_id+';';
-                   con.query(sql);
-                   sql = 'delete from payment where payment_id = '+input.payment_id+';';
-                   con.query(sql);
-               }
-           }
-           var data = {status: 'success', code: '200'};
-           res.json(data);
-       }
-    });
 }
 
 
@@ -1588,6 +1595,8 @@ module.exports.payment_detail = function(req, res){
                 '(select pay_type from payment where payment_id = c.payment_id ) as pay_type,\n' +
                 '(select total from payment where payment_id = c.payment_id ) as paymentTotal,\n' +
                 '(select shipfee from payment where payment_id = c.payment_id ) as shipfee,\n' +
+                '(select note from payment where payment_id = c.payment_id ) as note,\n' +
+                '(select shipcode from payment where payment_id = c.payment_id ) as shipcode,\n' +
                 'sum(\n' +
                 '\tIF(\n' +
                 '\t\tc.disct_price <>\'NULL\',\n' +
@@ -2331,7 +2340,7 @@ module.exports.show_payment=function(req,res){
             where = where.substring(0,where.length-3);
             sql += ' where '+where + ' order by p.status_id asc, p.create_time desc;';
         }else{
-            sql += ' ;';
+            sql += ' order by p.status_id asc, p.create_time desc;';
         }
         var con = req.db.driver.db;
         con.query(sql, function (err, rows) {
@@ -2381,12 +2390,11 @@ module.exports.checkout = function(req, res){
                     'GROUP_CONCAT((select price from product where product_id = c.product_id) SEPARATOR \'; \')  as prices,\n' +
                     'GROUP_CONCAT((select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date) SEPARATOR \'; \')  as discount_prices,\n' +
                     'GROUP_CONCAT(\n' +
-                    'FORMAT(\n' +
                     'IF(\n' +
                     '(select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)<>\'NULL\',\n' +
-                    '        (select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)*'+req.params.amount+',\n' +
+                    '        (select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)*'+req.params.amount+'\n' +
                     '        (select price from product where product_id = c.product_id)*'+req.params.amount+'),\n' +
-                    '0) SEPARATOR \'; \') as sums,\n' +
+                    ' SEPARATOR \'; \') as sums,\n' +
                     'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as size_ids,\n' +
                     'GROUP_CONCAT((select url from image where c.product_id = product_id and type = 1 group by product_id) SEPARATOR \'; \') as images,\n' +
                     'sum(\n' +
@@ -2436,12 +2444,12 @@ module.exports.checkout = function(req, res){
                             'GROUP_CONCAT((select price from product where product_id = c.product_id) SEPARATOR \'; \')  as prices,\n' +
                             'GROUP_CONCAT((select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date) SEPARATOR \'; \')  as discount_prices,\n' +
                             'GROUP_CONCAT(\n' +
-                            'FORMAT(\n' +
+                            '\n' +
                             'IF(\n' +
                             '(select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)<>\'NULL\',\n' +
                             '        (select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)*'+req.cookies.cart.amount.split(',')[i]+',\n' +
-                            '        (select price from product where product_id = c.product_id)*'+req.cookies.cart.amount.split(',')[i]+'),\n' +
-                            '0) SEPARATOR \'; \') as sums,\n' +
+                            '        (select price from product where product_id = c.product_id)*'+req.cookies.cart.amount.split(',')[i]+')\n' +
+                            ' SEPARATOR \'; \') as sums,\n' +
                             'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as size_ids,\n' +
                             'GROUP_CONCAT((select url from image where c.product_id = product_id and type = 1 group by product_id) SEPARATOR \'; \') as images,\n' +
                             'sum(\n' +
@@ -2494,7 +2502,6 @@ module.exports.checkout = function(req, res){
                     'GROUP_CONCAT((select price from product where product_id = c.product_id) SEPARATOR \'; \')  as prices,\n' +
                     'GROUP_CONCAT((select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date) SEPARATOR \'; \')  as discount_prices,\n' +
                     'GROUP_CONCAT(\n' +
-
                     'IF(\n' +
                     '(select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)<>\'NULL\',\n' +
                     '        (select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)*'+req.params.amount+',\n' +
@@ -2579,7 +2586,7 @@ module.exports.checkout = function(req, res){
                         var data = {status: 'error', code: '300',error: err};
                         res.json(data);
                     }else{
-                        sql = 'select firstname,lastname,phone,email,address,user_id from user where user_id = ' +user + ';';
+                        sql = 'select firstname,lastname,phone,email,(select address from places where user_id = '+user+')as address,user_id from user where user_id = ' +user + ';';
                         var con = req.db.driver.db;
                         con.query(sql, function (err, row1s) {
                             var totalAll = 0;

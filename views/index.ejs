@@ -48,7 +48,7 @@
                         <%if(result != undefined){%>
                         <% for(j = 0;j < result.length;j++){ %>
                         <%page = parseInt(j/12+1);%>
-                        <div class="col-xs-6 col-md-4 folder<%= result[j].folder_ids %> <%= page %>">
+                        <div class="col-xs-6 col-md-4 <%= page %>">
                             <a href="/product-detail/<%=result[j].cat_name.replace(" ", "-")%>/<%=result[j].name.replace(/ /g, '-')%>" >
                                 <div class="product">
                                     <%if(result[j].new == 'Y'){%>
