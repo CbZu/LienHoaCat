@@ -45,9 +45,11 @@
             </div>
         </div>
         <br>
-        <a type="button" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">
-            <span class="glyphicon glyphicon-upload"></span>
-        </a>
+        <%if (type == 1){%>
+            <a type="button" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">
+                <span class="glyphicon glyphicon-upload"></span>
+            </a>
+        <%}%>        
         <div class="row product-info center-block">
             <div class="col-xs-12">
                 <p id = 'descriptionArea' name = 'descriptionArea' >
@@ -65,7 +67,7 @@
                     <span onclick="document.getElementById('id02').style.display='none'" class="close"
                           title="Close Modal">&times;
                     </span>
-                <img src="img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
+                <img src="/img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
             </div>
             <form class="form-horizontal" role="form" action="/add-promote" method="POST">
                 <div class="">
