@@ -559,7 +559,7 @@
                     obj.after("<label class='error'>Voucher Hết Hạn Hoặc Không Tồn Tại Hoăc Hóa Đơn Không Đủ Số Tiền Tối Thiểu</label>");
                     document.getElementById("totalLabel").innerHTML = "<%= totalAll %>";
                     document.getElementById('totalship').innerHTML ="<%= totalAll %>";
-
+                    document.getElementById("shipfee").value = '0';
                     var result = parseFloat('<%=totalAll%>');
                     if(result < parseFloat('<%=setting[0].freeShip%>')){
                         document.getElementById("shipfee").value = '<%=setting[0].defaultShip%>';
@@ -572,7 +572,7 @@
                         document.getElementById("shipfee").value = '<%=setting[0].defaultShip%>';
                         document.getElementById('totalship').innerHTML = parseFloat(document.getElementById("shipfee").value) + result
                     }
-                    document.getElementById("totalLabel").innerHTML = "<label style='text-decoration: line-through'><font color='black'> <%= totalAll %></font></lable><label><font color='red'> -> " + result + "</lable>";
+                    document.getElementById("totalLabel").innerHTML = "<label style='text-decoration: line-through'><font color='black'> <%= totalAll %></font></lable><label><font color='red' id = 'total-after-promote'> -> " + result + "</lable>";
                 }
             }
         });
@@ -606,12 +606,11 @@
                     for(var i = 0 ; i < document.getElementsByName('amount-input').length;i++){
                         quantities.push(document.getElementsByName('amount-input')[i].value);
                     }
-                    formdata.append('note', $("#note").val());
                     $.ajax({
                         url: "/../ajax/add-to-payment-now",
                         type: 'POST',
                         dataType : 'JSON',
-                        data: JSON.stringify({size_id:sizes,quantity:quantities,userId:response.user_id,ship:ship,type:type,shipfee:$("#shipfee").val(),voucher:$("#voucher").val()}),
+                        data: JSON.stringify({size_id:sizes,quantity:quantities,userId:response.user_id,ship:$("#ship").val(),type:$("#type").val(),shipfee:$("#shipfee").val(),voucher:$("#voucher").val(),note:$("#note").val(),total:'<%=totalAll%>'}),
                         async: false,
                         cache: false,
                         contentType: 'application/json; charset=UTF-8',
@@ -649,7 +648,6 @@
                 formdata.append('voucher', $("#voucher").val());
             }
             formdata.append('shipfee', $("#shipfee").val());
-            formdata.append('note', $("#note").val());
             $.ajax({
                 url: '/../PetMart/add-to-payment',
                 type: 'POST',
@@ -677,12 +675,11 @@
             for(var i = 0 ; i < document.getElementsByName('amount-input').length;i++){
                 quantities.push(document.getElementsByName('amount-input')[i].value);
             }
-            formdata.append('note', $("#note").val());
             $.ajax({
                 url: "/../ajax/add-to-payment-now",
                 type: 'POST',
                 dataType : 'JSON',
-                data: JSON.stringify({size_id:sizes,quantity:quantities,userId:'<%=userdetail[0].user_id%>',ship:ship,type:type,shipfee:$("#shipfee").val(),voucher:$("#voucher").val()}),
+                data: JSON.stringify({size_id:sizes,quantity:quantities,userId:'<%=userdetail[0].user_id%>',ship:ship,type:type,shipfee:$("#shipfee").val(),voucher:$("#voucher").val(),note: $("#note").val()}),
                 async: false,
                 cache: false,
                 contentType: 'application/json; charset=UTF-8',
@@ -732,7 +729,7 @@
             enctype: 'multipart/form-data',
             processData: false,
             success: function (response) {
-                alert(response.status);
+
                 document.getElementById('id03').style.display = 'none';
                 window.location.reload();
             }
@@ -776,7 +773,7 @@
             enctype: 'multipart/form-data',
             processData: false,
             success: function (response) {
-                alert(response.status);
+
                 document.getElementById('id03').style.display='none';
                 window.location.reload();
             }

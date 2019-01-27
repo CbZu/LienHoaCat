@@ -166,32 +166,134 @@
                     </a>
                 </div>
             </div>
+            <br>
+            <div class="row">
+                <div class="col-xs-20 col-md-12">
+
+                        <button class="center-block btn btn-danger" onclick="ForgetPass()" style="width: 120px;">Quên Mật Khẩu</button>
+
+                </div>
+            </div>
+
+            <br>
+            <div class="row">
+                <div class="col-xs-18 col-md-12">
+
+                    <button class="center-block btn btn-light" onclick="ChangePass()" style="width: 100px;">Đổi Mật Khẩu</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div id="ChangePassword" class="modal">
+        <div class="container popup animate">
+            <div style="padding-top: 75px;">
+                    <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                          title="Close Modal">&times;</span>
+                <img src="/img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
+            </div>
+            <div class="form-group has-success" style="text-align: center;">
+                <label for="inputEmail3" class="control-label center-block">Tài khoản</label>
+                <input type="text" placeholder="Enter Username" required  class="form-control center-block" id = "emailchange" name="emailchange" style="width: 300px;">
+            </div>
+            <div class="form-group has-success" style="text-align: center;">
+                <label for="inputPassword3" class="control-label">Mật khẩu cũ</label>
+                <input type="password" placeholder="Enter Password" class="form-control center-block" id = "oldpassword" name="oldpassword" style="width: 300px;">
+            </div>
+            <div class="form-group has-success" style="text-align: center;">
+                <label for="inputPassword3" class="control-label">Mật khẩu mới</label>
+                <input type="password" placeholder="Enter Password" class="form-control center-block" id = "newpassword" name="newpassword" style="width: 300px;">
+            </div>
+            <div class="form-group has-success" style="text-align: center;">
+                <label for="inputPassword3" class="control-label">Nhập lại mật khẩu mới</label>
+                <input type="password" placeholder="Enter Password" class="form-control center-block" id = "verifiedpassword" name="verifiedpassword" style="width: 300px;">
+            </div>
+            <!-- <input type="checkbox" checked="checked" name="remember"> Remember me -->
+            <div class="row">
+                <div class="col-xs-16 col-md-12">
+                    <button class="center-block btn btn-primary"  style="width: 100px;" onclick="UpdatePass()">Đổi</button>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-xs-16 col-md-12">
+
+                        <button class="center-block btn btn-success" style="width: 150px;" onclick="ToLogIn()">Đến trang đăng nhập</button>
+
+                </div>
+            </div>
+            <br>
+
         </div>
     </div>
 </div>
 <script>
+    var count = 0;
     function Submit() {
         $(".error").remove();
-        $.ajax({
-            url: '/login?email='+$("#email").val()+'&password='+$("#password").val(),
-            type: 'POST',
-            dataType: 'JSON',
-            async: false,
-            cache: false,
-            contentType: 'application/json; charset=UTF-8',
-            enctype: 'multipart/form-data',
-            processData: false,
-            success: function (response) {
-                if(response.code == '404'){
-                    $("#password").after("<label class='error'>Tài Khoản hoặc Mật Khẩu không đúng</label>");
-                } else {
-                    alert("Đăng Nhập thành công");
-                    window.location.reload();
+        if(count > 5){
+            $("#password").after("<label class='error'>Vượt quá số lần cho phép nhập mật khẩu</label>");
+        } else {
+            $.ajax({
+                url: '/login?email='+$("#email").val()+'&password='+$("#password").val(),
+                type: 'POST',
+                dataType: 'JSON',
+                async: false,
+                cache: false,
+                contentType: 'application/json; charset=UTF-8',
+                enctype: 'multipart/form-data',
+                processData: false,
+                success: function (response) {
+                    if(response.code == '404'){
+                        $("#password").after("<label class='error'>Tài Khoản hoặc Mật Khẩu không đúng</label>");
+                        count++;
+                    } else {
+                        window.location.reload();
+                    }
                 }
-            }
-        });
+            });
+        }
+
     }
 
+    function  ForgetPass() {
+        alert('Xin vui lòng liên hệ bộ phận chăm sóc khách hàng qua số điện thoại 08.6614.6613 hoặc 0868.240.120 để được cấp lại mật khẩu.')
+    }
+    function  ChangePass() {
+        document.getElementById('id01').style.display='none';
+        document.getElementById('ChangePassword').style.display='block';
+    }
+    function  UpdatePass() {
+        $(".error").remove();
+      if( $("#newpassword").val()!=  $("#verifiedpassword").val()){
+          $("#verifiedpassword").after("<label class='error' style='color: red'>Mật khẩu xác nhận không khớp</label>");
+      } else {
+          $.ajax({
+              url: '/update-password?phone='+$("#emailchange").val()+'&newPassword='+$("#newpassword").val()+'&oldPassword='+$("#oldpassword").val(),
+              type: 'POST',
+              dataType: 'JSON',
+              async: false,
+              cache: false,
+              contentType: 'application/json; charset=UTF-8',
+              enctype: 'multipart/form-data',
+              processData: false,
+              success: function (response) {
+                  if(response.code == '404'){
+                      $("#oldpassword").after("<label class='error' style='color: red'>Tài Khoản hoặc Mật Khẩu không đúng</label>");
+                      count++;
+                  } else {
+                      $("#verifiedpassword").after("<label class='error' style='color: red'>Đổi mật khẩu thành công</label>");
+                  }
+              }
+          });
+      }
+    }
+    function  ToLogIn() {
+        document.getElementById('id01').style.display='block';
+        document.getElementById('ChangePassword').style.display='none';
+    }
 </script>
 <div class="row">
     <div id="id03" class="modal" style="z-index: 15;">
@@ -301,7 +403,7 @@
             enctype: 'multipart/form-data',
             processData: false,
             success: function (response) {
-                alert(response.status);
+
                 document.getElementById('id03').style.display='none';
                 window.location.reload();
             }
@@ -464,7 +566,7 @@
             enctype: 'multipart/form-data',
             processData: false,
             success: function (response) {
-                alert(response.status);
+
                 document.getElementById('id03').style.display='none';
                 window.location.reload();
             }

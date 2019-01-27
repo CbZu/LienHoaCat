@@ -1034,7 +1034,7 @@ module.exports.update_payment = function(req, res){
                         if(rows[i].disct_price == null || rows[i].disct_price == 0 ){
                             sum += rows[i].price * rows[i].amount;
                         } else {
-                            sum += rows[i].disct_price;
+                            sum += rows[i].disct_price* rows[i].amount;
                         }
                     }
 
@@ -1251,14 +1251,14 @@ module.exports.update_cart = function(req, res){
         input.size_id.forEach(function(element) {
             if(cart.indexOf(element.toString()) > -1){
                 if(input.quantity[i] == '0'){
-                    cart.splice(cart.indexOf(element),1);
-                    amount.splice(cart.indexOf(element),1);
+                    cart.splice(cart.indexOf(element.toString()),1);
+                    amount.splice(cart.indexOf(element.toString()),1);
                 } else {
-                    amount[cart.indexOf(element)] =  parseInt(input.quantity[i]);
+                    amount[cart.indexOf(element.toString())] =  parseInt(input.quantity[i]);
                 }
 
             } else {
-                cart.push(element);
+                cart.push(element.toString());
                 amount.push(input.quantity[i]);
             }
 

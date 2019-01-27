@@ -415,6 +415,12 @@ module.exports.save_account = function(req, res){
                 var sql = 'update places set address = \''+input.addr+'\' , city = \''+input.city+'\' , country = \''+input.country+'\' where user_id = '+input.id+';'
                 var con = req.db.driver.db;
                 con.query(sql);
+                if(input.password.trim() != ''){
+                    var passwd=md5(input.password);
+                    var sql = 'update user set password = \''+passwd+'\' where user_id = '+input.id + ';';
+                    var con = req.db.driver.db;
+                    con.query(sql);
+                }
             });
         }
 
@@ -427,6 +433,9 @@ module.exports.save_account = function(req, res){
 
 
 };
+ function reset_password (pass,id) {
+
+ }
     module.exports.reset_password = function(req, res){
 
             req.models.user.find({user_id:req.query.id},function(err,rows){
@@ -447,23 +456,38 @@ module.exports.save_account = function(req, res){
 
     module.exports.update_password = function(req, res){
         var input=JSON.parse(JSON.stringify(req.body));
-        var passwd=md5(input.newPassword);
-        var sql = 'update user set password = \''+passwd+'\' where user_id = '+input.userid + ';';
+        var passwd=md5(req.query.newPassword);
+        var oldpasswd=md5(req.query.oldPassword);
+        var sql = 'select * from user where phone = \''+req.query.phone+'\' and password = \''+oldpasswd+'\';';
         var con = req.db.driver.db;
         con.query(sql, function (err, rows) {
             if(err){
                 console.log(err);
                 res.redirect('/')
             }else{
-                if(req.session.type == 1){
-                    res.redirect('/maintenance');
-                }else{
-                    res.redirect('/');
-                }
+               if(rows.length > 0) {
+                   var sql = 'update user set password = \''+passwd+'\' where user_id = '+rows[0].user_id + ';';
+                   var con = req.db.driver.db;
+                   con.query(sql, function (err, row1s) {
+                       if(err){
+                           console.log(err);
+                           res.redirect('/')
+                       }else{
+                           var data = {code:'200'}
+                           res.json(data);
+                       }
+
+
+                   });
+               } else {
+                   var data = {code:'404'}
+                   res.json(data);
+               }
             }
 
 
         });
+
 
 
 

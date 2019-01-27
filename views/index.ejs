@@ -2,110 +2,179 @@
 <html lang="en">
 <% include partials/index_Header.ejs %>
 <body>
-    <div class="portfolio">
-        <div class="container-fluid">
-            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                <%if( promotions.length != 0){%>
-                <ol class="carousel-indicators">
-                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                    <%for(var i = 1 ; i < promotions.length ; i++) {%>
-                    <li data-target="#carousel-example-generic" data-slide-to="<%=i%>"></li>
-                    <%}%>
-                </ol>
+<!-- PORTFOLIO -->
+
+<div class="portfolio">
+    <!-- /.container-fluid -->
+    <!--     <div class="container-fluid" style="background-color: #1C1C1C;">
+        <div id="menu">
+                <ul>
+                    <li> <a href="" data-filter=".folder1" style="color: #FFFFFF; border: 2px solid #FFFFFF"><h3>HOME</h3></a></li>
+                    <li> <a href="" data-filter=".folder2" ><h3>TUỔI VÀ MỆNH</h3></a></li>
+                    <li> <a href="" data-filter=".folder3" ><h3>PHONG THỦY</h3></a></li>
+                    <li> <a href="" data-filter=".folder4" ><h3>ĐỜI SỐNG</h3></a></li>
+                    <li> <a href="" data-filter=".folder5" ><h3>DỊCH VỤ</h3></a></li>
+                </ul>
+                <% if(type == 1){ %>
+                <ul>
+                    <li><a href="" data-filter=".admin"><h3>ADMINISTRATOR</h3></a></li>
+                </ul>
+                <%}%>
+        </div>
+    </div> -->
+    <div class="container-fluid">
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <!-- <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+            </ol> -->
+            <%if( promotions.length != 0){%>
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <%for(var i = 1 ; i < promotions.length ; i++) {%>
+                <li data-target="#carousel-example-generic" data-slide-to="<%=i%>"></li>
+                <%}%>
+            </ol>
+            <%}%>
+            <%if( promotions.length == 0){%>
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+            </ol>
+            <%}%>
+            <div class="carousel-inner">
+                <%for(var i = 0 ; i < promotions.length ; i++) {%>
+                <div class="item active">
+                    <a href="/promotion-detail/<%=promotions[i].title.replace(/ /g,'-')%>"><img class="center-block" src="/assets/img/<%=promotions[i].image%>" alt="..."></a>
+                </div>
                 <%}%>
                 <%if( promotions.length == 0){%>
-                <ol class="carousel-indicators">
-                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                </ol>
+                <div class="item active">
+                    <a href="/app-phongthuy"><img class="center-block" src="assets/img/phongthuy.png" alt="..."></a>
+                </div>
+                <div class="item">
+                    <a href="/maintenance-prd/VIP"><img class="center-block" src="assets/img/panelvip.png" alt="..."></a>
+                </div>
                 <%}%>
-                <div class="carousel-inner">
-                    <%if( promotions.length > 0){%>
-                            <div class="item active" ontouchend="touchEnd(event)" ontouchstart="touchStart(event)">
-                                <a href="/promotion-detail/<%=promotions[0].title.replace(/ /g,'-')%>"><img class="center-block" src="/assets/img/<%=promotions[0].image%>" alt="..."></a>
-                            </div>
-                        <%for(var i = 1 ; i < promotions.length ; i++) {%>
-                            <div class="item" ontouchend="touchEnd(event)" ontouchstart="touchStart(event)">
-                                <a href="/promotion-detail/<%=promotions[i].title.replace(/ /g,'-')%>"><img class="center-block" src="/assets/img/<%=promotions[i].image%>" alt="..."></a>
-                            </div>
-                        <%}%>
-                    <%}%>
-                    <%if( promotions.length == 0){%>
-                    <div class="item active" ontouchstart="touchStart(event)" ontouchend="touchEnd(event)">
-                        <a href="/app-phongthuy"><img class="center-block" src="assets/img/phongthuy.png" alt="..."></a>
-                    </div>
-                    <div class="item" ontouchstart="touchStart(event)" ontouchend="touchEnd(event)">
-                        <a  href="/maintenance-prd/VIP"><img class="center-block" src="assets/img/panelvip.png" alt="..."></a>
-                    </div>
-                    <%}%>
+                <!--<div class="item active">
+                    <a href="https://www.facebook.com/"><img class="center-block" src="img/backgrounds/2.jpg" alt="..."></a>
                 </div>
-            </div> 
-        </div>
-        <div class="container-fluid">
-            <div class="container" id="mobile">
-                 <div class="row">
-                    <div class="row">
-                        <%if(result != undefined){%>
-                        <% for(j = 0;j < result.length;j++){ %>
-                        <%page = parseInt(j/12+1);%>
-                        <div class="col-xs-6 col-md-4 <%= page %>">
-                            <a href="/product-detail/<%=result[j].cat_name.replace(" ", "-")%>/<%=result[j].name.replace(/ /g, '-')%>" >
-                                <div class="product">
-                                    <%if(result[j].new == 'Y'){%>
-                                    <div class="col-xs-3 col-md-2" style="position: absolute; padding: 0px;">
-                                        <img class="shake img-responsive" src="/img/moi.svg">
-                                    </div>
-                                    <%}%>
-                                    <div class="col-xs-3 col-md-2 col-md-offset-2 col-xs-offset-3" style="position: absolute; padding: 0px; right: 0px">
-                                        <img class="img-responsive" src="/img/freeship.svg">
-                                    </div>
-                                    <div class="" style="">
-                                        <img src="/assets/img/<%= result[j].image==null?result[j].image:result[j].image.split(";")[0]%>" class="img-responsive zoom"
-                                    </div>
-                                    <% if(result[j].prices != 0){ %>
-                                    <% if(result[j].disct_prices == null){ %>
-                                    <h2 class="font-custom" style="margin: 0px;"><%= result[j].name %></h2>
-                                    <h3><a href="" style="font-weight: bold; color: #6b6b6c; float: left;">Từ&nbsp;</a></h3>
-                                    <h3 class="font-custom currency" style="color: red; font-weight: bold; margin-top: 10px;" id ="dictprice"><%= result[j].prices %></h3>
-                                    <% } else { %>
-                                    <div style="position: relative;">
-                                        <div class="col-md-3" style="position: absolute; padding: 0px; top: 0px; right: 0px;">
-                                            <div style="position: relative;">
-                                                <img src="/img/sale.svg">
-                                                <h5 style="color: white; position: absolute; top: 0px; text-align: center; padding-left: 15px;">-<%=Math.round((1 - parseInt(result[j].disct_prices) / parseInt(result[j].prices)) * 100)%>%</h5>
-                                            </div>
-                                            <!-- <h4 style="color: white;">-39%</h4>   -->
-                                        </div>
-                                        <h3><a href="" style="font-weight: bold; color: #6b6b6c; float: left;">Từ&nbsp;</a></h3>
-                                        <h3 class="font-custom currency" style="color: red; font-weight: bold; margin-top: 10px;" id ="dictprice"><%= result[j].disct_prices %></h3>
-                                        <h4 class="currency" style="text-decoration: line-through; color: #6b6b6c; margin: 0px;"><%= result[j].prices %></h4>
-                                    </div>
-                                    <% } %>
-                                    <%} else {%>
-                                    <h3 class="font-custom" style="margin: 0px;"><%= result[j].name %></h3>
-                                    <%}%>
-                                </div>
-                            </a>
-                            <%if (type == 1){%>
-                            <div class="col-md-3">
-
-                                <a class="btn btn-primary" href="/edit-product/<%=result[j].name.replace(/ /g, '-')%>">Edit</a>
-
-                            </div>
-                            <%}%>
-                        </div>
-                        <% } %>
-                        <%}%>
-                    </div>
-
-                    </div>
+                <div class="item">
+                    <a href="#">
+                    <img class="center-block" src="img/backgrounds/3.jpg" alt="...">
+                    </a>
                 </div>
-                <br>
+                <div class="item">
+                    <a href="#">
+                    <img class="center-block" src="img/backgrounds/4.jpg" alt="...">
+                    </a>
+                </div>-->
             </div>
+            <!-- <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>   -->
         </div>
     </div>
-</body>
+    <div class="container-fluid">
 
+        <div class="container" id="mobile">
+            <!-- all works -->
+            <div class="row">
+                <div class="row">
+                    <%if(result != undefined){%>
+                    <% for(j = 0;j < result.length;j++){ %>
+                    <%page = parseInt(j/12+1);%>
+                    <div class="col-xs-6 col-md-4 folder<%= result[j].folder_ids %> <%= page %>">
+                        <a href="/product-detail/<%=result[j].cat_name.replace(" ", "-")%>/<%=result[j].name.replace(/ /g, '-')%>" >
+                            <div class="product">
+                                <%if(result[j].new == 'Y'){%>
+                                <div class="col-xs-3 col-md-2" style="position: absolute; padding: 0px;">
+                                    <img class="shake img-responsive" src="/img/moi.svg">
+                                </div>
+                                <%}%>
+                                <div class="col-xs-3 col-md-2 col-md-offset-2 col-xs-offset-3" style="position: absolute; padding: 0px; right: 0px">
+                                    <img class="img-responsive" src="/img/freeship.svg">
+                                </div>
+                                <div class="" style="">
+                                    <img src="/assets/img/<%= result[j].image==null?result[j].image:result[j].image.split(";")[0]%>" class="img-responsive zoom">
+
+                                    <!-- <a href="/maintenance-prd?catflt=<%= result[j].cat_names %>&catId=<%= result[j].cat_ids %>" class="portfolio_item work-grid"style="width: 90%; color: #B28D34;font-weight: bold; margin-bottom: 10px;overflow: hidden; margin-top: 20px;">
+                                            <button type="button" class="btn btn-default center-block">
+                                                     Xem Thêm
+                                            </button>
+                                        </a> -->
+                                </div>
+                                <% if(result[j].prices != 0){ %>
+                                <% if(result[j].disct_prices == null){ %>
+                                <h3 class="font-custom" style="margin: 0px;"><%= result[j].name %></h3>
+                                <h3><a href="" style="font-weight: bold; color: #6b6b6c; float: left;">Từ&nbsp;</a></h3>
+                                <h3 class="font-custom currency" style="color: red; font-weight: bold; margin-top: 10px;" id ="dictprice"><%= result[j].prices %></h3>
+                                <% } else { %>
+                                <div style="position: relative;">
+                                    <div class="col-md-3" style="position: absolute; padding: 0px; top: 0px; right: 0px;">
+                                        <div style="position: relative;">
+                                            <img src="/img/sale.svg">
+                                            <h5 style="color: white; position: absolute; top: 0px; text-align: center; padding-left: 15px;">-<%=Math.round((1 - parseInt(result[j].disct_prices) / parseInt(result[j].prices)) * 100)%>%</h5>
+                                        </div>
+                                        <!-- <h4 style="color: white;">-39%</h4>   -->
+                                    </div>
+                                    <h3 class="font-custom" style="margin: 0px;"><%= result[j].name %></h3>
+                                    <h3><a href="" style="font-weight: bold; color: #6b6b6c; float: left;">Từ&nbsp;</a></h3>
+                                    <h3 class="font-custom currency" style="color: red; font-weight: bold; margin-top: 10px;" id ="dictprice"><%= result[j].disct_prices %></h3>
+                                    <h4 class="currency" style="text-decoration: line-through; color: #6b6b6c; margin: 0px;"><%= result[j].prices %></h4>
+                                </div>
+                                <% } %>
+                                <%} else {%>
+                                <h3 class="font-custom" style="margin: 0px;"><%= result[j].name %></h3>
+                                <%}%>
+                            </div>
+                        </a>
+                        <%if (type == 1){%>
+                        <div class="col-md-3">
+
+                            <a class="btn btn-primary" href="/edit-product/<%=result[j].name.replace(/ /g, '-')%>">Edit</a>
+
+                        </div>
+                        <%}%>
+                    </div>
+                    <% } %>
+                    <%}%>
+
+                </div>
+            </div>
+            <!-- all works end -->
+            <!-- Modal -->
+            <br>
+
+        </div>
+    </div>
+    <!-- end container -->
+
+</div>
+
+<!-- portfolio -->
+
+<!-- SCRIPTS -->
+<script type="text/javascript" src="assets/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="assets/js/animated-headline.js"></script>
+<script type="text/javascript" src="assets/js/menu.js"></script>
+<script type="text/javascript" src="assets/js/modernizr.js"></script>
+<script type="text/javascript" src="assets/js/isotope.pkgd.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.flexslider-min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.animsition.min.js"></script>
+<script type="text/javascript" src="assets/js/init.js"></script>
+<script type="text/javascript" src="assets/js/main.js"></script>
+<script type="text/javascript" src="assets/js/smooth-scroll.js"></script>
+<script type="text/javascript" src="assets/js/numscroller.js"></script>
+<script type="text/javascript" src="assets/js/wow.min.js"></script>
+<script type="text/javascript" src="assets/js/owl.carousel.min.js"></script>
+<script>
+
+</script>
 <script type="text/javascript">
     $(window).load(function () {
         new WOW().init();
@@ -152,22 +221,22 @@
         startTou = event.touches[0].clientX;
     }
     function touchEnd(event){
-        
+
     }
     document.addEventListener('touchend', function(e) {
         var endTou = event.touches[0].clientX;
         var listItem = document.getElementsByClassName("item");
-        if (endTou>startTou){            
+        if (endTou>startTou){
             for(i=0; i<listItem.length; i++){
                 if ( listItem[i].className.indexOf("active") != (-1)){
                     if (i>0){
                         listItem[i].className = "item";
                         listItem[i-1].className = "item active";
                     }
-                    
-                }                
+
+                }
             }
-        } 
+        }
         if (startTou>endTou){
             for(i=0; i<listItem.length; i++){
                 if ( listItem[i].className.indexOf("active") != (-1)){
@@ -175,11 +244,13 @@
                         listItem[i].className = "item";
                         listItem[i+1].className = "item active";
                     }
-                    
-                }                
+
+                }
             }
         }
     }, false);
 </script>
+</body>
+
 <% include partials/index_Footer.ejs %>
 </html>

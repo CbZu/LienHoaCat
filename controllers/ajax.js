@@ -799,18 +799,13 @@ exports.add_to_payment_now=function(req,res){
     }
     var sql = 'select \n' +
         '(select title from payment order by title desc limit 1\n) as title' +
-        ',(select price from product where product_id = c.product_id) as price' +
-        ',sum(\n' +
-        '\tIF(\n' +
-        '\t\t(select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)<>\'NULL\',\n' +
-        '        (select disct_price from discount where product_id = c.product_id and effective_date<='+today+' and '+today+'<=expired_date)*'+input.quantity[0]+',\n' +
-        '        (select price from product where product_id = c.product_id)*'+input.quantity[0]+')) as total ';
+        ',(select price from product where product_id = c.product_id) as price';
     if((input.voucher != undefined)&&(input.voucher.trim != "")){
         sql += ',(select percent from voucher where code = \''+input.voucher+'\' and effective_date<='+today+' and '+today+'<=expired_date) as percent \n';
 
     }
 
-    sql+='from product c where product_id = '+input.size_id[0]+';';
+    sql+='from product c where product_id in ( '+input.size_id.toString()+');';
     var Sum = 0;
     var promotion = 0;
     var totalAfterPromot = 0
@@ -821,7 +816,7 @@ exports.add_to_payment_now=function(req,res){
             res.json(data);
         }else{
             if(rows.length > 0){
-                Sum = rows[0].total;
+                Sum = input.total;
                 if((input.voucher != undefined)&&(input.voucher.trim() != "")){
                     if(rows[0].percent!='NULL')
                         if(parseInt(rows[0].percent) > 100){
@@ -848,35 +843,37 @@ exports.add_to_payment_now=function(req,res){
                         var data = {status: 'error', code: '300',error: err};
                         res.json(data);
                     }else{
+                        for(var i = 0 ; i < rows.length ; i++){
+                            var data={
+                                user_id: input.userId,
+                                product_id:input.size_id[i],
+                                amount:input.quantity[i],
+                                payment_id:parseInt(row1s.insertId),
+                                create_time:parseInt(year+''+month+''+day),
+                                status_id:0,
+                                price : rows[i].price
+                            };
 
-                        var data={
-                            user_id: input.userId,
-                            product_id:input.size_id[0],
-                            amount:input.quantity[0],
-                            payment_id:parseInt(row1s.insertId),
-                            create_time:parseInt(year+''+month+''+day),
-                            status_id:0,
-                            price : rows[0].price
-                        };
+                            req.models.cart.create(data,function(err,row2s) {
+                                var sqlGet = 'select * from cart where user_id = '+input.userId+' and payment_id = '+row1s.insertId+';'
+                                con.query(sqlGet, function (err, rowsCart) {
+                                    if(err){
+                                        var data = {status: 'error', code: '300',error: err};
+                                        res.json(data);
+                                    }else{
+                                        for(var i = 0 ; i < rowsCart.length ; i++){
+                                            var sqlUpdate = 'update cart set disct_price = (select disct_price from discount where product_id = '+rowsCart[i].product_id+' and effective_date<='+today+' and '+today+'<=expired_date)' +
+                                                ', price = (select price from product where product_id = '+rowsCart[i].product_id+') where user_id = '+input.userId+' and payment_id = '+row1s.insertId+' and product_id = '+rowsCart[i].product_id+';';
+                                            con.query(sqlUpdate);
+                                        }
 
-                        req.models.cart.create(data,function(err,row1s) {
-                            var sqlGet = 'select * from cart where user_id = '+input.userId+' and payment_id = '+row1s.payment_id+';'
-                            con.query(sqlGet, function (err, rowsCart) {
-                                if(err){
-                                    var data = {status: 'error', code: '300',error: err};
-                                    res.json(data);
-                                }else{
-                                    for(var i = 0 ; i < rowsCart.length ; i++){
-                                        var sqlUpdate = 'update cart set disct_price = (select disct_price from discount where product_id = '+rowsCart[i].product_id+' and effective_date<='+today+' and '+today+'<=expired_date)' +
-                                            ', price = (select price from product where product_id = '+rowsCart[i].product_id+') where user_id = '+input.userId+' and payment_id = '+row1s.payment_id+' and product_id = '+rowsCart[i].product_id+';';
-                                        con.query(sqlUpdate);
+
                                     }
-
-                                    var data = {status: 'success', code: '200',user_id:input.userId,Sum:Sum, payment_id:row1s.payment_id};
-                                    res.json(data);
-                                }
+                                });
                             });
-                        });
+                        }
+                        var data = {status: 'success', code: '200',user_id:input.userId,Sum:Sum, payment_id:row1s.insertId};
+                        res.json(data);
 
                     }
                 });
