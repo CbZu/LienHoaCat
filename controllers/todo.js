@@ -2632,7 +2632,7 @@ module.exports.checkout = function(req, res){
 
 module.exports.app_phongthuy = function (req, res) {
     var input=JSON.parse(JSON.stringify(req.body));
-    var YearOfBirth = input.year;
+    var YearOfBirth = req.query.year;
     if (YearOfBirth==undefined){
         var data = {status: 'init', code: '200',fname:req.session.firstname,
             pic:req.session.pic,
