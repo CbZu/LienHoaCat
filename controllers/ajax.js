@@ -658,7 +658,13 @@ exports.addProductImages=function(req,res){
 
     var path = req.files.images.path;
         var img = '';
+
+    if(__dirname.split('/').length <= 1){
+        img=req.files.images.path.split("\\")[ req.files.images.path.split("\\").length-1];
+    }else{
         img=req.files.images.path.split("/")[ req.files.images.path.split("/").length-1];
+    }
+
         var data={status:'success',code:'400',path:path,image:img};
         res.json(data);
 

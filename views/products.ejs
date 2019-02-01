@@ -56,11 +56,11 @@
     <%if (type == '1'){%>
          <div class="row">
                 <div class="col-md-3">
-                    <a class="btn btn-primary" href="/create-prd?cat=<%= catflt %>&catId=<%= catId %>">Add Product</a>
+                    <a class="btn btn-primary" href="/create-prd?cat=<%= catflt %>&catId=<%= catId %>">Thêm Sản Phẩm</a>
                 </div>
             </div>
     <%}%>
-   
+   <%if(catflt != 'Tin Tức') {%>
     <div class = "row">
         <form action = '<%=catflt=='undefined'?'/maintenance-prd/Search?keyword='+keyword:/maintenance-prd/+catflt%>' method = 'get'>
             <div class="row">
@@ -182,7 +182,7 @@
 
         </form>
     </div>
-    <%}%>
+    <%}}%>
 
         <div class="row">
             <%if(catflt == 'All'){%>

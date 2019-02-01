@@ -71,7 +71,7 @@
 <nav class="navbar navbar-default">
     <div class="container">
         <%for(var i = 0 ; i < treefolder.length ;i++){%>
-        <%if (treefolder[i].folder_name != 'VIP') {%>
+        <%if (treefolder[i].folder_name != 'VIP' && treefolder[i].folder_name != 'Tin Tức') {%>
         <div class="dropdown">
             <ul class="nav navbar-nav navbar-left sm">
 
@@ -92,6 +92,12 @@
         <%}%>
         <%}%>
 
+        <div class="dropdown">
+            <ul class="nav navbar-nav navbar-left sm">
+                <li class="menu-hover"> <a href="/maintenance-prd/Tin-Tức" ><h3><font color="black">Tin Tức</font></h3></a>
+                </li>
+            </ul>
+        </div>
         <div class="dropdown">
             <ul class="nav navbar-nav navbar-left sm">
                 <li class="menu-hover"> <a href="/promotions" ><h3><font color="black">Khuyến Mãi</font></h3></a>
@@ -126,12 +132,7 @@
             </ul>
         </div>
         <%}%>
-        <div class="dropdown">
-            <ul class="nav navbar-nav navbar-left sm">
-                <li class="menu-hover"> <a href="/" data-filter=".folder2" ><h3><font color="black">Tin Tức</font></h3></a>
-                </li>
-            </ul>
-        </div>
+
     </div>
 </nav>
 
