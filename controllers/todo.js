@@ -2179,7 +2179,7 @@ module.exports.edit_promote=function(req,res){
     var sql = 'select promotion_id,title,description,image,' +
         '(select concat(SUBSTRING(p.effective_date, 7, 2),\'/\',SUBSTRING(p.effective_date, 5, 2),\'/\',SUBSTRING(p.effective_date, 1, 4))) as effective_date,' +
         '(select concat(SUBSTRING(p.expired_date, 7, 2),\'/\',SUBSTRING(p.expired_date, 5, 2),\'/\',SUBSTRING(p.expired_date, 1, 4))) as expired_date' +
-        ' from promotion p where promotion_id = '+req.query.promote_id+';'
+        ' from promotion p where title = \''+req.params.promote_id.replace(/-/g,' ')+'\';'
     var con = req.db.driver.db;
     var data;
     con.query(sql, function (err, rows) {
@@ -2189,7 +2189,7 @@ module.exports.edit_promote=function(req,res){
 
         }
         else {
-             data = {result: rows,fname:req.session.firstname,dateFormat:dateFormat,pic:req.session.pic,type:req.session.type};
+             data = {result: rows,fname:req.session.firstname,dateFormat:dateFormat,pic:req.session.pic,type:req.session.type,treefolder:req.session.treefolder};
             res.render('promote-edit', data);
         }
 
