@@ -135,12 +135,24 @@ exports.checkCode=function(req,res){
 };
 exports.checkeduser=function(req,res){
     if(req.session.type == 1){
-        var sql = 'update user set checked = \'Y\' where user_id = '+req.query.id+';'
         var con = req.db.driver.db;
-        con.query(sql);
-        var data={
-            status:'success',code:'200'
-        };
+        var sql = 'select checked from user where user_id = '+req.query.id+';'
+        con.query(sql, function (err, rows) {
+            if(err){
+                console.log(err);
+            }
+            else{
+                if(rows[0].checked!= null && rows[0].checked.trim() == 'Y'){
+                    var sql = 'update user set checked = \'N\' where user_id = '+req.query.id+';'
+                    con.query(sql);
+                } else {
+                    var sql = 'update user set checked = \'Y\' where user_id = '+req.query.id+';'
+                    con.query(sql);
+                }
+
+            }
+        });
+
 
     } else{
         var data={
@@ -148,6 +160,9 @@ exports.checkeduser=function(req,res){
         };
 
     }
+    var data={
+        status:'success',code:'200'
+    };
     res.json(data);
 };
 exports.updateSizeId=function(req,res){

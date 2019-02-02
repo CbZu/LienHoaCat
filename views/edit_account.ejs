@@ -127,7 +127,21 @@
                         </div>
                     </div>
                     <% } %>
-                    <input class="btn btn-primary center-block" type="submit" value="Cập Nhật">
+                    <div class="row">
+                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                            <label>Đổi mật khẩu thành: </label>
+                            <input class="form-control" type="password" name="newpassword" id="newpassword"
+                                   value="" >
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group form-group-icon-left col-md-6"><i class="fa fa-user input-icon input-icon-show"></i>
+                            <label>Nhập lại mật khẩu mới: </label>
+                            <input class="form-control" type="password" name="newpasswordconf" id="newpasswordconf"
+                                   value="" >
+                        </div>
+                    </div>
+                    <input class="btn btn-primary center-block" type = "submit" value="Cập Nhật">
 
                 </form>
 
@@ -166,6 +180,17 @@
     document.getElementById('type').value = '<%=user[0].type_id%>';
     <%}%>
     document.getElementById('gender').value = '<%=user[0].gender%>';
+    $('#newpasswordconf').keyup(function () {
+        $(".error").remove();
+        if($('#newpasswordconf').val() != ''){
+            if( $("#newpassword").val()!=  $("#newpasswordconf").val()){
+                $("#newpasswordconf").after("<label class='error' style='color: red'>Mật khẩu xác nhận không khớp</label>");
+                $("#frmId .btn").attr('disabled', 'disabled');
+            } else {
+                $("#frmId .btn").removeAttr('disabled');
+            }
+        }
+    });
 
     $(document).ready(function () {
         $('#email').keyup(function () {

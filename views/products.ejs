@@ -197,33 +197,64 @@
                 <tbody>
                 <% for(i = 0;i < result.length;i++){ %>
                     <% for(j = 0;j < result[i].size_id.split(',').length;j++){ %>
-                        <tr>
-                            <td style="text-align: center;">
-                                <%=result[i].codes.split(',')[j]%>
-                            </td>
-                            <td style="text-align: center;">
-                                <%=result[i].name%>
-                            </td>
-                            <td style="text-align: center;">
-                                <%=result[i].sizes.split(',')[j]%>
-                            </td>
-                            <td style="text-align: center;">
-                                <%=result[i].entities.split(',')[j]%>
-                            </td>
-                            <td style="text-align: center;">
-                                <div class="row" style="text-align: center;">
-                                    <div class="col-md-3">
-                                        <input class="form-control" id="product<%=result[i].size_id.split(',')[j]%>" value = '0'>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <button class="form-control btn-success" onclick="add(<%=result[i].size_id.split(',')[j]%>)">OK</button>
-                                    </div>
+                <%if(parseInt(result[i].entities.split(',')[j]) <= 0 && result[i].sizes.split(',')[j].trim() != '0' ){%>
+                <tr style="background-color: red">
+                    <td style="text-align: center;">
+                        <%=result[i].codes.split(',')[j]%>
+                    </td>
+                    <td style="text-align: center;">
+                        <%=result[i].name%>
+                    </td>
+                    <td style="text-align: center;">
+                        <%=result[i].sizes.split(',')[j]%>
+                    </td>
+                    <td style="text-align: center;">
+                        <%=result[i].entities.split(',')[j]%>
+                    </td>
+                    <td style="text-align: center;">
+                        <div class="row" style="text-align: center;">
+                            <div class="col-md-3">
+                                <input class="form-control" id="product<%=result[i].size_id.split(',')[j]%>" value = '0'>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="form-control btn-success" onclick="add(<%=result[i].size_id.split(',')[j]%>)">OK</button>
+                            </div>
 
-                                </div>
+                        </div>
 
 
-                            </td>
-                        </tr>
+                    </td>
+                </tr>
+                <% } else {%>
+                <tr>
+                    <td style="text-align: center;">
+                        <%=result[i].codes.split(',')[j]%>
+                    </td>
+                    <td style="text-align: center;">
+                        <%=result[i].name%>
+                    </td>
+                    <td style="text-align: center;">
+                        <%=result[i].sizes.split(',')[j]%>
+                    </td>
+                    <td style="text-align: center;">
+                        <%=result[i].entities.split(',')[j]%>
+                    </td>
+                    <td style="text-align: center;">
+                        <div class="row" style="text-align: center;">
+                            <div class="col-md-3">
+                                <input class="form-control" id="product<%=result[i].size_id.split(',')[j]%>" value = '0'>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="form-control btn-success" onclick="add(<%=result[i].size_id.split(',')[j]%>)">OK</button>
+                            </div>
+
+                        </div>
+
+
+                    </td>
+                </tr>
+                <%}%>
+
 
 
                     <%}%>

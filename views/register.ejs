@@ -134,6 +134,14 @@
     <%if (data.status == 'success'){%>
     document.getElementById('id01').style.display='block';
     <%}%>
+    $('#frmId').submit(function () {
+        if ($(this).find('.error').length == 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    });
     $(document).ready(function () {
         $('#email').keyup(function () {
             $(".error").remove();

@@ -1,5 +1,6 @@
 	var md5 = require('MD5');
     var dateFormat = require('dateformat');
+    var request = require("request");
 //signup
 module.exports.signup=function(req,res){
     var input = JSON.parse(JSON.stringify(req.body));
@@ -49,14 +50,14 @@ module.exports.signup=function(req,res){
                     '`password`,\n' +
                     '`firstname`,\n' +
                     '`create_time`,\n' +
-                    '`type_id`, `username`)\n' +
+                    '`type_id`, `username`,`gender`,`dob`)\n' +
                     'VALUES (\n' +
                     '\''+input.email+'\',\n' +
                     ''+input.phone+',\n' +
                     '\''+passwd+'\',\n' +
                     '\''+input.firstname+'\',\n' +
                     ''+year+''+month+''+day+',\n' +
-                    ''+userType+', \''+input.phone+'\');';
+                    ''+userType+', \''+input.phone+'\',\''+input.gender+'\',\''+input.dob.replace(/-/g,'')+'\');';
                 console.log(sql);
                 con.query(sql, function (err, row1s) {
                     if(err){
@@ -73,6 +74,12 @@ module.exports.signup=function(req,res){
                                 data={status:'err',code:'300',description:err};
                                 res.json(data);
                             }else{
+                                if(input.password.trim() != '' && req.session.user_id == undefined){
+                                    req.session.firstname=input.firstname.split(' ')[input.firstname.split(' ').length-1];
+                                    req.session.user_id=row1s.insertId;
+                                    req.session.type=userType;
+                                    req.session.email=input.email;
+                                }
                                 data={status:'success',code:'200',user_id:row1s.insertId};
                                 res.json(data);
                             }
@@ -212,11 +219,18 @@ module.exports.login=function(req,res){
         }
 
 
-		});0
+		});
 };
     //login
     module.exports.login_admin=function(req,res){
         var input=JSON.parse(JSON.stringify(req.body));
+        var date = new Date();
+        var month = date.getMonth() + 1;
+        month = (month < 10 ? "0" : "") + month;
+
+        var day  = date.getDate();
+        day = (day < 10 ? "0" : "") + day;
+        var year = date.getUTCFullYear();
         var data={
             username:req.query.email,
             password:md5(req.query.password)
@@ -235,6 +249,110 @@ module.exports.login=function(req,res){
                     var data = {
                         status : 'success',code:'200',user_id:rows[0].user_id
                     };
+                    var userid = rows[0].user_id;
+
+                    var sql = 'select user_id from user where user_id = \''+userid +'\';';
+                    var con = req.db.driver.db;
+                    con.query(sql, function (err, rows) {
+                        if(err){
+                            var data = {status: 'error', code: '300',error: err};
+                            res.json(data);
+                        }else{
+
+                            if(rows.length > 0){
+                                var i = 0;
+                                if(req.cookies.cart != undefined){
+                                    req.cookies.cart.id.split(',').forEach(function(element) {
+                                        console.log(element);
+                                        userid = rows[0].user_id;
+                                        var getAmount = 'select * from cart where product_id = '+element+' and user_id = '+userid+' and payment_id = 0;';
+                                        if(input.payment_id != undefined){
+                                            getAmount = 'select * from cart where product_id = '+element+' and user_id = '+userid+' and payment_id = '+input.payment_id+';';
+                                        }
+                                        var dataCart ={
+                                            product_id:element,
+                                            user_id:userid,
+                                            payment_id : 0
+                                        };
+                                        con.query(getAmount, function (err, row2s) {
+                                            if(err){
+                                                var data = {status: 'error', code: '300',error: err};
+                                                res.json(data);
+                                            }else{
+                                                if(req.cookies.cart.amount.split(',')[i] != 0){
+                                                    if(row2s.length>0){
+                                                        var sqlUpdate = 'update cart set amount = '+(parseInt(req.cookies.cart.amount.split(',')[i])+parseInt(row2s[0].amount))+' where product_id = '+element+' and user_id = '+userid+' and payment_id = 0;';
+                                                        if(input.payment_id != undefined){
+                                                            sqlUpdate = 'update cart set amount = '+(parseInt(req.cookies.cart.amount.split(',')[i])+parseInt(row2s[0].amount))+' where product_id = '+element+' and user_id = '+userid+' and payment_id = '+input.payment_id+';';
+                                                        }
+
+                                                        con.query(sqlUpdate,function(err,row1s) {
+                                                            if (err) {
+                                                                var data = {status: 'fail', code: '300', description : err.message};
+                                                                res.json(data);
+                                                            } else {
+
+                                                            }
+                                                        });
+                                                    }else{
+                                                        if(input.payment_id != undefined){
+                                                            var data={
+                                                                user_id: parseInt(userid),
+                                                                product_id:element,
+                                                                amount:req.cookies.cart.amount.split(',')[i],
+                                                                payment_id:parseInt(input.payment_id),
+                                                                create_time:parseInt(year+''+month+''+day),
+                                                                status_id:0,
+                                                                price : input.price[i]
+                                                            };
+                                                        } else {
+                                                            var data={
+                                                                user_id: parseInt(userid),
+                                                                product_id:element,
+                                                                amount:req.cookies.cart.amount.split(',')[i],
+                                                                payment_id:0,
+                                                                create_time:parseInt(year+''+month+''+day),
+                                                                status_id:0
+                                                            };
+                                                        }
+
+                                                        req.models.cart.create(data,function(err,row1s) {
+                                                            if (err) {
+                                                                var data = {status: 'fail', code: '300', description : err.message};
+                                                                res.json(data);
+                                                            } else {
+                                                                if(input.payment_id == undefined) {
+                                                                    var updatePrice = 'update cart set disct_price = 0, price = 0' +
+                                                                        ' where product_id = '+element+' and user_id = '+userid+' and payment_id = 0  ;';
+
+                                                                    updatePrice = 'update cart set disct_price = (), price = 0' +
+                                                                        ' where product_id = ' + element + ' and user_id = ' + userid + ' and payment_id = ' + input.payment_id + '  ;';
+
+                                                                    con.query(updatePrice, function (err, row4s) {
+                                                                        if (!err) {
+
+                                                                        }
+                                                                    });
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                }
+
+                                                i++;
+                                            }
+                                        });
+
+                                    });
+                                }
+
+
+                            }
+
+                        }
+
+                    });
+
                     res.json(data)
                 } else {
                     var data = {
@@ -266,6 +384,7 @@ module.exports.login=function(req,res){
 //logout
 module.exports.logout=function(req,res){
 	delete req.session;
+    res.clearCookie("cart");
 	res.redirect('/');
 };
 
@@ -415,12 +534,22 @@ module.exports.save_account = function(req, res){
                 var sql = 'update places set address = \''+input.addr+'\' , city = \''+input.city+'\' , country = \''+input.country+'\' where user_id = '+input.id+';'
                 var con = req.db.driver.db;
                 con.query(sql);
-                if(input.password.trim() != ''){
-                    var passwd=md5(input.password);
-                    var sql = 'update user set password = \''+passwd+'\' where user_id = '+input.id + ';';
-                    var con = req.db.driver.db;
-                    con.query(sql);
+                if(req.session.type == '1'){
+                    if(input.password.trim() != ''){
+                        var passwd=md5(input.password);
+                        var sql = 'update user set password = \''+passwd+'\' where user_id = '+input.id + ';';
+                        var con = req.db.driver.db;
+                        con.query(sql);
+                    }
+                } else {
+                    if(input.newpassword.trim() != ''){
+                        var passwd=md5(input.newpassword);
+                        var sql = 'update user set password = \''+passwd+'\' where user_id = '+input.id + ';';
+                        var con = req.db.driver.db;
+                        con.query(sql);
+                    }
                 }
+
             });
         }
 

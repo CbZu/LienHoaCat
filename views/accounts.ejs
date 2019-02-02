@@ -154,7 +154,7 @@
                                     </td> -->                                                
                                     <a class="booking-item" href="/edit-account?phone=<%=users[i].phone%>"><button class="btn btn-primary">Edit</button></a>
                                     <%if(users[i].checked == 'Y'){%>
-                                    <img src="assets/img/success.jpg" alt="Avatar" class="icon center-block" style="max-width: 75px">
+                                    <img src="assets/img/success.jpg" alt="Avatar" onclick="Check(<%=users[i].user_id%>)" class="icon center-block" style="max-width: 75px">
                                     <%} else {%>
                                     <button class="btn btn-primary" onclick="Check(<%=users[i].user_id%>)">Check</button>
                                     <%}%>
@@ -232,6 +232,7 @@
                 }
             });
         }
+
     </script>
 </div>
 </body>

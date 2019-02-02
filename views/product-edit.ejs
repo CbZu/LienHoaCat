@@ -67,19 +67,22 @@
                             </div>
                             <div class="row center-block">
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checkmenh" id="Kim" value="Kim"> Kim
+                                    <input type="checkbox" class="checkmenh" onclick="uncheck('menh')" id="Kim" value="Kim"> Kim
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checkmenh" id="Mộc" value="Mộc"> Mộc
+                                    <input type="checkbox" class="checkmenh" onclick="uncheck('menh')" id="Mộc" value="Mộc"> Mộc
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checkmenh" id="Thủy" value="Thủy"> Thủy
+                                    <input type="checkbox" class="checkmenh" onclick="uncheck('menh')" id="Thủy" value="Thủy"> Thủy
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checkmenh"  id="Hỏa" value="Hỏa"> Hỏa
+                                    <input type="checkbox" class="checkmenh"  onclick="uncheck('menh')" id="Hỏa" value="Hỏa"> Hỏa
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checkmenh"  id="Thổ" value="Thổ"> Thổ
+                                    <input type="checkbox" class="checkmenh"  onclick="uncheck('menh')" id="Thổ" value="Thổ"> Thổ
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" class="checkmenh" id="AllMenh" value="All" onclick="selectAll('checkmenh')"> Tất cả các mệnh
                                 </label>
                             </div>
                             <div class="row">
@@ -87,43 +90,43 @@
                             </div>
                             <div class="row center-block">
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checktuoi"  id="Tý" value="Tý"> Tý
+                                    <input type="checkbox" class="checktuoi"  onclick="uncheck('tuoi')" id="Tý" value="Tý"> Tý
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checktuoi" id="Sửu" value="Sửu"> Sửu
+                                    <input type="checkbox" class="checktuoi" onclick="uncheck('tuoi')" id="Sửu" value="Sửu"> Sửu
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checktuoi" id="Dần" value="Dần"> Dần
+                                    <input type="checkbox" class="checktuoi" onclick="uncheck('tuoi')" id="Dần" value="Dần"> Dần
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checktuoi" id="Mẹo" value="Mẹo"> Mẹo
+                                    <input type="checkbox" class="checktuoi" onclick="uncheck('tuoi')" id="Mẹo" value="Mẹo"> Mẹo
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checktuoi" id="Thình" value="Thình"> Thình
+                                    <input type="checkbox" class="checktuoi" onclick="uncheck('tuoi')" id="Thình" value="Thình"> Thình
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checktuoi" id="Tỵ" value="Tỵ"> Tỵ
+                                    <input type="checkbox" class="checktuoi" onclick="uncheck('tuoi')" id="Tỵ" value="Tỵ"> Tỵ
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checktuoi" id="Ngọ" value="Ngọ"> Ngọ
+                                    <input type="checkbox" class="checktuoi" onclick="uncheck('tuoi')" id="Ngọ" value="Ngọ"> Ngọ
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checktuoi" id="Mùi" value="Mùi"> Mùi
+                                    <input type="checkbox" class="checktuoi" onclick="uncheck('tuoi')" id="Mùi" value="Mùi"> Mùi
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checktuoi" id="Thân" value="Thân"> Thân
+                                    <input type="checkbox" class="checktuoi" onclick="uncheck('tuoi')" id="Thân" value="Thân"> Thân
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checktuoi" id="Dậu" value="Dậu"> Dậu
+                                    <input type="checkbox" class="checktuoi" onclick="uncheck('tuoi')" id="Dậu" value="Dậu"> Dậu
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checktuoi" id="Tuất" value="Tuất"> Tuất
+                                    <input type="checkbox" class="checktuoi" onclick="uncheck('tuoi')" id="Tuất" value="Tuất"> Tuất
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checktuoi" id="Hợi" value="Hợi"> Hợi
+                                    <input type="checkbox" class="checktuoi" onclick="uncheck('tuoi')" id="Hợi" value="Hợi"> Hợi
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checktuoi" id="Tuoi12" value="Tất cả các tuổi"> Tất cả các tuổi
+                                    <input type="checkbox" class="checktuoi" id="AllTuoi" value="All" onclick="selectAll('checktuoi')"> Tất cả các tuổi
                                 </label>
                             </div>
                             <div class="row">
@@ -131,49 +134,52 @@
                             </div>
                             <div class="row center-block">
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checkmau" id="Đỏ" value="Đỏ"> Đỏ
+                                    <input type="checkbox" class="checkmau" onclick="uncheck('mau')" id="Đỏ" value="Đỏ"> Đỏ
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checkmau" id="Tím" value="Tím"> Tím
+                                    <input type="checkbox" class="checkmau" onclick="uncheck('mau')" id="Tím" value="Tím"> Tím
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checkmau" id="Hồng" value="Hồng"> Hồng
+                                    <input type="checkbox" class="checkmau" onclick="uncheck('mau')" id="Hồng" value="Hồng"> Hồng
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checkmau" id="Vàng" value="Vàng"> Vàng
+                                    <input type="checkbox" class="checkmau" onclick="uncheck('mau')" id="Vàng" value="Vàng"> Vàng
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checkmau" id="Nâu" value="Nâu"> Nâu
+                                    <input type="checkbox" class="checkmau" onclick="uncheck('mau')" id="Nâu" value="Nâu"> Nâu
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checkmau" id="Cam" value="Cam"> Cam
+                                    <input type="checkbox" class="checkmau" onclick="uncheck('mau')" id="Cam" value="Cam"> Cam
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checkmau" id="Xám" value="Xám"> Xám
+                                    <input type="checkbox" class="checkmau" onclick="uncheck('mau')" id="Xám" value="Xám"> Xám
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checkmau" id="Ánh vàng" value="Ánh vàng"> Ánh vàng
+                                    <input type="checkbox" class="checkmau" onclick="uncheck('mau')" id="Ánh vàng" value="Ánh vàng"> Ánh vàng
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checkmau" id="Ánh bạc" value="Ánh bạc"> Ánh bạc
+                                    <input type="checkbox" class="checkmau" onclick="uncheck('mau')" id="Ánh bạc" value="Ánh bạc"> Ánh bạc
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checkmau" id="Xanh biển" value="Xanh biển"> Xanh biển
+                                    <input type="checkbox" class="checkmau" onclick="uncheck('mau')" id="Xanh biển" value="Xanh biển"> Xanh biển
                                 </label>
 
                             </div>
                             <div class="row center-block">
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checkmau" id="Đen" value="Đen"> Đen
+                                    <input type="checkbox" class="checkmau" onclick="uncheck('mau')" id="Đen" value="Đen"> Đen
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checkmau" id="Xanh lá" value="Xanh lá"> Xanh lá
+                                    <input type="checkbox" class="checkmau" onclick="uncheck('mau')" id="Xanh lá" value="Xanh lá"> Xanh lá
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checkmau" id="Xanh ngọc" value="Xanh ngọc"> Xanh ngọc
+                                    <input type="checkbox" class="checkmau" onclick="uncheck('mau')" id="Xanh ngọc" value="Xanh ngọc"> Xanh ngọc
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" class="checkmau" id="Trong suốt" value="Trong suốt"> Trong suốt
+                                    <input type="checkbox" class="checkmau" onclick="uncheck('mau')" id="Trong suốt" value="Trong suốt"> Trong suốt
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" class="checkmau" id="AllMau" value="All" onclick="selectAll('checkmau')"> Tất cả các màu
                                 </label>
                             </div>
                             <div class="row">
@@ -366,7 +372,31 @@
         /*document.getElementById('xemtruoc').disabled = true;
         document.getElementById('chinhsua').disabled = false;*/
     }
+    function selectAll(name){
+        var properties = document.getElementsByClassName(name);
+        if (properties[properties.length-1].checked){
+            for (i=0; i < properties.length; i++){
+                properties[i].checked = true;
+            }
+        } else {
+            for (i=0; i < properties.length; i++){
+                properties[i].checked = false;
+            }
+        }
 
+    }
+    function uncheck(idx){
+        if(idx == 'menh'){
+            document.getElementById('AllMenh').checked = false;
+        }
+        if(idx == 'tuoi'){
+            document.getElementById('AllTuoi').checked = false;
+        }
+        if(idx == 'mau'){
+            document.getElementById('AllMau').checked = false;
+        }
+
+    }
 </script>
 <script>
     <%for(var i = 0; i < result.length ; i++){%>

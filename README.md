@@ -13,6 +13,7 @@ npm install --save quick-local-ip
 npm install request --save
 npm install express cookie-parser --save
 npm install --save pad-start 
+npm install request
 $ node server
 
 and go to your browser and open http://localhost:8080

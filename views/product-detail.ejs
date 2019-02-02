@@ -60,15 +60,42 @@
             <%if(result[0].price != 0){%>
             <div class="row">
                 <div class="col-md-10">
-                    <h3 style="color: #2b70fc;">Hợp với mệnh: <a href="#"
-                                                                 style="color: black;"><%= result[0].menh.substring(0, result[0].menh.length - 1).replace(/;/g, ', ') %></a>
+                    <%if(result[0].menh.trim() != ''){%>
+                    <h3 style="color: #2b70fc;">Hợp với mệnh:
+                        <%if(result[0].menh.split(';')[result[0].menh.split(';').length-2].trim() == 'All'){%>
+                        <a href="#"
+                           style="color: black;">Tất cả mệnh</a>
+                        <%} else {%>
+                        <a href="#"
+                           style="color: black;"><%= result[0].menh.substring(0, result[0].menh.length - 1).replace(/;/g, ', ') %></a>
+                        <%}%>
                     </h3>
-                    <h3 style="color: #2b70fc;">Hợp với tuổi: <a href="#"
-                                                                 style="color: black;"><%= result[0].tuoi.substring(0, result[0].tuoi.length - 1).replace(/;/g, ', ') %></a>
+                    <%}%>
+
+                    <%if(result[0].tuoi.trim() != ''){%>
+                    <h3 style="color: #2b70fc;">Hợp với tuổi:
+                        <%if(result[0].tuoi.split(';')[result[0].tuoi.split(';').length-2].trim() == 'All'){%>
+                        <a href="#"
+                           style="color: black;">Tất cả tuổi</a>
+                        <%} else {%>
+                        <a href="#"
+                           style="color: black;"><%= result[0].tuoi.substring(0, result[0].tuoi.length - 1).replace(/;/g, ', ') %></a>
+                        <%}%>
+
                     </h3>
-                    <h3 style="color: #2b70fc;">Màu sắc: <a href="#"
-                                                                style="color: black;"><%= result[0].mau.substring(0, result[0].mau.length - 1).replace(/;/g, ', ') %></a>
+                    <%}%>
+                    <%if(result[0].mau.trim() != ''){%>
+                    <h3 style="color: #2b70fc;">Màu sắc:
+
+                        <%if(result[0].mau.split(';')[result[0].mau.split(';').length-2].trim() == 'All'){%>
+                        <a href="#"
+                           style="color: black;">Tất cả màu</a>
+                        <%} else {%>
+                        <a href="#"
+                           style="color: black;"><%= result[0].mau.substring(0, result[0].mau.length - 1).replace(/;/g, ', ') %></a>
+                        <%}%>
                     </h3>
+                    <%}%>
                 </div>
             </div>
             <div class="row">
@@ -444,6 +471,7 @@
 <script>
     function muangay(){
         /*window.location.href = "/checkout/"+document.getElementById('idselect').value+"/"+document.getElementById('quantity').value;*/
+        AddCart();
         window.location.href = "/checkout/cart/0";
     }
 </script>
