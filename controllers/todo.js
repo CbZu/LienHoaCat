@@ -904,7 +904,13 @@ module.exports.add_to_payment = function(req, res){
 
                 totalAfterPromot = Sum-promotion;
                 var padStart = require('pad-start');
-                var title = rows[0].title.substring(3);
+                var title = ''
+                if(rows[0].title == null){
+                    title = '000000'
+                } else {
+                    var title = rows[0].title.substring(3);
+
+                }
                 var newtitle = parseInt(title) + 1;
                 newtitle = 'LHC' + padStart(newtitle.toString(),6,'0');
                 var sqlIns = 'INSERT INTO `lhc`.`payment`\n' +
