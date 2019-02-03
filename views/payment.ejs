@@ -43,7 +43,7 @@
                     </td>
 
                     <td class="text-center" width="30%">
-                        <% if(result[i].discount_prices == null || result[i].discount_prices.split(';')[j] == null || result[i].discount_prices.split(';')[j] == '0') { %>
+                        <% if(result[i].discount_prices == null || result[i].discount_prices.split(';')[j] == null || result[i].discount_prices.split(';')[j] == '0' || result[i].discount_prices.split(';')[j].trim() == '' ) { %>
 
                         <h3 style=" text-align: center"><font
                                     color="black"><%= result[i].prices.split(';')[j] %> </font></h3>
@@ -148,8 +148,7 @@
                         <img src="/img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
                         <div class="row" style="text-align: center">
                             <label>
-                                Bạn có muốn đăng kí tài khoàn không?
-                                Nếu có vui lòng nhập Mật Khẩu.
+                                Quý vị hãy Đăng kí tài khoản để kết nối lâu dài với chúng tôi nhé!
                             </label>
                         </div>
 
@@ -167,7 +166,25 @@
                                 <input type="password" placeholder="Enter Password" class="form-control" name="passwordpayment" id ="passwordpayment">
                             </div>
                         </div>
+                        <div class="row">
 
+                            <label for="inputdob3" class="col-sm-2 control-label">Sinh Ngày:</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" id = "dobpayment" name="dobpayment" type="date" />
+                            </div>
+
+                        </div>
+
+                        <div class="row" >
+                            <label for="inputgender3" class="col-sm-2 control-label">Giới Tính:</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" id = "genderpayment" name = "genderpayment">
+                                    <option value = "M">Quý Ông</option>
+                                    <option value = "F">Quý Bà</option>
+                                </select>
+                            </div>
+
+                        </div>
                     </form>
                     <!-- <div class="col-md-5">
 
@@ -489,7 +506,8 @@
         formdata1.append('address',$("#address").val());
         formdata1.append('voucher',$("#voucher").val());
         formdata1.append('password',$("#passwordpayment").val());
-
+        formdata1.append('dob',$("#dobpayment").val());
+        formdata1.append('gender',$("#genderpayment").val());
         formdata1.append('mode','pay');
         formdata1.append('title',$("#title").val());
 
@@ -556,7 +574,7 @@
                 //alert(msg);
                 data = msg;
                 if (data.code == '404') {
-                    obj.after("<label class='error'>Voucher Hết Hạn Hoặc Không Tồn Tại Hoăc Hóa Đơn Không Đủ Số Tiền Tối Thiểu</label>");
+                    obj.after("<label class='error'>Voucher chưa hợp lệ, hoặc giá trị đơn hàng chưa đủ để hưởng khuyến mãi này!</label>");
                     document.getElementById("totalLabel").innerHTML = "<%= totalAll %>";
                     document.getElementById('totalship').innerHTML ="<%= totalAll %>";
                     document.getElementById("shipfee").value = '0';

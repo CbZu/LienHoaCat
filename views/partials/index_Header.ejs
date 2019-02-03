@@ -168,7 +168,7 @@
                     </a>
                 </div>
             </div>
-            <br>
+            <!--<br>
             <div class="row">
                 <div class="col-xs-20 col-md-12">
 
@@ -184,11 +184,11 @@
                     <button class="center-block btn btn-light" onclick="ChangePass()" style="width: 100px;">Đổi Mật Khẩu</button>
 
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
 </div>
-<div class="row">
+<!--<div class="row">
     <div id="ChangePassword" class="modal">
         <div class="container popup animate">
             <div style="padding-top: 75px;">
@@ -212,7 +212,7 @@
                 <label for="inputPassword3" class="control-label">Nhập lại mật khẩu mới</label>
                 <input type="password" placeholder="Enter Password" class="form-control center-block" id = "verifiedpassword" name="verifiedpassword" style="width: 300px;">
             </div>
-            <!-- <input type="checkbox" checked="checked" name="remember"> Remember me -->
+            &lt;!&ndash; <input type="checkbox" checked="checked" name="remember"> Remember me &ndash;&gt;
             <div class="row">
                 <div class="col-xs-16 col-md-12">
                     <button class="center-block btn btn-primary"  style="width: 100px;" onclick="UpdatePass()">Đổi</button>
@@ -230,13 +230,13 @@
 
         </div>
     </div>
-</div>
+</div>-->
 <script>
     var count = 0;
     function Submit() {
         $(".error").remove();
         if(count > 5){
-            $("#password").after("<label class='error'>Vượt quá số lần cho phép nhập mật khẩu</label>");
+            $("#password").after("<label class='error'>Nếu bạn quên mật khẩu, hãy gọi ngay cho Tổng đài chăm sóc khách hàng Liên Hoa Các: 0868.240.120 để nhận mật khẩu mới!</label>");
         } else {
             $.ajax({
                 url: '/login?email='+$("#email").val()+'&password='+$("#password").val(),
@@ -267,7 +267,7 @@
         document.getElementById('id01').style.display='none';
         document.getElementById('ChangePassword').style.display='block';
     }
-    function  UpdatePass() {
+    /*function  UpdatePass() {
         $(".error").remove();
       if( $("#newpassword").val()!=  $("#verifiedpassword").val()){
           $("#verifiedpassword").after("<label class='error' style='color: red'>Mật khẩu xác nhận không khớp</label>");
@@ -291,7 +291,7 @@
               }
           });
       }
-    }
+    }*/
     function  ToLogIn() {
         document.getElementById('id01').style.display='block';
         document.getElementById('ChangePassword').style.display='none';
