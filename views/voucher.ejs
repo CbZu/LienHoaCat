@@ -28,14 +28,14 @@
                 <tbody class="body-voucher">
                 <% for (var i = 0 ; i < result.length ; i++){ %>
                 <form action="/updateVoucher/<%=result[i].voucher_id %>" method="POST">
-                    <% if (result[i].oldnew == 'Y' || result[i].amount == 0){ %>
+                    <% if (result[i].oldnew == 'Y' || result[i].amount == '0'){ %>
 
-                    <tr style="color: red">
+                    <tr style="color: red ; background-color: red">
                         <td>
                             <input class="form-control" name = "name" value="<%= result[i].name %>"></input>
                         </td>
                         <td>
-                            <input class="form-control" name = "code" value="<%= result[i].code %>"></input>
+                            <input class="form-control" name = "code" style="font-size: large ; font-weight: bold" value="<%= result[i].code %>"></input>
                         </td>
                         <td>
                             <input class="form-control" name = "percent" value="<%= result[i].percent %>"></input>
@@ -62,7 +62,7 @@
                             <input class="form-control" name = "name" value="<%= result[i].name %>"></input>
                         </td>
                         <td>
-                            <input class="form-control" name = "code" value="<%= result[i].code %>"></input>
+                            <input class="form-control" name = "code" style="font-size: large ; font-weight: bold" value="<%= result[i].code %>"></input>
                         </td>
                         <td>
                             <input class="form-control" name = "percent" value="<%= result[i].percent %>"></input>
