@@ -646,7 +646,31 @@
         });
     }
     function CheckOut() {
-
+        var flagcheck = "N"
+        $(".error").remove();
+        if($("#name").val().trim() == ''){
+            $("#name").after("<label class='error' style='color: red'>Xin mời nhập tên</label>")
+            flagcheck = 'Y';
+        }
+        if($("#phone").val().trim() == ''){
+            $("#phone").after("<label class='error' style='color: red'>Xin mời nhập số điện thoại</label>")
+            flagcheck = 'Y';
+        }
+        if($("#address").val().trim() == ''){
+            $("#address").after("<label class='error' style='color: red'>Xin mời nhập địa chỉ</label>")
+            flagcheck = 'Y';
+        }
+        if($("#ship").val().trim() == '0'){
+            alert("Xin mời nhập hình thức giao hàng");
+            flagcheck = 'Y';
+        }
+        if($("#type").val().trim() == '0'){
+            alert("Xin mời nhập hình thức thanh toán");
+            flagcheck = 'Y';
+        }
+        if(flagcheck == 'Y'){
+            return;
+        }
         <%if (userdetail == undefined){%>
         if(signup == 'Y'){
             document.getElementById('loginPayment').style.display = 'block';

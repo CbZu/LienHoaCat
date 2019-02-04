@@ -21,7 +21,7 @@ module.exports.signup=function(req,res){
         userType = input.type;
     }
 
-    var sqlCheck = 'select * from lhc.user where phone = '+input.phone +' and password <> \'akfgbksjdahfkljdash\';';
+    var sqlCheck = 'select * from lhc.user where phone = \''+input.phone +'\' and password <> \'akfgbksjdahfkljdash\';';
     var con = req.db.driver.db;
     con.query(sqlCheck, function (err, rows) {
         if(err){
@@ -53,11 +53,17 @@ module.exports.signup=function(req,res){
                     '`type_id`, `username`,`gender`,`dob`)\n' +
                     'VALUES (\n' +
                     '\''+input.email+'\',\n' +
-                    ''+input.phone+',\n' +
+                    '\''+input.phone+'\',\n' +
                     '\''+passwd+'\',\n' +
                     '\''+input.firstname+'\',\n' +
                     ''+year+''+month+''+day+',\n' +
-                    ''+userType+', \''+input.phone+'\',\''+input.gender+'\',\''+input.dob.replace(/-/g,'')+'\');';
+                    ''+userType+', \''+input.phone+'\',\''+input.gender+'\',\'';
+                if(input.dob.trim() == '') {
+                    sql += '0';
+                } else {
+                    sql +=input.dob.replace(/-/g,'');
+                }
+                sql+='\');';
                 console.log(sql);
                 con.query(sql, function (err, row1s) {
                     if(err){
