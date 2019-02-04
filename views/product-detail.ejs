@@ -197,6 +197,7 @@
 <% include /partials/index_Footer.ejs %>
 
 <script>
+
     <%if(keyword != undefined && keyword.split('&')[0].split('=')[1] != undefined){%>
     document.getElementById('keyword-search').value = '<%=keyword.split('&')[0].split('=')[1]%>'
 
@@ -307,6 +308,7 @@
         <%} else {%>
             document.getElementById('freeshipicon').style.display='none';
         <%}%>
+
     <% } else { %>
         $("#dictprice").html('<%= result[0].disct_price %>');
         $("#price").html('<%= result[0].price %>');
@@ -317,7 +319,7 @@
         document.getElementById('freeshipicon').style.display='none';
         <%}%>
     <% } %>
-
+    $("#thanhtien").html($("#dictprice").html());
 
     document.getElementById('information').innerHTML = '<%= result[0].information %>';
     if (document.getElementById('information').innerHTML == ''){

@@ -229,3 +229,4 @@ INSERT INTO `settingshop` VALUES (0,'ghtk;','tm;ttd;',150000,30000);
 INSERT INTO `mang` VALUES (0,'MOC'),(1,'KIM'),(2,'THUY'),(3,'HOA'),(4,'THO');
 INSERT INTO `can` VALUES (0,'CANH',4),(1,'TAN',4),(2,'NHAM',5),(3,'QUY',5),(4,'GIAP',1),(5,'AT',1),(6,'BINH',2),(7,'DINH',2),(8,'MAU',3),(9,'KY',3);
 INSERT INTO `chi` VALUES (0,'THAN','Nh Lai i Nht',1),(1,'DAU','Bt ng Minh Vng',1),(2,'TUAT','Pht A Di ',2),(3,'HOI','Pht A Di ',2),(4,'TI','Thin Th Thin Nhn B Tt',0),(5,'SUU','H Khng Tng B Tt',0),(6,'DAN','H Khng Tng B Tt',1),(7,'MAO','Vn Th B Tt',1),(8,'THIN','Ph Hin B Tt',2),(9,'TY','Ph Hin B Tt',2),(10,'NGO','i Th Ch B Tt',0),(11,'MUI','Nh Lai i Nht',0);
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Lin3ho@cac123';
