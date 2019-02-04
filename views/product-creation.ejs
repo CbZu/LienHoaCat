@@ -559,9 +559,7 @@
                         success: function (msg) {
                             //alert(msg);
                             data = msg;
-
-                            location.reload();
-
+                            window.location.href = '/maintenance-prd/<%= catflt.replace(/ /g,'-') %>';
                         }
                     });
                 }
@@ -683,8 +681,7 @@
                     success: function (msg) {
                         //alert(msg);
                         data = msg;
-
-                        location.reload();
+                        window.location.href = '/maintenance-prd/<%= catflt.replace(/ /g,'-') %>';
 
                     }
                 });

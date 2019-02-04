@@ -236,28 +236,29 @@
     function Submit() {
         $(".error").remove();
         if(count > 5){
-            $("#password").after("<label class='error'>Nếu bạn quên mật khẩu, hãy gọi ngay cho Tổng đài chăm sóc khách hàng Liên Hoa Các: 0868.240.120 để nhận mật khẩu mới!</label>");
-        } else {
-            $.ajax({
-                url: '/login?email='+$("#email").val()+'&password='+$("#password").val(),
-                type: 'POST',
-                dataType: 'JSON',
-                async: false,
-                cache: false,
-                contentType: 'application/json; charset=UTF-8',
-                enctype: 'multipart/form-data',
-                processData: false,
-                success: function (response) {
-                    if(response.code == '404'){
-                        $("#password").after("<label class='error'>Tài Khoản hoặc Mật Khẩu không đúng</label>");
-                        count++;
-                    } else {
-                        window.location.href = '/';
-                    }
-                }
-            });
+            $("#password").after("<label class='error' style='color: red'>Nếu bạn quên mật khẩu, hãy gọi ngay cho Tổng đài chăm sóc khách hàng Liên Hoa Các: 0868.240.120 để nhận mật khẩu mới!</label>");
         }
+        $.ajax({
+            url: '/login?email='+$("#email").val()+'&password='+$("#password").val(),
+            type: 'POST',
+            dataType: 'JSON',
+            async: false,
+            cache: false,
+            contentType: 'application/json; charset=UTF-8',
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                if(response.code == '404'){
+                    if(count <= 5){
+                        $("#password").after("<label class='error'>Tài Khoản hoặc Mật Khẩu không đúng</label>");
+                    }
 
+                    count++;
+                } else {
+                    window.location.href = '/';
+                }
+            }
+        });
     }
 
     function  ForgetPass() {
