@@ -3,7 +3,7 @@
 <% include partials/index_Header.ejs %>
 <body>
 <!-- PORTFOLIO -->
-
+<script src="/flickity/flickity.pkgd.min.js"></script>
 <div class="portfolio">
     <!-- /.container-fluid -->
     <!--     <div class="container-fluid" style="background-color: #1C1C1C;">
@@ -22,63 +22,29 @@
                 <%}%>
         </div>
     </div> -->
-    <div class="container-fluid">
-        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-            <!-- <ol class="carousel-indicators">
-                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-            </ol> -->
-            <%if( promotions.length != 0){%>
-            <ol class="carousel-indicators">
-                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                <%for(var i = 1 ; i < promotions.length ; i++) {%>
-                <li data-target="#carousel-example-generic" data-slide-to="<%=i%>"></li>
-                <%}%>
-            </ol>
-            <%}%>
-            <%if( promotions.length == 0){%>
-            <ol class="carousel-indicators">
-                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-            </ol>
-            <%}%>
-            <div class="carousel-inner">
-                <%for(var i = 0 ; i < promotions.length ; i++) {%>
-                <div class="item active">
-                    <a href="/promotion-detail/<%=promotions[i].title.replace(/ /g,'-')%>"><img class="center-block" src="/assets/img/<%=promotions[i].image%>" alt="..."></a>
-                </div>
-                <%}%>
-                <%if( promotions.length == 0){%>
-                <div class="item active">
-                    <a href="/app-phongthuy"><img class="center-block" src="assets/img/phongthuy.png" alt="..."></a>
-                </div>
-                <div class="item">
-                    <a href="/maintenance-prd/VIP"><img class="center-block" src="assets/img/panelvip.png" alt="..."></a>
-                </div>
-                <%}%>
-                <!--<div class="item active">
-                    <a href="https://www.facebook.com/"><img class="center-block" src="img/backgrounds/2.jpg" alt="..."></a>
-                </div>
-                <div class="item">
-                    <a href="#">
-                    <img class="center-block" src="img/backgrounds/3.jpg" alt="...">
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="#">
-                    <img class="center-block" src="img/backgrounds/4.jpg" alt="...">
-                    </a>
-                </div>-->
-            </div>
-            <!-- <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left"></span>
-            </a>
-            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right"></span>
-            </a>   -->
+
+    <!-- Flickity HTML init -->
+<div class="carousel js-flickity">
+  <!-- images from unsplash.com -->
+    <%for(var i = 0 ; i < promotions.length ; i++) {%>
+        <div class="carousel-cell">
+            <a href="/promotion-detail/<%=promotions[i].title.replace(/ /g,'-')%>"><img class="center-block" src="/assets/img/<%=promotions[i].image%>" alt="..."></a>
         </div>
-    </div>
+    <%}%>
+    <%if( promotions.length == 0){%>
+        <div class="carousel-cell">
+            <a href="/app-phongthuy"><img class="center-block" src="assets/img/phongthuy.png" alt="..."></a>
+        </div>
+        <div class="carousel-cell">
+            <a href="/maintenance-prd/VIP"><img class="center-block" src="assets/img/panelvip.png" alt="..."></a>
+        </div>
+    <%}%>  
+</div>
+
+<br>
+<br>
+</div>
+    
     <div class="container-fluid">
 
         <div class="container" id="mobile">
@@ -100,7 +66,7 @@
                                     <img class="img-responsive" src="/img/freeship.svg">
                                 </div>
                                 <div class="" style="">
-                                    <img src="/assets/img/<%= result[j].image==null?result[j].image:result[j].image.split(";")[0]%>" class="img-responsive zoom">
+                                    <img src="/assets/img/<%= result[j].image==null?result[j].image:result[j].image.split(";")[0]%>" class="img-responsive zoom center-block">
 
                                     <!-- <a href="/maintenance-prd?catflt=<%= result[j].cat_names %>&catId=<%= result[j].cat_ids %>" class="portfolio_item work-grid"style="width: 90%; color: #B28D34;font-weight: bold; margin-bottom: 10px;overflow: hidden; margin-top: 20px;">
                                             <button type="button" class="btn btn-default center-block">
@@ -108,6 +74,8 @@
                                             </button>
                                         </a> -->
                                 </div>
+                                <br>
+                                <br>
                                 <% if(result[j].prices != 0){ %>
                                 <% if(result[j].disct_prices == null){ %>
                                 <h3 class="font-custom" style="margin: 0px;"><%= result[j].name %></h3>
@@ -214,41 +182,6 @@
             return false;
         });
     });
-</script>
-<script type="text/javascript">
-    var startTou = 0;
-    function touchStart(event){
-        startTou = event.touches[0].clientX;
-    }
-    function touchEnd(event){
-
-    }
-    document.addEventListener('touchend', function(e) {
-        var endTou = event.touches[0].clientX;
-        var listItem = document.getElementsByClassName("item");
-        if (endTou>startTou){
-            for(i=0; i<listItem.length; i++){
-                if ( listItem[i].className.indexOf("active") != (-1)){
-                    if (i>0){
-                        listItem[i].className = "item";
-                        listItem[i-1].className = "item active";
-                    }
-
-                }
-            }
-        }
-        if (startTou>endTou){
-            for(i=0; i<listItem.length; i++){
-                if ( listItem[i].className.indexOf("active") != (-1)){
-                    if (i<(listItem.length-1)){
-                        listItem[i].className = "item";
-                        listItem[i+1].className = "item active";
-                    }
-
-                }
-            }
-        }
-    }, false);
 </script>
 </body>
 

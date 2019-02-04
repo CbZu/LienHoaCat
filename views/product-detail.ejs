@@ -18,7 +18,7 @@
                     <h4 style="color: white;">MỚI</h4>
                 </div>
                 <div class="col-md-4 col-md-offset-2" id="freeshipicon"
-                     style="position: absolute; background-color: #69d9f9;  z-index: 10;">
+                     style="position: absolute; background-color: #69d9f9;  z-index: 5;">
                     <h4 style="color: white;">FREESHIP</h4>
                 </div>
                 <% for(j = 0;j < image[0].url.split(";").length;j++){ %>
@@ -100,8 +100,8 @@
             </div>
             <div class="row">
                 <div class="col-xs-6 col-xs-offset-3 col-md-6 col-md-offset-3">
-                    <div style="position: relative;">
-                        <select class="form-control" id="idselect" onchange="optionSelected()" style="font-size: 150%; min-height: 50px;">
+                    <div style="position: relative; min-height: 100px;">
+                        <select class="form-control" id="idselect" onchange="optionSelected()" style="font-size: 200%; min-height: 70px;">
                             <% for(i = 0;i < result.length;i++){ %>
                             <option onclick="optionSelected()" class="dropdown-content1"
                                     value="<%= result[i].product_id %>" style="font-size: 150%;"><%= result[i].size %></option>
@@ -156,16 +156,20 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-4 col-md-4">
-                    <button  onclick="muangay()" class="button-image"><img src="/img/muangay.svg" class="img-responsive"></button>
+                <div class="col-xs-6 col-md-6">
+                    <button onclick="muangay()" class="button-image col-xs-12"><img src="/img/muangay.png" class="img-responsive col-xs-12"></button>
                 </div>
-                <div class="col-xs-4 col-md-4">
-                    <button class="button-image"><img src="/img/themvaogio.svg" class="img-responsive"
+                <div class="col-xs-6 col-md-6">
+                    <button class="button-image col-xs-12"><img src="/img/themvaogio.png" class="img-responsive col-xs-12"
                                                       onclick="AddCart()"></button>
                 </div>
-                <div class="col-xs-4 col-md-4">
-                    <a href="/maintenance-prd/<%=(keyword==undefined || keyword=='undefined'||keyword.trim()=='')?result[0].catflt.replace(/ /g, '-'):'Search?'+keyword %>" class="button-image">
-                            <img src="/img/xemthem.svg" class="img-responsive" style="margin-left: 8px;">
+                
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-offset-3 col-xs-offset-3 col-xs-6 col-md-6">
+                    <a href="/maintenance-prd/<%=(keyword==undefined || keyword=='undefined'||keyword.trim()=='')?result[0].catflt.replace(/ /g, '-'):'Search?'+keyword %>" class="button-image col-xs-12 center-block">
+                            <img src="/img/xemthem.png" class="img-responsive col-xs-12" style="margin-left: 8px;">
                     </a>
                 </div>
             </div>
