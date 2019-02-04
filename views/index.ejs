@@ -24,7 +24,7 @@
     </div> -->
 
     <!-- Flickity HTML init -->
-<div class="carousel js-flickity">
+<div class="carousel js-flickity container-fluid" data-flickity-options='{ "autoPlay" : 4000 }'>
   <!-- images from unsplash.com -->
     <%for(var i = 0 ; i < promotions.length ; i++) {%>
         <div class="carousel-cell">
@@ -74,7 +74,6 @@
                                             </button>
                                         </a> -->
                                 </div>
-                                <br>
                                 <br>
                                 <% if(result[j].prices != 0){ %>
                                 <% if(result[j].disct_prices == null){ %>

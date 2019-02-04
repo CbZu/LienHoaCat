@@ -191,7 +191,7 @@ form.search::after {
 .product{
     /*background-color: #B28D34;*/
     margin-top: 20px;
-    height: 600px;
+    height: 620px;
     border: #bfbfbf solid 2px;
     position: relative;
     
@@ -375,7 +375,7 @@ form.search::after {
 }
 
 .carousel-cell {
-  width: 70%;
+  width: 100%;
   height: 200px;
   /* flex-box, center image in cell */
   display: -webkit-box;
@@ -419,7 +419,7 @@ form.search::after {
 
 @media screen and ( min-width: 960px ) {
   .carousel-cell {
-    width: 60%;
+    width: 100%;
   }
 }
 
