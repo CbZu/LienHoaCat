@@ -1056,6 +1056,10 @@ module.exports.update_payment = function(req, res){
                     sql = 'update payment set sum = '+sum+', promotion = '+promotion+' , total = '+total+',voucher = \''+input.voucher+'\', shipfee = '+input.shipfee+' , shipcode = \''+input.shipcode+'\',ship = \''+input.ship+'\',pay_type = \''+input.type+'\', note = \''+input.note+'\' ' +
                         'where payment_id = '+input.payment_id+'; '
                     con.query(sql);
+                    sql = 'update payment set shipfee = 0 where payment_id = '+input.payment_id+' and total > (select freeShip from settingshop)';
+                    con.query(sql);
+                    sql = 'update payment set shipfee = (select defaultShip from settingshop) where payment_id = '+input.payment_id+' and total < (select freeShip from settingshop)';
+                    con.query(sql);
                 } else {
                     if(input.status == '1'){
                         sql ='select product_id,amount,(select entity from product where product_id = c.product_id) as entity from cart c where payment_id = '+input.payment_id+';';
@@ -1872,7 +1876,7 @@ module.exports.maintenance_prd = function(req, res){
     if(req.query.keyword != 'undefined' && req.query.keyword != '' && req.query.keyword != undefined ){
         where += ' (t.mau REGEXP \''+req.query.keyword.replace(",","|")+'\'\n' +
             'or t.menh REGEXP \''+req.query.keyword.replace(",","|")+'\' \n' +
-            'or t.tuoi REGEXP \''+req.query.keyword.replace(",","|")+'\' \n' +
+            'or t.tuoi REGEXP \''+req.query.keyword.replace(/mao/g,'mẹo').replace(/mão/g,'mẹo').replace(/thình/g,'thìn').replace(/thinh/g,'thìn').replace(",","|")+'\' \n' +
             'or d.description REGEXP \''+req.query.keyword.replace(",","|")+'\' \n' +
             'or p.name REGEXP \''+req.query.keyword.replace(",","|")+'\' \n' +
             'or p.size REGEXP \''+req.query.keyword.replace(",","|")+'\') and';
