@@ -413,7 +413,7 @@
         '                            <div class="col-xs-2 col-md-2"><input class="form-control oldPrice"  value = \'<%=result[i].price%>\'>\n' +
         '\n' +
         '                            </input></div>\n' +
-        '                            <div class="col-xs-2 col-md-2" ><input class="form-control oldDisc"  value = \'<%result[i].disct_price=='null'?"":result[i].disct_price%>\'>\n' +
+        '                            <div class="col-xs-2 col-md-2" ><input class="form-control oldDisc"  value = \'<%=result[i].price=='null'?"":result[i].disct_price%>\'>\n' +
         '\n' +
         '                            </input></div>\n' +
         '\n' +
@@ -504,26 +504,26 @@
     function insert() {
         var element = '<div class="row center-block">\n' +
             '                            \n' +
-            '                            <div class="col-md-2"><input class="form-control" id = \'newSize\' value = \'\'>\n' +
+            '                            <div class="col-xs-2 col-md-2"><input class="form-control" id = \'newSize\' value = \'\'>\n' +
             '\n' +
             '                            </input></div>\n' +
             '\n' +
-            '                            <div class="col-md-2"><input class="form-control" id = \'newPrice\' value = \'\'>\n' +
+            '                            <div class="col-xs-2 col-md-2"><input class="form-control" id = \'newPrice\' value = \'\'>\n' +
             '\n' +
             '                            </input></div>\n' +
-            '                            <div class="col-md-2" ><input class="form-control" id = \'newDisc\' value = \'\'>\n' +
-            '\n' +
-            '                            </input></div>\n' +
-            '\n' +
-            '                           <div class="col-md-2"><input class="form-control" id = \'remaining\' value = \'\'>\n' +
+            '                            <div class="col-xs-2 col-md-2" ><input class="form-control" id = \'newDisc\' value = \'\'>\n' +
             '\n' +
             '                            </input></div>\n' +
             '\n' +
-            '                            <div  class="col-md-2"><input class="form-control"  id = \'infor\' value = \'\'>\n' +
+            '                           <div class="col-xs-2 col-md-2"><input class="form-control" id = \'remaining\' value = \'\'>\n' +
             '\n' +
             '                            </input></div>\n' +
             '\n' +
-            '                            <div  class="col-md-2"><input class="form-control"  id = \'newCode\' value = \'\'>\n' +
+            '                            <div  class="col-xs-2 col-md-2"><input class="form-control"  id = \'infor\' value = \'\'>\n' +
+            '\n' +
+            '                            </input></div>\n' +
+            '\n' +
+            '                            <div  class="col-xs-2 col-md-2"><input class="form-control"  id = \'newCode\' value = \'\'>\n' +
             '\n' +
             '                            </input></div>\n' +
             '                        </div><br>';
