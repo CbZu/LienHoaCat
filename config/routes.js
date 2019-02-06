@@ -82,6 +82,8 @@ module.exports = function (app, controllers) {
 
 
     app.get('/edit-product/:prdname', controllers.todo.edit_product);
+    app.get('/delete-product/:prdname', controllers.todo.delete_product);
+    app.get('/show-product/:prdname', controllers.todo.show_product);
     app.post('/save-account',controllers.account.save_account);
 
     app.get('/promotions',controllers.todo.promotions);
