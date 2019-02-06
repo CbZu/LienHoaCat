@@ -345,16 +345,34 @@ exports.updateProduct=function(req,res){
     //end add new
 
     for(var i = 0;i < input.OldIds.split(",").length ; i++){
-         sql = 'update product set price = '+input.OldPrices.split(",")[i]+' , size = \''+input.OldSizes.split(",")[i]+'\' '+
-            ', code = \''+input.OldCodes.split(",")[i]+'\', information = \''+input.OldInfos.split(",")[i]+'\', entity = '+input.OldEntities.split(",")[i]+' where product_id = ' +  input.OldIds.split(",")[i] +';';
+        sql = 'update product set';
+        if (input.OldPrices.split(",")[i]!=''){
+            sql = sql + ' price = '+input.OldPrices.split(",")[i] + ' ';
+        }
+        if (input.OldCodes.split(",")[i]!=''){
+            sql = sql + ', code = \''+input.OldCodes.split(",")[i]+'\'';
+        }
+        if (input.OldInfos.split(",")[i]!=''){
+            sql = sql + ', information = \''+ input.OldInfos.split(",")[i] + '\'';
+        }
+        if (input.OldEntities.split(",")[i]!=''){
+            sql =sql + ', entity = \''+input.OldEntities.split(",")[i]+'\'';
+        }
+        if (input.OldSizes.split(",")[i]!=''){
+            sql = sql + ' , validFlag = \'1\' , size = \''+input.OldSizes.split(",")[i]+'\'';
+        } else{
+            sql = sql + ' , validFlag = \'2\', size = \'\'';
+        }
+        sql = sql +' where product_id = ' +  input.OldIds.split(",")[i] +';';
         con.query(sql);
-
-        if(input.OldDiscounts.split(",")[i] != '0'){
+        if(input.OldDiscounts.split(",")[i] != ''){
             sql = 'update discount set disct_price = '+input.OldDiscounts.split(",")[i]+' , expired_date ='+input.expired_date+' where product_id = ' +  input.OldIds.split(",")[i] +';'
         } else{
             sql = 'update discount set disct_price = '+input.OldDiscounts.split(",")[i]+' where product_id = ' +  input.OldIds.split(",")[i] +';'
 
         }
+
+
         con.query(sql);
         sql = 'update product set name = \''+input.name+'\'' +
             ' where product_id = ' +  input.OldIds.split(",")[i] +';'

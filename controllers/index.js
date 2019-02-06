@@ -22,7 +22,7 @@ module.exports.home = function(req, res){
         }
         req.session.treefolder = rows;
 
-        sql = 'select  name,p.product_id,cat_id,image, \n' +
+        sql = 'select  name, validFlag, p.product_id,cat_id,image, \n' +
             '(select cat_name from category where cat_id = p.cat_id) as cat_name ,\n' +
             '(select description from description where p.description = description_id) as description ,\n' +
             '(select MIN(disct_price) from discount where product_id = p.product_id and effective_date <= '+year+''+month+''+day+' and '+year+''+month+''+day+'<=expired_date) as disct_prices ,\n' +
@@ -31,7 +31,12 @@ module.exports.home = function(req, res){
             '(select GROUP_CONCAT(product_id SEPARATOR \',\') from product where name = p.name) as size_id ,\n' +
             '(select url from image where product_id = p.product_id and type = 1) as image, \n' +
             '(select \'Y\') as new \n'+
-            'from product p join thuoctinh t on p.product_id = t.product_id join description d on p.description = d.description_id where (('+year+month+day+' - p.create_time)/(24*3600*1000) ) < 30 group by name order by p.product_id LIMIT 12;';
+            'from product p join thuoctinh t on p.product_id = t.product_id join description d on p.description = d.description_id where (('+year+month+day+' - p.create_time)/(24*3600*1000) ) < 30 ';
+        if (req.session.type == 1){
+            sql = sql + 'group by name order by p.product_id LIMIT 12;'
+        } else{
+            sql = sql + 'and p.validFlag = \'1\' group by name order by p.product_id LIMIT 12;'
+        }
         con.query(sql, function (err, row1s) {
             sql = 'select title,image from promotion where effective_date <= '+year+''+month+''+day+' and '+year+''+month+''+day+'<=expired_date';
             con.query(sql, function (err, row2s) {

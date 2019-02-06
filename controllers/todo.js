@@ -1705,7 +1705,7 @@ module.exports.product_detail = function(req, res){
             '(select mau from thuoctinh where product_id  = p.product_id) as mau, '+
             '(select freeShip from settingshop) as freeship, '+
             '(select disct_price from discount where product_id = p.product_id and effective_date <= '+year+''+month+day+' and '+year+''+month+''+day+'<=expired_date) as disct_price' +
-            ' from product p where name = \''+req.params.prdname.replace(/-/g,' ')+'\';';
+            ' from product p where validFlag = \'1\' and name = \''+req.params.prdname.replace(/-/g,' ')+'\';';
 
         var con = req.db.driver.db;
         con.query(sql, function (err, rows) {
@@ -1797,6 +1797,33 @@ module.exports.edit_product = function(req, res){
 
     });
 };
+
+module.exports.delete_product = function(req, res){
+    var sql = 'update product set validFlag = \'2\' where name = \'' + req.params.prdname.replace(/-/g,' ') + '\';';
+    var con = req.db.driver.db;
+    con.query(sql, function (err, rows) {
+        if(err){
+            var data = {status: 'error', code: '300',error: err};
+            res.json(data);
+        }else{
+            var data={status:"success", code:'400'};
+            res.redirect(req.get('referer'));
+        }
+    });
+}
+module.exports.show_product = function(req, res){
+    var sql = 'update product set validFlag = \'1\' where name = \'' + req.params.prdname.replace(/-/g,' ') + '\';';
+    var con = req.db.driver.db;
+    con.query(sql, function (err, rows) {
+        if(err){
+            var data = {status: 'error', code: '300',error: err};
+            res.json(data);
+        }else{
+            var data={status:"success", code:'400'};
+            res.redirect(req.get('referer'));
+        }
+    });
+}
 module.exports.create_prd=function(req,res){
     var sql = '';
 
@@ -1839,7 +1866,7 @@ module.exports.maintenance_prd = function(req, res){
 
         var sql = '';
         sql += '\n' +
-            'select name,p.product_id,cat_id,image, \n' +
+            'select name, validFlag, p.product_id,cat_id,image, \n' +
             '(select cat_name from category where cat_id = p.cat_id) as cat_name ,\n' +
             '(select GROUP_CONCAT(entity SEPARATOR \',\') from product where name = p.name) as entities ,\n' +
             '(select GROUP_CONCAT(code SEPARATOR \',\') from product where name = p.name) as codes ,\n' +
@@ -1886,13 +1913,22 @@ module.exports.maintenance_prd = function(req, res){
         keyword = '';
     }
 
-    res.cookie("keyword", keyword);
+    res.cookie("keyword", keyword);;
+    if (req.session.type == 1){
         if(where.trim() == ''){
-            sql+= '  group by name  order by p.entity asc ;'
+            sql+= ' group by name  order by p.entity asc ;'
         }else{
             where = where.substring(0,where.length-3);
-            sql += ' where ' +  where  + '  group by name order by p.entity asc;'
+            sql += ' where ' +  where  + ' group by name order by p.entity asc;'
         }
+    } else{
+        if(where.trim() == ''){
+            sql+= 'and p.validFlag = \'1\'  group by name  order by p.entity asc ;'
+        }else{
+            where = where.substring(0,where.length-3);
+            sql += ' where ' +  where  + ' and p.validFlag = \'1\'  group by name order by p.entity asc;'
+        }
+    }
         var con = req.db.driver.db;
         con.query(sql, function (err, rows) {
             if(err){
