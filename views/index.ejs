@@ -101,15 +101,24 @@
                             </div>
                         </a>
                         <%if (type == 1){%>
-                        <div class="col-md-3">
-
-                            <a class="btn btn-primary" href="/edit-product/<%=result[j].name.replace(/ /g, '-')%>">Edit</a>
-
+                        <div class="row">
+                            <div class="col-xs-3 col-md-3">
+                                <a class="btn btn-primary" href="/edit-product/<%=result[j].name.replace(/ /g, '-')%>">Edit</a>
+                            </div>
+                            <%if(result[j].validFlag == '1'){%>
+                            <div class="col-xs-offset-6 col-md-offset-6 col-xs-3 col-md-3">
+                                <a class="btn btn-danger " href="/delete-product/<%=result[j].name.replace(/ /g, '-')%>">Tắt</a>
+                            </div>
+                            <%} else {%>
+                                <div class="col-xs-offset-6 col-md-offset-6 col-xs-3 col-md-3">
+                                    <a class="btn btn-danger " href="/show-product/<%=result[j].name.replace(/ /g, '-')%>">Mở</a>
+                                </div>
+                            <%}%>
                         </div>
                         <%}%>
                     </div>
                     <% } %>
-                    <%}%>
+                    <%}%> 
 
                 </div>
             </div>
@@ -181,6 +190,12 @@
             return false;
         });
     });
+</script>
+<script type="text/javascript">
+    var product = document.getElementsByClassName("product");
+    for (var i=0; i<product.length; i++){
+        product[i].style.height = product[i].offsetWidth*4/3 + 150 + "px";
+    }
 </script>
 </body>
 

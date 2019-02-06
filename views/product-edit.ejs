@@ -209,12 +209,12 @@
                                 <div class="col-md-8"><h3>Phân loại sản phẩm</h3></div>
                             </div>
                             <div class="row center-block">
-                                <div class="col-md-2"><h4 style="text-align: center;">Size</h4></div>
-                                <div class="col-md-2"><h4 style="text-align: center;">Giá</h4></div>
-                                <div class="col-md-2"><h4 style="text-align: center;">Giá sau giảm</h4></div>
-                                <div class="col-md-2"><h4 style="text-align: center;">Tồn kho</h4></div>
-                                <div class="col-md-2"><h4 style="text-align: center;">Thông tin loại hàng</h4></div>
-                                <div class="col-md-2"><h4 style="text-align: center;">Mã Sản Phẩm</h4></div>
+                                <div class="col-xs-2 col-md-2"><h4 style="text-align: center;">Size</h4></div>
+                                <div class="col-xs-2 col-md-2"><h4 style="text-align: center;">Giá</h4></div>
+                                <div class="col-xs-2 col-md-2"><h4 style="text-align: center;">Giá sau giảm</h4></div>
+                                <div class="col-xs-2 col-md-2"><h4 style="text-align: center;">Tồn kho</h4></div>
+                                <div class="col-xs-2 col-md-2"><h4 style="text-align: center;">Thông tin loại hàng</h4></div>
+                                <div class="col-xs-2 col-md-2"><h4 style="text-align: center;">Mã Sản Phẩm</h4></div>
                             </div>
                             <div class="row" id="rowInsertBtn">
                                 <div class="col-md-2">
@@ -402,7 +402,7 @@
     <%for(var i = 0; i < result.length ; i++){%>
     var element = '<div class="row center-block">\n' +
         '                            \n' +
-        '                            <div class="col-md-2"><input class="form-control oldSize"  value = \'<%=result[i].size%>\'>\n' +
+        '                            <div class="col-xs-2 col-md-2"><input class="form-control oldSize"  value = \'<%=result[i].size%>\'>\n' +
         '\n' +
         '                            </input></div>\n' +
         '                            \n' +
@@ -410,22 +410,22 @@
         '\n' +
         '                            </input>\n' +
         '\n' +
-        '                            <div class="col-md-2"><input class="form-control oldPrice"  value = \'<%=result[i].price%>\'>\n' +
+        '                            <div class="col-xs-2 col-md-2"><input class="form-control oldPrice"  value = \'<%=result[i].price%>\'>\n' +
         '\n' +
         '                            </input></div>\n' +
-        '                            <div class="col-md-2" ><input class="form-control oldDisc"  value = \'<%result[i].disct_price=='null'?"":result[i].disct_price%>\'>\n' +
-        '\n' +
-        '                            </input></div>\n' +
-        '\n' +
-        '                           <div class="col-md-2"><input class="form-control oldremaining"  value = \'<%=result[i].entity%>\'>\n' +
+        '                            <div class="col-xs-2 col-md-2" ><input class="form-control oldDisc"  value = \'<%result[i].disct_price=='null'?"":result[i].disct_price%>\'>\n' +
         '\n' +
         '                            </input></div>\n' +
         '\n' +
-        '                            <div  class="col-md-2"><input class="form-control oldinfor"   value = \'<%=result[i].information%>\'>\n' +
+        '                           <div class="col-xs-2 col-md-2"><input class="form-control oldremaining"  value = \'<%=result[i].entity%>\'>\n' +
         '\n' +
         '                            </input></div>\n' +
         '\n' +
-        '                            <div  class="col-md-2"><input class="form-control oldCode"   value = \'<%=result[i].code%>\'>\n' +
+        '                            <div  class="col-xs-2 col-md-2"><input class="form-control oldinfor"   value = \'<%=result[i].information%>\'>\n' +
+        '\n' +
+        '                            </input></div>\n' +
+        '\n' +
+        '                            <div  class="col-xs-2 col-md-2"><input class="form-control oldCode"   value = \'<%=result[i].code%>\'>\n' +
         '\n' +
         '                            </input></div>\n' +
         '                        </div><br>';
