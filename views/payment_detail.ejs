@@ -188,7 +188,7 @@
                 </div>
                 <div class="row" >
                     <div>
-                        <textarea class="form-control" style="width: 90%; height: 200%;" id="note" name="note"> <%result[0].note=='undefined'?'':result[0].note%></textarea>
+                        <textarea class="form-control" style="width: 90%; height: 200%;" id="note" name="note"> <%=result[0].note=='undefined'?'':result[0].note%></textarea>
                     </div>
                 </div>
             </div>
@@ -508,7 +508,6 @@
                     enctype: 'multipart/form-data',
                     processData: false,
                     success: function (response) {
-                        Add();
                         document.getElementById('id03').style.display = 'none';
                         window.location.reload();
                     }

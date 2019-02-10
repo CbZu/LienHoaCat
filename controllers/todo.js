@@ -1089,10 +1089,10 @@ module.exports.update_payment = function(req, res){
                     sql = 'update payment set sum = '+sum+', promotion = '+promotion+' , total = '+total+',voucher = \''+input.voucher+'\', shipfee = '+input.shipfee+' , shipcode = \''+input.shipcode+'\',ship = \''+input.ship+'\',pay_type = \''+input.type+'\', note = \''+input.note+'\' ' +
                         'where payment_id = '+input.payment_id+'; '
                     con.query(sql);
-                    sql = 'update payment set shipfee = 0 where payment_id = '+input.payment_id+' and total > (select freeShip from settingshop)';
+                   /* sql = 'update payment set shipfee = 0 where payment_id = '+input.payment_id+' and total > (select freeShip from settingshop)';
                     con.query(sql);
                     sql = 'update payment set shipfee = (select defaultShip from settingshop) where payment_id = '+input.payment_id+' and total < (select freeShip from settingshop)';
-                    con.query(sql);
+                    con.query(sql);*/
                 } else {
                     if(input.status == '1'){
                         sql ='select product_id,amount,(select entity from product where product_id = c.product_id) as entity from cart c where payment_id = '+input.payment_id+';';
