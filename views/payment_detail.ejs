@@ -188,7 +188,7 @@
                 </div>
                 <div class="row" >
                     <div>
-                        <textarea class="form-control" style="width: 90%; height: 200%;" id="note" name="note"> <%=result[0].note%></textarea>
+                        <textarea class="form-control" style="width: 90%; height: 200%;" id="note" name="note"> <%result[0].note=='undefined'?'':result[0].note%></textarea>
                     </div>
                 </div>
             </div>
@@ -254,7 +254,6 @@
         <h2>Thông tin đơn hàng</h2>
         <%if(userdetail != undefined){%>
         <h4>Tên: <%=userdetail[0].firstname%></h4>
-        <h4>Email: <%=userdetail[0].email%></h4>
         <h4>Số điện thoại: <%=userdetail[0].phone%></h4>
         <h4>Địa Chỉ: <%=userdetail[0].address%></h4>
         <%}%>

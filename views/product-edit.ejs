@@ -216,6 +216,41 @@
                                 <div class="col-xs-2 col-md-2"><h4 style="text-align: center;">Thông tin loại hàng</h4></div>
                                 <div class="col-xs-2 col-md-2"><h4 style="text-align: center;">Mã Sản Phẩm</h4></div>
                             </div>
+                            <%for(var i = 0; i < result.length ; i++){%>
+                            <div class="row center-block">
+
+                                <div class="col-xs-2 col-md-2"><input class="form-control oldSize"  value = "<%=result[i].size%>">
+
+                                   </div>
+
+                                <input class="form-control oldId" style = "display:none"  value = "<%=result[i].product_id%>">
+
+                                </input>
+
+                                <div class="col-xs-2 col-md-2"><input class="form-control oldPrice"  value = "<%=result[i].price%>">
+
+                                    </div>
+                                <div class="col-xs-2 col-md-2" ><input class="form-control oldDisc"  value = "<%=result[i].disct_price=='null'?"":result[i].disct_price%>">
+
+                                    </div>
+
+                                <div class="col-xs-2 col-md-2"><input class="form-control oldremaining"  value = "<%=result[i].entity%>">
+
+                                    </div>
+
+                                <div  class="col-xs-2 col-md-2"><input class="form-control oldinfor"   value = "<%=result[i].information%>">
+
+                                    </div>
+
+                                <div  class="col-xs-2 col-md-2"><input class="form-control oldCode" id = "Code<%=result[i].product_id%>" onkeyup=CheckCode("<%=result[i].product_id%>")  value = "<%=result[i].code%>">
+
+                                   </div>
+                                <div  class="col-xs-1 col-md-1"><a class="glyphicon glyphicon-remove" href="/deleteSize/<%=result[i].product_id %>"></a>
+
+                                </div>
+                            </div><br>
+
+                            <%}%>
                             <div class="row" id="rowInsertBtn">
                                 <div class="col-md-2">
                                     <button class="btn btn-danger" id='insertBtn' onclick='insert()'>+</button>
@@ -230,10 +265,10 @@
                             <br>
                             <div class="row">
                                 <div class="col-md-2">
-                                    <button class="btn btn-primary" id = "add" onclick="Add()">Add</button>
+                                    <button class="btn btn-primary" id = "add" onclick="Add()">Cập Nhật</button>
                                 </div>
                                 <div class="col-md-2">
-                                    <a class="btn btn-primary" href = "/" >Cancel</a>
+                                    <a class="btn btn-primary" href = "/maintenance-prd/<%=result[0].catflt%>" >Hủy</a>
                                 </div>
                             </div>
                         </div>
@@ -399,38 +434,6 @@
     }
 </script>
 <script>
-    <%for(var i = 0; i < result.length ; i++){%>
-    var element = '<div class="row center-block">\n' +
-        '                            \n' +
-        '                            <div class="col-xs-2 col-md-2"><input class="form-control oldSize"  value = \'<%=result[i].size%>\'>\n' +
-        '\n' +
-        '                            </input></div>\n' +
-        '                            \n' +
-        '                            <input class="form-control oldId" style = "display:none"  value = \'<%=result[i].product_id%>\'>\n' +
-        '\n' +
-        '                            </input>\n' +
-        '\n' +
-        '                            <div class="col-xs-2 col-md-2"><input class="form-control oldPrice"  value = \'<%=result[i].price%>\'>\n' +
-        '\n' +
-        '                            </input></div>\n' +
-        '                            <div class="col-xs-2 col-md-2" ><input class="form-control oldDisc"  value = \'<%=result[i].price=='null'?"":result[i].disct_price%>\'>\n' +
-        '\n' +
-        '                            </input></div>\n' +
-        '\n' +
-        '                           <div class="col-xs-2 col-md-2"><input class="form-control oldremaining"  value = \'<%=result[i].entity%>\'>\n' +
-        '\n' +
-        '                            </input></div>\n' +
-        '\n' +
-        '                            <div  class="col-xs-2 col-md-2"><input class="form-control oldinfor"   value = \'<%=result[i].information%>\'>\n' +
-        '\n' +
-        '                            </input></div>\n' +
-        '\n' +
-        '                            <div  class="col-xs-2 col-md-2"><input class="form-control oldCode"   value = \'<%=result[i].code%>\'>\n' +
-        '\n' +
-        '                            </input></div>\n' +
-        '                        </div><br>';
-    $(element).insertBefore($('#rowInsertBtn'));
-    <%}%>
     var menh = "<%=result[0].menh%>"
     for(var j=0;j<document.getElementsByClassName("checkmenh").length;j++){
         if(menh.includes(document.getElementsByClassName("checkmenh")[j].value)){
@@ -888,7 +891,29 @@
         });
     }
 
+    function CheckCode(idx) {
+        var obj =$("#Code"+idx.trim());
+        $(".error").remove();
+        if(obj.val().trim() != ''){
+            $.ajax({
+                type: "POST",
+                url: "../ajax/checkCode",
+                data: "code=" + obj.val(),
+                success: function (msg) {
+                    //alert(msg);
+                    data = msg;
+                    if (data.code == '200') {
+                        obj.after("<label class='error'>Code Tồn Tại</label>");
+                        document.getElementById('add').style.display = 'none'
+                    }
+                    else {
+                        document.getElementById('add').style.display = 'block'
+                    }
+                }
+            });
+        }
 
+    }
 
 </script>
 <!-- image slide -->

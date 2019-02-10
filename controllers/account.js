@@ -526,6 +526,7 @@ module.exports.save_account = function(req, res){
             var newDOB = birth[2]+birth[1]+birth[0];
             rows.email   = input.email;
             rows.phone    = input.phone;
+            rows.username    = input.phone;
             rows.firstname    = input.fname;
             rows.lastname = input.lname;
             rows.salary=parseFloat(input.salary);
@@ -622,10 +623,29 @@ module.exports.save_account = function(req, res){
 
 
         });
+    };
+    module.exports.deleteaccount = function(req, res){
 
+        if(req.session.type == '1'){
+            var input=JSON.parse(JSON.stringify(req.body));
+            var date = new Date();
+            var month = date.getMonth() + 1;
+            month = (month < 10 ? "0" : "") + month;
 
+            var day  = date.getDate();
+            day = (day < 10 ? "0" : "") + day;
+            var year = date.getUTCFullYear();
+            var today = year+''+month+''+day;
+            var sql ='delete from user'+
+                ' where user_id = '+req.params.id+'; ';
+            var con = req.db.driver.db;
+            con.query(sql)
+            var sql ='delete from places'+
+                ' where user_id = '+req.params.id+' ;';
+            con.query(sql)
+            res.redirect('/maintenance')
 
-
-
-
+        } else {
+            res.redirect('/')
+        }
     };

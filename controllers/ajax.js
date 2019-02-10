@@ -874,9 +874,10 @@ exports.add_to_payment_now=function(req,res){
                 var sqlIns = 'INSERT INTO `lhc`.`payment`\n' +
                 '(`user_id`,\n' +
                 '`sum`,\n' +
-                '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`,`ship`,`voucher`,`shipfee`,`note`)\n';
+                '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`,`ship`,`voucher`,`shipfee`,`note`,`address`)\n';
 
-                sqlIns += ' VALUES ('+user+','+Sum+',0,'+parseInt(year+''+month+''+day)+',\''+newtitle+'\',\''+input.type+'\','+promotion+','+totalAfterPromot+',\'N\',\''+input.ship+'\',\''+input.voucher+'\','+input.shipfee+',\''+input.note+'\')';
+                sqlIns += ' VALUES ('+user+','+Sum+',0,'+parseInt(year+''+month+''+day)+',\''+newtitle+'\',\''+input.type+'\','+promotion+','+totalAfterPromot+',\'N\'' +
+                    ',\''+input.ship+'\',\''+input.voucher+'\','+input.shipfee+',\''+input.note+'\',\''+input.address+'\')';
                 con.query(sqlIns, function (err, row1s) {
                     if(err){
                         var data = {status: 'error', code: '300',error: err};
@@ -902,7 +903,11 @@ exports.add_to_payment_now=function(req,res){
                                     }else{
                                         for(var i = 0 ; i < rowsCart.length ; i++){
                                             var sqlUpdate = 'update cart set disct_price = (select disct_price from discount where product_id = '+rowsCart[i].product_id+' and effective_date<='+today+' and '+today+'<=expired_date)' +
-                                                ', price = (select price from product where product_id = '+rowsCart[i].product_id+') where user_id = '+input.userId+' and payment_id = '+row1s.insertId+' and product_id = '+rowsCart[i].product_id+';';
+                                                ', price = (select price from product where product_id = '+rowsCart[i].product_id+') ' +
+                                                ', name = (select name from product where product_id = '+rowsCart[i].product_id+') ' +
+                                                ', size = (select size from product where product_id = '+rowsCart[i].product_id+') ' +
+                                                ', code = (select code from product where product_id = '+rowsCart[i].product_id+') ' +
+                                                'where user_id = '+input.userId+' and payment_id = '+row1s.insertId+' and product_id = '+rowsCart[i].product_id+';';
                                             con.query(sqlUpdate);
                                         }
 

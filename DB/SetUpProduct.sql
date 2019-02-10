@@ -1,3 +1,4 @@
+use lhc;
 CREATE TABLE `can` (
   `A` int(11) NOT NULL,
   `CAN` varchar(45) DEFAULT NULL,

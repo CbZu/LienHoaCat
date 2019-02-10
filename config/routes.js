@@ -31,6 +31,8 @@ module.exports = function (app, controllers) {
     app.post('/PetMart/add-voucher', controllers.todo.add_voucher);
     app.get('/voucher', controllers.todo.voucher);
     app.post('/updateVoucher/:id', controllers.todo.updatevoucher);
+    app.get('/deleteVoucher/:id', controllers.todo.deletevoucher);
+    app.get('/deleteAccount/:id', controllers.account.deleteaccount);
 
     app.get('/', controllers.index.home);
     app.post('/ajax/checkEmail', controllers.ajax.checkEmail);
@@ -61,7 +63,6 @@ module.exports = function (app, controllers) {
     app.post('/ajax/updateProductOk', controllers.ajax.updateProductOk);
     app.post('/ajax/addProduct', controllers.ajax.addProduct);
     app.post('/ajax/addProductImages', controllers.ajax.addProductImages);
-    app.post('/ajax/add-to-cart-admin', controllers.ajax.addSizeToCart);
     app.post('/ajax/updateSettingShop', controllers.ajax.updateSettingShop)
 
     app.post('/ajax/updateProductImage', controllers.ajax.updateProductImage);
@@ -75,16 +76,21 @@ module.exports = function (app, controllers) {
     app.get('/promote-register', controllers.todo.promote_register);
     app.post('/add-promote', controllers.todo.add_promote);
     app.get('/edit-promote/:promote_id', controllers.todo.edit_promote);
+    app.get('/delete-promote/:promote_id', controllers.todo.delete_promote);
+
     app.post('/update-promote', controllers.todo.update_promote);
     app.get('/show-payment', controllers.todo.show_payment);
     app.get('/checkout/:product/:amount', controllers.todo.checkout);
     app.get('/app-phongthuy', controllers.todo.app_phongthuy);
 
+    app.get('/delete-cat/:name', controllers.todo.delete_cat);
 
     app.get('/edit-product/:prdname', controllers.todo.edit_product);
     app.get('/delete-product/:prdname', controllers.todo.delete_product);
     app.get('/show-product/:prdname', controllers.todo.show_product);
     app.post('/save-account',controllers.account.save_account);
+    app.get('/deleteSize/:id', controllers.todo.delete_size);
+    app.get('/erase-product/:prdname', controllers.todo.erase_product);
 
     app.get('/promotions',controllers.todo.promotions);
     app.get('/create-promotion',controllers.todo.create_promotions);

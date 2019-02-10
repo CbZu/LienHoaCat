@@ -162,6 +162,13 @@
                                 <td>
                                     <%= users[i].fail %> / <%= users[i].success %>
                                 </td>
+                                <%if (users[i].success == 0 ){%>
+                                <td>
+                                    <a class="glyphicon glyphicon-remove" href="/deleteAccount/<%=users[i].user_id %>">
+
+                                    </a>
+                                </td>
+                                <%}%>
                             </tr>
                         <% } }%>
                     </tbody>

@@ -313,7 +313,10 @@
                     <div class="col-xs-3 col-md-3">
                         <a class="btn btn-primary" href="/edit-product/<%=result[j].name.replace(/ /g, '-')%>">Edit</a>
                     </div>
-                    <%if(result[j].validFlag == '1'){%>
+                    <div class="col-xs-3 col-md-3">
+                        <a class="btn btn-danger" href="/erase-product/<%=result[j].name.replace(/ /g, '-')%>">Xóa</a>
+                    </div>
+                   <!-- <%if(result[j].validFlag == '1'){%>
                     <div class="col-xs-offset-6 col-md-offset-6 col-xs-3 col-md-3">
                         <a class="btn btn-danger " href="/delete-product/<%=result[j].name.replace(/ /g, '-')%>">Tắt</a>
                     </div>
@@ -321,7 +324,7 @@
                         <div class="col-xs-offset-6 col-md-offset-6 col-xs-3 col-md-3">
                             <a class="btn btn-default" href="/show-product/<%=result[j].name.replace(/ /g, '-')%>">Mở</a>
                         </div>
-                    <%}%>
+                    <%}%>-->
                 </div>
                 <%}%>
             </div>

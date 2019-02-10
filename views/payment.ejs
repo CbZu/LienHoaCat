@@ -327,7 +327,7 @@
             <% if(userdetail != undefined){ %>
             <h3>Tên: <%= userdetail[0].firstname %> <%= userdetail[0].lastname %></h3>
             <h3>Số điện thoại: <%= userdetail[0].phone %></h3>
-            <h3>Địa Chỉ: <%= userdetail[0].address %></h3>
+            <h3>Địa Chỉ: </h3><input class="form-control" id="address" value="<%= userdetail[0].address %>">
             <h3 style="display: none">Email: <%= userdetail[0].email %></h3>
             <% } else { %>
             <h3>Tên: </h3><input class="form-control" id="name">
@@ -542,6 +542,7 @@
                             }
                             formdata.append('shipfee', $("#shipfee").val());
                             formdata.append('note', $("#note").val());
+                            formdata.append('address', $("#address").val());
                             $.ajax({
                                 url: '/../PetMart/add-to-payment',
                                 type: 'POST',
@@ -628,7 +629,7 @@
                         url: "/../ajax/add-to-payment-now",
                         type: 'POST',
                         dataType : 'JSON',
-                        data: JSON.stringify({size_id:sizes,quantity:quantities,userId:response.user_id,ship:$("#ship").val(),type:$("#type").val(),shipfee:$("#shipfee").val(),voucher:$("#voucher").val(),note:$("#note").val(),total:'<%=totalAll%>'}),
+                        data: JSON.stringify({size_id:sizes,quantity:quantities,userId:response.user_id,ship:$("#ship").val(),type:$("#type").val(),shipfee:$("#shipfee").val(),voucher:$("#voucher").val(),note:$("#note").val(),total:'<%=totalAll%>',address: $("#address").val()}),
                         async: false,
                         cache: false,
                         contentType: 'application/json; charset=UTF-8',
@@ -648,6 +649,7 @@
     function CheckOut() {
         var flagcheck = "N"
         $(".error").remove();
+        <% if(userdetail == undefined){ %>
         if($("#name").val().trim() == ''){
             $("#name").after("<label class='error' style='color: red'>Xin mời nhập tên</label>")
             flagcheck = 'Y';
@@ -668,6 +670,7 @@
             alert("Xin mời nhập hình thức thanh toán");
             flagcheck = 'Y';
         }
+        <%}%>
         if(flagcheck == 'Y'){
             return;
         }
@@ -690,6 +693,7 @@
                 formdata.append('voucher', $("#voucher").val());
             }
             formdata.append('shipfee', $("#shipfee").val());
+            formdata.append('address', $("#address").val());
             $.ajax({
                 url: '/../PetMart/add-to-payment',
                 type: 'POST',
@@ -721,7 +725,7 @@
                 url: "/../ajax/add-to-payment-now",
                 type: 'POST',
                 dataType : 'JSON',
-                data: JSON.stringify({size_id:sizes,quantity:quantities,userId:'<%=userdetail[0].user_id%>',ship:ship,type:type,shipfee:$("#shipfee").val(),voucher:$("#voucher").val(),note: $("#note").val()}),
+                data: JSON.stringify({size_id:sizes,quantity:quantities,userId:'<%=userdetail[0].user_id%>',ship:ship,type:type,shipfee:$("#shipfee").val(),voucher:$("#voucher").val(),note: $("#note").val(),address: $("#address").val()}),
                 async: false,
                 cache: false,
                 contentType: 'application/json; charset=UTF-8',

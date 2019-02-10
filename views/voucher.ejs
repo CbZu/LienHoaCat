@@ -55,6 +55,9 @@
                         <td>
                             <button class="form-control btn-danger" type="submit" > Update</button>
                         </td>
+                        <td>
+                            <span class="glyphicon glyphicon-remove" onclick="Delete('<%=result[i].voucher_id %>')"  ></span>
+                        </td>
                     </tr>
                     <% } else { %>
                     <tr>
@@ -82,6 +85,11 @@
                         <td>
                             <button class="form-control btn-danger" type="submit" > Update</button>
                         </td>
+                        <td>
+                            <a class="glyphicon glyphicon-remove" href="/deleteVoucher/<%=result[i].voucher_id %>">
+
+                            </a>
+                        </td>
                     </tr>
                     <% } %>
                 </form>
@@ -104,32 +112,32 @@
         var index = 0;
         var element = " <tr>\n" +
             "                    <td class=\"text-center\" >\n" +
-            "                        <input  name = 'name-input'  \n" +
+            "                        <input class = 'form-control' name = 'name-input'  \n" +
             "                               value=\"\">\n" +
             "                    </td>\n" +
             "                    <td class=\"text-center\">\n" +
-            "                        <input class = 'checkCode" + index + "'  name = 'code-input'onkeyup='CheckCode(" + index + ")' \n" +
+            "                        <input class = 'form-control checkCode" + index + "'  name = 'code-input'onkeyup='CheckCode(" + index + ")' \n" +
             "                               value=\"\">\n" +
             "                    </td>\n" +
             "                    <td class=\"text-center\">\n" +
-            "                        <input  name = 'percent-input'\n" +
+            "                        <input class = 'form-control' name = 'percent-input'\n" +
             "                               value=\"\" >\n" +
             "                    </td>\n" +
             "                    <td class=\"text-center\">\n" +
-            "                        <input  name = 'effdate-input'\n" +
+            "                        <input class = 'form-control' name = 'effdate-input'\n" +
             "                             type='date'  value=\"\">\n" +
             "                    </td>\n" +
             "                    <td class=\"text-center\">\n" +
-            "                        <input  name = 'expired-input'\n" +
+            "                        <input class = 'form-control' name = 'expired-input'\n" +
             "                             type='date'  value=\"\">\n" +
             "                    </td>\n" +
             "                    <td>\n" +
-            "                        <input  name = 'amount-input'\n" +
+            "                        <input class = 'form-control' name = 'amount-input'\n" +
             "                               value=\"\">\n" +
             "\n" +
             "                    </td>\n" +
             "                    <td>\n" +
-            "                        <input  name = 'min-input'\n" +
+            "                        <input class = 'form-control' name = 'min-input'\n" +
             "                               value=\"\">\n" +
             "\n" +
             "                    </td>\n" +

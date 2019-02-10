@@ -457,6 +457,8 @@ module.exports.add_to_cart = function(req, res){
 
                                                         }
                                                     });
+                                                } else {
+
                                                 }
                                             }
                                         });
@@ -532,6 +534,7 @@ module.exports.get_cart = function(req, res){
     }
     var array = [];
     if(user == undefined && req.cookies.cart != undefined){
+        var count = 0;
         for(var i = 0 ; i < req.cookies.cart.id.split(',').length ; i++){
             var sql = 'select \n' +
                 '(select name from product where c.product_id = product_id ) as name,\n' +
@@ -561,8 +564,11 @@ module.exports.get_cart = function(req, res){
                     var data = {status: 'error', code: '300',error: err};
                     res.json(data);
                 }else{
-                    array.push(rows[0]);
-                    if(array.length == req.cookies.cart.id.split(',').length){
+                    if(rows.length > 0){
+                        array.push(rows[0]);
+                    }
+                    count++;
+                    if(count == req.cookies.cart.id.split(',').length){
                         var data = {status: 'success', code: '200',result:array};
                         res.json(data);
                     }
@@ -852,6 +858,28 @@ module.exports.updatevoucher = function(req, res){
         res.redirect('/')
     }
 };
+module.exports.deletevoucher = function(req, res){
+
+    if(req.session.type == '1'){
+        var input=JSON.parse(JSON.stringify(req.body));
+        var date = new Date();
+        var month = date.getMonth() + 1;
+        month = (month < 10 ? "0" : "") + month;
+
+        var day  = date.getDate();
+        day = (day < 10 ? "0" : "") + day;
+        var year = date.getUTCFullYear();
+        var today = year+''+month+''+day;
+        var sql ='delete from voucher'+
+            ' where voucher_id = '+req.params.id+' ';
+        var con = req.db.driver.db;
+        con.query(sql)
+        res.redirect('/voucher')
+
+    } else {
+        res.redirect('/')
+    }
+};
 module.exports.add_to_payment = function(req, res){
     var input=JSON.parse(JSON.stringify(req.body));
     var date = new Date();
@@ -916,8 +944,9 @@ module.exports.add_to_payment = function(req, res){
                 var sqlIns = 'INSERT INTO `lhc`.`payment`\n' +
                     '(`user_id`,\n' +
                     '`sum`,\n' +
-                    '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`,`ship`,`voucher`,`shipfee`,`note`)\n';
-                sqlIns +='VALUES ('+user+','+Sum+',0,'+parseInt(year+''+month+''+day)+',\''+newtitle+'\',\''+input.type+'\','+promotion+','+totalAfterPromot+',\'N\',\''+input.ship+'\',\''+input.voucher+'\','+input.shipfee+',\''+input.note+'\')';
+                    '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`,`ship`,`voucher`,`shipfee`,`note`,`address`)\n';
+                sqlIns +='VALUES ('+user+','+Sum+',0,'+parseInt(year+''+month+''+day)+',\''+newtitle+'\',\''+input.type+'\','+promotion+','+totalAfterPromot+',\'N\',\''+input.ship+'\'' +
+                    ',\''+input.voucher+'\','+input.shipfee+',\''+input.note+'\',\''+input.address+'\')';
                 con.query(sqlIns, function (err, row1s) {
                     if(err){
                         var data = {status: 'error', code: '300',error: err};
@@ -932,7 +961,11 @@ module.exports.add_to_payment = function(req, res){
                             }else{
                                 for(var i = 0 ; i < rowsCart.length ; i++){
                                     var sqlUpdate = 'update cart set payment_id = '+row1s.insertId+',disct_price = (select disct_price from discount where product_id = '+rowsCart[i].product_id+' and effective_date<='+today+' and '+today+'<=expired_date)' +
-                                        ', price = (select price from product where product_id = '+rowsCart[i].product_id+') where user_id = '+user+' and payment_id = 0 and product_id = '+rowsCart[i].product_id+';';
+                                        ', price = (select price from product where product_id = '+rowsCart[i].product_id+')' +
+                                        ', name = (select name from product where product_id = '+rowsCart[i].product_id+') ' +
+                                        ', size = (select size from product where product_id = '+rowsCart[i].product_id+') ' +
+                                        ', code = (select code from product where product_id = '+rowsCart[i].product_id+') ' +
+                                        ' where user_id = '+user+' and payment_id = 0 and product_id = '+rowsCart[i].product_id+';';
                                     con.query(sqlUpdate);
                                 }
                                 if(req.session.user_id == undefined){
@@ -1582,11 +1615,11 @@ module.exports.payment_detail = function(req, res){
                 user = req.query.user;
             }
             var sql = 'select c.user_id,c.payment_id,\n' +
-                '(select name from product where c.product_id = product_id ) as name,\n' +
+                'c.name,\n' +
                 '(select title from payment where c.payment_id = payment_id ) as title,\n' +
                 '(select voucher from payment where c.payment_id = payment_id ) as voucher,\n' +
                 'GROUP_CONCAT(c.amount SEPARATOR \'; \') as quantities,\n' +
-                'GROUP_CONCAT((select size from product where c.product_id = product_id ) SEPARATOR \'; \') as sizes,\n' +
+                'GROUP_CONCAT(c.size SEPARATOR \'; \') as sizes,\n' +
                 'GROUP_CONCAT(FORMAT(c.price,0) SEPARATOR \'; \')  as prices,\n' +
                 'GROUP_CONCAT(FORMAT(c.disct_price,0) SEPARATOR \'; \')  as discount_prices,\n' +
                 'GROUP_CONCAT(\n' +
@@ -1595,8 +1628,8 @@ module.exports.payment_detail = function(req, res){
                 '        c.disct_price*c.amount,\n' +
                 '        c.price*c.amount)\n' +
                 '\t SEPARATOR \'; \') as sums,\n' +
-                'GROUP_CONCAT((select product_id from product where c.product_id = product_id ) SEPARATOR \'; \') as size_ids,\n' +
-                'GROUP_CONCAT((select code from product where c.product_id = product_id ) SEPARATOR \'; \') as codes,\n' +
+                'GROUP_CONCAT(c.product_id SEPARATOR \'; \') as size_ids,\n' +
+                'GROUP_CONCAT(c.code SEPARATOR \'; \') as codes,\n' +
                 'GROUP_CONCAT((select url from image where c.product_id = product_id and type = 1 group by product_id) SEPARATOR \'; \') as images,\n' +
                 '(select status_id from payment where payment_id = c.payment_id ) as status_id,\n' +
                 '(select sum from payment where payment_id = c.payment_id ) as paymentSum,\n' +
@@ -1620,7 +1653,7 @@ module.exports.payment_detail = function(req, res){
                     var data = {status: 'error', code: '300', error: err};
                     res.json(data);
                 } else {
-                    sql = 'select firstname,lastname,phone,email,(select address from places where user_id = '+user+')as address from user where user_id = ' + user + ';';
+                    sql = 'select firstname,lastname,phone,email,(select address from payment where payment_id = '+ req.query.id+')as address from user where user_id = ' + user + ';';
                     var con = req.db.driver.db;
                     con.query(sql, function (err, row1s) {
                         var totalAll = 0;
@@ -1705,7 +1738,7 @@ module.exports.product_detail = function(req, res){
             '(select mau from thuoctinh where product_id  = p.product_id) as mau, '+
             '(select freeShip from settingshop) as freeship, '+
             '(select disct_price from discount where product_id = p.product_id and effective_date <= '+year+''+month+day+' and '+year+''+month+''+day+'<=expired_date) as disct_price' +
-            ' from product p where validFlag = \'1\' and name = \''+req.params.prdname.replace(/-/g,' ')+'\';';
+            ' from product p where  name = \''+req.params.prdname.replace(/-/g,' ')+'\';';
 
         var con = req.db.driver.db;
         con.query(sql, function (err, rows) {
@@ -1745,108 +1778,220 @@ module.exports.product_detail = function(req, res){
 };
 
 module.exports.edit_product = function(req, res){
-    var date = new Date();
-    var month = date.getMonth() + 1;
-    month = (month < 10 ? "0" : "") + month;
-    var day  = date.getDate();
-    day = (day < 10 ? "0" : "") + day;
-    var year = date.getUTCFullYear();
-    var sql = 'select *, (select cat_name from category where cat_id = p.cat_id) as catflt,' +
-        '(select menh from thuoctinh where product_id  = p.product_id) as menh, '+
-        '(select tuoi from thuoctinh where product_id  = p.product_id) as tuoi, '+
-        '(select mau from thuoctinh where product_id  = p.product_id) as mau, '+
-        '(select sizefrom from thuoctinh where product_id  = p.product_id) as sizefrom, '+
-        '(select sizeto from thuoctinh where product_id  = p.product_id) as sizeto, '+
-        '(select disct_price from discount where product_id = p.product_id and effective_date <= '+year+''+month+day+' and '+year+''+month+''+day+'<=expired_date) as disct_price' +
-        ' from product p where name = \''+req.params.prdname.replace(/-/g,' ')+'\';';
+    if(req.session.type == 1){
+        var date = new Date();
+        var month = date.getMonth() + 1;
+        month = (month < 10 ? "0" : "") + month;
+        var day  = date.getDate();
+        day = (day < 10 ? "0" : "") + day;
+        var year = date.getUTCFullYear();
+        var sql = 'select *, (select cat_name from category where cat_id = p.cat_id) as catflt,' +
+            '(select menh from thuoctinh where product_id  = p.product_id) as menh, '+
+            '(select tuoi from thuoctinh where product_id  = p.product_id) as tuoi, '+
+            '(select mau from thuoctinh where product_id  = p.product_id) as mau, '+
+            '(select sizefrom from thuoctinh where product_id  = p.product_id) as sizefrom, '+
+            '(select sizeto from thuoctinh where product_id  = p.product_id) as sizeto, '+
+            '(select disct_price from discount where product_id = p.product_id and effective_date <= '+year+''+month+day+' and '+year+''+month+''+day+'<=expired_date) as disct_price' +
+            ' from product p where name = \''+req.params.prdname.replace(/-/g,' ')+'\';';
 
-    var con = req.db.driver.db;
-    con.query(sql, function (err, rows) {
-        if(err){
-            var data = {status: 'error', code: '300',error: err};
-            res.json(data);
-        }else{
-            var sql = 'select * from description where description_id ='+rows[0].description+';';
-            con.query(sql, function (err, row1s) {
-                if(!err){
+        var con = req.db.driver.db;
+        con.query(sql, function (err, rows) {
+            if(err){
+                var data = {status: 'error', code: '300',error: err};
+                res.json(data);
+            }else{
+                var sql = 'select * from description where description_id ='+rows[0].description+';';
+                con.query(sql, function (err, row1s) {
+                    if(!err){
 
-                    sql = 'select * from image where product_id  = '+rows[0].product_id+';';
-                    con.query(sql, function (err, row2s) {
-                        if(!err){
-                            var data = {status: 'success', code: '200'
-                                ,result:rows
-                                , description:row1s[0].description
-                                ,descriptionId:row1s[0].description_id
-                                ,image:row2s
-                                ,fname:req.session.firstname
-                                ,type:req.session.type
-                                ,userid:req.session.user_id
-                                ,catflt : req.params.catflt
-                                ,catId : row1s[0].cat_id
-                                ,treefolder:req.session.treefolder};
-                            res.render('product-edit',data);
-                        }
-                    });
+                        sql = 'select * from image where product_id  = '+rows[0].product_id+';';
+                        con.query(sql, function (err, row2s) {
+                            if(!err){
+                                var data = {status: 'success', code: '200'
+                                    ,result:rows
+                                    , description:row1s[0].description
+                                    ,descriptionId:row1s[0].description_id
+                                    ,image:row2s
+                                    ,fname:req.session.firstname
+                                    ,type:req.session.type
+                                    ,userid:req.session.user_id
+                                    ,catflt : req.params.catflt
+                                    ,catId : row1s[0].cat_id
+                                    ,treefolder:req.session.treefolder};
+                                res.render('product-edit',data);
+                            }
+                        });
 
-                }
-            });
+                    }
+                });
 
+            }
 
+        });
+    } else {
+        res.redirect('/')
+    }
 
-        }
-
-    });
 };
 
 module.exports.delete_product = function(req, res){
-    var sql = 'update product set validFlag = \'2\' where name = \'' + req.params.prdname.replace(/-/g,' ') + '\';';
-    var con = req.db.driver.db;
-    con.query(sql, function (err, rows) {
-        if(err){
-            var data = {status: 'error', code: '300',error: err};
-            res.json(data);
-        }else{
-            var data={status:"success", code:'400'};
-            res.redirect(req.get('referer'));
-        }
-    });
+    if(req.session.type == 1){
+        var sql = 'update product set validFlag = \'2\' where name = \'' + req.params.prdname.replace(/-/g,' ') + '\';';
+        var con = req.db.driver.db;
+        con.query(sql, function (err, rows) {
+            if(err){
+                var data = {status: 'error', code: '300',error: err};
+                res.json(data);
+            }else{
+                var data={status:"success", code:'400'};
+                res.redirect(req.get('referer'));
+            }
+        });
+    } else {
+        res.redirect('/');
+    }
+
+}
+module.exports.delete_size = function(req, res){
+    if(req.session.type == 1){
+        var sql = 'select *,(select cat_name from category where cat_id = p.cat_id) as cat_name from product p where name = (select name from product where product_id = '+req.params.id+') order by product_id asc;';
+        var con = req.db.driver.db;
+        con.query(sql, function (err, rows) {
+            if(err){
+                var data = {status: 'error', code: '300',error: err};
+                res.json(data);
+            }else{
+                var url = '/edit-product/'+rows[0].name.replace(/ /g,'-');
+                if(rows.length > 1){
+                    if(rows[0].product_id == req.params.id){
+                        var sql = 'update image set product_id = '+rows[1].product_id+';';
+                        con.query(sql);
+                        var sql = 'update thuoctinh set product_id = '+rows[1].product_id+';';
+                        con.query(sql);
+                    }
+                } else if (rows.length == 1) {
+                    var sql = 'delete from  image where  product_id = '+rows[0].product_id+';';
+                    con.query(sql);
+                    var sql = 'delete from  thuoctinh where  product_id = '+rows[0].product_id+';';
+                    con.query(sql);
+                    url = '/maintenance-prd/'+rows[0].cat_name.replace(/ /g,'-');
+                }
+                sql = 'delete from product where product_id = '+req.params.id+''
+                con.query(sql);
+                sql = 'delete from cart where product_id = '+req.params.id+' and payment_id = 0;';
+                con.query(sql);
+                var data={status:"success", code:'400'};
+                res.redirect(url);
+            }
+        });
+    } else {
+        res.redirect('/')
+    }
+
+}
+module.exports.erase_product = function(req, res){
+    if(req.session.type == 1){
+        var sql = 'select *,(select cat_name from category where cat_id = p.cat_id) as cat_name from product p where name = \''+req.params.prdname+'\' order by product_id asc;';
+        var con = req.db.driver.db;
+        con.query(sql, function (err, rows) {
+            if(err){
+                var data = {status: 'error', code: '300',error: err};
+                res.json(data);
+            }else{
+                for(var i = 0; i < rows.length ; i++){
+                    var sql = 'delete from  image where  product_id = '+rows[0].product_id+';';
+                    con.query(sql);
+                    var sql = 'delete from  thuoctinh where  product_id = '+rows[0].product_id+';';
+                    con.query(sql);
+                    sql = 'delete from product where product_id = '+rows[0].product_id+''
+                    con.query(sql);
+                    sql = 'delete from cart where product_id = '+rows[0].product_id+' and payment_id = 0;';
+                    con.query(sql);
+                }
+                res.redirect('/maintenance-prd/'+rows[0].cat_name.replace(/ /g,'-'));
+            }
+        });
+    } else {
+        res.redirect('/')
+    }
+
+}
+
+module.exports.delete_cat = function(req, res){
+    if(req.session.type == 1){
+        var sql = 'select *,(select cat_name from category where cat_id = p.cat_id) as cat_name from product p where cat_id = (select cat_id from category where cat_name = \''+req.params.name+'\') order by product_id asc;';
+        var con = req.db.driver.db;
+        con.query(sql, function (err, rows) {
+            if(err){
+                var data = {status: 'error', code: '300',error: err};
+                res.json(data);
+            }else{
+                for(var i = 0; i < rows.length ; i++){
+                    var sql = 'delete from  image where  product_id = '+rows[i].product_id+';';
+                    con.query(sql);
+                    var sql = 'delete from  thuoctinh where  product_id = '+rows[i].product_id+';';
+                    con.query(sql);
+                    sql = 'delete from product where product_id = '+rows[i].product_id+''
+                    con.query(sql);
+                    sql = 'delete from cart where product_id = '+rows[i].product_id+' and payment_id = 0;';
+                    con.query(sql);
+                }
+                sql = 'delete from category where cat_name = \''+req.params.name+'\';';
+                con.query(sql);
+                res.redirect('maintenance-cat');
+            }
+        });
+    } else {
+        res.redirect('/')
+    }
+
 }
 module.exports.show_product = function(req, res){
-    var sql = 'update product set validFlag = \'1\' where name = \'' + req.params.prdname.replace(/-/g,' ') + '\';';
-    var con = req.db.driver.db;
-    con.query(sql, function (err, rows) {
-        if(err){
-            var data = {status: 'error', code: '300',error: err};
-            res.json(data);
-        }else{
-            var data={status:"success", code:'400'};
-            res.redirect(req.get('referer'));
-        }
-    });
+    if(req.session.type == 1){
+        var sql = 'update product set validFlag = \'1\' where name = \'' + req.params.prdname.replace(/-/g,' ') + '\';';
+        var con = req.db.driver.db;
+        con.query(sql, function (err, rows) {
+            if(err){
+                var data = {status: 'error', code: '300',error: err};
+                res.json(data);
+            }else{
+                var data={status:"success", code:'400'};
+                res.redirect(req.get('referer'));
+            }
+        });
+    } else {
+        res.redirect('/');
+    }
+
 }
 module.exports.create_prd=function(req,res){
-    var sql = '';
+    if(req.session.type == 1){
+        var sql = '';
 
         sql = 'select cat_id,cat_name from category where cat_name = \''+req.query.cat+'\';'
 
-    var con = req.db.driver.db;
-    con.query(sql, function (err, rows) {
-        if(err){
-            var data = {status: 'error', code: '300',error: err};
-            res.json(data);
-        }else{
-            var data={title:req.session.firstname+' | Product Creation',
-                fname:req.session.firstname,
-                dateFormat:dateFormat,
-                pic:req.session.pic,
-                type:req.session.type,
-                catflt : req.query.cat,
-                catId:rows[0].cat_id,
-                treefolder:req.session.treefolder}
-            res.render('product-creation',data);
-        }
+        var con = req.db.driver.db;
+        con.query(sql, function (err, rows) {
+            if(err){
+                var data = {status: 'error', code: '300',error: err};
+                res.json(data);
+            }else{
+                var data={title:req.session.firstname+' | Product Creation',
+                    fname:req.session.firstname,
+                    dateFormat:dateFormat,
+                    pic:req.session.pic,
+                    type:req.session.type,
+                    catflt : req.query.cat,
+                    catId:rows[0].cat_id,
+                    treefolder:req.session.treefolder}
+                res.render('product-creation',data);
+            }
 
-    });
+        });
+    } else {
+        res.redirect('/');
+    }
+
 
 
 
@@ -2162,7 +2307,12 @@ module.exports.add_promote=function(req,res){
     var i = 0;
 
         var oldpath = req.files.newImg.path;
+
+    if(__dirname.split('/').length <= 1){
+        var newpath = __dirname.replace(__dirname.split('\\')[__dirname.split('\\').length-1],'public\\assets\\img\\'+oldpath.split("\\")[ oldpath.split("\\").length-1]);
+    }else{
         var newpath = __dirname.replace(__dirname.split('/')[__dirname.split('/').length-1],'public/assets/img/'+oldpath.split("/")[ oldpath.split("/").length-1]);
+    }
     console.log(__dirname);
     console.log(oldpath);
     console.log(newpath);
@@ -2196,7 +2346,7 @@ module.exports.add_promote=function(req,res){
         description:input.description,
         effective_date:input.effdate.replace(/-/g,''),
         expired_date:input.expiredDate.replace(/-/g,''),
-        image:req.files.newImg.path.split('/')[req.files.newImg.path.split('/').length-1],
+        image:req.files.newImg.path.split('/').length<=1?req.files.newImg.path.split('\\')[req.files.newImg.path.split('\\').length-1]:req.files.newImg.path.split('/')[req.files.newImg.path.split('/').length-1],
         user_id:0,
         seen_flag:'N'
     };
@@ -2222,25 +2372,42 @@ module.exports.add_promote=function(req,res){
     }
 }
 module.exports.edit_promote=function(req,res){
-    var sql = 'select promotion_id,title,description,image,' +
-        '(select concat(SUBSTRING(p.effective_date, 7, 2),\'/\',SUBSTRING(p.effective_date, 5, 2),\'/\',SUBSTRING(p.effective_date, 1, 4))) as effective_date,' +
-        '(select concat(SUBSTRING(p.expired_date, 7, 2),\'/\',SUBSTRING(p.expired_date, 5, 2),\'/\',SUBSTRING(p.expired_date, 1, 4))) as expired_date' +
-        ' from promotion p where title = \''+req.params.promote_id.replace(/-/g,' ')+'\';'
-    var con = req.db.driver.db;
-    var data;
-    con.query(sql, function (err, rows) {
-        if (err) {
-             data = {status: 'error', code: '300', error: err};
-            res.render('promote-edit', data);
+    if(req.session.type == 1){
+        var sql = 'select promotion_id,title,description,image,' +
+            '(select concat(SUBSTRING(p.effective_date, 7, 2),\'/\',SUBSTRING(p.effective_date, 5, 2),\'/\',SUBSTRING(p.effective_date, 1, 4))) as effective_date,' +
+            '(select concat(SUBSTRING(p.expired_date, 7, 2),\'/\',SUBSTRING(p.expired_date, 5, 2),\'/\',SUBSTRING(p.expired_date, 1, 4))) as expired_date' +
+            ' from promotion p where title = \''+req.params.promote_id.replace(/-/g,' ')+'\';'
+        var con = req.db.driver.db;
+        var data;
+        con.query(sql, function (err, rows) {
+            if (err) {
+                data = {status: 'error', code: '300', error: err};
+                res.render('promote-edit', data);
 
-        }
-        else {
-             data = {result: rows,fname:req.session.firstname,dateFormat:dateFormat,pic:req.session.pic,type:req.session.type,treefolder:req.session.treefolder};
-            res.render('promote-edit', data);
-        }
+            }
+            else {
+                data = {result: rows,fname:req.session.firstname,dateFormat:dateFormat,pic:req.session.pic,type:req.session.type,treefolder:req.session.treefolder};
+                res.render('promote-edit', data);
+            }
 
 
-    });
+        });
+    } else {
+       res.redirect('/');
+    }
+
+}
+module.exports.delete_promote=function(req,res){
+    if(req.session.type == 1){
+        var sql = 'delete ' +
+            ' from promotion where title = \''+req.params.promote_id.replace(/-/g,' ')+'\';'
+        var con = req.db.driver.db;
+        var data;
+        con.query(sql);
+        res.redirect('/promotions');
+    } else {
+        res.redirect('/');
+    }
 }
 module.exports.update_promote=function(req,res){
     var input=JSON.parse(JSON.stringify(req.body));
@@ -2481,6 +2648,7 @@ module.exports.checkout = function(req, res){
                 });
             } else{
                 if( req.cookies.cart != undefined){
+                    var count =0;
                     for(var i = 0 ; i < req.cookies.cart.id.split(',').length ; i++){
                         var sql = 'select \n' +
                             '(select name from product where c.product_id = product_id ) as name,\n' +
@@ -2511,9 +2679,12 @@ module.exports.checkout = function(req, res){
                                 var data = {status: 'error', code: '300',error: err};
                                 res.json(data);
                             }else{
-                                array.push(rows[0]);
-                                totalAll += parseFloat(rows[0].sums.replace(/,/g , ''));
-                                if(array.length == req.cookies.cart.id.split(',').length) {
+                                if(rows.length > 0){
+                                    array.push(rows[0]);
+                                    totalAll += parseFloat(rows[0].sums.replace(/,/g , ''));
+                                }
+                                count++;
+                                if(count == req.cookies.cart.id.split(',').length) {
                                     sql = 'select * from lhc.settingshop';
                                     con.query(sql, function (err, row1setting){
                                         var data = {
