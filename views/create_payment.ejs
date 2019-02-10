@@ -66,7 +66,57 @@
         </div>
         <button class="btn btn-success" id="insertBtn" onclick="insert()">+</button>
 
+        <div class="row" style="padding-left: 20px;">
+            <div class="col-md-6">
+                <h4>Phí vận chuyển</h4>
+                <div class="row" >
+                    <div class="col-sm-8">
 
+                        <%if(type == 1){%>
+                        <input class="form-control" id = 'shipfee' value = '' >
+                        <%} else {%>
+                        <input class="form-control" id = 'shipfee' value = '' disabled>
+                        <%}%>
+
+                    </div>
+                    <%if(type == 1){%>
+                    <div class="col-sm-4">
+                        <button class=" btn btn-success" onclick="ChangeShipFee()">Áp dụng</button>
+                    </div>
+                    <%}%>
+                </div>
+                <br>
+                <h4>Voucher</h4>
+                <div class="row"  >
+                    <div class="col-sm-8 ">
+                        <%if(type == 1){%>
+                        <input type="text" class="form-control"  id="voucher" placeholder="Mã giảm giá" value = '' >
+                        <%} else {%>
+                        <input type="text" class="form-control"  id="voucher" placeholder="Mã giảm giá" value = '' disabled>
+                        <%}%>
+
+                    </div>
+                    <%if(type == 1){%>
+                    <div class="col-sm-4">
+                        <button class=" btn btn-success" onclick="CheckVoucher()">Áp dụng</button>
+                    </div>
+                    <%}%>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row" style="padding-left: 20px;">
+                    <div class="col-xs-4 col-md-4">
+                        <h4>Ghi chú</h4>
+                    </div>
+                </div>
+                <div class="row" >
+                    <div>
+                        <textarea class="form-control" style="width: 90%; height: 200%;" id="note" name="note"></textarea>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
 
     </div>
     <input id="prd-id" style="display: none" value=''>
@@ -129,15 +179,14 @@
 
 
         <h4>Tên: </h4><input id="name">
-        <h4>Email: </h4><input id="email">
         <h4>Số điện thoại: </h4><input id="phone" onkeyup="CheckPhone()"> <label id = 'fs'> </label>
 
         <h4>Địa Chỉ: </h4><input id="address">
 
-        <h4>Voucher: </h4><input id="voucher" onkeyup="CheckVoucher()">
-        <h4>Phí vận chuyển</h4>
-        <h3>Tổng cộng: </h3>
-        <h2 id="totalLabel" class="font-custom currency"></h2>
+        <h3>Tổng giá sản phẩm: </h3>
+        <h2 id="totalLabel" class="fa-money currency">0</h2>
+        <h3>Tổng giá đơn hàng: </h3>
+        <h2 id="totalship" class="fa-money currency">0</h2>
     </div>
     <div class="row">
         <button class="btn btn-info col-sm-2" type="button" onclick="Add()">
@@ -310,7 +359,9 @@
                             if (document.getElementsByClassName('error').length == 0) {
                                 formdata.append('voucher', $("#voucher").val());
                             }
-
+                            formdata.append('shipfee', $("#shipfee").val());
+                            formdata.append('note', $("#note").val());
+                            formdata.append('address', $("#address").val());
                             $.ajax({
                                 url: '/PetMart/add-to-payment',
                                 type: 'POST',
@@ -336,7 +387,7 @@
     var total = 0;
     function Calc(idx){
         var obj = $("#amount"+idx);
-        if(obj.val() != '0' || obj.val().trim() != ''){
+        if(obj.val() != '0' && obj.val().trim() != ''){
             $("#sum"+idx).html(''+(parseInt(obj.val())*parseInt($("#price"+idx).val())))
             total += parseInt($("#sum"+idx).html());
             $("#totalLabel").html(''+total);
@@ -380,21 +431,43 @@
         index++;
         $(element).insertBefore($('#rowInsertBtn'));
     }
+    function ChangeShipFee(){
+        var result = parseFloat(document.getElementById('totalLabel').innerHTML);
+        if(document.getElementById('totalLabel').childNodes[0].localName == 'label'){
+            result  = parseFloat(document.getElementById('total-after-promote').innerHTML.replace('-&gt;',''));
+            document.getElementById('totalship').innerHTML = parseFloat(document.getElementById("shipfee").value) + result;
+        } else {
+            document.getElementById('totalship').innerHTML = parseFloat(document.getElementById("shipfee").value) + result;
+        }
+    }
     function CheckVoucher() {
         var obj = $("#voucher");
         $(".error").remove();
         $.ajax({
             type: "POST",
-            url: "./PetMart/get-voucher",
-            data: "mode=check_email&voucher=" + obj.val() + "&total="+total,
+            url: "/../PetMart/get-voucher",
+            data: "mode=check_email&voucher=" + obj.val() + "&total="+$("#totalLabel").val(),
             success: function (msg) {
                 //alert(msg);
                 data = msg;
                 if (data.code == '404') {
-                    obj.after("<label class='error'>Voucher Hết Hạn Hoặc Không Tồn Tại</label>");
+                    obj.after("<label class='error'>Voucher chưa hợp lệ, hoặc giá trị đơn hàng chưa đủ để hưởng khuyến mãi này!</label>");
+                    document.getElementById("totalLabel").innerHTML = $("#totalLabel").val();
+                    document.getElementById('totalship').innerHTML =$("#totalLabel").val();
+                    document.getElementById("shipfee").value = '0';
+                    var result = parseFloat($("#totalLabel").val());
+                    if(result < parseFloat('<%=setting[0].freeShip%>')){
+                        document.getElementById("shipfee").value = '<%=setting[0].defaultShip%>';
+                        document.getElementById('totalship').innerHTML = parseFloat(document.getElementById("shipfee").value) + result
+                    }
                 }
                 else {
-                    document.getElementById("totalLabel").innerHTML = "<label style='text-decoration: line-through'><font color='black'> "+total+"</font></lable><label><font color='red'> -> " + data.totalAfter + "</lable>";
+                    var result = parseFloat($("#totalLabel").val()) - parseFloat(data.totalAfter);
+                    if(result < parseFloat('<%=setting[0].freeShip%>')){
+                        document.getElementById("shipfee").value = '<%=setting[0].defaultShip%>';
+                        document.getElementById('totalship').innerHTML = parseFloat(document.getElementById("shipfee").value) + result
+                    }
+                    document.getElementById("totalLabel").innerHTML = "<label style='text-decoration: line-through'><font color='black'> "+$("#totalLabel").val()+"</font></lable><label><font color='red' id = 'total-after-promote'> -> " + result + "</lable>";
                 }
             }
         });
