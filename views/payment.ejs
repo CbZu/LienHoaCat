@@ -325,9 +325,9 @@
         <div class="col-xs-4 col-md-4 solid-content">
             <h2>Thông tin đơn hàng</h2>
             <% if(userdetail != undefined){ %>
-            <h3>Tên: <%= userdetail[0].firstname %> <%= userdetail[0].lastname %></h3>
-            <h3>Số điện thoại: <%= userdetail[0].phone %></h3>
-            <h3>Địa Chỉ: </h3><input class="form-control" id="address" value="<%= userdetail[0].address %>">
+            <h3>Tên: </h3><input class="form-control" id="name" value="<%= userdetail[0].firstname %>" disabled>
+            <h3>Số điện thoại: </h3><input class="form-control" id="phone" onkeyup="CheckPhone()" value="<%= userdetail[0].phone %>" disabled>
+            <h3>Địa Chỉ: </h3><input class="form-control" id="address" value="<%= userdetail[0].address.trim() %>">
             <h3 style="display: none">Email: <%= userdetail[0].email %></h3>
             <% } else { %>
             <h3>Tên: </h3><input class="form-control" id="name">
@@ -543,6 +543,8 @@
                             formdata.append('shipfee', $("#shipfee").val());
                             formdata.append('note', $("#note").val());
                             formdata.append('address', $("#address").val());
+                            formdata.append('name', $("#name").val());
+                            formdata.append('phone', $("#phone").val());
                             $.ajax({
                                 url: '/../PetMart/add-to-payment',
                                 type: 'POST',
@@ -629,7 +631,7 @@
                         url: "/../ajax/add-to-payment-now",
                         type: 'POST',
                         dataType : 'JSON',
-                        data: JSON.stringify({size_id:sizes,quantity:quantities,userId:response.user_id,ship:$("#ship").val(),type:$("#type").val(),shipfee:$("#shipfee").val(),voucher:$("#voucher").val(),note:$("#note").val(),total:'<%=totalAll%>',address: $("#address").val()}),
+                        data: JSON.stringify({size_id:sizes,quantity:quantities,userId:response.user_id,ship:$("#ship").val(),type:$("#type").val(),shipfee:$("#shipfee").val(),voucher:$("#voucher").val(),note:$("#note").val(),total:'<%=totalAll%>',address: $("#address").val(),name: $("#name").val(),phone: $("#phone").val()}),
                         async: false,
                         cache: false,
                         contentType: 'application/json; charset=UTF-8',
@@ -662,14 +664,7 @@
             $("#address").after("<label class='error' style='color: red'>Xin mời nhập địa chỉ</label>")
             flagcheck = 'Y';
         }
-        if($("#ship").val().trim() == '0'){
-            alert("Xin mời nhập hình thức giao hàng");
-            flagcheck = 'Y';
-        }
-        if($("#type").val().trim() == '0'){
-            alert("Xin mời nhập hình thức thanh toán");
-            flagcheck = 'Y';
-        }
+
         <%}%>
         if(flagcheck == 'Y'){
             return;
@@ -695,6 +690,8 @@
             formdata.append('shipfee', $("#shipfee").val());
             formdata.append('address', $("#address").val());
             formdata.append('note', $("#note").val());
+            formdata.append('name', $("#name").val());
+            formdata.append('phone', $("#phone").val());
             $.ajax({
                 url: '/../PetMart/add-to-payment',
                 type: 'POST',
@@ -726,7 +723,7 @@
                 url: "/../ajax/add-to-payment-now",
                 type: 'POST',
                 dataType : 'JSON',
-                data: JSON.stringify({size_id:sizes,quantity:quantities,userId:'<%=userdetail[0].user_id%>',ship:ship,type:type,shipfee:$("#shipfee").val(),voucher:$("#voucher").val(),note: $("#note").val(),address: $("#address").val()}),
+                data: JSON.stringify({size_id:sizes,quantity:quantities,userId:'<%=userdetail[0].user_id%>',ship:ship,type:type,shipfee:$("#shipfee").val(),voucher:$("#voucher").val(),note: $("#note").val(),address: $("#address").val(),name: $("#name").val(),phone: $("#phone").val()}),
                 async: false,
                 cache: false,
                 contentType: 'application/json; charset=UTF-8',

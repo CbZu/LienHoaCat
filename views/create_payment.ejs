@@ -362,6 +362,8 @@
                             formdata.append('shipfee', $("#shipfee").val());
                             formdata.append('note', $("#note").val());
                             formdata.append('address', $("#address").val());
+                            formdata.append('name', $("#name").val());
+                            formdata.append('phone', $("#phone").val());
                             $.ajax({
                                 url: '/PetMart/add-to-payment',
                                 type: 'POST',

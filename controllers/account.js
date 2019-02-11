@@ -643,6 +643,9 @@ module.exports.save_account = function(req, res){
             var sql ='delete from places'+
                 ' where user_id = '+req.params.id+' ;';
             con.query(sql)
+            var sql ='delete from cart'+
+                ' where user_id = '+req.params.id+' and payment_id = 0;';
+            con.query(sql)
             res.redirect('/maintenance')
 
         } else {

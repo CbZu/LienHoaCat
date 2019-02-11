@@ -944,9 +944,9 @@ module.exports.add_to_payment = function(req, res){
                 var sqlIns = 'INSERT INTO `lhc`.`payment`\n' +
                     '(`user_id`,\n' +
                     '`sum`,\n' +
-                    '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`,`ship`,`voucher`,`shipfee`,`note`,`address`)\n';
+                    '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`,`ship`,`voucher`,`shipfee`,`note`,`address`,`name`,`phone`)\n';
                 sqlIns +='VALUES ('+user+','+Sum+',0,'+parseInt(year+''+month+''+day)+',\''+newtitle+'\',\''+input.type+'\','+promotion+','+totalAfterPromot+',\'N\',\''+input.ship+'\'' +
-                    ',\''+input.voucher+'\','+input.shipfee+',\''+input.note+'\',\''+input.address+'\')';
+                    ',\''+input.voucher+'\','+input.shipfee+',\''+input.note+'\',\''+input.address+'\',\''+input.name+'\',\''+input.phone+'\')';
                 con.query(sqlIns, function (err, row1s) {
                     if(err){
                         var data = {status: 'error', code: '300',error: err};
@@ -1653,7 +1653,7 @@ module.exports.payment_detail = function(req, res){
                     var data = {status: 'error', code: '300', error: err};
                     res.json(data);
                 } else {
-                    sql = 'select firstname,lastname,phone,email,(select address from payment where payment_id = '+ req.query.id+')as address from user where user_id = ' + user + ';';
+                    sql = 'select name as firstname, phone, address from payment where payment_id = '+req.query.id+';';
                     var con = req.db.driver.db;
                     con.query(sql, function (err, row1s) {
                         var totalAll = 0;
@@ -2514,8 +2514,8 @@ module.exports.show_payment=function(req,res){
     if((req.session.user_id != undefined)){
         var sql = '';
         var sql = 'select p.payment_id,title,pay_type,p.user_id,\n' +
-            '(select firstname from user where user_id = p.user_id) as name,\n' +
-            '(select phone from user where user_id = p.user_id) as phone,\n' +
+            'p.name,\n' +
+            'p.phone,\n' +
             '(select COUNT(product_id) from cart where payment_id = p.payment_id) as products,\n' +
             'p.status_id,\n' +
             'p.promotion,\n' +

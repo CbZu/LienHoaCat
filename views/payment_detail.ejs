@@ -53,7 +53,7 @@
                 <thead>
                 <th class="text-right" style="text-align: center;"><h4>Mã sản phẩm</h4></th>
                 <th class="text-right" style="text-align: center;"><h4>Tên sản phẩm</h4></th>
-                <th class="text-right" style="text-align: center;"><h4>Size</h4></th>
+                <th class="text-right" style="text-align: center;"><h4>Phân Loại</h4></th>
                 <th class="text-right" style="text-align: center;"><h4>Giá sản phẩm</h4></th>
                 <th class="text-right" style="text-align: center;"><h4>Số Lượng</h4></th>
                 <th class="text-right" style="text-align: center;"><h4>Thành Tiền</h4></th>
@@ -362,7 +362,10 @@
         <%if(result[0].ship != 0) {%>
         document.getElementById("ship<%=result[0].ship%>").style.display = 'block'
         <%}%>
+        <%if(result[0].pay_type != 0) {%>
         document.getElementById("type<%=result[0].pay_type%>").style.display = 'block'
+        <%}%>
+
 
     <%}%>
      <% if(type == '1'){%>
@@ -444,7 +447,8 @@
         if(document.getElementsByClassName('error').length == 0){
             formdata.append('voucher', $("#voucher").val());
         }
-
+        formdata.append('name', $("#name").val());
+        formdata.append('phone', $("#phone").val());
         $.ajax({
             url: './PetMart/add-to-payment',
             type: 'POST',

@@ -874,10 +874,10 @@ exports.add_to_payment_now=function(req,res){
                 var sqlIns = 'INSERT INTO `lhc`.`payment`\n' +
                 '(`user_id`,\n' +
                 '`sum`,\n' +
-                '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`,`ship`,`voucher`,`shipfee`,`note`,`address`)\n';
+                '`status_id`,`create_time`,`title`,`pay_type`,`promotion`,`total`,`seen_flag`,`ship`,`voucher`,`shipfee`,`note`,`address`,`name`,`phone`)\n';
 
                 sqlIns += ' VALUES ('+user+','+Sum+',0,'+parseInt(year+''+month+''+day)+',\''+newtitle+'\',\''+input.type+'\','+promotion+','+totalAfterPromot+',\'N\'' +
-                    ',\''+input.ship+'\',\''+input.voucher+'\','+input.shipfee+',\''+input.note+'\',\''+input.address+'\')';
+                    ',\''+input.ship+'\',\''+input.voucher+'\','+input.shipfee+',\''+input.note+'\',\''+input.address+'\',\''+input.name+'\',\''+input.phone+'\')';
                 con.query(sqlIns, function (err, row1s) {
                     if(err){
                         var data = {status: 'error', code: '300',error: err};
