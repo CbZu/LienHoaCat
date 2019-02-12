@@ -2573,6 +2573,9 @@ module.exports.show_payment=function(req,res){
         var sql = 'select p.payment_id,title,pay_type,p.user_id,\n' +
             'p.name,\n' +
             'p.phone,\n' +
+            '(select count(payment_id) from payment where user_id = p.user_id and status_id in (4,5,6)) as fail ,'+
+            '(select count(payment_id) from payment where user_id = p.user_id) as success ,'+
+            '(select checked from user where user_id = p.user_id) as checked , ' +
             '(select COUNT(product_id) from cart where payment_id = p.payment_id) as products,\n' +
             'p.status_id,\n' +
             'p.promotion,\n' +

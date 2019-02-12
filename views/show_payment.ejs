@@ -133,7 +133,7 @@
                 <tr>
                     <td class="text-right">
                         <a class="booking-item" href="/payment-detail?id=<%= payments[i].payment_id%>&user=<%=payments[i].user_id%>">
-                           <h3> <%= payments[i].name +  ' (' + payments[i].phone + ')'%> </h3>
+                           <h3> <%= payments[i].name +  ' (' + payments[i].phone + '). ' %><font color="red"> <%=payments[i].fail + '/' + payments[i].success%></font> </h3>
                         </a>
                     </td>
                     <td class="text-center">
