@@ -245,7 +245,7 @@
                                 <div  class="col-xs-2 col-md-2"><input class="form-control oldCode" id = "Code<%=result[i].product_id%>" onkeyup=CheckCode("<%=result[i].product_id%>")  value = "<%=result[i].code%>">
 
                                    </div>
-                                <div  class="col-xs-1 col-md-1"><a class="glyphicon glyphicon-remove" href="/deleteSize/<%=result[i].product_id %>"></a>
+                                <div  class="col-xs-1 col-md-1"><button class="glyphicon glyphicon-remove" onclick="deleteSize(<%=result[i].product_id %>)"></button>
 
                                 </div>
                             </div><br>
@@ -702,22 +702,16 @@
             enctype: 'multipart/form-data',
             processData: false,
             success: function (response) {
-                /*$.ajax({
+                $.ajax({
                     type: "POST",
-                    url: "./PetMart/remove",
+                    url: "../PetMart/remove",
                     data: "path=" + response.path,
                     success: function (msg) {
-                        //alert(msg);
-                        data = msg;
-
-                        location.reload();
-
+                        alert('Cập nhật thành công');
+                        window.location.href="/edit-product/"+name.replace(/ /g,'-');
                     }
-                });*/
+                });
 
-                /*location.reload();*/
-                alert('Cập nhật thành công');
-                window.location.href="/edit-product/"+name.replace(/ /g,'-');
             }
         });
 
@@ -914,7 +908,23 @@
         }
 
     }
-
+function deleteSize(idx){
+    $.ajax({
+        type: "GET",
+        url: "../deleteSize/"+idx,
+        data: "" ,
+        success: function (msg) {
+            //alert(msg);
+            data = msg;
+            if (data.code == '500') {
+               window.location.reload();
+            }
+            else {
+              location.href = "/maintenance-prd/<%=result[0].catflt.replace(/ /g,'-')%>";
+            }
+        }
+    });
+}
 </script>
 <!-- image slide -->
 <script>

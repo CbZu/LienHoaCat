@@ -389,6 +389,84 @@ exports.updateProduct=function(req,res){
         ' where product_id = ' +  input.OldIds.split(",")[0] +';'
     con.query(sql);
 
+    var formidable = require('formidable');
+    var form = new formidable.IncomingForm({
+        keepExtensions: true
+    });
+
+    form.parse(req);
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    var year = date.getUTCFullYear();
+    var prdId = '';
+    var avas = '';
+    var path = '';
+    if(__dirname.split('\\').length > 1){
+        if(req.files.upfiles.length == undefined){
+            path = req.files.upfiles.path;
+            avas = req.files.upfiles.path.split("\\")[ req.files.upfiles.path.split("\\").length-1];
+        } else{
+            for(j = 0 ; j < req.files.upfiles.length ; j++){
+                if(path == ''){
+                    path = req.files.upfiles[j].path;
+                    avas = req.files.upfiles[j].path.split("\\")[ req.files.upfiles[j].path.split("\\").length-1];
+                }else{
+                    path += ';' +  req.files.upfiles[j].path;
+                    avas += ';' +  req.files.upfiles[j].path.split("\\")[ req.files.upfiles[j].path.split("\\").length-1];
+                }
+            }
+        }
+    }else{
+        if(req.files.upfiles.length == undefined){
+            path = req.files.upfiles.path;
+            avas = req.files.upfiles.path.split("/")[ req.files.upfiles.path.split("/").length-1];
+        } else{
+            for(j = 0 ; j < req.files.upfiles.length ; j++){
+                if(path == ''){
+                    path = req.files.upfiles[j].path;
+                    avas = req.files.upfiles[j].path.split("/")[ req.files.upfiles[j].path.split("/").length-1];
+                }else{
+                    path += ';' +  req.files.upfiles[j].path;
+                    avas += ';' +  req.files.upfiles[j].path.split("/")[ req.files.upfiles[j].path.split("/").length-1];
+                }
+            }
+        }
+    }
+    if(path.trim()!=''){
+        sql = 'delete from image where product_id = '+input.OldIds.split(",")[0];
+        con.query(sql);
+        if(avas.split(";").length >9){
+            var newAvas = '';
+            for(var k = 0 ; k < avas.split(";").length ; k++){
+
+                newAvas += avas.split(";")[k]+';';
+                if((k%8==0 || k == avas.split(";").length-1) && (k!=0)){
+                    sql = 'INSERT INTO `lhc`.`image`\n' +
+                        '(`product_id`,\n' +
+                        '`url`,\n' +
+                        '`type`)\n' +
+                        'VALUES\n' +
+                        '('+input.OldIds.split(",")[0]+',\n' +
+                        '\''+newAvas.toString().substring(0,newAvas.length-1)+'\',\n' +
+                        '\'1\');\n';
+                    con.query(sql);
+                    newAvas = '';
+                }
+            }
+
+
+        } else {
+            sql = 'INSERT INTO `lhc`.`image`\n' +
+                '(`product_id`,\n' +
+                '`url`,\n' +
+                '`type`)\n' +
+                'VALUES\n' +
+                '('+input.OldIds.split(",")[0]+',\n' +
+                '\''+avas+'\',\n' +
+                '\'1\');\n';
+            con.query(sql);
+        }
+    }
 
     sql = 'select description from product ' +
         ' where product_id = '+input.OldIds.split(",")[0]+' ;';
@@ -402,7 +480,7 @@ exports.updateProduct=function(req,res){
         }
     });
 
-    data={status:'success',code:'400'};
+    data={status:'success',code:'400',path:path};
     res.json(data)
 };
 exports.updateProductImage=function(req,res){
@@ -497,7 +575,7 @@ exports.addProduct=function(req,res){
     var year = date.getUTCFullYear();
     var prdId = '';
     var avas = '';
-        var path = '';
+    var path = '';
     if(__dirname.split('\\').length > 1){
         if(req.files.upfiles.length == undefined){
             path = req.files.upfiles.path;
@@ -611,15 +689,43 @@ exports.addProduct=function(req,res){
 
                                             var sql = 'update image set product_id = '+row1s.product_id+' where product_id = 0 ;';
                                             con.query(sql);
-                                            sql = 'INSERT INTO `lhc`.`image`\n' +
-                                                '(`product_id`,\n' +
-                                                '`url`,\n' +
-                                                '`type`)\n' +
-                                                'VALUES\n' +
-                                                '('+row1s.product_id+',\n' +
-                                                '\''+avas+'\',\n' +
-                                                '\'1\');\n';
-                                            con.query(sql);
+                                            var splitImg = new Array();
+
+                                            if(avas.split(";").length >9){
+                                                var newAvas = '';
+                                                for(var k = 0 ; k < avas.split(";").length ; k++){
+
+                                                    newAvas += avas.split(";")[k]+';';
+                                                    if((k%8==0 || k == avas.split(";").length-1) && (k!=0)){
+                                                       /* splitImg.push(newAvas.toString().substring(0,newAvas.length-1));
+                                                        newAvas = '';
+*/
+                                                        sql = 'INSERT INTO `lhc`.`image`\n' +
+                                                            '(`product_id`,\n' +
+                                                            '`url`,\n' +
+                                                            '`type`)\n' +
+                                                            'VALUES\n' +
+                                                            '('+row1s.product_id+',\n' +
+                                                            '\''+newAvas.toString().substring(0,newAvas.length-1)+'\',\n' +
+                                                            '\'1\');\n';
+                                                        con.query(sql);
+                                                        newAvas = '';
+                                                    }
+                                                }
+
+
+                                            } else {
+                                                sql = 'INSERT INTO `lhc`.`image`\n' +
+                                                    '(`product_id`,\n' +
+                                                    '`url`,\n' +
+                                                    '`type`)\n' +
+                                                    'VALUES\n' +
+                                                    '('+row1s.product_id+',\n' +
+                                                    '\''+avas+'\',\n' +
+                                                    '\'1\');\n';
+                                                con.query(sql);
+                                            }
+
                                             sql = 'INSERT INTO `lhc`.`thuoctinh`\n' +
                                                 '(`product_id`,\n' +
                                                 '`mau`,\n' +

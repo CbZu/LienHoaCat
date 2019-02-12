@@ -1,0 +1,10 @@
+delete from product;
+delete from payment;
+delete from cart;
+delete from promotion;
+delete from description;
+delete from cart;
+delete from image;
+delete from discount;
+delete from voucher;
+delete from thuoctinh;

@@ -21,19 +21,21 @@
                      style="position: absolute; background-color: #69d9f9;  z-index: 5;">
                     <h4 style="color: white;">FREESHIP</h4>
                 </div>
-                <% for(j = 0;j < image[0].url.split(";").length;j++){ %>
-                <div class="Slide-product">
-                    <img onclick="zoomImg()" class="list-image img-responsive fade center-block"
-                         src="/assets/img/<%= image[0].url.split(";")[j] %>" alt="">
-                </div>
-                <% } %>
-                <div style="position: relative;">
-                    <% for(j = 0;j < image[0].url.split(";").length;j++){ %>
-                    <div class="" style="float: left; width: 25%;">
-                        <img onclick="currentSlide(<%= j+1 %>)" class="img-responsive cursor item-product-detail"
-                             src="/assets/img/<%= image[0].url.split(";")[j] %>" alt="image">
+                <%for(i = 0;i < image.length;i++){%>
+                    <% for(j = 0;j < image[i].url.split(";").length;j++){ %>
+                    <div class="Slide-product">
+                        <img onclick="zoomImg()" class="list-image img-responsive fade center-block"
+                             src="/assets/img/<%= image[i].url.split(";")[j] %>" alt="">
                     </div>
-                    <% } %>
+                    <% } }%>
+                <div style="position: relative;overflow-x: scroll;overflow-y:hidden;height: 150px" class = "scrollmenu">
+                    <%for(i = 0;i < image.length;i++){%>
+                    <% for(j = 0;j < image[i].url.split(";").length;j++){ %>
+                    <div style="; width: 25%;height: 150px">
+                        <img onclick="currentSlide(<%= j+1 %>)" class="img-responsive cursor item-product-detail"
+                             src="/assets/img/<%= image[i].url.split(";")[j] %>" alt="image">
+                    </div>
+                    <% }} %>
                     <a class="prev" onclick="plusSlides(-1)">❮</a>
                     <a class="next" onclick="plusSlides(1)">❯</a>
                 </div>
@@ -474,8 +476,27 @@
     }
 
 </script>
+<style>
+    div.scrollmenu {
+        background-color: white;
+        overflow: auto;
+        white-space: nowrap;
+    }
 
+    div.scrollmenu div {
+        display: inline-block;
+        color: white;
+        text-align: center;
+        padding: 5px;
+        text-decoration: none;
+    }
+
+    div.scrollmenu a:hover {
+        background-color: white;
+    }
+</style>
 <script>
+
     function muangay(){
         /*window.location.href = "/checkout/"+document.getElementById('idselect').value+"/"+document.getElementById('quantity').value;*/
         AddCart();

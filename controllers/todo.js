@@ -1862,6 +1862,7 @@ module.exports.delete_size = function(req, res){
                 res.json(data);
             }else{
                 var url = '/edit-product/'+rows[0].name.replace(/ /g,'-');
+                var data={status:"success", code:'500'};
                 if(rows.length > 1){
                     if(rows[0].product_id == req.params.id){
                         var sql = 'update image set product_id = '+rows[1].product_id+';';
@@ -1874,14 +1875,18 @@ module.exports.delete_size = function(req, res){
                     con.query(sql);
                     var sql = 'delete from  thuoctinh where  product_id = '+rows[0].product_id+';';
                     con.query(sql);
+
                     url = '/maintenance-prd/'+rows[0].cat_name.replace(/ /g,'-');
+                    var data={status:"success", code:'600'};
                 }
+                var sql = 'delete from  discount where  product_id = '+req.params.id+';';
+                con.query(sql);
                 sql = 'delete from product where product_id = '+req.params.id+''
                 con.query(sql);
                 sql = 'delete from cart where product_id = '+req.params.id+' and payment_id = 0;';
                 con.query(sql);
-                var data={status:"success", code:'400'};
-                res.redirect(url);
+
+                res.json(data);
             }
         });
     } else {
@@ -1899,16 +1904,39 @@ module.exports.erase_product = function(req, res){
                 res.json(data);
             }else{
                 for(var i = 0; i < rows.length ; i++){
-                    var sql = 'delete from  image where  product_id = '+rows[0].product_id+';';
-                    con.query(sql);
                     var sql = 'delete from  thuoctinh where  product_id = '+rows[0].product_id+';';
                     con.query(sql);
-                    sql = 'delete from product where product_id = '+rows[0].product_id+''
+                    sql = 'delete from product where product_id = '+rows[i].product_id+''
                     con.query(sql);
-                    sql = 'delete from cart where product_id = '+rows[0].product_id+' and payment_id = 0;';
+                    sql = 'delete from cart where product_id = '+rows[i].product_id+' and payment_id = 0;';
+                    con.query(sql);
+                    sql = 'delete from discount where product_id = '+rows[i].product_id+';';
                     con.query(sql);
                 }
-                res.redirect('/maintenance-prd/'+rows[0].cat_name.replace(/ /g,'-'));
+
+                sql = 'select * from image where product_id = '+rows[0].product_id+';';
+               con.query(sql, function (err, element) {
+                   var newpath = '';
+                   for( var k = 0 ; k < element.length ; k++){
+                       for( var h = 0 ; h < element[k].url.split(";").length ; h++){
+                           var oldpath = element[k].url.split(';')[h];
+                           if(__dirname.split('/').length <= 1){
+                                newpath = __dirname.replace(__dirname.split('\\')[__dirname.split('\\').length-1],'public\\assets\\img\\'+oldpath.split("\\")[ oldpath.split("\\").length-1]);
+                           }else{
+                                newpath = __dirname.replace(__dirname.split('/')[__dirname.split('/').length-1],'public/assets/img/'+oldpath.split("/")[ oldpath.split("/").length-1]);
+                           }
+                           fs.unlink(newpath,function(err){
+                               if(err) console.log('file deleted fail');
+                           });
+                       }
+                   }
+
+                   var sql = 'delete from  image where  product_id = '+rows[0].product_id+';';
+                   con.query(sql);
+               });
+
+                var data = {status: 'success', code: '200'};
+                res.json(data);
             }
         });
     } else {
@@ -1926,16 +1954,45 @@ module.exports.delete_cat = function(req, res){
                 var data = {status: 'error', code: '300',error: err};
                 res.json(data);
             }else{
+                var image = ''
                 for(var i = 0; i < rows.length ; i++){
-                    var sql = 'delete from  image where  product_id = '+rows[i].product_id+';';
-                    con.query(sql);
+                    /*var sql = 'delete from  image where  product_id = '+rows[i].product_id+';';
+                    con.query(sql);*/
                     var sql = 'delete from  thuoctinh where  product_id = '+rows[i].product_id+';';
                     con.query(sql);
                     sql = 'delete from product where product_id = '+rows[i].product_id+''
                     con.query(sql);
                     sql = 'delete from cart where product_id = '+rows[i].product_id+' and payment_id = 0;';
                     con.query(sql);
+                    sql = 'delete from discount where product_id = '+rows[i].product_id+';';
+                    con.query(sql);
+                    image += rows[i].product_id+',';
                 }
+                if(image.trim()!=''){
+                    sql = 'select * from image where product_id in ('+image.substr(0,image.length-1)+');';
+                    con.query(sql, function (err, element) {
+                        var newpath = '';
+
+                        for( var k = 0 ; k < element.length ; k++){
+                            for( var h = 0 ; h < element[k].url.split(";").length ; h++){
+                                var oldpath = element[k].url.split(';')[h];
+                                if(__dirname.split('/').length <= 1){
+                                    newpath = __dirname.replace(__dirname.split('\\')[__dirname.split('\\').length-1],'public\\assets\\img\\'+oldpath.split("\\")[ oldpath.split("\\").length-1]);
+                                }else{
+                                    newpath = __dirname.replace(__dirname.split('/')[__dirname.split('/').length-1],'public/assets/img/'+oldpath.split("/")[ oldpath.split("/").length-1]);
+                                }
+                                fs.unlink(newpath,function(err){
+                                    if(err) console.log('file deleted fail');
+                                });
+                            }
+                            var sql = 'delete from  image where  product_id = '+element[k].product_id+';';
+                            con.query(sql);
+                        }
+
+
+                    });
+                }
+
                 sql = 'delete from category where cat_name = \''+req.params.name+'\';';
                 con.query(sql);
                 res.redirect('maintenance-cat');
@@ -2020,7 +2077,7 @@ module.exports.maintenance_prd = function(req, res){
             '(select MIN(price) from product where name = p.name) as prices ,\n' +
             '(select GROUP_CONCAT(size SEPARATOR \',\') from product where name = p.name) as sizes ,\n' +
             '(select GROUP_CONCAT(product_id SEPARATOR \',\') from product where name = p.name) as size_id ,\n' +
-            '(select url from image where product_id = p.product_id and type = 1) as image, \n' +
+            '(select url from image where product_id = p.product_id and type = 1 limit 1) as image, \n' +
             '(select freeShip from settingshop ) as freeship, \n' +
             'IF(('+year+month+day+' - p.create_time ) < 100, \'Y\', \'N\') as new \n'+
             'from product p join thuoctinh t on p.product_id = t.product_id join description d on p.description = d.description_id ';
