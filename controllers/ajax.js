@@ -401,37 +401,40 @@ exports.updateProduct=function(req,res){
     var prdId = '';
     var avas = '';
     var path = '';
-    if(__dirname.split('\\').length > 1){
-        if(req.files.upfiles.length == undefined){
-            path = req.files.upfiles.path;
-            avas = req.files.upfiles.path.split("\\")[ req.files.upfiles.path.split("\\").length-1];
-        } else{
-            for(j = 0 ; j < req.files.upfiles.length ; j++){
-                if(path == ''){
-                    path = req.files.upfiles[j].path;
-                    avas = req.files.upfiles[j].path.split("\\")[ req.files.upfiles[j].path.split("\\").length-1];
-                }else{
-                    path += ';' +  req.files.upfiles[j].path;
-                    avas += ';' +  req.files.upfiles[j].path.split("\\")[ req.files.upfiles[j].path.split("\\").length-1];
+    if(req.files.upfiles != undefined){
+        if(__dirname.split('\\').length > 1){
+            if(req.files.upfiles.length == undefined){
+                path = req.files.upfiles.path;
+                avas = req.files.upfiles.path.split("\\")[ req.files.upfiles.path.split("\\").length-1];
+            } else{
+                for(j = 0 ; j < req.files.upfiles.length ; j++){
+                    if(path == ''){
+                        path = req.files.upfiles[j].path;
+                        avas = req.files.upfiles[j].path.split("\\")[ req.files.upfiles[j].path.split("\\").length-1];
+                    }else{
+                        path += ';' +  req.files.upfiles[j].path;
+                        avas += ';' +  req.files.upfiles[j].path.split("\\")[ req.files.upfiles[j].path.split("\\").length-1];
+                    }
                 }
             }
-        }
-    }else{
-        if(req.files.upfiles.length == undefined){
-            path = req.files.upfiles.path;
-            avas = req.files.upfiles.path.split("/")[ req.files.upfiles.path.split("/").length-1];
-        } else{
-            for(j = 0 ; j < req.files.upfiles.length ; j++){
-                if(path == ''){
-                    path = req.files.upfiles[j].path;
-                    avas = req.files.upfiles[j].path.split("/")[ req.files.upfiles[j].path.split("/").length-1];
-                }else{
-                    path += ';' +  req.files.upfiles[j].path;
-                    avas += ';' +  req.files.upfiles[j].path.split("/")[ req.files.upfiles[j].path.split("/").length-1];
+        }else{
+            if(req.files.upfiles.length == undefined){
+                path = req.files.upfiles.path;
+                avas = req.files.upfiles.path.split("/")[ req.files.upfiles.path.split("/").length-1];
+            } else{
+                for(j = 0 ; j < req.files.upfiles.length ; j++){
+                    if(path == ''){
+                        path = req.files.upfiles[j].path;
+                        avas = req.files.upfiles[j].path.split("/")[ req.files.upfiles[j].path.split("/").length-1];
+                    }else{
+                        path += ';' +  req.files.upfiles[j].path;
+                        avas += ';' +  req.files.upfiles[j].path.split("/")[ req.files.upfiles[j].path.split("/").length-1];
+                    }
                 }
             }
         }
     }
+
     if(path.trim()!=''){
         sql = 'delete from image where product_id = '+input.OldIds.split(",")[0];
         con.query(sql);
@@ -474,7 +477,7 @@ exports.updateProduct=function(req,res){
         if(err){
             console.log(err);
         } else{
-            sql = 'update description set description = \''+input.description+'\'' +
+            sql = 'update description set description = \''+input.description.replace(/(\r\n|\n|\r)/gm,"<br>")+'\'' +
                 ' where description_id = ' +  rows[0].description +';'
             con.query(sql);
         }
@@ -608,8 +611,8 @@ exports.addProduct=function(req,res){
         }
     }
 
-        var desc = input.description;
-        var sql = 'insert into description(description) value (\''+desc.replace('\n','<br>')+'\');';
+        var desc = input.description.replace(/(\r\n|\n|\r)/gm,"<br>");
+        var sql = 'insert into description(description) value (\''+desc+'\');';
         con.query(sql, function (err, rows) {
             if(err){
                 console.log(err);

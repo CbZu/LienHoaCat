@@ -29,7 +29,7 @@ module.exports.home = function(req, res){
             '(select MIN(price) from product where name = p.name) as prices ,\n' +
             '(select GROUP_CONCAT(size SEPARATOR \',\') from product where name = p.name) as sizes ,\n' +
             '(select GROUP_CONCAT(product_id SEPARATOR \',\') from product where name = p.name) as size_id ,\n' +
-            '(select url from image where product_id = p.product_id and type = 1) as image, \n' +
+            '(select url from image where product_id = p.product_id and type = 1 limit 1) as image, \n' +
             '(select \'Y\') as new \n'+
             'from product p join thuoctinh t on p.product_id = t.product_id join description d on p.description = d.description_id where (('+year+month+day+' - p.create_time)/(24*3600*1000) ) < 30 ';
         if (req.session.type == 1){

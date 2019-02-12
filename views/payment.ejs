@@ -306,12 +306,12 @@
                 </div>
                 <div class="col-xs-3 col-md-3" id="COD" style="display: none;">
                     <a class="thumbnail" onclick="Type(2)">
-                        <img class="type-payment" src="/img/payment_method/transfer.jpg" alt="...">
+                        <img class="type-payment" src="/img/payment_method/cod.png" alt="...">
                     </a>
                 </div>
                 <div class="col-xs-3 col-md-3" id="ck" style="display: none;">
                     <a class="thumbnail" onclick="Type(3)">
-                        <img class="type-payment" src="/img/payment_method/cod.png" alt="...">
+                        <img class="type-payment" src="/img/payment_method/transfer.jpg" alt="...">
                     </a>
                 </div>
                 <div class="col-xs-3 col-md-3" id="ttd" style="display: none;">
@@ -415,8 +415,8 @@
 
     var transportMethod = "<%=setting[0].transportMethod%>".split(";");
     var paymentMethod = "<%=setting[0].paymentMethod%>".split(";");
-    var freeShip = <%=setting[0].freeShip%>;
-    var defaultShip = <%=setting[0].defaultShip%>;
+    var freeShip = "<%=setting[0].freeShip%>";
+    var defaultShip = "<%=setting[0].defaultShip%>";
     for (i=0; i<transportMethod.length; i++){
         if (transportMethod[i] == "ghtk"){
             document.getElementById("ghtk").style.display = "block";

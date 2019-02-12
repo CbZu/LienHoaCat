@@ -702,15 +702,21 @@
             enctype: 'multipart/form-data',
             processData: false,
             success: function (response) {
-                $.ajax({
-                    type: "POST",
-                    url: "../PetMart/remove",
-                    data: "path=" + response.path,
-                    success: function (msg) {
-                        alert('Cập nhật thành công');
-                        window.location.href="/edit-product/"+name.replace(/ /g,'-');
-                    }
-                });
+                if(response.path.trim()!= ''){
+                    $.ajax({
+                        type: "POST",
+                        url: "../PetMart/remove",
+                        data: "path=" + response.path,
+                        success: function (msg) {
+                            alert('Cập nhật thành công');
+                            window.location.href="/edit-product/"+name.replace(/ /g,'-');
+                        }
+                    });
+                } else {
+                    alert('Cập nhật thành công');
+                   location.reload();
+                }
+
 
             }
         });

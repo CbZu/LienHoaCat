@@ -188,8 +188,8 @@
 <script>
     var transportMethod = "<%=setting[0].transportMethod%>".split(";");
     var paymentMethod = "<%=setting[0].paymentMethod%>".split(";");
-    var freeShip = <%=setting[0].freeShip%>;
-    var defaultShip = <%=setting[0].defaultShip%>;
+    var freeShip = "<%=setting[0].freeShip%>";
+    var defaultShip = "<%=setting[0].defaultShip%>";
     for (i=0; i<transportMethod.length; i++){
         if (transportMethod[i] == "ghtk"){
             document.getElementById("vanchuyen0").checked = true;
