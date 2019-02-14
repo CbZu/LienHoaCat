@@ -2400,7 +2400,7 @@ module.exports.add_promote=function(req,res){
     var con = req.db.driver.db;
     var data={
         title:input.name,
-        description:input.description,
+        description:input.description.replace(/(\r\n|\n|\r)/gm,"<br>"),
         effective_date:input.effdate.replace(/-/g,''),
         expired_date:input.expiredDate.replace(/-/g,''),
         image:req.files.newImg.path.split('/').length<=1?req.files.newImg.path.split('\\')[req.files.newImg.path.split('\\').length-1]:req.files.newImg.path.split('/')[req.files.newImg.path.split('/').length-1],
@@ -2456,11 +2456,34 @@ module.exports.edit_promote=function(req,res){
 }
 module.exports.delete_promote=function(req,res){
     if(req.session.type == 1){
+
+
+        var sql = 'select image from promotion where title = \''+req.params.promote_id.replace(/-/g,' ')+'\';'
+        var con = req.db.driver.db;
+        con.query(sql, function (err, rows) {
+            if (err) {
+            }
+            else {
+                var oldpath = rows[0].image;
+                if(__dirname.split('/').length <= 1){
+                    var newpath = __dirname.replace(__dirname.split('\\')[__dirname.split('\\').length-1],'public\\assets\\img\\'+oldpath.split("\\")[ oldpath.split("\\").length-1]);
+                }else{
+                    var newpath = __dirname.replace(__dirname.split('/')[__dirname.split('/').length-1],'public/assets/img/'+oldpath.split("/")[ oldpath.split("/").length-1]);
+                }
+                fs.unlink(newpath,function(err){
+                    if(err) console.log('file deleted fail');
+                });
+            }
+
+
+        });
+
         var sql = 'delete ' +
             ' from promotion where title = \''+req.params.promote_id.replace(/-/g,' ')+'\';'
-        var con = req.db.driver.db;
+
         var data;
         con.query(sql);
+
         res.redirect('/promotions');
     } else {
         res.redirect('/');
@@ -2468,9 +2491,9 @@ module.exports.delete_promote=function(req,res){
 }
 module.exports.update_promote=function(req,res){
     var input=JSON.parse(JSON.stringify(req.body));
-    var sql = 'update promotion set title = \''+input.title+'\' , description = \''+input.description+'\', image = \''+input.image+'\' , effective_date = '+convertDate(input.effdate)+'' +
-        ', expired_date = '+convertDate(input.expired)+' ' +
-        'where  title = (select title from promotion where promotion_id = '+input.id+');'
+    var sql = 'update promotion set title = \''+input.title+'\' , description = \''+input.description.replace(/(\r\n|\n|\r)/gm,"<br>")+'\' , effective_date = '+input.effdate.replace(/-/g,'')+'' +
+        ', expired_date = '+input.expiredDate.replace(/-/g,'')+' ' +
+        'where promotion_id = '+req.params.id+';'
     var con = req.db.driver.db;
     con.query(sql, function (err, rows) {
         if (err) {
@@ -2481,7 +2504,7 @@ module.exports.update_promote=function(req,res){
 
         }
 
-        res.redirect('promote-maintenance');
+        res.redirect('promotions');
     });
     function convertDate(inputDate){
         var day = inputDate.split('/')[0];

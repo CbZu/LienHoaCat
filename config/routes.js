@@ -58,6 +58,7 @@ module.exports = function (app, controllers) {
     app.post('/ajax/getPrd', controllers.ajax.getPrd);
     app.get('/product-detail/:catflt/:prdname', controllers.todo.product_detail);
     app.post('/ajax/updateProduct', controllers.ajax.updateProduct);
+    app.post('/ajax/updateProductDV', controllers.ajax.updateProductDV);
     app.post('/ajax/updateProductEntity', controllers.ajax.updateProductEntity);
 
     app.post('/ajax/updateProductOk', controllers.ajax.updateProductOk);
@@ -78,7 +79,7 @@ module.exports = function (app, controllers) {
     app.get('/edit-promote/:promote_id', controllers.todo.edit_promote);
     app.get('/delete-promote/:promote_id', controllers.todo.delete_promote);
 
-    app.post('/update-promote', controllers.todo.update_promote);
+    app.post('/update-promote/:id', controllers.todo.update_promote);
     app.get('/show-payment', controllers.todo.show_payment);
     app.get('/checkout/:product/:amount', controllers.todo.checkout);
     app.get('/app-phongthuy', controllers.todo.app_phongthuy);

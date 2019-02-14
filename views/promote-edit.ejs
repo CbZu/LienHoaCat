@@ -9,7 +9,7 @@
         </ol>
 
     </div>
-    <form action = "add-promote" method="post" enctype="multipart/form-data">
+    <form action = "/update-promote/<%=result[0].promotion_id%>" method="post" >
         <div class="row product-info">
             <div class="col-md-4">
                 <a href="#" class="thumbnail">
@@ -19,7 +19,7 @@
             <div class="col-md-8">
                 <div class="row center-block">
                     <div class="col-md-8">
-                        <h3><%=result[0].title%></h3>
+                        <input class="form-control" name = 'title' id = 'title' type = 'text' value = '<%=result[0].title%>'>
                     </div>
 
                 </div>
@@ -41,7 +41,9 @@
                     </div>
                 </div>
 
-
+                <div class="row center-block">
+                    <button class = "btn btn-primary" tyle = "submit">Cập Nhật</button>
+                </div>
             </div>
         </div>
         <br>
@@ -49,16 +51,19 @@
         <a type="button" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">
             <span class="glyphicon glyphicon-upload"></span>
         </a>
+
         <%}%>
         <div class="row product-info center-block">
-            <div class="col-xs-12">
-                <p id = 'descriptionArea' name = 'descriptionArea' >
+            <div >
+                <textarea style="width: 100%; min-height: 300px;display: none" id="description" name="description"><%=result[0].description%>
+                </textarea>
+                <p id = 'descriptionArea' name = 'descriptionArea' style="display: block"><%=result[0].description%>
                 </p>
             </div>
         </div>
     </form>
-
-
+    <button class = "btn btn-primary" id = "xemtruoc"onclick="XemTruoc()">Xem Trước</button>
+    <button class = "btn btn-primary" id = "chinhsua" onclick="ChinhSua()" >Chỉnh sửa</button>
 
     <!-- Modal -->
     <div id="id02" class="modal">
@@ -126,7 +131,43 @@
 <script src="/js/gridrotator.js"></script>
 <script src="/js/custom.js"></script>
 <script>
+    function CloseModal(){
+        var formdata1 = new FormData()
+        var input = document.getElementsByClassName("form-control newImgModal")
+        for (var i = 0; i < input.length; i++) {
+            formdata1.append('images', input[i].files[0]);
 
+        }
+        $.ajax({
+            url: '../ajax/addProductImages',
+            type: 'POST',
+            data: formdata1,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                $.ajax({
+                    type: "POST",
+                    url: "../PetMart/remove",
+                    data: "path=" + response.path,
+                    success: function (msg) {
+                        //alert(msg);
+                        data = msg;
+                        var description = document.getElementById("description").value;
+                        description +=  '<br>'+'<img border=0 hspace="0" alt="" src="/assets/img/'+response.image+'" align="baseline" class="img-responsive">' + '<br>';
+                        document.getElementById("description").value = description;
+                        document.getElementById("description").innerHTML = description;
+                        document.getElementById("id02").style.display = 'none';
+
+                    }
+                });
+
+            }
+        });
+
+    }
 
 </script>
 <script>
@@ -143,5 +184,21 @@
     var str  = element.replace(/&#39;/g, "\"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g,"\"");
     document.getElementById('descriptionArea').innerHTML = str;
 
+    function XemTruoc() {
+        document.getElementById('description').style.display = 'none';
+        document.getElementById('descriptionArea').style.display = 'block';
+        var  element = document.getElementById('description').value;
+        var str  = element.replace(/&#39;/g, "\"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g,"\"");
+        document.getElementById('descriptionArea').innerHTML = str;
+
+
+    }
+
+    function ChinhSua() {
+        document.getElementById('description').style.display = 'block';
+        document.getElementById('descriptionArea').style.display = 'none';
+        /*document.getElementById('xemtruoc').disabled = true;
+        document.getElementById('chinhsua').disabled = false;*/
+    }
 </script>
 </html>

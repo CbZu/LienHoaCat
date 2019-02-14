@@ -41,13 +41,13 @@
         <div class="col-md-8">
             <div class="ditem">
                 <div class="bs-example bs-example-tabs">
-                    <ul id="myTab" class="nav nav-tabs" role="tablist">
+                    <!--<ul id="myTab" class="nav nav-tabs" role="tablist">
                         <li class="active"><a href="#home" role="tab" data-toggle="tab">Sản Phẩm</a></li>
                         <li class=""><a href="#profile" role="tab" data-toggle="tab">Dịch Vụ</a></li>
-                    </ul>
+                    </ul>-->
                     <div id="myTabContent" class="tab-content">
 
-                        <div class="tab-pane fade active in" id="home">
+                        <div class="tab-pane fade active in" id="SanPham">
                             <div class="row">
                                 <div class="col-md-8"><h3>Tên Sản Phẩm</h3></div>
                             </div>
@@ -273,20 +273,26 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane fade" id="profile">
+                        <div class="tab-pane fade" id="DichVu">
                             <div class="col-md-8"><h3>Tên Dịch Vụ</h3></div>
                             <div class="row center-block">
                                 <div class="col-md-8">
-                                    <input class="col-md-8 form-control" type="text" id="nameDV" onkeyup="CheckPrd()" value=""></input>
+                                    <input class="col-md-8 form-control" type="text" id="nameDV" onkeyup="CheckPrd()" value="<%=result[0].name%>"></input>
                                 </div>
                                 <div class="col-md-4">
-                                    <input class="form-control newImgDv"  id = 'newImgDv' type = 'file' value = ''>
+                                    <input class="form-control newImgDv"  id = 'newImgDv' type = 'file' value = '' multiple>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row center-block">
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" id="newCodeDV" value="<%=result[0].code%>"></input>
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-md-2">
-                                    <button class="btn btn-primary" id = "add" onclick="AddDV()">Add</button>
+                                    <button class="btn btn-primary" id = "add" onclick="AddDV()">Cập Nhật</button>
                                 </div>
                                 <div class="col-md-2">
                                     <a class="btn btn-primary" href = "/" >Cancel</a>
@@ -386,6 +392,18 @@
 <script src="/js/gridrotator.js"></script>
 <script src="/js/custom.js"></script>
 <script>
+
+    <%if(result[0].price == 0
+            && result[0].size == 0
+            && result[0].information == 0
+            && result[0].entity == 0){%>
+        document.getElementById('DichVu').style.display = 'block';
+        document.getElementById('SanPham').style.display = 'none';
+    <%} else {%>
+    document.getElementById('DichVu').style.display = 'none';
+    document.getElementById('SanPham').style.display = 'block';
+    <%}%>
+
     var  element = '<%=description%>';
     var str  = element.replace(/&#39;/g, "\"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g,"\"");
     document.getElementById('descriptionArea').innerHTML = str;
@@ -535,25 +553,28 @@
 
     function Add() {
         var formdata = new FormData();
-        var obj =$("#name");
-        $(".error").remove();
-        $.ajax({
-            type: "POST",
-            url: "./ajax/checkProduct",
-            data: "mode=check_email&name=" + obj.val(),
-            success: function (msg) {
-                //alert(msg);
-                data = msg;
-                if (data.status == 'exist') {
-                    obj.after("<label class='error'>Product Name Aleady Exist</label>");
-                    document.getElementById('add').style.display = 'none'
-                    return;
+        if('<%=result[0].name.trim()%>' != $("#name").val().trim()){
+            var obj =$("#name");
+            $(".error").remove();
+            $.ajax({
+                type: "POST",
+                url: "./ajax/checkProduct",
+                data: "mode=check_email&name=" + obj.val(),
+                success: function (msg) {
+                    //alert(msg);
+                    data = msg;
+                    if (data.status == 'exist') {
+                        obj.after("<label class='error'>Product Name Aleady Exist</label>");
+                        document.getElementById('add').style.display = 'none'
+                        return;
+                    }
+                    else {
+                        document.getElementById('add').style.display = 'block'
+                    }
                 }
-                else {
-                    document.getElementById('add').style.display = 'block'
-                }
-            }
-        });
+            });
+        }
+
 
         var input = document.getElementsByClassName("form-control newImg")
         for (var i = 0; i < input[0].files.length; i++) {
@@ -751,74 +772,42 @@
     }
     function AddDV() {
         var formdata = new FormData();
-        var obj =$("#name");
-        $(".error").remove();
-        $.ajax({
-            type: "POST",
-            url: "./ajax/checkProduct",
-            data: "mode=check_email&name=" + obj.val(),
-            success: function (msg) {
-                //alert(msg);
-                data = msg;
-                if (data.status == 'exist') {
-                    obj.after("<label class='error'>Product Name Aleady Exist</label>");
-                    document.getElementById('add').style.display = 'none'
-                    return;
-                }
-                else {
-                    document.getElementById('add').style.display = 'block'
-                }
-            }
-        });
 
-        var input = document.getElementsByClassName("form-control newImgDv")
-        for (var i = 0; i < input.length; i++) {
-            formdata.append('upfiles', input[i].files[0]);
-
-        }
-        var allElements = document.getElementsByTagName("input");
-        var sizes = new Array();
-        var prices = new Array();
-        var disct_prices = new Array();
-        var codes = new Array();
-        var description = document.getElementById("description").value;
-        formdata.append('description', description);
-        var name = document.getElementById("nameDV").value;
-        formdata.append('name', name);
-        var category = '<%= catId %>';
-        formdata.append('category', category);
-        for (var i = 0; i < allElements.length; i++) {
-            if (allElements[i].id == 'newSize') {
-                sizes.push(allElements[i].value);
-            }
-            if (allElements[i].id == 'newPrice') {
-                prices.push(allElements[i].value);
-            }
-            if (allElements[i].id == 'newDisc') {
-                if(allElements[i].value.trim()=='0'){
-                    disct_prices.push(allElements[i].value);
-                }else{
-                    if(document.getElementById('expiredDate').value.trim() == ''){
-                        document.getElementById('modalExpired').style.display = 'block';
-                        return false;
-                    }else{
-                        disct_prices.push(allElements[i].value);
+        if('<%=result[0].name.trim()%>' != $("#nameDV").val().trim()){
+            var obj =$("#nameDV");
+            $(".error").remove();
+            $.ajax({
+                type: "POST",
+                url: "./ajax/checkProduct",
+                data: "mode=check_email&name=" + obj.val(),
+                success: function (msg) {
+                    //alert(msg);
+                    data = msg;
+                    if (data.status == 'exist') {
+                        obj.after("<label class='error'>Product Name Aleady Exist</label>");
+                        document.getElementById('add').style.display = 'none'
+                        return;
+                    }
+                    else {
+                        document.getElementById('add').style.display = 'block'
                     }
                 }
+            });
 
-            }
-            if (allElements[i].id == 'newCode') {
-                codes.push(allElements[i].value);
-            }
         }
-        var expd = document.getElementById('expiredDate').value;
-        formdata.append('expired_date', expd.replace(/-/g, ""));
-        formdata.append('Sizes', sizes);
-        formdata.append('Prices', prices);
-        formdata.append('Discounts', disct_prices);
-        formdata.append('Codes', codes);
+
+        var input = document.getElementsByClassName("form-control newImgDv")
+        for (var i = 0; i < input[0].files.length; i++) {
+            formdata.append('upfiles', input[0].files[i]);
+
+        }
+        var description = document.getElementById("description").value;
+        formdata.append('description', description);
+        formdata.append('name', $("#nameDV").val());
+        formdata.append('code', $("#newCodeDV").val());
+        formdata.append('product_id', '<%=result[0].product_id%>');
         $.ajax({
-            url: './ajax/addProduct',
+            url: '../ajax/updateProductDV',
             type: 'POST',
             data: formdata,
             async: false,
@@ -827,18 +816,22 @@
             enctype: 'multipart/form-data',
             processData: false,
             success: function (response) {
-                $.ajax({
-                    type: "POST",
-                    url: "./PetMart/remove",
-                    data: "path=" + response.path,
-                    success: function (msg) {
-                        //alert(msg);
-                        data = msg;
+                if(response.path.trim()!= ''){
+                    $.ajax({
+                        type: "POST",
+                        url: "../PetMart/remove",
+                        data: "path=" + response.path,
+                        success: function (msg) {
+                            alert('Cập nhật thành công');
+                            window.location.href="/edit-product/"+ $("#nameDV").val().replace(/ /g,'-');
+                        }
+                    });
+                } else {
+                    alert('Cập nhật thành công');
+                    location.reload();
+                }
 
-                        location.reload();
 
-                    }
-                });
             }
         });
 

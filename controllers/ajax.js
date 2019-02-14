@@ -1,4 +1,5 @@
 var md5 = require('MD5');
+var fs=require('fs');
 exports.checkEmail=function(req,res){
 	var input = JSON.parse(JSON.stringify(req.body));
 	console.log(input);
@@ -436,43 +437,200 @@ exports.updateProduct=function(req,res){
     }
 
     if(path.trim()!=''){
-        sql = 'delete from image where product_id = '+input.OldIds.split(",")[0];
-        con.query(sql);
-        if(avas.split(";").length >9){
-            var newAvas = '';
-            for(var k = 0 ; k < avas.split(";").length ; k++){
-
-                newAvas += avas.split(";")[k]+';';
-                if((k%8==0 || k == avas.split(";").length-1) && (k!=0)){
-                    sql = 'INSERT INTO `lhc`.`image`\n' +
-                        '(`product_id`,\n' +
-                        '`url`,\n' +
-                        '`type`)\n' +
-                        'VALUES\n' +
-                        '('+input.OldIds.split(",")[0]+',\n' +
-                        '\''+newAvas.toString().substring(0,newAvas.length-1)+'\',\n' +
-                        '\'1\');\n';
-                    con.query(sql);
-                    newAvas = '';
+        sql = 'select * from image where product_id = '+input.OldIds.split(",")[0]+';';
+        con.query(sql, function (err, element) {
+            var newpath = '';
+            for( var k = 0 ; k < element.length ; k++){
+                for( var h = 0 ; h < element[k].url.split(";").length ; h++){
+                    var oldpath = element[k].url.split(';')[h];
+                    if(__dirname.split('/').length <= 1){
+                        newpath = __dirname.replace(__dirname.split('\\')[__dirname.split('\\').length-1],'public\\assets\\img\\'+oldpath.split("\\")[ oldpath.split("\\").length-1]);
+                    }else{
+                        newpath = __dirname.replace(__dirname.split('/')[__dirname.split('/').length-1],'public/assets/img/'+oldpath.split("/")[ oldpath.split("/").length-1]);
+                    }
+                    fs.unlink(newpath,function(err){
+                        if(err) console.log('file deleted fail');
+                    });
                 }
             }
 
-
-        } else {
-            sql = 'INSERT INTO `lhc`.`image`\n' +
-                '(`product_id`,\n' +
-                '`url`,\n' +
-                '`type`)\n' +
-                'VALUES\n' +
-                '('+input.OldIds.split(",")[0]+',\n' +
-                '\''+avas+'\',\n' +
-                '\'1\');\n';
+            sql = 'delete from image where product_id = '+input.OldIds.split(",")[0];
             con.query(sql);
-        }
+            if(avas.split(";").length >9){
+                var newAvas = '';
+                for(var k = 0 ; k < avas.split(";").length ; k++){
+
+                    newAvas += avas.split(";")[k]+';';
+                    if((k%8==0 || k == avas.split(";").length-1) && (k!=0)){
+                        sql = 'INSERT INTO `lhc`.`image`\n' +
+                            '(`product_id`,\n' +
+                            '`url`,\n' +
+                            '`type`)\n' +
+                            'VALUES\n' +
+                            '('+input.OldIds.split(",")[0]+',\n' +
+                            '\''+newAvas.toString().substring(0,newAvas.length-1)+'\',\n' +
+                            '\'1\');\n';
+                        con.query(sql);
+                        newAvas = '';
+                    }
+                }
+
+
+            } else {
+                sql = 'INSERT INTO `lhc`.`image`\n' +
+                    '(`product_id`,\n' +
+                    '`url`,\n' +
+                    '`type`)\n' +
+                    'VALUES\n' +
+                    '('+input.OldIds.split(",")[0]+',\n' +
+                    '\''+avas+'\',\n' +
+                    '\'1\');\n';
+                con.query(sql);
+            }
+        });
+
     }
 
     sql = 'select description from product ' +
         ' where product_id = '+input.OldIds.split(",")[0]+' ;';
+    con.query(sql, function (err, rows) {
+        if(err){
+            console.log(err);
+        } else{
+            sql = 'update description set description = \''+input.description.replace(/(\r\n|\n|\r)/gm,"<br>")+'\'' +
+                ' where description_id = ' +  rows[0].description +';'
+            con.query(sql);
+        }
+    });
+
+    data={status:'success',code:'400',path:path};
+    res.json(data)
+};
+
+exports.updateProductDV=function(req,res){
+    var input = JSON.parse(JSON.stringify(req.body));
+    var con = req.db.driver.db;
+    var sql = '';
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    var year = date.getUTCFullYear();
+
+        sql = 'update product set code = \''+input.code+'\''+
+            ' where product_id = ' +  input.product_id +';'
+        con.query(sql);
+        sql = 'update product set name = \''+input.name+'\'' +
+            ' where product_id = ' +  input.product_id +';'
+        con.query(sql);
+
+    var formidable = require('formidable');
+    var form = new formidable.IncomingForm({
+        keepExtensions: true
+    });
+
+    form.parse(req);
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    var year = date.getUTCFullYear();
+    var prdId = '';
+    var avas = '';
+    var path = '';
+    if(req.files.upfiles != undefined){
+        if(__dirname.split('\\').length > 1){
+            if(req.files.upfiles.length == undefined){
+                path = req.files.upfiles.path;
+                avas = req.files.upfiles.path.split("\\")[ req.files.upfiles.path.split("\\").length-1];
+            } else{
+                for(j = 0 ; j < req.files.upfiles.length ; j++){
+                    if(path == ''){
+                        path = req.files.upfiles[j].path;
+                        avas = req.files.upfiles[j].path.split("\\")[ req.files.upfiles[j].path.split("\\").length-1];
+                    }else{
+                        path += ';' +  req.files.upfiles[j].path;
+                        avas += ';' +  req.files.upfiles[j].path.split("\\")[ req.files.upfiles[j].path.split("\\").length-1];
+                    }
+                }
+            }
+        }else{
+            if(req.files.upfiles.length == undefined){
+                path = req.files.upfiles.path;
+                avas = req.files.upfiles.path.split("/")[ req.files.upfiles.path.split("/").length-1];
+            } else{
+                for(j = 0 ; j < req.files.upfiles.length ; j++){
+                    if(path == ''){
+                        path = req.files.upfiles[j].path;
+                        avas = req.files.upfiles[j].path.split("/")[ req.files.upfiles[j].path.split("/").length-1];
+                    }else{
+                        path += ';' +  req.files.upfiles[j].path;
+                        avas += ';' +  req.files.upfiles[j].path.split("/")[ req.files.upfiles[j].path.split("/").length-1];
+                    }
+                }
+            }
+        }
+    }
+
+    if(path.trim()!=''){
+
+        sql = 'select * from image where product_id = '+input.product_id+';';
+        con.query(sql, function (err, element) {
+            var newpath = '';
+            for( var k = 0 ; k < element.length ; k++){
+                for( var h = 0 ; h < element[k].url.split(";").length ; h++){
+                    var oldpath = element[k].url.split(';')[h];
+                    if(__dirname.split('/').length <= 1){
+                        newpath = __dirname.replace(__dirname.split('\\')[__dirname.split('\\').length-1],'public\\assets\\img\\'+oldpath.split("\\")[ oldpath.split("\\").length-1]);
+                    }else{
+                        newpath = __dirname.replace(__dirname.split('/')[__dirname.split('/').length-1],'public/assets/img/'+oldpath.split("/")[ oldpath.split("/").length-1]);
+                    }
+                    fs.unlink(newpath,function(err){
+                        if(err) console.log('file deleted fail');
+                    });
+                }
+            }
+
+            var sql = 'delete from  image where  product_id = '+input.product_id+';';
+            con.query(sql);
+
+            if(avas.split(";").length >9){
+                var newAvas = '';
+                for(var k = 0 ; k < avas.split(";").length ; k++){
+
+                    newAvas += avas.split(";")[k]+';';
+                    if((k%8==0 || k == avas.split(";").length-1) && (k!=0)){
+                        sql = 'INSERT INTO `lhc`.`image`\n' +
+                            '(`product_id`,\n' +
+                            '`url`,\n' +
+                            '`type`)\n' +
+                            'VALUES\n' +
+                            '('+input.product_id+',\n' +
+                            '\''+newAvas.toString().substring(0,newAvas.length-1)+'\',\n' +
+                            '\'1\');\n';
+                        con.query(sql);
+                        newAvas = '';
+                    }
+                }
+
+
+            } else {
+                sql = 'INSERT INTO `lhc`.`image`\n' +
+                    '(`product_id`,\n' +
+                    '`url`,\n' +
+                    '`type`)\n' +
+                    'VALUES\n' +
+                    '('+input.product_id+',\n' +
+                    '\''+avas+'\',\n' +
+                    '\'1\');\n';
+                con.query(sql);
+            }
+        });
+
+
+    }
+
+    sql = 'select description from product ' +
+        ' where product_id = '+input.product_id+' ;';
     con.query(sql, function (err, rows) {
         if(err){
             console.log(err);
