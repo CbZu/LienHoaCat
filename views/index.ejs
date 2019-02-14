@@ -31,14 +31,18 @@
             <a href="/promotion-detail/<%=promotions[i].title.replace(/ /g,'-')%>"><img class="center-block" src="/assets/img/<%=promotions[i].image%>" alt="..."></a>
         </div>
     <%}%>
-    <%if( promotions.length == 0){%>
+    <%if( promotions.length <= 1){%>
         <div class="carousel-cell">
             <a href="/app-phongthuy"><img class="center-block" src="assets/img/phongthuy.png" alt="..."></a>
         </div>
         <div class="carousel-cell">
             <a href="/maintenance-prd/VIP"><img class="center-block" src="assets/img/panelvip.png" alt="..."></a>
         </div>
-    <%}%>  
+    <%} else if (promotions.length == 2){%>
+        <div class="carousel-cell">
+            <a href="/maintenance-prd/VIP"><img class="center-block" src="assets/img/panelvip.png" alt="..."></a>
+        </div>
+    <%}%>
 </div>
 
 <br>
