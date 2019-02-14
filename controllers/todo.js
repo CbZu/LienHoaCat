@@ -1945,6 +1945,10 @@ module.exports.erase_product = function(req, res){
 
 }
 
+module.exports.showBill=function(req,res) {
+    var data = {status: 'success', code: '200',fname:req.session.firstname, type:req.session.type, treefolder:req.session.treefolder};
+    res.render('bill', data);
+};
 module.exports.delete_cat = function(req, res){
     if(req.session.type == 1){
         var sql = 'select *,(select cat_name from category where cat_id = p.cat_id) as cat_name from product p where cat_id = (select cat_id from category where cat_name = \''+req.params.name+'\') order by product_id asc;';
