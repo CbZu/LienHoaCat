@@ -189,7 +189,14 @@
 </script>
 <script type="text/javascript">
     var product = document.getElementsByClassName("product");
+    var prodDetail = document.getElementsByClassName("product_detail");
+    var maxHeight = 0;
+    for (var j=0; j<prodDetail.length; j++){
+        if (prodDetail[j].offsetHeight > maxHeight){
+            maxHeight = prodDetail[j].offsetHeight;
+        }
+    }
     for (var i=0; i<product.length; i++){
-        product[i].style.height = product[i].offsetWidth*4/3 + document.getElementById("product_detail").offsetHeight + 30 + "px";
+        product[i].style.height = product[i].offsetWidth*4/3 + maxHeight + 30 + "px";
     }
 </script>
