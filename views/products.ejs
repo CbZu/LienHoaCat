@@ -278,17 +278,19 @@
                             <img class="img-responsive" src="/img/freeship.svg">
                         </div>
                         <%}%>
-                        <div class="" style="">
+                        <div class="" style="position: relative; overflow: hidden;">
                             <img src="/assets/img/<%= result[j].image==null?result[j].image:result[j].image.split(";")[0]%>" class="img-responsive zoom">
                         </div>
 
                         <% if(result[j].prices != 0){ %>
                         <% if(result[j].disct_prices == null || result[j].disct_prices == 0){ %>
-                        <h2 class="font-custom" style="margin: 0px;"><%= result[j].name %></h2>
-                        <h3><a href="" style="font-weight: bold; color: #6b6b6c; float: left;">Từ&nbsp;</a></h3>
-                        <h3 class="font-custom currency" style="color: red; font-weight: bold; margin-top: 10px;" id ="dictprice"><%= result[j].prices %></h3>
+                        <div style="position: relative;" class="product_detail">
+                            <h2 class="font-custom" style="margin: 0px;"><%= result[j].name %></h2>
+                            <h3><a href="" style="font-weight: bold; color: #6b6b6c; float: left;">Từ&nbsp;</a></h3>
+                            <h3 class="font-custom currency" style="color: red; font-weight: bold; margin-top: 10px;" id ="dictprice"><%= result[j].prices %></h3>
+                        </div>
                         <% } else { %>
-                        <div style="position: relative;">
+                        <div style="position: relative;" class="product_detail">
                             <div class="col-md-3" style="position: absolute; padding: 0px; top: 0px; right: 0px;">
                                 <div style="position: relative;">
                                     <img src="/img/sale.svg">
