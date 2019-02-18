@@ -194,7 +194,7 @@ form.search::after {
     height: 620px;
     border: #bfbfbf solid 2px;
     position: relative;
-    
+    overflow: hidden;
 }
 
 .active,
@@ -352,7 +352,7 @@ form.search::after {
 .zoom:hover {
   -ms-transform: scale(1.1); /* IE 9 */
   -webkit-transform: scale(1.1); /* Safari 3-8 */
-  transform: scale(1.1); 
+  transform: scale(1.1);
 }
 
 /*Touch mobile*/
