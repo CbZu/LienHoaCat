@@ -2182,7 +2182,7 @@ module.exports.maintenance_prd = function(req, res){
 module.exports.maintenance_cat = function(req, res){
    if(req.session.type=='1'){
         var sql = '';
-        sql += 'select * from lhc.treefolder order by folder_id asc';
+        sql += 'select * from lhc.treefolder t order by t.index asc';
 
 
         var con = req.db.driver.db;
@@ -2404,7 +2404,7 @@ module.exports.add_promote=function(req,res){
     var con = req.db.driver.db;
     var data={
         title:input.name,
-        description:input.description.replace(/(\r\n|\n|\r)/gm,"<br>"),
+        description:input.editor.replace(/(\r\n|\n|\r)/gm,""),
         effective_date:input.effdate.replace(/-/g,''),
         expired_date:input.expiredDate.replace(/-/g,''),
         image:req.files.newImg.path.split('/').length<=1?req.files.newImg.path.split('\\')[req.files.newImg.path.split('\\').length-1]:req.files.newImg.path.split('/')[req.files.newImg.path.split('/').length-1],
@@ -2495,7 +2495,7 @@ module.exports.delete_promote=function(req,res){
 }
 module.exports.update_promote=function(req,res){
     var input=JSON.parse(JSON.stringify(req.body));
-    var sql = 'update promotion set title = \''+input.title+'\' , description = \''+input.description.replace(/(\r\n|\n|\r)/gm,"<br>")+'\' , effective_date = '+input.effdate.replace(/-/g,'')+'' +
+    var sql = 'update promotion set title = \''+input.title+'\' , description = \''+input.editor.replace(/(\r\n|\n|\r)/gm,"")+'\' , effective_date = '+input.effdate.replace(/-/g,'')+'' +
         ', expired_date = '+input.expiredDate.replace(/-/g,'')+' ' +
         'where promotion_id = '+req.params.id+';'
     var con = req.db.driver.db;

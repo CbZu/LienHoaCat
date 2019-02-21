@@ -360,10 +360,16 @@
     </div>
     <div class="row product-info center-block">
         <div >
-            <textarea style="width: 100%; min-height: 300px;display: none" id="description" name="description"><%=description%></textarea>
+            <!--<textarea style="width: 100%; min-height: 300px;display: none" id="description" name="description"><%=description%></textarea>
             <p id = 'descriptionArea' name = 'descriptionArea' style="display: block">
                 <%=description%>
-            </p>
+            </p>-->
+
+            <div class = "center">
+            <textarea  id="editor">
+                <%=description%>
+            </textarea >
+            </div>
         </div>
     </div>
 
@@ -391,6 +397,12 @@
 <script src="/js/countdown.js"></script>
 <script src="/js/gridrotator.js"></script>
 <script src="/js/custom.js"></script>
+
+
+<script src="/ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('editor')
+</script>
 <script>
 
     <%if(result[0].price == 0
@@ -507,12 +519,11 @@
                     success: function (msg) {
                         //alert(msg);
                         data = msg;
-                        var description = document.getElementById("description").value;
-                        description +=  '<br>'+'<img border=0 hspace="0" alt="" src="/assets/img/'+response.image+'" align="baseline" class="img-responsive">' + '<br>';
-                        document.getElementById("description").value = description;
-                        document.getElementById("description").innerHTML = description;
-                        document.getElementById("id02").style.display = 'none';
 
+                        CKEDITOR.instances.editor.insertHtml("<figure class=\"image image-style-side\"><img src=\"/assets/img/"+response.image+"\">\n" +
+                            "\t\t\t\t<figcaption></figcaption>\n" +
+                            "\t\t\t</figure>");
+                        document.getElementById("id02").style.display = 'none';
                     }
                 });
 
@@ -597,7 +608,7 @@
         var oldinfos = new Array();
         var oldids = new Array();
 
-        var description = document.getElementById("description").value;
+        var description = CKEDITOR.instances.editor.getData();
         formdata.append('description', description);
         var name = document.getElementById("name").value;
         formdata.append('name', name);
@@ -801,7 +812,7 @@
             formdata.append('upfiles', input[0].files[i]);
 
         }
-        var description = document.getElementById("description").value;
+        var description = CKEDITOR.instances.editor.getData();
         formdata.append('description', description);
         formdata.append('name', $("#nameDV").val());
         formdata.append('code', $("#newCodeDV").val());

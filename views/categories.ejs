@@ -125,7 +125,7 @@
         <% for(i = 0;i < result.length;i++){ %>
 
         <div class="row">
-            <%if(result[i].folder_name.trim() == 'Tin Tức' || result[i].folder_name.trim() == 'VIP'){%>
+            <%if(result[i].folder_name.trim() == 'Tin Tức' || result[i].folder_name.trim() == 'VIP'|| result[i].folder_name.trim() == 'Xem Tuổi'|| result[i].folder_name.trim() == 'Khuyến Mãi'){%>
                 <div class="col-md-4">
                     <input class="form-control" id='folder<%= result.folder_id %>'
                            value='<%= result[i].folder_name %>' disabled></input>
@@ -163,6 +163,41 @@
             </div>
             <% } %>
 
+        </div>
+
+        <% } %>
+
+    </div>
+
+    <div class="row">
+        <div class="row">
+            <div class="col-md-10">
+                <h3><span class="label label-danger">Sắp xếp Header: </span></h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <h4>Tên</h4>
+            </div>
+            <div class="col-md-4">
+                <h4>Chỉ Mục</h4>
+            </div>
+
+
+        </div>
+        <% for(i = 0;i < tree.length;i++){ %>
+        <div class="row">
+                    <div class="col-md-4">
+                        <input class="form-control" id='folder-name<%= tree[i].folder_id %>'
+                               value='<%= tree[i].folder_name %>' ></input>
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control" id='index<%= tree[i].folder_id %>'
+                               value='<%= tree[i].index %>' ></input>
+                    </div>
+                    <div class="col-md-1">
+                        <button class="form-control" onclick="EditIndex(<%= tree[i].folder_id %>)">OK</button>
+                    </div>
         </div>
 
         <% } %>
@@ -264,7 +299,25 @@
             }
         });
     }
-
+    function EditIndex(index) {
+        var formdata = new FormData();
+        formdata.append('index', document.getElementById('index'+index).value);
+        formdata.append('name', document.getElementById('folder-name'+index).value);
+        formdata.append('id', index);
+        $.ajax({
+            url: './ajax/update-treefolder/'+index,
+            type: 'POST',
+            data: formdata,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (response) {
+                location.reload();
+            }
+        });
+    }
     function Update() {
         var formdata = new FormData();
         var obj =$("#name");

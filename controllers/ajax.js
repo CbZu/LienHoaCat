@@ -497,7 +497,7 @@ exports.updateProduct=function(req,res){
         if(err){
             console.log(err);
         } else{
-            sql = 'update description set description = \''+input.description.replace(/(\r\n|\n|\r)/gm,"<br>")+'\'' +
+            sql = 'update description set description = \''+input.description.replace(/(\r\n|\n|\r)/gm,"")+'\'' +
                 ' where description_id = ' +  rows[0].description +';'
             con.query(sql);
         }
@@ -635,7 +635,7 @@ exports.updateProductDV=function(req,res){
         if(err){
             console.log(err);
         } else{
-            sql = 'update description set description = \''+input.description.replace(/(\r\n|\n|\r)/gm,"<br>")+'\'' +
+            sql = 'update description set description = \''+input.description.replace(/(\r\n|\n|\r)/gm,"")+'\'' +
                 ' where description_id = ' +  rows[0].description +';'
             con.query(sql);
         }
@@ -769,7 +769,7 @@ exports.addProduct=function(req,res){
         }
     }
 
-        var desc = input.description.replace(/(\r\n|\n|\r)/gm,"<br>");
+        var desc = input.description.replace(/(\r\n|\n|\r)/gm,"");
         var sql = 'insert into description(description) value (\''+desc+'\');';
         con.query(sql, function (err, rows) {
             if(err){
@@ -1219,7 +1219,20 @@ exports.checkEmailAddProject=function(req,res){
         res.json(data);
     });
 };
-
+exports.update_folder=function(req,res){
+    var input = JSON.parse(JSON.stringify(req.body));
+    console.log(input);
+    var sql = 'update treefolder t set t.index = '+input.index+', t.folder_name =\''+input.name+'\'  where folder_id = '+req.params.id+';';
+    var con = req.db.driver.db;
+    con.query(sql, function (err, rows) {
+        if(err){
+            console.log(err);
+        }
+        else{
+           res.redirect('/maintenance-cat');
+        }
+    });
+};
 exports.checkProjectCode=function(req,res){
     var input = JSON.parse(JSON.stringify(req.body));
     console.log(input);

@@ -59,8 +59,9 @@
             <span class="glyphicon glyphicon-upload"></span>
         </a>
         <div class="row product-info center-block">
-            <div>
-                <textarea style="width: 100%; min-height: 300px;" id="description" name="description"></textarea>
+
+            <div class = "center">
+            <textarea  id="editor" name="editor"></textarea >
             </div>
         </div>
     </form>
@@ -131,7 +132,10 @@
 <script src="js/tweet.js"></script>
 <script src="js/countdown.js"></script>
 <script src="js/gridrotator.js"></script>
-<script src="js/custom.js"></script>
+<script src="js/custom.js"></script><script src="ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('editor')
+</script>
 <script>
     function selectAll(name){
         var properties = document.getElementsByClassName(name);
@@ -174,11 +178,11 @@
                     success: function (msg) {
                         //alert(msg);
                         data = msg;
-                        var description = document.getElementById("description").value;
-                        description +=  '<br>'+'<img border=0 hspace="0" alt="" src="/assets/img/'+response.image+'" align="baseline" class="img-responsive">' + '<br>';
-                        document.getElementById("description").value = description;
-                        document.getElementById("id02").style.display = 'none';
 
+                        CKEDITOR.instances.editor.insertHtml("<figure class=\"image image-style-side\"><img src=\"/assets/img/"+response.image+"\">\n" +
+                            "\t\t\t\t<figcaption></figcaption>\n" +
+                            "\t\t\t</figure>");
+                        document.getElementById("id02").style.display = 'none';
                     }
                 });
 

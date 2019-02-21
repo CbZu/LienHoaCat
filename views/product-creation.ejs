@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <% include partials/index_Header.ejs %>
+<link type="text/css" href="css/sample.css" rel="stylesheet" media="screen" />
+
 <body>
 <div class="container body-content">
     <div class="row">
@@ -299,9 +301,16 @@
 
     </div>
     <div class="row product-info center-block">
-        <div>
+       <!-- <div>
             <textarea style="width: 100%; min-height: 300px;" id="description" name="description"></textarea>
+        </div>-->
+        <div class = "center">
+            <textarea  id="editor">
+                ABC
+
+            </textarea >
         </div>
+
     </div>
 
     </div>
@@ -328,6 +337,11 @@
 <script src="js/countdown.js"></script>
 <script src="js/gridrotator.js"></script>
 <script src="js/custom.js"></script>
+
+<script src="ckeditor/ckeditor.js"></script>
+<script>
+CKEDITOR.replace('editor')
+</script>
 <script>
     function selectAll(name){
         var properties = document.getElementsByClassName(name);
@@ -356,6 +370,7 @@
     }
 
     function CloseModal(){
+
         var formdata1 = new FormData()
         var input = document.getElementsByClassName("form-control newImgModal")
         for (var i = 0; i < input.length; i++) {
@@ -379,9 +394,13 @@
                     success: function (msg) {
                         //alert(msg);
                         data = msg;
-                        var description = document.getElementById("description").value;
+                        /*var description = document.getElementById("description").value;
                         description +=  '<br>'+'<img border=0 hspace="0" alt="" src="/assets/img/'+response.image+'" align="baseline" class="img-responsive">' + '<br>';
                         document.getElementById("description").value = description;
+                        document.getElementById("id02").style.display = 'none';*/
+                        CKEDITOR.instances.editor.insertHtml("<figure class=\"image image-style-side\"><img src=\"/assets/img/"+response.image+"\">\n" +
+                            "\t\t\t\t<figcaption></figcaption>\n" +
+                            "\t\t\t</figure>");
                         document.getElementById("id02").style.display = 'none';
 
                     }
@@ -467,7 +486,7 @@
             var codes = new Array();
             var entities = new Array();
             var infos = new Array();
-            var description = document.getElementById("description").value;
+            var description = CKEDITOR.instances.editor.getData();
             formdata.append('description', description);
             var name = document.getElementById("name").value;
             formdata.append('name', name);
@@ -626,7 +645,7 @@
         var prices = new Array();
         var disct_prices = new Array();
         var codes = new Array();
-        var description = document.getElementById("description").value;
+        var description = CKEDITOR.instances.editor.getData();
         formdata.append('description', description);
         var name = document.getElementById("nameDV").value;
         formdata.append('name', name);

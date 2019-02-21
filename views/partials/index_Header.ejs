@@ -72,7 +72,35 @@
 <nav class="navbar navbar-default">
     <div class="container">
         <%for(var i = 0 ; i < treefolder.length ;i++){%>
-        <%if (treefolder[i].folder_name != 'VIP' && treefolder[i].folder_name != 'Tin Tức') {%>
+        <%if (treefolder[i].folder_name == 'VIP') {%>
+            <div class="dropdown">
+                <ul class="nav navbar-nav navbar-left sm">
+                    <li class="menu-hover"> <a href="/maintenance-prd/VIP"><h3 style="color: black;">VIP</h3></a>
+                    </li>
+                </ul>
+            </div>
+        <%} else if (treefolder[i].folder_name == 'Tin Tức'){%>
+            <div class="dropdown">
+                <ul class="nav navbar-nav navbar-left sm">
+                    <li class="menu-hover"> <a href="/maintenance-prd/Tin-Tức" ><h3><font color="black">Tin Tức</font></h3></a>
+                    </li>
+                </ul>
+            </div>
+        <%} else if (treefolder[i].folder_name == 'Khuyến Mãi'){%>
+            <div class="dropdown">
+                <ul class="nav navbar-nav navbar-left sm">
+                    <li class="menu-hover"> <a href="/promotions" ><h3><font color="black">Khuyến Mãi</font></h3></a>
+                    </li>
+                </ul>
+            </div>
+        <%} else if (treefolder[i].folder_name == 'Xem Tuổi'){%>
+            <div class="dropdown">
+                <ul class="nav navbar-nav navbar-left sm">
+                    <li class="menu-hover"> <a href="/app-phongthuy" data-filter=".folder2" ><h3><font color="black">Xem tuổi</font></h3></a>
+                    </li>
+                </ul>
+            </div>
+        <%} else {%>
         <div class="dropdown">
             <ul class="nav navbar-nav navbar-left sm">
 
@@ -91,32 +119,8 @@
 
         </div>
         <%}%>
-        <%}%>
 
-        <div class="dropdown">
-            <ul class="nav navbar-nav navbar-left sm">
-                <li class="menu-hover"> <a href="/maintenance-prd/Tin-Tức" ><h3><font color="black">Tin Tức</font></h3></a>
-                </li>
-            </ul>
-        </div>
-        <div class="dropdown">
-            <ul class="nav navbar-nav navbar-left sm">
-                <li class="menu-hover"> <a href="/promotions" ><h3><font color="black">Khuyến Mãi</font></h3></a>
-                </li>
-            </ul>
-        </div>
-        <div class="dropdown">
-            <ul class="nav navbar-nav navbar-left sm">
-                <li class="menu-hover"> <a href="/maintenance-prd/VIP"><h3 style="color: black;">VIP</h3></a>
-                </li>
-            </ul>
-        </div>
-        <div class="dropdown">
-            <ul class="nav navbar-nav navbar-left sm">
-                <li class="menu-hover"> <a href="/app-phongthuy" data-filter=".folder2" ><h3><font color="black">Xem tuổi</font></h3></a>
-                </li>
-            </ul>
-        </div>
+        <%}%>
 
         <%if(type == '1'){%>
         <div class="dropdown">

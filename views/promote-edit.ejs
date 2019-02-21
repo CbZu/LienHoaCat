@@ -55,15 +55,12 @@
         <%}%>
         <div class="row product-info center-block">
             <div >
-                <textarea style="width: 100%; min-height: 300px;display: none" id="description" name="description"><%=result[0].description%>
-                </textarea>
-                <p id = 'descriptionArea' name = 'descriptionArea' style="display: block"><%=result[0].description%>
-                </p>
+                <div class = "center">
+                    <textarea  id="editor" name="editor"><%=result[0].description%></textarea >
+                </div>
             </div>
         </div>
     </form>
-    <button class = "btn btn-primary" id = "xemtruoc"onclick="XemTruoc()">Xem Trước</button>
-    <button class = "btn btn-primary" id = "chinhsua" onclick="ChinhSua()" >Chỉnh sửa</button>
 
     <!-- Modal -->
     <div id="id02" class="modal">
@@ -130,6 +127,10 @@
 <script src="/js/countdown.js"></script>
 <script src="/js/gridrotator.js"></script>
 <script src="/js/custom.js"></script>
+<script src="/ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('editor')
+</script>
 <script>
     function CloseModal(){
         var formdata1 = new FormData()
@@ -154,11 +155,9 @@
                     data: "path=" + response.path,
                     success: function (msg) {
                         //alert(msg);
-                        data = msg;
-                        var description = document.getElementById("description").value;
-                        description +=  '<br>'+'<img border=0 hspace="0" alt="" src="/assets/img/'+response.image+'" align="baseline" class="img-responsive">' + '<br>';
-                        document.getElementById("description").value = description;
-                        document.getElementById("description").innerHTML = description;
+                        CKEDITOR.instances.editor.insertHtml("<figure class=\"image image-style-side\"><img src=\"/assets/img/"+response.image+"\">\n" +
+                            "\t\t\t\t<figcaption></figcaption>\n" +
+                            "\t\t\t</figure>");
                         document.getElementById("id02").style.display = 'none';
 
                     }
