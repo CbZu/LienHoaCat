@@ -3,7 +3,7 @@
 <% include partials/index_Header.ejs %>
 <body>
 
-<div class="container">
+<div class="container" id="mobile">
         <div class="row">
             <ol class="breadcrumb">
                 <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="#"> <%= catflt=='undefined'?'':catflt %></a>
@@ -265,7 +265,7 @@
             <%var page = 0;%>
             <% for(j = 0;j < result.length;j++){ %>
             <%page = parseInt(j/12+1);%>
-            <div class="col-xs-6 col-md-4 <%= page %>">
+            <div class="col-xs-6 col-md-3 <%= page %>">
                 <a href="/product-detail/<%=result[j].cat_name.replace(" ", "-")%>/<%=result[j].name.replace(/ /g, '-')%>" >
                     <div class="product">
                         <%if(result[j].new == 'Y'){%>
