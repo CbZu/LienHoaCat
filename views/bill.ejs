@@ -17,7 +17,7 @@
                 <img class="img-responsive center-block" src="/assets/img/header.PNG">
             </div>
             <div class="col-md-5 col-xs-5" style="position: absolute; bottom: 0px; right: 0px;">
-                <h3>Mã đơn hàng:<a href="#" style="color: #00CCFF">LHC00001</a></h3>
+                <h3>Mã đơn hàng:<a href="#" style="color: #00CCFF"><%=result[0].title%></a></h3>
             </div>
         </div>
         <div class="row">
@@ -25,7 +25,7 @@
                     <h4 style="text-decoration: underline; font-style: italic;">Kính gửi:</h4>
                 </div>
                 <div class=" col-xs-10 col-md-10">
-                    <h4 style="color: #00CCFF; font-weight: bold;">Ông Nguyễn Hữu Bảo</h4>
+                    <h4 style="color: #00CCFF; font-weight: bold;"><%=userdetail[0].firstname%></h4>
                 </div>
         </div>
         <div class="row">
@@ -33,7 +33,7 @@
                     <h4 style="text-decoration: underline; font-style: italic;">SĐT:</h4>
                 </div>
                 <div class=" col-xs-10 col-md-10">
-                    <h4 style="color: #00CCFF; font-weight: bold;">0962190841</h4>
+                    <h4 style="color: #00CCFF; font-weight: bold;"><%=userdetail[0].phone%></h4>
                 </div>
         </div>
         <div class="row">
@@ -41,40 +41,153 @@
                     <h4 style="text-decoration: underline; font-style: italic;">Địa chỉ:</h4>
                 </div>
                 <div class=" col-xs-10 col-md-10">
-                    <h4 style="color: #00CCFF; font-weight: bold;">101/3 Lê Hồng Phong, ………………....................
-                ……………………….p2, q5, HCM………………</h4>
+                    <h4 style="color: #00CCFF; font-weight: bold;"><%=userdetail[0].address%></h4>
                 </div>
         </div>
         <div class="row">
-                <div class="col-md-4 col-xs-4">
+                <div class="col-md-2 col-xs-2">
                     <h4 style="text-decoration: underline; font-style: italic;">Hình thức thanh toán:</h4>
                 </div>
-                <div class=" col-xs-8 col-md-8">
-                    <h4 style="color: #00CCFF; font-weight: bold;">COD/Tiền mặt/Chuyển khoản/…</h4>
-                </div>
+            <div class="col-xs-8 col-md-8" id = "type1" style="display: none">
+                <a>
+                    <h4 style="color: #00CCFF; font-weight: bold;">Tiền mặt</h4>
+                </a>
+            </div>
+            <div class="col-xs-8 col-md-8" id = "type2" style="display: none">
+                <a>
+                    <h4 style="color: #00CCFF; font-weight: bold;">Chuyển Khoản</h4>
+                </a>
+            </div>
+            <div class="col-xs-8 col-md-8" id = "type3" style="display: none">
+                <a>
+                    <h4 style="color: #00CCFF; font-weight: bold;">COD</h4>
+                </a>
+            </div>
+            <div class="col-xs-8 col-md-8" id = "type4" style="display: none">
+                <a>
+                    <h4 style="color: #00CCFF; font-weight: bold;">Credit</h4>
+                </a>
+            </div>
         </div>
         <div class="row">
-                <div class="col-md-4 col-xs-4">
+                <div class="col-md-2 col-xs-2">
                     <h4 style="text-decoration: underline; font-style: italic;">Hình thức vận chuyển:</h4>
                 </div>
-                <div class=" col-xs-8 col-md-8">
-                    <h4 style="color: #00CCFF; font-weight: bold;">........</h4>
-                </div>
+            <div class="col-xs-8 col-md-8" id = "ship1" style="display: none">
+                <a>
+                    <h4 style="color: #00CCFF; font-weight: bold;">Giao Hàng Tiết Kiệm</h4>
+                </a>
+            </div>
+            <div class="col-xs-8 col-md-8" id = "ship2" style="display: none">
+                <a>
+                    <h4 style="color: #00CCFF; font-weight: bold;">Giao Hàng Nhanh</h4>
+                </a>
+            </div>
+            <div class="col-xs-8 col-md-8" id = "ship3" style="display: none">
+                <a>
+                    <h4 style="color: #00CCFF; font-weight: bold;">Viettel Post</h4>
+                </a>
+            </div>
+            <div class="col-xs-8 col-md-8" id = "ship4" style="display: none">
+                <a>
+                    <h4 style="color: #00CCFF; font-weight: bold;">VN Post</h4>
+                </a>
+            </div>
+
         </div>
         <div class="row">
-                <div class="col-md-4 col-xs-4">
+                <div class="col-md-2 col-xs-2">
                     <h4 style="text-decoration: underline; font-style: italic;">Mã vận chuyển:</h4>
                 </div>
                 <div class=" col-xs-8 col-md-8">
-                    <h4 style="color: #00CCFF; font-weight: bold;">........</h4>
+                    <h4 style="color: #00CCFF; font-weight: bold;"><%=result[0].shipcode==undefined?'':result[0].shipcode%></h4>
                 </div>
+        </div>
+        <div class="row">
+            <h3>Thông tin sản phẩm</h3>
+
+            <div id="cartdetail" class = "" style="max-width: 100%;">
+                <table class="table table-bordered">
+                    <thead>
+                    <th class="text-right" style="text-align: center;"><h4>Mã sản phẩm</h4></th>
+                    <th class="text-right" style="text-align: center;"><h4>Tên sản phẩm</h4></th>
+                    <th class="text-right" style="text-align: center;"><h4>Phân Loại</h4></th>
+                    <th class="text-right" style="text-align: center;"><h4>Giá sản phẩm</h4></th>
+                    <th class="text-right" style="text-align: center;"><h4>Số Lượng</h4></th>
+                    <th class="text-right" style="text-align: center;"><h4>Thành Tiền</h4></th>
+
+                    </thead>
+                    <tbody>
+
+                    <% for (var i = 0; i < result.length; i++) { %>
+
+                    <% for (var j = 0; j < result[i].sizes.split(';').length; j++) { %>
+                    <tr>
+                        <td class="text-center">
+                            <%= result[i].codes.split(';')[j] %>
+                            <!-- <input id='size_id' class="booking-item-title size_id_header"
+                                   style="text-align: center; background-color: transparent" disabled
+                                   value="<%= result[i].code %>"></input> -->
+                        </td>
+                        <td class="text-center">
+                            <%= result[i].name %>
+                            <!-- <input id='size_id' class="booking-item-title size_id_header"
+                                   style="text-align: center; background-color: transparent" disabled
+                                   value="<%= result[i].name %>"></input> -->
+                        </td>
+                        <td class="text-center">
+                            <%= result[i].sizes.split(';')[j] %>
+                            <!-- <input id='size_id' class="booking-item-title size_id_header"
+                                   style="text-align: center; background-color: transparent" disabled
+                                   value="<%= result[i].sizes.split(';')[j] %>"></input> -->
+                        </td>
+
+                        <td class="text-center">
+                            <% if(result[i].discount_prices== null || result[i].discount_prices.split(';')[j] == null || result[i].discount_prices.split(';')[j] == '0') { %>
+
+                            <label style=" text-align: center"><font
+                                        color="black"><%= result[i].prices.split(';')[j] %> </font></label>
+                            <% }else { %>
+
+                            <label style="text-decoration:line-through ; text-align: center"><font
+                                        color="black"><%= result[i].prices.split(';')[j] %></font></label>-><label
+                                    style=" text-align: center"><font
+                                        color="red"><%= result[i].discount_prices.split(';')[j] %></font></label>
+                            <% } %>
+                        </td>
+                        <td class="text-center ">
+
+                            <h4 ><%= result[i].quantities.split(';')[j].trim() %></h4>
+
+                        </td>
+                        <!--  <td >
+                        <input id="quantity" class="center-block form-control booking-item-title quantity_header"
+                               value="<%=result[i].quantities.split(';')[j].trim()%>" type="number" min="1" max=""
+                               step="1" autocomplete="off" style="width: 50%;" disabled>
+
+                    </td>-->
+                        <td class="text-center ">
+                            <h4 class="currency"><%= result[i].sums.split(';')[j] %></h4>
+
+
+
+                        </td>
+                    </tr>
+                    <% } %>
+
+
+                    <% } %>
+                    <tr id = 'rowInsertBtn'></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="row">
                 <div class="col-md-2 col-xs-2">
                     <h4 style="text-decoration: underline; font-style: italic;">Tổng cộng:</h4>
                 </div>
                 <div class=" col-xs-8 col-md-8">
-                    <h4 style="color: #00CCFF; font-weight: bold;">03 Sản phẩm</h4>
+                    <h4 style="color: #00CCFF; font-weight: bold;" id = "amount">03 Sản phẩm</h4>
                 </div>
         </div>
         <div class="row">
@@ -82,23 +195,15 @@
                     <h4 style="text-decoration: underline; font-style: italic;">Thành tiền:</h4>
                 </div>
                 <div class=" col-xs-8 col-md-8">
-                    <h4 style="color: #00CCFF; font-weight: bold;">299.000đ</h4>
+                    <h4 style="color: #00CCFF; font-weight: bold;" id = 'totalship' class="currency"></h4>
                 </div>
         </div>
         <div class="row">
-                <div class="col-md-2 col-xs-2">
-                    <h4 style="text-decoration: underline; font-style: italic;">Thành tiền:</h4>
+                <div class="col-xs-2 col-md-2">
+                    <h4 style="text-decoration: underline; font-style: italic;">Ngày hóa đơn:</h4>
                 </div>
                 <div class=" col-xs-8 col-md-8">
-                    <h4 style="color: #00CCFF; font-weight: bold;">299.000đ</h4>
-                </div>
-        </div>
-        <div class="row">
-                <div class="col-md-3 col-xs-3">
-                    <h4 style="font-weight: bold; color: #00CCFF;">Ngày hóa đơn:</h4>
-                </div>
-                <div class=" col-xs-8 col-md-8">
-                    <h4 style="color: #00CCFF; font-weight: bold;">..........</h4>
+                    <h4 style="color: #00CCFF; font-weight: bold;" id='today'></h4>
                 </div>
             </div>
     </div>
@@ -111,7 +216,71 @@
         <h3 style="font-weight: bold; text-align: center;">“Liên Hoa Các xin phục vụ những con người an nhiên bằng tấm lòng chân thật…”</h3>
     </div>
 </body>
+<script>
+    var total = '<%=result[0].paymentTotal%>';
+    var ship = '<%=result[0].shipfee%>';
+    document.getElementById('totalship').innerHTML = parseFloat(total) + parseFloat(ship)
 
 
+    <%if(result[0].ship != 0) {%>
+    document.getElementById("ship<%=result[0].ship%>").style.display = 'block'
+    <%}%>
+    <%if(result[0].pay_type != 0) {%>
+    document.getElementById("type<%=result[0].pay_type%>").style.display = 'block'
+    <%}%>
+    var now = new Date();
+
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+    var today = (day)+"-"+(month)+"-"+now.getFullYear() ;
+
+
+    $('#today').html(today);
+    var count = 0;
+    <% for (var i = 0; i < result.length; i++) { %>
+
+    <% for (var j = 0; j < result[i].sizes.split(';').length; j++) { %>
+        count +=  parseInt(<%=result[i].quantities.split(';')[j].trim()%>);
+    <%}}%>
+
+    $('#amount').html(count + ' Sản Phẩm');
+</script>
+<script type="text/javascript">
+    var currents = document.getElementsByClassName("currency");
+    var decimals = 0;
+    for (i = 0; i < currents.length; i++) {
+        var pnumber = currents[i].innerHTML;
+        if (isNaN(pnumber)) {
+            result = 0
+        }
+        ;
+        if (pnumber == '') {
+            result = 0
+        }
+        ;
+        var snum = new String(pnumber);
+        var result = '';
+        j = snum.length - 1;
+        dem = 1;
+        while (j >= 0) {
+            if (dem % 4 != 0) {
+                result = snum[j] + result;
+                j--;
+                dem++;
+            } else {
+                result = '.' + result;
+                dem = 1;
+            }
+        }
+        if (currents[i].id == "dictprice") {
+            currents[i].innerHTML = result;
+        } else {
+            currents[i].innerHTML = "&nbsp;" + result + "&nbsp";
+        }
+
+    }
+
+</script>
 </html>
 

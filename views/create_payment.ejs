@@ -73,9 +73,9 @@
                     <div class="col-sm-8">
 
                         <%if(type == 1){%>
-                        <input class="form-control" id = 'shipfee' value = '' >
+                        <input class="form-control" id = 'shipfee' value = '0' >
                         <%} else {%>
-                        <input class="form-control" id = 'shipfee' value = '' disabled>
+                        <input class="form-control" id = 'shipfee' value = '0' disabled>
                         <%}%>
 
                     </div>
@@ -311,15 +311,37 @@
         var formdata1 = new FormData();
         var sizes = new Array();
         var quantities = new Array();
+        var names = new Array();
+        var codes = new Array();
+        var prices = new Array();
+        var size_products = new Array();
        /* sizes.push(document.getElementById('prd-id').value);
         quantities.push(parseInt($("#amount").val()));*/
 
         for(var i = 0 ; i < document.getElementsByName('id-input').length;i++){
-            sizes.push(document.getElementsByName('id-input')[i].value);
+            if(document.getElementsByName('id-input')[i].value.trim() == ''){
+                sizes.push('0');
+            } else {
+                sizes.push(document.getElementsByName('id-input')[i].value);
+            }
+
         }
         for(var i = 0 ; i < document.getElementsByName('amount-input').length;i++){
             quantities.push(document.getElementsByName('amount-input')[i].value);
         }
+        for(var i = 0 ; i < document.getElementsByName('name-prd-input').length;i++){
+            names.push(document.getElementsByName('name-prd-input')[i].value);
+        }
+        for(var i = 0 ; i < document.getElementsByName('code-input').length;i++){
+            codes.push(document.getElementsByName('code-input')[i].value);
+        }
+        for(var i = 0 ; i < document.getElementsByName('price-input').length;i++){
+            prices.push(document.getElementsByName('price-input')[i].value);
+        }
+        for(var i = 0 ; i < document.getElementsByName('size-input').length;i++){
+            size_products.push(document.getElementsByName('size-input')[i].value);
+        }
+
         formdata1.append('size_id',sizes);
         formdata1.append('quantity',quantities);
         formdata1.append('firstname',$("#name").val());
@@ -345,7 +367,7 @@
                         url: "/PetMart/add-to-cart",
                         type: 'POST',
                         dataType : 'JSON',
-                        data: JSON.stringify({size_id:sizes,quantity:quantities,userId:response.user_id}),
+                        data: JSON.stringify({size_id:sizes,quantity:quantities,userId:response.user_id,name:names,code:codes,price:prices,mode:'create-payment',size:size_products}),
                         async: false,
                         cache: false,
                         contentType: 'application/json; charset=UTF-8',
@@ -364,6 +386,7 @@
                             formdata.append('address', $("#address").val());
                             formdata.append('name', $("#name").val());
                             formdata.append('phone', $("#phone").val());
+                            formdata.append('mode', 'create-payment');
                             $.ajax({
                                 url: '/PetMart/add-to-payment',
                                 type: 'POST',

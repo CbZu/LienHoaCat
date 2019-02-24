@@ -7,6 +7,10 @@ module.exports = function (orm, db) {
         create_time: {type: 'number'},
         status_id: {type: 'number'},
         disct_price: {type: 'number'},
-        price: {type: 'number'}
+        price: {type: 'number'},
+        name: {type: 'text'},
+        code: {type: 'text'},
+        size: {type: 'text'},
+        pos: {type: 'text'}
     });
 };

@@ -98,7 +98,7 @@ module.exports = function (app, controllers) {
     app.get('/promotion-detail/:title',controllers.todo.promotions_detail);
     app.get('/reset-password',controllers.account.reset_password);
     app.post('/update-password',controllers.account.update_password);
-    app.get('/bill', controllers.todo.showBill);
+    app.get('/bill/:id', controllers.todo.showBill);
     app.post('/ajax/add-to-payment-now', controllers.ajax.add_to_payment_now);
     app.post('/ajax/update-treefolder/:id', controllers.ajax.update_folder);
 
