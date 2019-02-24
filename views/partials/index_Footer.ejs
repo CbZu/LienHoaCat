@@ -184,7 +184,9 @@
     if(mobile.detect()){
         document.getElementById('mobile').className = "container-fluid";
     }else{
-        document.getElementById('mobile').className = "container";
+        if (document.getElementById('mobile')!=null){
+            document.getElementById('mobile').className = "container";
+        }        
     }
 </script>
 <script type="text/javascript">

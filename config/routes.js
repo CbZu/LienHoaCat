@@ -92,6 +92,7 @@ module.exports = function (app, controllers) {
     app.post('/save-account',controllers.account.save_account);
     app.get('/deleteSize/:id', controllers.todo.delete_size);
     app.get('/erase-product/:prdname', controllers.todo.erase_product);
+    app.get('/deleteImage/:id/:img', controllers.todo.deleteImage);
 
     app.get('/promotions',controllers.todo.promotions);
     app.get('/create-promotion',controllers.todo.create_promotions);

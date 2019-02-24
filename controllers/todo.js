@@ -1902,6 +1902,55 @@ module.exports.delete_size = function(req, res){
     }
 
 }
+module.exports.deleteImage = function (req, res) {
+    if(req.session.type == 1){
+        var sql = 'select * from image where product_id  = ' + req.params.id + ' and url like \'%' + req.params.img + '%\';';
+        var con = req.db.driver.db;
+        var data = {status: 'error', code: '300'};
+        con.query(sql, function (err, rows) {
+            if(err){
+                data = {status: 'error', code: '300', error: err};
+                res.json(data);
+            }else{
+                var dataUpdate = '';
+                var isdelete = false;
+                if (rows[0].url.indexOf(req.params.img + ';')>=0){
+                    dataUpdate = rows[0].url.replace(req.params.img + ';', '');
+                } else if (rows[0].url.indexOf( ';' + req.params.img )>=0) {
+                    dataUpdate = rows[0].url.replace(';' + req.params.img, '');
+                } else{
+                    isdelete = true;
+                }
+                if (isdelete){
+                    sql = 'delete from image where product_id  = ' + req.params.id + ' and url like \'%' + req.params.img + '%\'';
+                } else{
+                    sql = 'update image set url = \'' + dataUpdate + '\' where product_id  = ' + req.params.id + ' and url like \'%' + req.params.img + '%\'';
+                }
+                con.query(sql, function (err, rows) {
+                    if (err) {
+                        data = {status: 'error', code: '300', error: err};
+                    }
+                    else {
+                        var newpath = '';
+                        var oldpath = req.params.img;
+                        if(__dirname.split('/').length <= 1){
+                            newpath = __dirname.replace(__dirname.split('\\')[__dirname.split('\\').length-1],'public\\assets\\img\\'+oldpath.split("\\")[ oldpath.split("\\").length-1]);
+                        }else{
+                            newpath = __dirname.replace(__dirname.split('/')[__dirname.split('/').length-1],'public/assets/img/'+oldpath.split("/")[ oldpath.split("/").length-1]);
+                        }
+                        fs.unlink(newpath,function(err){
+                            if(err) console.log('file deleted fail');
+                        });
+                        data={status:"success", code:'500'};
+                        res.json(data);
+                    }
+                });
+            }
+        });
+    } else{
+        res.redirect('/');
+    }
+}
 module.exports.erase_product = function(req, res){
     if(req.session.type == 1){
         var sql = 'select *,(select cat_name from category where cat_id = p.cat_id) as cat_name from product p where name = \''+req.params.prdname+'\' order by product_id asc;';

@@ -18,19 +18,26 @@
                 <div class="col-md-4 col-md-offset-2" style="position: absolute; background-color: #69d9f9;">
                     <h4 style="color: white;">FREESHIP</h4>
                 </div>
-                <% for(j = 0;j < image[0].url.split(";").length;j++){ %>
-                <div class="Slide-product fade">
-                    <img onclick="zoomImg()"  class="list-image img-responsive" src="/assets/img/<%=image[0].url.split(";")[j]%>" alt="">
-                </div>
-                <% } %>
-                <div style="position: relative;">
-                    <% for(j = 0;j < image[0].url.split(";").length;j++){ %>
-                    <div class="" style="float: left; width: 25%;">
-                        <img  onclick="currentSlide(<%=j+1%>)" class="img-responsive cursor item-product-detail" src="/assets/img/<%=image[0].url.split(";")[j]%>" alt="image">
-                    </div>
+                <div>
+                    <% for(i = 0; i < image.length; i++){%>
+                        <% for(j = 0;j < image[i].url.split(";").length;j++){ %>
+                        <div class="Slide-product fade">
+                            <img onclick="zoomImg()"  class="list-image img-responsive" src="/assets/img/<%=image[i].url.split(";")[j]%>" alt="">
+                        </div>
+                        <% } %>
                     <% } %>
-                    <a class="prev" onclick="plusSlides(-1)">❮</a>
-                    <a class="next" onclick="plusSlides(1)">❯</a>
+                </div>
+                <div style="position: relative;">
+                    <% for(i = 0; i < image.length; i++){%>
+                        <% for(j = 0;j < image[i].url.split(";").length;j++){ %>
+                        <div style="float: left;width: 25%; max-height: 70px; position: relative;">
+                            <div style="position: absolute; right: 0px; top: 0px;">
+                                <button class="glyphicon glyphicon-remove cursor" onclick="deleteImage('<%=image[i].product_id%>;<%=image[i].url.split(";")[j]%>')" style=""></button>
+                            </div>
+                            <img  onclick="currentSlide(<%=(j+1)+(i*9)%>)" class="img-responsive cursor item-product-detail" src="/assets/img/<%=image[i].url.split(";")[j]%>" alt="image" style="max-height: 70px;">
+                        </div>
+                        <% } %>
+                    <% } %>
                 </div>
             </div>
             <div id="myModal" class="modal">
@@ -418,25 +425,28 @@
 
     var  element = '<%=description%>';
     var str  = element.replace(/&#39;/g, "\"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g,"\"");
-    document.getElementById('descriptionArea').innerHTML = str;
-
-
-    function XemTruoc() {
-        document.getElementById('description').style.display = 'none';
-        document.getElementById('descriptionArea').style.display = 'block';
-        var  element = document.getElementById('description').value;
-        var str  = element.replace(/&#39;/g, "\"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g,"\"");
+    if (document.getElementById('descriptionArea')!=null){
         document.getElementById('descriptionArea').innerHTML = str;
 
 
-    }
+        function XemTruoc() {
+            document.getElementById('description').style.display = 'none';
+            document.getElementById('descriptionArea').style.display = 'block';
+            var  element = document.getElementById('description').value;
+            var str  = element.replace(/&#39;/g, "\"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g,"\"");
+            document.getElementById('descriptionArea').innerHTML = str;
 
-    function ChinhSua() {
-        document.getElementById('description').style.display = 'block';
-        document.getElementById('descriptionArea').style.display = 'none';
-        /*document.getElementById('xemtruoc').disabled = true;
-        document.getElementById('chinhsua').disabled = false;*/
+
+        }
+
+        function ChinhSua() {
+            document.getElementById('description').style.display = 'block';
+            document.getElementById('descriptionArea').style.display = 'none';
+            /*document.getElementById('xemtruoc').disabled = true;
+            document.getElementById('chinhsua').disabled = false;*/
+        }  
     }
+    
     function selectAll(name){
         var properties = document.getElementsByClassName(name);
         if (properties[properties.length-1].checked){
@@ -923,6 +933,23 @@ function deleteSize(idx){
         type: "GET",
         url: "../deleteSize/"+idx,
         data: "" ,
+        success: function (msg) {
+            //alert(msg);
+            data = msg;
+            if (data.code == '500') {
+               window.location.reload();
+            }
+            else {
+              location.href = "/maintenance-prd/<%=result[0].catflt.replace(/ /g,'-')%>";
+            }
+        }
+    });
+}
+function deleteImage(data){
+    $.ajax({
+        type: "GET",
+        url: "../deleteImage/" + data.split(";")[0] + "/" + data.split(";")[1],
+        data: "",
         success: function (msg) {
             //alert(msg);
             data = msg;

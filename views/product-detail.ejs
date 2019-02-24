@@ -39,6 +39,17 @@
                     <a class="prev" onclick="plusSlides(-1)">❮</a>
                     <a class="next" onclick="plusSlides(1)">❯</a>
                 </div>
+                <!-- <div class="col-md-12 col-xs-12">
+                    <div class="carousel js-flickity">
+                        <%for(i = 0;i < image.length;i++){%>
+                            <% for(j = 0;j < image[i].url.split(";").length;j++){ %>
+                                <div class="carousel-cell">
+                                    <img class="center-block" src="/assets/img/<%= image[i].url.split(";")[j] %>" alt="...">
+                                </div>
+                            <% } %>
+                        <% } %>
+                    </div>
+                </div> -->
             </div>
             <div id="myModal" class="modal">
                 <span id="closeImg" class="close">&times;</span>
