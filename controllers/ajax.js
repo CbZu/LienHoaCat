@@ -439,7 +439,7 @@ exports.updateProduct=function(req,res){
     if(path.trim()!=''){
         sql = 'select * from image where product_id = '+input.OldIds.split(",")[0]+';';
         con.query(sql, function (err, element) {
-            var newpath = '';
+            /*var newpath = '';
             for( var k = 0 ; k < element.length ; k++){
                 for( var h = 0 ; h < element[k].url.split(";").length ; h++){
                     var oldpath = element[k].url.split(';')[h];
@@ -452,10 +452,10 @@ exports.updateProduct=function(req,res){
                         if(err) console.log('file deleted fail');
                     });
                 }
-            }
+            }*/
 
-            sql = 'delete from image where product_id = '+input.OldIds.split(",")[0];
-            con.query(sql);
+           /* sql = 'delete from image where product_id = '+input.OldIds.split(",")[0];
+            con.query(sql);*/
             if(avas.split(";").length >9){
                 var newAvas = '';
                 for(var k = 0 ; k < avas.split(";").length ; k++){
@@ -575,7 +575,7 @@ exports.updateProductDV=function(req,res){
 
         sql = 'select * from image where product_id = '+input.product_id+';';
         con.query(sql, function (err, element) {
-            var newpath = '';
+            /*var newpath = '';
             for( var k = 0 ; k < element.length ; k++){
                 for( var h = 0 ; h < element[k].url.split(";").length ; h++){
                     var oldpath = element[k].url.split(';')[h];
@@ -588,10 +588,10 @@ exports.updateProductDV=function(req,res){
                         if(err) console.log('file deleted fail');
                     });
                 }
-            }
+            }*/
 
-            var sql = 'delete from  image where  product_id = '+input.product_id+';';
-            con.query(sql);
+           /* var sql = 'delete from  image where  product_id = '+input.product_id+';';
+            con.query(sql);*/
 
             if(avas.split(";").length >9){
                 var newAvas = '';
