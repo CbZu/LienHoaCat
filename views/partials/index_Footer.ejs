@@ -135,51 +135,7 @@
     }(document, 'script', 'facebook-jssdk'));
 </script>
 <script type="text/javascript">
-    var mobile = function(){
-
-        return {
-
-            detect:function(){
-
-                var uagent = navigator.userAgent.toLowerCase();
-
-                var list = this.mobiles;
-
-                var ismobile = false;
-
-                for(var d=0;d<list.length;d+=1){
-
-                    if(uagent.indexOf(list[d])!=-1){
-
-                        ismobile = true;
-
-                    }
-
-                }
-
-                return ismobile;
-
-            },
-
-            mobiles:[
-
-                "midp","240x320","blackberry","netfront","nokia","panasonic",
-
-                "portalmmm","sharp","sie-","sonyericsson","symbian",
-
-                "windows ce","benq","mda","mot-","opera mini",
-
-                "philips","pocket pc","sagem","samsung","sda",
-
-                "sgh-","vodafone","xda","palm","iphone",
-
-                "ipod","android"
-
-            ]
-
-        };
-
-    }();
+    
     
     if(mobile.detect()){
         
@@ -187,12 +143,24 @@
             document.getElementById('mobile').className = "container-fluid";
         }
         document.getElementById('headerMobile').style.display = "block";
-        
+        document.getElementById('menu-pc').innerHTML = ""; 
+        if (document.getElementById('descriptionArea')!=null){
+            document.getElementById('descriptionArea').style.fontSize = "45px";
+        }
+
+        var fontMobile = document.getElementsByClassName('font-mobile');
+        for (var i = 0; i< fontMobile.length; i++){
+            fontMobile[i].style.fontSize = "300%";
+        }
     }else{
         if (document.getElementById('mobile')!=null){
             document.getElementById('mobile').className = "container";
         }
-        document.getElementById('menu-pc').style.display = "block";        
+        if (document.getElementById('descriptionArea')!=null){
+            document.getElementById('descriptionArea').style.fontSize = "20px";
+        }
+        document.getElementById('menu-pc').style.display = "block";
+        document.getElementById('headerMobile').innerHTML = "";         
     }
 </script>
 <script type="text/javascript">
@@ -207,4 +175,27 @@
     for (var i=0; i<product.length; i++){
         product[i].style.height = product[i].offsetWidth*4/3 + maxHeight + 30 + "px";
     }
+
+</script>
+<script>
+    $.ajax({
+        url: '/PetMart/get-cart',
+        type: 'POST',
+        dataType: 'JSON',
+        async: false,
+        cache: false,
+        contentType: 'application/json; charset=UTF-8',
+        enctype: 'multipart/form-data',
+        processData: false,
+        success: function (response) {
+            var count = 0
+              for (var i = 0; i < response.result.length; i++) {
+
+                    for (var j = 0; j < response.result[i].sizes.split(';').length; j++) {
+                        count+= parseInt(response.result[i].quantities.split(';')[j]);
+                    }
+              }
+            document.getElementById('cartIcon').innerText = parseInt(count);
+        }
+    });
 </script>

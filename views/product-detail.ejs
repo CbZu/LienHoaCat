@@ -4,7 +4,7 @@
 <body>
 <div class="container body-content">
     <div class="row ">
-        <ol class="breadcrumb">
+        <ol class="breadcrumb font-mobile">
             <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a
                     href="/maintenance-prd/<%= result[0].catflt.replace(/ /g, '-') %>"> <%= result[0].catflt %></a> / <a
                     href="#"><%= result[0].name %></a>
@@ -62,11 +62,11 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <h2 style="margin: 5px;"><b><%= result[0].name %></b></h2>
+                    <h2 style="" class="font-mobile"><b><%= result[0].name %></b></h2>
                 </div>
                 <%if(result[0].code.trim() != ''){%>
                 <div class="col-md-4 col-md-offset-2">
-                    <h3 style="margin: 10px;">Mã SP: <a href="#" style="color: red;"><%= result[0].code %></a></h3>
+                    <h3 style="" class="font-mobile">Mã SP: <a href="#" style="color: red;"><%= result[0].code %></a></h3>
                 </div>
                 <%}%>
             </div>
@@ -74,7 +74,7 @@
             <div class="row">
                 <div class="col-md-10">
                     <%if(result[0].menh.trim() != ''){%>
-                    <h3 style="color: #2b70fc;">Hợp với mệnh:
+                    <h3 style="color: #2b70fc;" class="font-mobile">Hợp với mệnh:
                         <%if(result[0].menh.split(';')[result[0].menh.split(';').length-2].trim() == 'All'){%>
                         <a href="#"
                            style="color: black;">Tất cả mệnh</a>
@@ -86,7 +86,7 @@
                     <%}%>
 
                     <%if(result[0].tuoi.trim() != ''){%>
-                    <h3 style="color: #2b70fc;">Hợp với tuổi:
+                    <h3 style="color: #2b70fc;" class="font-mobile">Hợp với tuổi:
                         <%if(result[0].tuoi.split(';')[result[0].tuoi.split(';').length-2].trim() == 'All'){%>
                         <a href="#"
                            style="color: black;">Tất cả tuổi</a>
@@ -127,9 +127,9 @@
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-xs-12">
-                            <h2 class="currency" style="color: red; font-weight: bold; float: left;" id="dictprice"
+                            <h2 class="currency font-mobile" style="color: red; font-weight: bold; float: left;" id="dictprice"
                                 value='0'>210.000</h2>
-                            <h2><a href="" style="font-weight: normal; color: #6b6b6c;">&nbspVNĐ</a></h2>
+                            <h2 class="font-mobile"><a href="" style="font-weight: normal; color: #6b6b6c;">&nbspVNĐ</a></h2>
                         </div>
                     </div>
                     <div class="row">
@@ -143,7 +143,7 @@
                     </div>
                 </div>
                 <div class="col-md-5 col-md-offset-1">
-                    <h4 style="text-align: center;">Số lượng: </h4>
+                    <h4 style="text-align: center;" class="font-mobile">Số lượng: </h4>
                     <div class="row">
                         <div class="col-xs-offset-4 col-xs-4 col-md-offset-2 col-md-8">
                             <div class="input-group">
@@ -163,7 +163,7 @@
             </div>
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
-                    <h4 style="color: #6b6b6c; font-style: italic; text-align: center;">Thành tiền: <a href=""
+                    <h4 style="color: #6b6b6c; font-style: italic; text-align: center;" class="font-mobile">Thành tiền: <a href=""
                                                                                    style="color: red; font-style: italic"
                                                                                    id="thanhtien">0</a> vnđ</h4>
                 </div>
@@ -205,7 +205,7 @@
         <br>
         <br>
         <div class="col-xs-12">
-            <p id='descriptionArea' name='descriptionArea'>
+            <p id='descriptionArea' name='descriptionArea' style="font-size: 20px;">
             </p>
         </div>
     </div>

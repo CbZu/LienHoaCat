@@ -5,7 +5,7 @@
 
 <div class="container" id="mobile">
         <div class="row">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb font-mobile">
                 <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="#"> <%= catflt=='undefined'?'':catflt %></a>
             </ol>
 
@@ -56,7 +56,7 @@
     <%if (type == '1'){%>
          <div class="row">
                 <div class="col-md-3">
-                    <a class="btn btn-primary" href="/create-prd?cat=<%= catflt %>&catId=<%= catId %>">Thêm Sản Phẩm</a>
+                    <a class="btn btn-primary font-mobile" href="/create-prd?cat=<%= catflt %>&catId=<%= catId %>">Thêm Sản Phẩm</a>
                 </div>
             </div>
     <%}%>
@@ -64,17 +64,17 @@
     <div class = "row">
         <form action = '<%=catflt=='undefined'?'/maintenance-prd/Search?keyword='+keyword:/maintenance-prd/+catflt%>' method = 'get'>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-3 col-xs-6">
                     <div class="form-group">
-                        <h3><span class="label label-success">Kích thước(mm) :</span></h3>
+                        <h3 class="font-mobile"><span class="label label-success">Kích thước(mm) :</span></h3>
                     </div>
                     <div class="form-group">
                         <input  class=" form-control" name = 'size' id = 'size'   type="number" placeholder="Chỉ nhập nếu bạn cần 1 size cụ thể!" />
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 col-xs-6">
                     <div class="form-group">
-                        <h3><span class="label label-success">Hợp mệnh: </span></h3>
+                        <h3 class="font-mobile"><span class="label label-success">Hợp mệnh: </span></h3>
                     </div>
                     <div class="form-group">
                         <select class=" form-control" name = 'menh' id = 'menh'>
@@ -91,9 +91,9 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 col-xs-6">
                     <div class="form-group">
-                        <h3><span class="label label-success">Màu sắc:</span></h3>
+                        <h3 class="font-mobile"><span class="label label-success">Màu sắc:</span></h3>
                     </div>
                     <div class="form-group">
                         <select class=" form-control" name = 'mau' id = 'mau'>
@@ -115,9 +115,9 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 col-xs-6">
                     <div class="form-group">
-                        <h3><span class="label label-success">Hợp tuổi:</span></h3>
+                        <h3 class="font-mobile"><span class="label label-success">Hợp tuổi:</span></h3>
                     </div>
                     <div class="form-group">
                         <select class=" form-control" name = 'tuoi' id = 'tuoi'>
@@ -173,7 +173,7 @@
                     <div class = "row">
                         <div class="col-md-offset-5 col-md-2 col-xs-offset-5 col-xs-3">
                             <div class="form-group">
-                                <input class="btn btn-primary" value = 'Áp Dụng' type = 'submit'>
+                                <input class="btn btn-primary font-mobile" value = 'Áp Dụng' type = 'submit'>
                             </div>
                         </div>
                     </div>
@@ -337,12 +337,12 @@
         <div>
             <nav aria-label="Page navigation example" style="text-align: center;">
                 <ul class="pagination">
-                    <li class="page-item"><a class="page-link" onclick="plusPage(-1)" href="#">Previous</a></li>
-                    <li class="page-item"><a class="page-link active" onclick="currentPage(1)" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link font-mobile" onclick="plusPage(-1)" href="#">Previous</a></li>
+                    <li class="page-item"><a class="page-link active font-mobile" onclick="currentPage(1)" href="#">1</a></li>
             <% for(i=2;i <= page; i++){ %>
-                    <li class="page-item"><a class="page-link" onclick="currentPage(<%=i%>)" href="#"><%=i%></a></li>
+                    <li class="page-item"><a class="page-link font-mobile" onclick="currentPage(<%=i%>)" href="#"><%=i%></a></li>
             <% } %>
-                    <li class="page-item"><a class="page-link" onclick="plusPage(1)" href="#">Next</a></li>
+                    <li class="page-item"><a class="page-link font-mobile" onclick="plusPage(1)" href="#">Next</a></li>
                 </ul>
             </nav>
         </div>
