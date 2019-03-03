@@ -182,11 +182,17 @@
     }();
     
     if(mobile.detect()){
-        document.getElementById('mobile').className = "container-fluid";
+        
+        if (document.getElementById('mobile')!=null){
+            document.getElementById('mobile').className = "container-fluid";
+        }
+        document.getElementById('headerMobile').style.display = "block";
+        
     }else{
         if (document.getElementById('mobile')!=null){
             document.getElementById('mobile').className = "container";
-        }        
+        }
+        document.getElementById('menu-pc').style.display = "block";        
     }
 </script>
 <script type="text/javascript">

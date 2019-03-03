@@ -12,40 +12,235 @@
     <script src="/js/flickity.pkgd.min.js"></script>
 </head>
 
-<div class="container">
-    <div class="row">
-        <div class="col-xs-3 col-md-2" style="text-align: center;">
-            <a href="/"><img src="/img/logo.png" alt="LienHoaCac" style="width: 120px;padding: 0px;"></a>
-        </div>
-    
-        <div class="col-xs-9 col-md-6">
-            <form class="search" method="GET" action="/maintenance-prd/Search">
-                <div class="form-group">
-                    <input style="background-color: white;" type="text" name="keyword" id="keyword-search" placeholder="Tìm kiếm trên Liên Hoa Các..." value="">
-                </div>
-                <button type="submit" class=""><span class="glyphicon glyphicon-search"></span></button>
-            </form>
-        </div>
-        <div class="col-xs-2 col-md-1 cursor">
-            <button class="cursor" onclick="GetCart(0)" style="background-color: transparent; border: 0px; padding: 0px; position: relative;">
-                <img src="/img/cart.png" class="img-responsive cursor shopping-cart" style="max-width: 50px; margin: 15px 10px 15px 0px;">
-                <h4 id ='cartIcon' style="color: red; background-color: transparent; position: absolute; top: 0px; right: 0px;"></h4>
-            </button>
-        </div>
-        <div class="col-xs-4 col-md-2" style="max-width: 200px; margin: 15px 0px 0px 0px; text-align: right;">
-            <% if(fname != undefined){ %>
-            <div class="dropdown" style="">
-                <!-- <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: transparent;">
-                <span class="glyphicon glyphicon-th-list"></span> Menu
-                </button> -->
-                <ul class="nav navbar-nav navbar-left sm menu-hover" style="position: absolute; right: 0px;">
 
-                    <li> <h5>Kính chào <%=fname%>! &nbsp<span class="glyphicon glyphicon-triangle-bottom"></span></h5>
+<div class="container-fuild" id="headerMobile" style="display: none;">
+    <div class="row">        
+        <div class="col-xs-3">
+            <a href="/"><img src="/img/logo.png" alt="LienHoaCac" style="width: 100%;padding: 0px;"></a>
+        </div>
+        <div class="col-xs-7">
+            <div class="row">
+                <div class="col-xs-12" style="padding: 30px;">
+                    <form class="search" method="GET" action="/maintenance-prd/Search">
+                        <div class="form-group">
+                            <input style="background-color: white; width: 80%; min-height: 70px;" type="text" name="keyword" id="keyword-search" placeholder="Tìm kiếm trên Liên Hoa Các..." value="">
+                        </div>
+                        <button type="submit" class="" style="width: 20%; min-height: 70px;"><span class="glyphicon glyphicon-search"></span></button>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <button class="cursor" onclick="GetCart(0)" style="background-color: transparent; border: 0px; padding: 0px; position: relative;">
+                        <img src="/img/cart.png" class="img-responsive cursor shopping-cart" style="max-width: 100px; margin: 15px 10px 15px 0px;">
+                        <h4 id ='cartIcon' style="color: red; background-color: transparent; position: absolute; top: 0px; right: 0px;"></h4>
+                    </button>
+                </div>
+                <div class="col-xs-4" style="padding: 30px 0px 30px 0px">
+                    <% if(fname != undefined){ %>
+                        <div class="dropdown" style="">
+                            <ul class="nav navbar-nav navbar-left sm menu-hover" style="">
+                                <li> <h4>Kính chào <%=fname%>!<span class="glyphicon glyphicon-triangle-bottom"></span></h4>
+                                    <ul class="dropdown-menu">
+                                        <li> <a href="/show-payment"><h3>Đơn Hàng</h3></a>
+                                        </li>
+                                        <li> <a href="/edit-account"><h3>Chỉnh Sửa Thông Tin</h3></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    <% } %>
+                </div>
+                <div class="col-xs-4" style="padding: 30px">
+                    <% if(type != undefined){%>
+                    <a href="/logout">
+                        <button class="btn btn-success" style="min-width: 100px; min-height: 70px;">
+                            Đăng Xuất
+                        </button>
+                    </a>
+                    
+                        <!-- <a class="btn btn-success" style="min-width: 100px; min-height: 70px;" href="/logout"><p style="color: white;">Đăng Xuất</p></a> -->
+                    <% } %>
+
+                    <% if(type == undefined){%>
+                        <a onclick="document.getElementById('id01').style.display='block'">
+                            <button class="btn btn-success" style="min-width: 100px; min-height: 70px;"> 
+                                Đăng Nhập
+                            </button>
+                        </a>
+                        <!-- <a class="btn btn-success " onclick="document.getElementById('id01').style.display='block'"><p style="color: white;">Đăng nhập</p></a> -->
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-2">
+            <a onclick="openNav()" style="background-color: transparent; border: 0px; padding: 30px; position: relative;">
+                <img src="/img/align-justify.png" class="img-responsive cursor shopping-cart" style="max-width: 90px; margin: 15px 10px 15px 0px;">
+            </a>
+            <div class="container-fuild large-menu" id="menu-mobile" style="">
+                <div class="row">
+                    <div class="col-xs-offset-10 col-xs-1"><a href="javascript:void(0)" class="closebtn font-menu-mobile" onclick="closeNav()">&times;</a></div>
+                    <%for(var i = 0 ; i < treefolder.length ;i++){%>
+                        <%if (treefolder[i].folder_name == 'VIP') {%>
+                            <div class="col-xs-9">
+                                <a class="font-menu-mobile" href="/maintenance-prd/VIP">VIP</a>
+                            </div>
+                        <%} else if (treefolder[i].folder_name == 'Tin Tức'){%>
+                            <div class="col-xs-9">
+                                <a class="font-menu-mobile" ref="/maintenance-prd/Tin-Tức">Tin Tức</a>
+                            </div>
+                        <%} else if (treefolder[i].folder_name == 'Khuyến Mãi'){%>
+                            <div class="col-xs-9">
+                                <a class="font-menu-mobile" ref="/promotions">Khuyến Mãi</a>
+                            </div>
+                        <%} else if (treefolder[i].folder_name == 'Xem Tuổi'){%>
+                            <div class="col-xs-9">
+                                <a class="font-menu-mobile" href="/app-phongthuy" data-filter=".folder2" >Xem tuổi</a>
+                            </div>
+                         <%} else {%>
+                            <div class="col-xs-12">
+                                    <div class="selected-menu">
+                                        <a class="font-menu-mobile" data-filter=".folder2" onclick="display('<%=treefolder[i].folder_name%>')"><%=treefolder[i].folder_name%></a>
+                                    </div>
+                                    
+                                    <a class="font-menu-mobile display-menu" style="font-weight: bold; position: absolute; right: 50px; top: 0px;" onclick="display('<%=treefolder[i].folder_name%>')">+</a>
+                                    <a class=" font-menu-mobile hide-menu" style="font-weight: bold; display: none; position: absolute; right: 0px; top: 0px;">-</a>
+                                    <div class="small-menu" id="<%=treefolder[i].folder_name%>" style="display: none;">
+                                        <%for(var j = 0 ; j < treefolder[i].cat_names.split(";").length ; j++){%>
+                                        <a class="font-menu-mobile col-xs-9" href="/maintenance-prd/<%=treefolder[i].cat_names.split(";")[j].trim().replace(/ /g,"-")%>">
+                                            <%=treefolder[i].cat_names.split(";")[j]%>
+                                        </a>
+                                        <%}%>
+                                    </div>    
+                            </div>
+                        <%}%>
+
+                    <%}%>
+
+                    <%if(type == '1'){%>
+                    <div class="col-xs-12">
+                        <div class="selected-menu">
+                            <a class="font-menu-mobile selected-menu" onclick="display('Administrator')">Administrator</a>
+                        </div>
+                        
+                        <a class="font-menu-mobile display-menu" style="font-weight: bold; position: absolute; right: 50px; top: 0px;" onclick="display('Administrator')">+</a>                        
+                        <div class="small-menu" id="Administrator" style="display: none;">
+                            <a class="font-menu-mobile col-xs-9" href="/maintenance">Tài Khoản</a>
+                            <a class="font-menu-mobile col-xs-9" href="/show-payment">Đơn Hàng</a>
+                            <a class="font-menu-mobile col-xs-9" href="/maintenance-cat">Thư Mục</a>
+                            <a class="font-menu-mobile col-xs-9" href="/voucher">Voucher</a>
+                            <a class="font-menu-mobile col-xs-9" href="/maintenance-prd/All">Kho</a>    
+                        </div>
+                    </div>
+                    <%}%>                
+                </div>
+            </div>
+            <div id="close-area" onclick="closeNav()" class="close-area"></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fuild" id="menu-pc"  style="display: none;">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-3 col-md-2" style="text-align: center;">
+                <a href="/"><img src="/img/logo.png" alt="LienHoaCac" style="width: 120px;padding: 0px;"></a>
+            </div>
+        
+            <div class="col-xs-9 col-md-6">
+                <form class="search" method="GET" action="/maintenance-prd/Search">
+                    <div class="form-group">
+                        <input style="background-color: white;" type="text" name="keyword" id="keyword-search" placeholder="Tìm kiếm trên Liên Hoa Các..." value="">
+                    </div>
+                    <button type="submit" class=""><span class="glyphicon glyphicon-search"></span></button>
+                </form>
+            </div>
+            <div class="col-xs-2 col-md-1 cursor">
+                <button class="cursor" onclick="GetCart(0)" style="background-color: transparent; border: 0px; padding: 0px; position: relative;">
+                    <img src="/img/cart.png" class="img-responsive cursor shopping-cart" style="max-width: 50px; margin: 15px 10px 15px 0px;">
+                    <h4 id ='cartIcon' style="color: red; background-color: transparent; position: absolute; top: 0px; right: 0px;"></h4>
+                </button>
+            </div>
+            <div class="col-xs-4 col-md-2" style="max-width: 200px; margin: 15px 0px 0px 0px; text-align: right;">
+                <% if(fname != undefined){ %>
+                <div class="dropdown" style="">
+                    <!-- <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: transparent;">
+                    <span class="glyphicon glyphicon-th-list"></span> Menu
+                    </button> -->
+                    <ul class="nav navbar-nav navbar-left sm menu-hover" style="position: absolute; right: 0px;">
+
+                        <li> <h5>Kính chào <%=fname%>! &nbsp<span class="glyphicon glyphicon-triangle-bottom"></span></h5>
+                            <ul class="dropdown-menu">
+                                <li> <a href="/show-payment"><h4>Đơn Hàng</h4></a>
+                                </li>
+                                <li> <a href="/edit-account"><h4>Chỉnh Sửa Thông Tin</h4></a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+
+                    </ul>
+
+
+                </div>
+
+                <% } %>
+            </div>
+            <div class="col-xs-2 col-md-1" style="max-width: 50px; margin: 15px 0px 15px 0px;">
+                <% if(type != undefined){%>
+                    <a class="btn btn-success" style="min-width: 100px;" href="/logout"><p style="color: white;">Đăng Xuất</p></a>
+                <% } %>
+
+                <% if(type == undefined){%>
+                    <a class="btn btn-success " onclick="document.getElementById('id01').style.display='block'"><p style="color: white;">Đăng nhập</p></a>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <%for(var i = 0 ; i < treefolder.length ;i++){%>
+            <%if (treefolder[i].folder_name == 'VIP') {%>
+                <div class="dropdown">
+                    <ul class="nav navbar-nav navbar-left sm">
+                        <li class="menu-hover"> <a href="/maintenance-prd/VIP"><h3 style="color: black;">VIP</h3></a>
+                        </li>
+                    </ul>
+                </div>
+            <%} else if (treefolder[i].folder_name == 'Tin Tức'){%>
+                <div class="dropdown">
+                    <ul class="nav navbar-nav navbar-left sm">
+                        <li class="menu-hover"> <a href="/maintenance-prd/Tin-Tức" ><h3><font color="black">Tin Tức</font></h3></a>
+                        </li>
+                    </ul>
+                </div>
+            <%} else if (treefolder[i].folder_name == 'Khuyến Mãi'){%>
+                <div class="dropdown">
+                    <ul class="nav navbar-nav navbar-left sm">
+                        <li class="menu-hover"> <a href="/promotions" ><h3><font color="black">Khuyến Mãi</font></h3></a>
+                        </li>
+                    </ul>
+                </div>
+            <%} else if (treefolder[i].folder_name == 'Xem Tuổi'){%>
+                <div class="dropdown">
+                    <ul class="nav navbar-nav navbar-left sm">
+                        <li class="menu-hover"> <a href="/app-phongthuy" data-filter=".folder2" ><h3><font color="black">Xem tuổi</font></h3></a>
+                        </li>
+                    </ul>
+                </div>
+            <%} else {%>
+            <div class="dropdown">
+                <ul class="nav navbar-nav navbar-left sm">
+
+                    <li class="menu-hover"> <a data-filter=".folder2" ><h3><font color="black"><%=treefolder[i].folder_name%></font></h3></a>
                         <ul class="dropdown-menu">
-                            <li> <a href="/show-payment"><h4>Đơn Hàng</h4></a>
-                            </li>
-                            <li> <a href="/edit-account"><h4>Chỉnh Sửa Thông Tin</h4></a>
-                            </li>
+                            <%for(var j = 0 ; j < treefolder[i].cat_names.split(";").length ; j++){%>
+                            <li> <a href="/maintenance-prd/<%=treefolder[i].cat_names.split(";")[j].trim().replace(/ /g,"-")%>"><h3><%=treefolder[i].cat_names.split(";")[j]%></h3></a></li>
+                            <%}%>
 
                         </ul>
                     </li>
@@ -55,93 +250,29 @@
 
 
             </div>
+            <%}%>
 
-            <% } %>
-        </div>
-        <div class="col-xs-2 col-md-1" style="max-width: 50px; margin: 15px 0px 15px 0px;">
-            <% if(type != undefined){%>
-                <a class="btn btn-success" style="min-width: 100px;" href="/logout"><p style="color: white;">Đăng Xuất</p></a>
-            <% } %>
+            <%}%>
 
-            <% if(type == undefined){%>
-                <a class="btn btn-success " onclick="document.getElementById('id01').style.display='block'"><p style="color: white;">Đăng nhập</p></a>
-            <% } %>
+            <%if(type == '1'){%>
+            <div class="dropdown">
+                <ul class="nav navbar-nav navbar-left sm">
+                    <li class="menu-hover"> <a><h3><font color="black">Administrator</font></h3></a>
+                        <ul class="dropdown-menu">
+                            <li> <a href="/maintenance"><h4>Tài Khoản</h4></a></li>
+                            <li> <a href="/show-payment"><h4>Đơn Hàng</h4></a></li>
+                            <li> <a href="/maintenance-cat"><h4>Thư Mục</h4></a></li>
+                            <li> <a href="/voucher"><h4>Voucher</h4></a></li>
+                            <li> <a href="/maintenance-prd/All"><h4>Kho</h4></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <%}%>
+
         </div>
-    </div>
+    </nav>
 </div>
-
-<nav class="navbar navbar-default">
-    <div class="container">
-        <%for(var i = 0 ; i < treefolder.length ;i++){%>
-        <%if (treefolder[i].folder_name == 'VIP') {%>
-            <div class="dropdown">
-                <ul class="nav navbar-nav navbar-left sm">
-                    <li class="menu-hover"> <a href="/maintenance-prd/VIP"><h3 style="color: black;">VIP</h3></a>
-                    </li>
-                </ul>
-            </div>
-        <%} else if (treefolder[i].folder_name == 'Tin Tức'){%>
-            <div class="dropdown">
-                <ul class="nav navbar-nav navbar-left sm">
-                    <li class="menu-hover"> <a href="/maintenance-prd/Tin-Tức" ><h3><font color="black">Tin Tức</font></h3></a>
-                    </li>
-                </ul>
-            </div>
-        <%} else if (treefolder[i].folder_name == 'Khuyến Mãi'){%>
-            <div class="dropdown">
-                <ul class="nav navbar-nav navbar-left sm">
-                    <li class="menu-hover"> <a href="/promotions" ><h3><font color="black">Khuyến Mãi</font></h3></a>
-                    </li>
-                </ul>
-            </div>
-        <%} else if (treefolder[i].folder_name == 'Xem Tuổi'){%>
-            <div class="dropdown">
-                <ul class="nav navbar-nav navbar-left sm">
-                    <li class="menu-hover"> <a href="/app-phongthuy" data-filter=".folder2" ><h3><font color="black">Xem tuổi</font></h3></a>
-                    </li>
-                </ul>
-            </div>
-        <%} else {%>
-        <div class="dropdown">
-            <ul class="nav navbar-nav navbar-left sm">
-
-                <li class="menu-hover"> <a data-filter=".folder2" ><h3><font color="black"><%=treefolder[i].folder_name%></font></h3></a>
-                    <ul class="dropdown-menu">
-                        <%for(var j = 0 ; j < treefolder[i].cat_names.split(";").length ; j++){%>
-                        <li> <a href="/maintenance-prd/<%=treefolder[i].cat_names.split(";")[j].trim().replace(/ /g,"-")%>"><h3><%=treefolder[i].cat_names.split(";")[j]%></h3></a></li>
-                        <%}%>
-
-                    </ul>
-                </li>
-
-
-            </ul>
-
-
-        </div>
-        <%}%>
-
-        <%}%>
-
-        <%if(type == '1'){%>
-        <div class="dropdown">
-            <ul class="nav navbar-nav navbar-left sm">
-                <li class="menu-hover"> <a><h3><font color="black">Administrator</font></h3></a>
-                    <ul class="dropdown-menu">
-                        <li> <a href="/maintenance"><h4>Tài Khoản</h4></a></li>
-                        <li> <a href="/show-payment"><h4>Đơn Hàng</h4></a></li>
-                        <li> <a href="/maintenance-cat"><h4>Thư Mục</h4></a></li>
-                        <li> <a href="/voucher"><h4>Voucher</h4></a></li>
-                        <li> <a href="/maintenance-prd/All"><h4>Kho</h4></a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <%}%>
-
-    </div>
-</nav>
-
 
 <div class="row">
     <div id="id01" class="modal">
@@ -580,6 +711,33 @@
             }
         });
 
+    }
+    function openNav() {
+      document.getElementById("menu-mobile").style.width = "70%";
+      document.getElementById("close-area").style.width = "30%";
+    }
+
+    function closeNav() {
+      document.getElementById("menu-mobile").style.width = "0px";
+      document.getElementById("close-area").style.width = "0px";
+    }
+    function display(input){
+        var x = document.getElementsByClassName("small-menu");
+        var y = document.getElementsByClassName("display-menu");
+        var z = document.getElementsByClassName("selected-menu");
+        for(var i = 0; i < x.length; i++){
+            if (y[i].innerHTML === "-") {
+                x[i].style.display = "none";
+                y[i].innerHTML = "+";
+                z[i].style.backgroundColor = "#EEEEEE";
+            } else {
+                if (x[i].id === input){
+                    x[i].style.display = "block";
+                    y[i].innerHTML = "-";
+                    z[i].style.backgroundColor = "#CCCCCC";                    
+                }                
+            }
+        }
     }
 </script>
 </html>
