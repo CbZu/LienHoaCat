@@ -152,6 +152,13 @@
         for (var i = 0; i< fontMobile.length; i++){
             fontMobile[i].style.fontSize = "300%";
         }
+        if (document.getElementById('buttonFilter')!=null){
+            document.getElementById('buttonFilter').style.display = "block";
+        }        
+        if (document.getElementById('filter')!=null){
+            document.getElementById('filter').style.display = "none";
+        }
+        
     }else{
         if (document.getElementById('mobile')!=null){
             document.getElementById('mobile').className = "container";
@@ -160,7 +167,10 @@
             document.getElementById('descriptionArea').style.fontSize = "20px";
         }
         document.getElementById('menu-pc').style.display = "block";
-        document.getElementById('headerMobile').innerHTML = "";         
+        document.getElementById('headerMobile').innerHTML = "";
+        if (document.getElementById('buttonFilter')!=null){
+            document.getElementById('buttonFilter').style.display = "none";
+        }                
     }
 </script>
 <script type="text/javascript">

@@ -78,29 +78,37 @@
             <a onclick="openNav()" style="background-color: transparent; border: 0px; padding: 30px; position: relative;">
                 <img src="/img/align-justify.png" class="img-responsive cursor shopping-cart" style="max-width: 90px; margin: 15px 10px 15px 0px;">
             </a>
-            <div class="container-fuild large-menu" id="menu-mobile" style="">
-                <div class="row">
+            <div class="container-fuild large-menu" id="menu-mobile" >
+                <div class="row" style="margin: 50px;">
                     <div class="col-xs-offset-10 col-xs-1"><a href="javascript:void(0)" class="closebtn font-menu-mobile" onclick="closeNav()">&times;</a></div>
                     <%for(var i = 0 ; i < treefolder.length ;i++){%>
                         <%if (treefolder[i].folder_name == 'VIP') {%>
-                            <div class="col-xs-9">
-                                <a class="font-menu-mobile" href="/maintenance-prd/VIP">VIP</a>
+                            <div class="col-xs-12">
+                                <div class="" style="border-bottom: 1px solid #000000;">
+                                    <a class="font-menu-mobile" href="/maintenance-prd/VIP">VIP</a>
+                                </div>
                             </div>
                         <%} else if (treefolder[i].folder_name == 'Tin Tức'){%>
-                            <div class="col-xs-9">
-                                <a class="font-menu-mobile" ref="/maintenance-prd/Tin-Tức">Tin Tức</a>
+                            <div class="col-xs-12">
+                                <div class="" style="border-bottom: 1px solid #000000;">
+                                    <a class="font-menu-mobile" href="/maintenance-prd/Tin-Tức">Tin Tức</a>
+                                </div>
                             </div>
                         <%} else if (treefolder[i].folder_name == 'Khuyến Mãi'){%>
-                            <div class="col-xs-9">
-                                <a class="font-menu-mobile" ref="/promotions">Khuyến Mãi</a>
+                            <div class="col-xs-12">
+                                <div class="" style="border-bottom: 1px solid #000000;">
+                                    <a class="font-menu-mobile" ref="/promotions">Khuyến Mãi</a>
+                                </div>
                             </div>
                         <%} else if (treefolder[i].folder_name == 'Xem Tuổi'){%>
-                            <div class="col-xs-9">
-                                <a class="font-menu-mobile" href="/app-phongthuy" data-filter=".folder2" >Xem tuổi</a>
+                            <div class="col-xs-12">
+                                <div class="" style="border-bottom: 1px solid #000000;">
+                                    <a class="font-menu-mobile" href="/app-phongthuy" data-filter=".folder2" >Xem tuổi</a>
+                                </div>
                             </div>
                          <%} else {%>
                             <div class="col-xs-12">
-                                    <div class="selected-menu">
+                                    <div class="selected-menu" style="border-bottom: 1px solid #000000;">
                                         <a class="font-menu-mobile" data-filter=".folder2" onclick="display('<%=treefolder[i].folder_name%>')"><%=treefolder[i].folder_name%></a>
                                     </div>
                                     
@@ -108,7 +116,7 @@
                                     <a class=" font-menu-mobile hide-menu" style="font-weight: bold; display: none; position: absolute; right: 0px; top: 0px;">-</a>
                                     <div class="small-menu" id="<%=treefolder[i].folder_name%>" style="display: none;">
                                         <%for(var j = 0 ; j < treefolder[i].cat_names.split(";").length ; j++){%>
-                                        <a class="font-menu-mobile col-xs-9" href="/maintenance-prd/<%=treefolder[i].cat_names.split(";")[j].trim().replace(/ /g,"-")%>">
+                                        <a class="font-menu-mobile col-xs-12" href="/maintenance-prd/<%=treefolder[i].cat_names.split(";")[j].trim().replace(/ /g,"-")%>" style="border-bottom: 1px solid #000000; padding-left: 50px;">
                                             <%=treefolder[i].cat_names.split(";")[j]%>
                                         </a>
                                         <%}%>
@@ -120,17 +128,17 @@
 
                     <%if(type == '1'){%>
                     <div class="col-xs-12">
-                        <div class="selected-menu">
+                        <div class="selected-menu" style="border-bottom: 1px solid #000000;">
                             <a class="font-menu-mobile selected-menu" onclick="display('Administrator')">Administrator</a>
                         </div>
                         
                         <a class="font-menu-mobile display-menu" style="font-weight: bold; position: absolute; right: 50px; top: 0px;" onclick="display('Administrator')">+</a>                        
                         <div class="small-menu" id="Administrator" style="display: none;">
-                            <a class="font-menu-mobile col-xs-9" href="/maintenance">Tài Khoản</a>
-                            <a class="font-menu-mobile col-xs-9" href="/show-payment">Đơn Hàng</a>
-                            <a class="font-menu-mobile col-xs-9" href="/maintenance-cat">Thư Mục</a>
-                            <a class="font-menu-mobile col-xs-9" href="/voucher">Voucher</a>
-                            <a class="font-menu-mobile col-xs-9" href="/maintenance-prd/All">Kho</a>    
+                            <a class="font-menu-mobile col-xs-12" href="/maintenance" style="border-bottom: 1px solid #000000; padding-left: 50px;">Tài Khoản</a>
+                            <a class="font-menu-mobile col-xs-12" href="/show-payment" style="border-bottom: 1px solid #000000; padding-left: 50px;">Đơn Hàng</a>
+                            <a class="font-menu-mobile col-xs-12" href="/maintenance-cat" style="border-bottom: 1px solid #000000; padding-left: 50px;">Thư Mục</a>
+                            <a class="font-menu-mobile col-xs-12" href="/voucher" style="border-bottom: 1px solid #000000; padding-left: 50px;">Voucher</a>
+                            <a class="font-menu-mobile col-xs-12" href="/maintenance-prd/All" style="border-bottom: 1px solid #000000; padding-left: 50px;">Kho</a>    
                         </div>
                     </div>
                     <%}%>                
@@ -708,11 +716,14 @@
                 x[i].style.display = "none";
                 y[i].innerHTML = "+";
                 z[i].style.backgroundColor = "#EEEEEE";
+                z[i].style.fontWeight = "";  
             } else {
                 if (x[i].id === input){
                     x[i].style.display = "block";
+                    x[i].style.backgroundColor = "#CCCCCC";
                     y[i].innerHTML = "-";
-                    z[i].style.backgroundColor = "#CCCCCC";                    
+                    z[i].style.backgroundColor  = "#CCCCCC";
+                    z[i].style.fontWeight = "bold";                    
                 }                
             }
         }

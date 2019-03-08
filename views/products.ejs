@@ -6,7 +6,7 @@
 <div class="container" id="mobile">
         <div class="row">
             <ol class="breadcrumb font-mobile">
-                <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a href="#"> <%= catflt=='undefined'?'':catflt %></a>
+                <a href="/"><i class="icon fa fa-home"></i> Home</a>/<a href="">sp</a>/ <a href="#"> <%= catflt=='undefined'?'':catflt %></a>
             </ol>
 
         </div>
@@ -61,7 +61,11 @@
             </div>
     <%}%>
    <%if(catflt != 'Tin Tức') {%>
-    <div class = "row">
+    <div class="row" id="buttonFilter">
+        <button class="btn btn-info center-block font-mobile" onclick="displayFilter()">Lọc sản phẩm</button>
+    </div>   
+    <div class = "row" id="filter" style="display: block;">
+        <div class="col-xs-12 col-md-12">
         <form action = '<%=catflt=='undefined'?'/maintenance-prd/Search?keyword='+keyword:/maintenance-prd/+catflt%>' method = 'get'>
             <div class="row">
                 <div class="col-md-3 col-xs-6">
@@ -78,7 +82,7 @@
                     </div>
                     <div class="form-group">
                         <select class=" form-control" name = 'menh' id = 'menh'>
-                            <option value = ''>----Chọn thuôc tính----</option>
+                            <option value = ''>Chỉ chọn nếu bạn cần một mạng cụ thể</option>
                             <option value="kim"> Kim</option>
 
                             <option value="moc"> Mộc</option>
@@ -97,7 +101,7 @@
                     </div>
                     <div class="form-group">
                         <select class=" form-control" name = 'mau' id = 'mau'>
-                            <option value = ''>------Chọn thuôc tính-------</option>
+                            <option value = ''>Chỉ chọn nếu bạn cần một màu cụ thể</option>
                             <option value="đỏ"> Đỏ</option>
                             <option value="tím"> Tím</option>
                             <option value="hồng"> Hồng</option>
@@ -120,8 +124,8 @@
                         <h3 class="font-mobile"><span class="label label-success">Hợp tuổi:</span></h3>
                     </div>
                     <div class="form-group">
-                        <select class=" form-control" name = 'tuoi' id = 'tuoi'>
-                            <option value = ''selected>------Chọn thuôc tính-------</option>
+                        <select class="form-control" name = 'tuoi' id = 'tuoi'>
+                            <option value = ''selected>Chỉ chọn nếu bạn cần một tuổi cụ thể</option>
 
                             <option  value="tý"> Tý</option>
 
@@ -181,6 +185,7 @@
             </div>
 
         </form>
+        </div>
     </div>
     <%}}%>
 
@@ -479,6 +484,14 @@
                         }
                     }
                 <%}%>
+            }
+            function displayFilter(){
+                var filter = document.getElementById('filter');
+                if (filter.style.display == 'none') {
+                    filter.style.display = "block";
+                } else{
+                    filter.style.display = "none";
+                }
             }
         </script>
 
