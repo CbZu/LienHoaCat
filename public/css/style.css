@@ -643,7 +643,7 @@ form.search::after {
   padding-left: 30px;
 }
 .small-menu{
-  padding-left: 50px;
+  /*padding-left: 50px;*/
   overflow-x: hidden; 
   transition: 1s;
 }
