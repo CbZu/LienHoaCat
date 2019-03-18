@@ -730,7 +730,7 @@ module.exports.get_voucher = function(req, res){
     if(input.mode == 'check_exist'){
         sql = 'select code from voucher where code = \''+input.voucher+'\'';
     } else {
-        sql = 'select percent,min from voucher where code = \''+input.voucher+'\' and effective_date<='+today+' and '+today+'<=expired_date and min < '+input.total+';';
+        sql = 'select percent,min,name from voucher where code = \''+input.voucher+'\' and effective_date<='+today+' and '+today+'<=expired_date and min <= '+input.total+';';
 
     }
 
@@ -750,7 +750,7 @@ module.exports.get_voucher = function(req, res){
                     var totalAfer = input.total*rows[0].percent/100;
                 }
 
-                data = {status: 'success', code: '200', totalAfter:totalAfer};
+                data = {status: 'success', code: '200', totalAfter:totalAfer,name:rows[0].name};
             }
 
             res.json(data);
@@ -952,6 +952,10 @@ module.exports.add_to_payment = function(req, res){
                         var data = {status: 'error', code: '300',error: err};
                         res.json(data);
                     }else{
+                        if(input.voucher.trim() != ''){
+                            var sqlUpdVoucher = 'update voucher set amount = amount-1 where code = \''+input.voucher+'\';'
+                            con.query(sqlUpdVoucher);
+                        }
                         var sqlGet = 'select * from cart where user_id = '+user+' and payment_id = 0 '+ ((input.mode != undefined && input.mode=='create-payment')?' and pos = \'A\'':'') +';'
 
                         con.query(sqlGet, function (err, rowsCart) {
@@ -2157,10 +2161,27 @@ module.exports.delete_cat = function(req, res){
 
                     });
                 }
+                sql = 'select * from category where folder_id = (select folder_id from category where cat_name = \''+req.params.name+'\');\n'
+                con.query(sql, function (err, rowsTree) {
+                    if(err){
 
-                sql = 'delete from category where cat_name = \''+req.params.name+'\';';
-                con.query(sql);
-                res.redirect('maintenance-cat');
+                    } else {
+                        if(rowsTree.length > 1){
+                            sql = 'delete from category where cat_name = \''+req.params.name+'\';';
+                            con.query(sql);
+
+                        } else {
+                            sql = 'delete from treefolder where folder_id = '+rowsTree[0].folder_id+';';
+                            con.query(sql);
+                            sql = 'delete from category where cat_name = \''+req.params.name+'\';';
+                            con.query(sql);
+
+                        }
+                        res.redirect('maintenance-cat');
+                    }
+                });
+
+
             }
         });
     } else {

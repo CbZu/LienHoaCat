@@ -143,7 +143,7 @@
             <div id="signup" class="modal">
                 <div class="container popup animate">
                     <div style="padding-top: 75px;">
-                    <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                    <span onclick="document.getElementById('signup').style.display='none'" class="close"
                           title="Close Modal">&times;</span>
                         <img src="/img/LOGO.svg" alt="Avatar" class="avatar center-block" style="max-width: 75px">
                         <div class="row" style="text-align: center">
@@ -153,31 +153,38 @@
                         </div>
 
                     </div>
-                    <form class="form-horizontal" role="form" action="/login" method="POST">
+                    <form class="form-horizontal" role="form" action="/login" method="POST" style="text-align: center">
                         <div class="row">
+                            <div class="col-sm-3">
+                            </div>
                             <label for="inputEmail3" class="col-sm-2 control-label">Tài khoản:</label>
-                            <div class="col-sm-10">
+                            <div class="col-sm-3">
                                 <input type="text" placeholder="Enter Username" required  class="form-control" id ="username" value = "" disabled>
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-sm-3">
+                            </div>
                             <label for="inputPassword3" class="col-sm-2 control-label">Mật khẩu:</label>
-                            <div class="col-sm-10">
+                            <div class="col-sm-3">
                                 <input type="password" placeholder="Enter Password" class="form-control" name="passwordpayment" id ="passwordpayment">
                             </div>
                         </div>
                         <div class="row">
-
+                            <div class="col-sm-3">
+                            </div>
                             <label for="inputdob3" class="col-sm-2 control-label">Sinh Ngày:</label>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <input class="form-control" id = "dobpayment" name="dobpayment" type="date" />
                             </div>
 
                         </div>
 
                         <div class="row" >
+                            <div class="col-sm-3">
+                            </div>
                             <label for="inputgender3" class="col-sm-2 control-label">Giới Tính:</label>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <select class="form-control" id = "genderpayment" name = "genderpayment">
                                     <option value = "M">Quý Ông</option>
                                     <option value = "F">Quý Bà</option>
@@ -209,11 +216,6 @@
                         </div>
                     </div>
                     <br>
-                    <div class="row">
-                        <div class="col-xs-16 col-md-12">
-                            <button class="center-block btn btn-danger" onclick="CloseSignup()" style="width: 300px">Đóng</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -320,7 +322,24 @@
                     </a>
                 </div>
             </div>
-
+            <div class="row">
+                <div class="col-xs-4 col-md-4">
+                    <button class="btn btn-danger center-block" type="button"
+                            onclick="document.getElementById('id03').style.display='none'">
+                        Hủy
+                    </button>
+                </div>
+                <div class="col-xs-4 col-md-4 center-block">
+                    <button class="btn btn-info center-block" type="button" onclick="UpdateCart()">
+                        Cập Nhật Giỏ
+                    </button>
+                </div>
+                <div class="col-xs-4 col-md-4 center-block">
+                    <button onclick="CheckOut()" class="btn btn-success center-block">
+                        Thanh Toán
+                    </button>
+                </div>
+            </div>
         </div>
         <div class="col-xs-4 col-md-4 solid-content">
             <h2>Thông tin đơn hàng</h2>
@@ -342,24 +361,7 @@
             <h2 id="totalship" class="fa-money currency"></h2>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-4 col-md-4">
-            <button class="btn btn-danger center-block" type="button"
-                onclick="document.getElementById('id03').style.display='none'">
-                Hủy
-            </button>
-        </div>
-        <div class="col-xs-4 col-md-4 center-block">
-            <button class="btn btn-info center-block" type="button" onclick="UpdateCart()">
-                Cập Nhật Giỏ
-            </button>
-        </div>
-        <div class="col-xs-4 col-md-4 center-block">
-            <button onclick="CheckOut()" class="btn btn-success center-block">
-                Thanh Toán
-            </button>
-        </div>       
-    </div>
+
 </div>
 <br>
 <div class="row">
@@ -610,6 +612,7 @@
                     }
                 }
                 else {
+                    obj.after("<label class='error'>Chúc mừng quý khách đã được nhận ưu đãi <font style='color: red'>"+data.name+" </font></label>");
                     var result = parseFloat('<%=totalAll%>') - parseFloat(data.totalAfter);
                     if(result < parseFloat('<%=setting[0].freeShip%>')){
                         document.getElementById("shipfee").value = '<%=setting[0].defaultShip%>';
@@ -810,6 +813,7 @@
         if (value >= 1) {
             document.getElementById('quantity'+idx).value = value;
         }
+        UpdateCart()
     }
 
     function pluspayment(idx){
@@ -818,6 +822,7 @@
         if (value >= 1) {
             document.getElementById('quantity'+idx).value = value;
         }
+        UpdateCart()
     }
     function removepayment(idx){
         var formdata1 = new FormData();

@@ -248,7 +248,20 @@
                 </a>
             </div>
         </div>
+        <div class="row">
+            <% if(type == '1'){%>
+            <button class="btn btn-info col-sm-3" type="button" onclick="UpdateCart()">
+                Cập Nhật Đơn Hàng
+            </button>
+            <a class="btn btn-success col-sm-2" type="button" href="/bill/<%=result[0].payment_id%>">
+                Hóa Đơn
+            </a>
+            <%}%>
 
+            <!--<button onclick="CheckOut()"  class="btn btn-success col-sm-2">
+                Thanh Toán
+            </button>-->
+        </div>
     </div>
     <div class="col-sm-4 solid-content">
         <h2>Thông tin đơn hàng</h2>
@@ -266,20 +279,7 @@
         <h2> (<%=result[0].voucher%>)</h2>
         <%}%>
     </div>
-    <div class="row">
-        <% if(type == '1'){%>
-        <button class="btn btn-info col-sm-2" type="button" onclick="UpdateCart()">
-            Cập Nhật Đơn Hàng
-        </button>
-        <a class="btn btn-success col-sm-2" type="button" href="/bill/<%=result[0].payment_id%>">
-            Hóa Đơn
-        </a>
-        <%}%>
 
-        <!--<button onclick="CheckOut()"  class="btn btn-success col-sm-2">
-            Thanh Toán
-        </button>-->
-    </div>
 </div>
 
 <div class="row">
