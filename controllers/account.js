@@ -246,7 +246,7 @@ module.exports.login=function(req,res){
                 console.log(err);
             }else{
                 if(rows.length>0){
-                    req.session.firstname=rows[0].firstname.split(' ')[rows[0].firstname.split(' ').length-1];
+                                     req.session.firstname=rows[0].firstname.split(' ')[rows[0].firstname.split(' ').length-1];
                     req.session.lastname=rows[0].lastname;
                     req.session.user_id=rows[0].user_id;
                     req.session.type=rows[0].type_id;
@@ -264,96 +264,98 @@ module.exports.login=function(req,res){
                             var data = {status: 'error', code: '300',error: err};
                             res.json(data);
                         }else{
-
-                            if(rows.length > 0){
-                                var i = 0;
-                                if(req.cookies.cart != undefined){
-                                    req.cookies.cart.id.split(',').forEach(function(element) {
-                                        console.log(element);
-                                        userid = rows[0].user_id;
-                                        var getAmount = 'select * from cart where product_id = '+element+' and user_id = '+userid+' and payment_id = 0;';
-                                        if(input.payment_id != undefined){
-                                            getAmount = 'select * from cart where product_id = '+element+' and user_id = '+userid+' and payment_id = '+input.payment_id+';';
-                                        }
-                                        var dataCart ={
-                                            product_id:element,
-                                            user_id:userid,
-                                            payment_id : 0
-                                        };
-                                        con.query(getAmount, function (err, row2s) {
-                                            if(err){
-                                                var data = {status: 'error', code: '300',error: err};
-                                                res.json(data);
-                                            }else{
-                                                if(req.cookies.cart.amount.split(',')[i] != 0){
-                                                    if(row2s.length>0){
-                                                        var sqlUpdate = 'update cart set amount = '+(parseInt(req.cookies.cart.amount.split(',')[i])+parseInt(row2s[0].amount))+' where product_id = '+element+' and user_id = '+userid+' and payment_id = 0;';
-                                                        if(input.payment_id != undefined){
-                                                            sqlUpdate = 'update cart set amount = '+(parseInt(req.cookies.cart.amount.split(',')[i])+parseInt(row2s[0].amount))+' where product_id = '+element+' and user_id = '+userid+' and payment_id = '+input.payment_id+';';
-                                                        }
-
-                                                        con.query(sqlUpdate,function(err,row1s) {
-                                                            if (err) {
-                                                                var data = {status: 'fail', code: '300', description : err.message};
-                                                                res.json(data);
-                                                            } else {
-
-                                                            }
-                                                        });
-                                                    }else{
-                                                        if(input.payment_id != undefined){
-                                                            var data={
-                                                                user_id: parseInt(userid),
-                                                                product_id:element,
-                                                                amount:req.cookies.cart.amount.split(',')[i],
-                                                                payment_id:parseInt(input.payment_id),
-                                                                create_time:parseInt(year+''+month+''+day),
-                                                                status_id:0,
-                                                                price : input.price[i]
-                                                            };
-                                                        } else {
-                                                            var data={
-                                                                user_id: parseInt(userid),
-                                                                product_id:element,
-                                                                amount:req.cookies.cart.amount.split(',')[i],
-                                                                payment_id:0,
-                                                                create_time:parseInt(year+''+month+''+day),
-                                                                status_id:0
-                                                            };
-                                                        }
-
-                                                        req.models.cart.create(data,function(err,row1s) {
-                                                            if (err) {
-                                                                var data = {status: 'fail', code: '300', description : err.message};
-                                                                res.json(data);
-                                                            } else {
-                                                                if(input.payment_id == undefined) {
-                                                                    var updatePrice = 'update cart set disct_price = 0, price = 0' +
-                                                                        ' where product_id = '+element+' and user_id = '+userid+' and payment_id = 0  ;';
-
-                                                                    updatePrice = 'update cart set disct_price = (), price = 0' +
-                                                                        ' where product_id = ' + element + ' and user_id = ' + userid + ' and payment_id = ' + input.payment_id + '  ;';
-
-                                                                    con.query(updatePrice, function (err, row4s) {
-                                                                        if (!err) {
-
-                                                                        }
-                                                                    });
-                                                                }
-                                                            }
-                                                        });
-                                                    }
-                                                }
-
-                                                i++;
+                            if(req.query.mode!=undefined && req.query.mode != 'payment'){
+                                if(rows.length > 0){
+                                    var i = 0;
+                                    if(req.cookies.cart != undefined){
+                                        req.cookies.cart.id.split(',').forEach(function(element) {
+                                            console.log(element);
+                                            userid = rows[0].user_id;
+                                            var getAmount = 'select * from cart where product_id = '+element+' and user_id = '+userid+' and payment_id = 0;';
+                                            if(input.payment_id != undefined){
+                                                getAmount = 'select * from cart where product_id = '+element+' and user_id = '+userid+' and payment_id = '+input.payment_id+';';
                                             }
+                                            var dataCart ={
+                                                product_id:element,
+                                                user_id:userid,
+                                                payment_id : 0
+                                            };
+                                            con.query(getAmount, function (err, row2s) {
+                                                if(err){
+                                                    var data = {status: 'error', code: '300',error: err};
+                                                    res.json(data);
+                                                }else{
+                                                    if(req.cookies.cart.amount.split(',')[i] != 0){
+                                                        if(row2s.length>0){
+                                                            var sqlUpdate = 'update cart set amount = '+(parseInt(req.cookies.cart.amount.split(',')[i])+parseInt(row2s[0].amount))+' where product_id = '+element+' and user_id = '+userid+' and payment_id = 0;';
+                                                            if(input.payment_id != undefined){
+                                                                sqlUpdate = 'update cart set amount = '+(parseInt(req.cookies.cart.amount.split(',')[i])+parseInt(row2s[0].amount))+' where product_id = '+element+' and user_id = '+userid+' and payment_id = '+input.payment_id+';';
+                                                            }
+
+                                                            con.query(sqlUpdate,function(err,row1s) {
+                                                                if (err) {
+                                                                    var data = {status: 'fail', code: '300', description : err.message};
+                                                                    res.json(data);
+                                                                } else {
+
+                                                                }
+                                                            });
+                                                        }else{
+                                                            if(input.payment_id != undefined){
+                                                                var data={
+                                                                    user_id: parseInt(userid),
+                                                                    product_id:element,
+                                                                    amount:req.cookies.cart.amount.split(',')[i],
+                                                                    payment_id:parseInt(input.payment_id),
+                                                                    create_time:parseInt(year+''+month+''+day),
+                                                                    status_id:0,
+                                                                    price : input.price[i]
+                                                                };
+                                                            } else {
+                                                                var data={
+                                                                    user_id: parseInt(userid),
+                                                                    product_id:element,
+                                                                    amount:req.cookies.cart.amount.split(',')[i],
+                                                                    payment_id:0,
+                                                                    create_time:parseInt(year+''+month+''+day),
+                                                                    status_id:0
+                                                                };
+                                                            }
+
+                                                            req.models.cart.create(data,function(err,row1s) {
+                                                                if (err) {
+                                                                    var data = {status: 'fail', code: '300', description : err.message};
+                                                                    res.json(data);
+                                                                } else {
+                                                                    if(input.payment_id == undefined) {
+                                                                        var updatePrice = 'update cart set disct_price = 0, price = 0' +
+                                                                            ' where product_id = '+element+' and user_id = '+userid+' and payment_id = 0  ;';
+
+                                                                        updatePrice = 'update cart set disct_price = (), price = 0' +
+                                                                            ' where product_id = ' + element + ' and user_id = ' + userid + ' and payment_id = ' + input.payment_id + '  ;';
+
+                                                                        con.query(updatePrice, function (err, row4s) {
+                                                                            if (!err) {
+
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+
+                                                    i++;
+                                                }
+                                            });
+
                                         });
+                                    }
 
-                                    });
+
                                 }
-
-
                             }
+
 
                         }
 

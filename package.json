@@ -7,7 +7,9 @@
 		"start": "node app"
 	},
 	"dependencies": {
+		"@ckeditor/ckeditor5-ckfinder": "^10.0.0",
 		"MD5": "*",
+		"ckeditor": "^4.11.2",
 		"connect-redis": "1.4.7",
 		"cookie-parser": "^1.4.3",
 		"dateformat": "*",

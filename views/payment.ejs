@@ -577,7 +577,8 @@
                                 processData: false,
                                 success: function (response2) {
                                     if (response2.code == '200') {
-                                        window.location = "/payment-detail?id="+response2.payment_id+"&user="+response.user_id;
+                                        /*window.location = "/payment-detail?id="+response2.payment_id+"&user="+response.user_id;*/
+                                        document.getElementById('idSuccess').style.display = 'block';
                                     }
                                 }
                             });
@@ -622,7 +623,7 @@
     function LoginPayment() {
         $(".error").remove();
         $.ajax({
-            url: '/../login?email='+$("#usernameLogin").val()+'&password='+$("#passwordpaymentLogin").val(),
+            url: '/../login?email='+$("#usernameLogin").val()+'&password='+$("#passwordpaymentLogin").val()+"&mode=payment",
             type: 'POST',
             dataType: 'JSON',
             async: false,
