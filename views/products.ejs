@@ -203,6 +203,8 @@
                 <tbody>
                 <% for(i = 0;i < result.length;i++){ %>
                     <% for(j = 0;j < result[i].size_id.split(',').length;j++){ %>
+
+                <%if(result[i].prices != 0 ){%>
                 <%if(parseInt(result[i].entities.split(',')[j]) <= 0 && result[i].sizes.split(',')[j].trim() != '0' ){%>
                 <tr style="background-color: red">
                     <td style="text-align: center;">
@@ -214,7 +216,7 @@
                     <td style="text-align: center;">
                         <%=result[i].sizes.split(',')[j]%>
                     </td>
-                    <td style="text-align: center;">
+                    <td style="text-align: center;" id = "entity<%=result[i].size_id.split(',')[j]%>">
                         <%=result[i].entities.split(',')[j]%>
                     </td>
                     <td style="text-align: center;">
@@ -242,7 +244,7 @@
                     <td style="text-align: center;">
                         <%=result[i].sizes.split(',')[j]%>
                     </td>
-                    <td style="text-align: center;">
+                    <td style="text-align: center;" id = "entity<%=result[i].size_id.split(',')[j]%>">
                         <%=result[i].entities.split(',')[j]%>
                     </td>
                     <td style="text-align: center;">
@@ -259,6 +261,8 @@
 
                     </td>
                 </tr>
+                <%}%>
+
                 <%}%>
 
 
@@ -393,8 +397,8 @@
             enctype: 'multipart/form-data',
             processData: false,
             success: function (response) {
-                alert('success');
-                window.location.href="/maintenance-prd/All";
+                document.getElementById('entity'+idx).innerText = parseInt(document.getElementById('entity'+idx).innerText) + parseInt(val);
+                document.getElementById('product'+idx).value = '0';
             }
         });
     }

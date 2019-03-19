@@ -48,7 +48,7 @@
 
         <h3>Thông tin sản phẩm</h3>
 
-        <div id="cartdetail" class = "" style="max-width: 100%;">
+        <div id="cartdetail" style="max-width: 100%;" class="row">
             <table class="table table-bordered">
                 <thead>
                 <th class="text-right" style="text-align: center;"><h4>Mã sản phẩm</h4></th>
@@ -142,6 +142,7 @@
         </div>
         <% if(type == '1'){%>
         <button class="btn btn-success" id="insertBtn" onclick="insert()">+</button>
+        <button class="btn btn-success" id="insertBtn" onclick="Add()">OK</button>
         <%}%>
         <div class="row" style="padding-left: 20px;">
             <div class="col-md-6">
@@ -649,7 +650,7 @@
                     url: "./PetMart/update-payment",
                     type: 'POST',
                     dataType: 'JSON',
-                    data: JSON.stringify({ mode: 'pay', userpayment: '<%= result[0].user_id%>', payment_id:'<%= result[0].payment_id%>'}),
+                    data: JSON.stringify({ mode: 'pay', userpayment: '<%= result[0].user_id%>', payment_id:'<%= result[0].payment_id%>',voucher :$("#voucher").val() ,shipcode:$("#shipcode").val(),shipfee:$("#shipfee").val(),note:$("#note").val(),ship:$("#ship").val(),type:$("#type").val()}),
                     async: false,
                     cache: false,
                     contentType: 'application/json; charset=UTF-8',

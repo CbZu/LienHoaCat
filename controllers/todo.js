@@ -370,6 +370,7 @@ module.exports.add_to_cart = function(req, res){
     day = (day < 10 ? "0" : "") + day;
     var year = date.getUTCFullYear();
     var userid;
+    var today = year+''+month+''+day;
     if (input.userId == undefined){
         userid = req.session.user_id;
     }else{
@@ -400,8 +401,7 @@ module.exports.add_to_cart = function(req, res){
                         };
                         con.query(getAmount, function (err, row2s) {
                             if(err){
-                                var data = {status: 'error', code: '300',error: err};
-                                res.json(data);
+
                             }else{
                                 if(input.quantity[i] != 0){
                                     if(row2s.length>0){
@@ -450,6 +450,15 @@ module.exports.add_to_cart = function(req, res){
                                                 var data = {status: 'fail', code: '300', description : err.message};
                                                 res.json(data);
                                             } else {
+                                                if(input.payment_id != undefined && input.payment_id != 0){
+                                                    var sqlUpdate = 'update cart set disct_price = (select disct_price from discount where product_id = '+element+' and effective_date<='+today+' and '+today+'<=expired_date)' +
+                                                        ', price = (select price from product where product_id = '+element+')' +
+                                                        ', name = (select name from product where product_id = '+element+') ' +
+                                                        ', size = (select size from product where product_id = '+element+') ' +
+                                                        ', code = (select code from product where product_id = '+element+') ' +
+                                                        ' where user_id = '+userid+' and payment_id = '+input.payment_id+' and product_id = '+element+' '+ ((input.mode != undefined && input.mode=='create-payment')?' and pos = \'A\'':'') +';';
+                                                    con.query(sqlUpdate);
+                                                }
                                             }
                                         });
                                     }
@@ -2266,8 +2275,10 @@ module.exports.maintenance_prd = function(req, res){
             '(select url from image where product_id = p.product_id and type = 1 limit 1) as image, \n' +
             '(select freeShip from settingshop ) as freeship, \n' +
             'IF(('+year+month+day+' - p.create_time ) < 100, \'Y\', \'N\') as new \n'+
-            'from product p join thuoctinh t on p.product_id = t.product_id join description d on p.description = d.description_id ';
-
+            'from product p ';
+        if(req.params.catflt != 'All'){
+            sql += 'join thuoctinh t on p.product_id = t.product_id join description d on p.description = d.description_id ';
+        }
         var where = '';
         if(req.params.catflt != undefined && req.params.catflt != 'Search' && req.params.catflt != 'All' && req.params.catflt != 'undefined'){
             where += ' cat_id = (select cat_id from category where cat_name = \''+req.params.catflt.replace(/-/g,' ')+'\') and';
