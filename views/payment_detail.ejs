@@ -251,10 +251,11 @@
         </div>
         <div class="row">
             <% if(type == '1'){%>
-            <button class="btn btn-info col-sm-3" type="button" onclick="UpdateCart()">
+            <div class="col-xs-2 col-md-3"></div>
+            <button class="btn btn-info col-xs-4 col-md-3" type="button" onclick="UpdateCart()">
                 Cập Nhật Đơn Hàng
             </button>
-            <a class="btn btn-success col-sm-2" type="button" href="/bill/<%=result[0].payment_id%>">
+            <a class="btn btn-success col-xs-4 col-md-3" type="button" href="/bill/<%=result[0].payment_id%>">
                 Hóa Đơn
             </a>
             <%}%>

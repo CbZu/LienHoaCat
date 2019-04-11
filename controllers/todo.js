@@ -2296,7 +2296,7 @@ module.exports.maintenance_prd = function(req, res){
         where += ' t.mau like \'%'+req.query.mau+'%\' and';
     }
     if(req.query.size != undefined && req.query.size != ''  && req.query.size != 'undefined'){
-        where += ' t.sizefrom < '+req.query.size+' and t.sizeto > '+req.query.size+' and';
+        where += ' t.sizefrom <= '+req.query.size+' and t.sizeto >= '+req.query.size+' and';
     }
     var keyword='keyword='+req.query.keyword+'&size='+req.query.size+'&menh='+req.query.menh+'&mau='+req.query.mau+'&tuoi='+req.query.tuoi+'';
     if(req.query.keyword != 'undefined' && req.query.keyword != '' && req.query.keyword != undefined ){

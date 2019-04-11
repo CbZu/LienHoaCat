@@ -133,7 +133,11 @@
                 <tr>
                     <td class="text-right">
                         <a class="booking-item" href="/payment-detail?id=<%= payments[i].payment_id%>&user=<%=payments[i].user_id%>">
-                           <h3> <%= payments[i].name +  ' (' + payments[i].phone + '). ' %><font color="red"> <%=payments[i].fail %></font>/ <font color="black"> <%=payments[i].success%></font></h3>
+                            <h3> <%= payments[i].name +  ' (' + payments[i].phone + '). ' %>
+                            <%if (type == '1'){%>
+                                <font color="red"> <%=payments[i].fail %></font>/ <font color="black"> <%=payments[i].success%></font>
+                            <%}%>
+                            </h3>
                         </a>
                     </td>
                     <td class="text-center">

@@ -65,9 +65,11 @@
                                     <img class="shake img-responsive" src="/img/moi.svg">
                                 </div>
                                 <%}%>
+                                <% if(result[j].prices > result[j].freeship || result[j].disct_prices > result[j].freeship){ %>
                                 <div class="col-xs-3 col-md-2 col-md-offset-2 col-xs-offset-3" style="position: absolute; padding: 0px; right: 0px; z-index: 100;">
                                     <img class="img-responsive" src="/img/freeship.svg">
                                 </div>
+                                <%}%>
                                 <div class="" style="position: relative; overflow: hidden; margin-bottom: 20px;">
                                     <img src="/assets/img/<%= result[j].image==null?result[j].image:result[j].image.split(";")[0]%>" class="img-responsive zoom center-block">
 
@@ -100,7 +102,7 @@
                                 </div>
                                 <% } %>
                                 <%} else {%>
-                                <h3 class="font-custom" style="margin: 0px;"><%= result[j].name %></h3>
+                                <h3 class="font-custom product_detail" style="margin: 0px;"><%= result[j].name %></h3>
                                 <%}%>
                             </div>
                         </a>
