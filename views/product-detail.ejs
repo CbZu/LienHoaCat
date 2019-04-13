@@ -6,7 +6,7 @@
     <div class="row ">
         <ol class="breadcrumb font-mobile">
             <a href="/"><i class="icon fa fa-home"></i> Home</a> / <a
-                    href="/maintenance-prd/<%= result[0].catflt.replace(/ /g, '-') %>"> <%= result[0].catflt %></a> / <a
+                    href="/maintenance-prd/<%= result[0].catflt==null?'All':result[0].catflt.replace(/ /g, '-') %>"> <%= result[0].catflt==null?'All':result[0].catflt.replace(/ /g, '-') %></a> / <a
                     href="#"><%= result[0].name %></a>
         </ol>
 
@@ -29,7 +29,7 @@
                     </div>
                     <% } }%>
 
-                <%if (treefolder[i].folder_name == 'Tin Tức'){%>
+                <%if (treefolder[i].folder_name != 'Tin Tức'){%>
                 <div style="position: relative;overflow-x: scroll;overflow-y:hidden;height: 150px" class = "scrollmenu">
                     <%for(i = 0;i < image.length;i++){%>
                     <% for(j = 0;j < image[i].url.split(";").length;j++){ %>
@@ -184,7 +184,7 @@
             <br>
             <div class="row">
                 <div class="col-md-offset-3 col-xs-offset-3 col-xs-6 col-md-6">
-                    <a href="/maintenance-prd/<%=(keyword==undefined || keyword=='undefined'||keyword.trim()=='')?result[0].catflt.replace(/ /g, '-'):'Search?'+keyword %>" class="button-image col-xs-12 center-block">
+                    <a href="/maintenance-prd/<%=(keyword==undefined || keyword=='undefined'||keyword.trim()=='')?result[0].catflt==null?'All':result[0].catflt.replace(/ /g, '-'):'Search?'+keyword %>" class="button-image col-xs-12 center-block">
                             <img src="/img/xemthem.png" class="img-responsive col-xs-12" style="margin-left: 8px;">
                     </a>
                 </div>

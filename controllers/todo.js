@@ -2132,10 +2132,11 @@ module.exports.delete_cat = function(req, res){
                 var data = {status: 'error', code: '300',error: err};
                 res.json(data);
             }else{
-                var image = ''
+                //delete product when delete category
+                /*var image = ''
                 for(var i = 0; i < rows.length ; i++){
-                    /*var sql = 'delete from  image where  product_id = '+rows[i].product_id+';';
-                    con.query(sql);*/
+                    /!*var sql = 'delete from  image where  product_id = '+rows[i].product_id+';';
+                    con.query(sql);*!/
                     var sql = 'delete from  thuoctinh where  product_id = '+rows[i].product_id+';';
                     con.query(sql);
                     sql = 'delete from product where product_id = '+rows[i].product_id+''
@@ -2169,7 +2170,7 @@ module.exports.delete_cat = function(req, res){
 
 
                     });
-                }
+                }*/
                 sql = 'select * from category where folder_id = (select folder_id from category where cat_name = \''+req.params.name+'\');\n'
                 con.query(sql, function (err, rowsTree) {
                     if(err){
