@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row">
         <ol class="breadcrumb">
-            <a href="/"><i class="icon fa fa-home"></i> Home</a>
+            <a href="/">Home</a>/<a href="#">Khuyến mãi</a>
         </ol>
 
     </div>
@@ -21,7 +21,7 @@
     <div class="row">
         <% for(j = 0;j < result.length;j++){ %>
 
-        <div class="col-xs-6 col-md-4 folder<%= result[j].folder_ids %> ">
+        <div class="col-xs-offset-2 col-md-offset-2 col-xs-8 col-md-8 folder<%= result[j].folder_ids %> ">
             <a href="/promotion-detail/<%=result[j].title.replace(/ /g, "-")%>" >
                 <div class="promotion">
 
@@ -29,8 +29,8 @@
                         <img class="shake img-responsive" src="/img/moi.svg">
                     </div>
 
-                    <div class="" style="">
-                        <img src="/assets/img/<%= result[j].image==null?result[j].image:result[j].image.split(";")[0]%>" class="img-responsive">
+                    <div class="center-block" style="">
+                        <img src="/assets/img/<%= result[j].image==null?result[j].image:result[j].image.split(";")[0]%>" class="img-responsive center-block">
 
                     </div>
 
