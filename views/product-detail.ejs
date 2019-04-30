@@ -12,6 +12,7 @@
 
     </div>
     <div class="row product-info thumbnail">
+        <%if (result[0].catflt != 'Tin Tức'){%>
         <div class="col-md-5">
             <div class="row">
                 <div class="col-md-2" style="position: absolute; background-color: #cf69f9; opacity: 1; z-index: 5;">
@@ -29,7 +30,7 @@
                     </div>
                     <% } }%>
 
-                <%if (treefolder[i].folder_name != 'Tin Tức'){%>
+
                 <div style="position: relative;overflow-x: scroll;overflow-y:hidden;height: 150px" class = "scrollmenu">
                     <%for(i = 0;i < image.length;i++){%>
                     <% for(j = 0;j < image[i].url.split(";").length;j++){ %>
@@ -41,7 +42,7 @@
                     <a class="prev" onclick="plusSlides(-1)">❮</a>
                     <a class="next" onclick="plusSlides(1)">❯</a>
                 </div>
-                <%}%>
+
                 <!-- <div class="col-md-12 col-xs-12">
                     <div class="carousel js-flickity">
                         <%for(i = 0;i < image.length;i++){%>
@@ -167,8 +168,8 @@
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
                     <h4 style="color: #6b6b6c; font-style: italic; text-align: center;" class="font-mobile">Thành tiền: <a href=""
-                                                                                   style="color: red; font-style: italic"
-                                                                                   id="thanhtien">0</a> vnđ</h4>
+                                                                                                                           style="color: red; font-style: italic"
+                                                                                                                           id="thanhtien">0</a> vnđ</h4>
                 </div>
             </div>
             <div class="row">
@@ -177,15 +178,15 @@
                 </div>
                 <div class="col-xs-6 col-md-6">
                     <button class="button-image col-xs-12"><img src="/img/themvaogio.png" class="img-responsive col-xs-12"
-                                                      onclick="AddCart()"></button>
+                                                                onclick="AddCart()"></button>
                 </div>
-                
+
             </div>
             <br>
             <div class="row">
                 <div class="col-md-offset-3 col-xs-offset-3 col-xs-6 col-md-6">
                     <a href="/maintenance-prd/<%=(keyword==undefined || keyword=='undefined'||keyword.trim()=='')?result[0].catflt==null?'All':result[0].catflt.replace(/ /g, '-'):'Search?'+keyword %>" class="button-image col-xs-12 center-block">
-                            <img src="/img/xemthem.png" class="img-responsive col-xs-12" style="margin-left: 8px;">
+                        <img src="/img/xemthem.png" class="img-responsive col-xs-12" style="margin-left: 8px;">
                     </a>
                 </div>
             </div>
@@ -194,7 +195,7 @@
                     <div class="col-md-12">
                         <div class="font-mobile" style="background-color: #f3e6e6; height: 100%;" >
                             <p id="information" style="word-wrap: break-word;">Không có thông tin
-                            thêm</p>
+                                thêm</p>
                         </div>
                     </div>
                 </div>
@@ -202,6 +203,12 @@
             <%}%>
 
         </div>
+        <%} else {%>
+        <div class="col-md-12">
+            <h2 style="" class="font-mobile"><b><%= result[0].name %></b></h2>
+        </div>
+        <%}%>
+
     </div>
 
     <div class="row">

@@ -770,12 +770,26 @@ exports.addProduct=function(req,res){
     }
 
         var desc = input.description.replace(/(\r\n|\n|\r)/gm,"");
+        var k = 0;
+        while (desc.length > 2000){
+            k++;
+            var sql = 'insert into description(description) value (\''+desc.substring(0,2000)+'\');';
+            con.query(sql);
+            desc = desc.substring(2000,desc.length);
+        }
         var sql = 'insert into description(description) value (\''+desc+'\');';
         con.query(sql, function (err, rows) {
             if(err){
                 console.log(err);
             }else{
                 var i = 0;
+                var descTemp = rows.insertId;
+                var current = parseInt(rows.insertId);
+                while(k>0){
+                    descTemp = current-1+','+descTemp;
+                    current = current-1;
+                    k--;
+                }
                     if(input.mode == 'dv'){
                         var data={
                             cat_id:input.category,
@@ -786,7 +800,7 @@ exports.addProduct=function(req,res){
                             size:0,
                             image:'',
                             code:input.Codes.split(',')[i],
-                            description : rows.insertId,
+                            description : descTemp,
                             information :'',
                             entity:0,
                         };
@@ -834,7 +848,7 @@ exports.addProduct=function(req,res){
                                     size:input.Sizes.split(',')[i],
                                     image:'',
                                     code:input.Codes.split(',')[i],
-                                    description : rows.insertId,
+                                    description : descTemp,
                                     information : input.Infos.split(',')[i],
                                     entity:input.Entities.split(',')[i]!=''?input.Entities.split(',')[i].trim():0,
                                 };

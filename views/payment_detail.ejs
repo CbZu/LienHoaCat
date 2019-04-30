@@ -611,6 +611,9 @@
         var sizes = new Array();
         var quantities = new Array();
         var prices = new Array();
+        var names = new Array();
+        var codes = new Array();
+        var sizesIpt = new Array();
         /* sizes.push(document.getElementById('prd-id').value);
          quantities.push(parseInt($("#amount").val()));*/
 
@@ -622,6 +625,15 @@
         }
         for(var i = 0 ; i < document.getElementsByName('amount-input').length;i++){
             quantities.push(document.getElementsByName('amount-input')[i].value);
+        }
+        for(var i = 0 ; i < document.getElementsByName('code-input').length;i++){
+            codes.push(document.getElementsByName('code-input')[i].value);
+        }
+        for(var i = 0 ; i < document.getElementsByName('name-prd-input').length;i++){
+            names.push(document.getElementsByName('name-prd-input')[i].value);
+        }
+        for(var i = 0 ; i < document.getElementsByName('size-input').length;i++){
+            sizesIpt.push(document.getElementsByName('size-input')[i].value);
         }
         formdata1.append('size_id',sizes);
         formdata1.append('quantity',quantities);
@@ -636,11 +648,13 @@
         formdata1.append('ship',$("#ship").val());
         formdata1.append('type',$("#type").val());
         formdata1.append('mode','pay');
+        formdata1.append('name',names);
+        formdata1.append('code',codes);
         $.ajax({
             url: "/PetMart/add-to-cart",
             type: 'POST',
             dataType : 'JSON',
-            data: JSON.stringify({price:prices,size_id:sizes,quantity:quantities,payment_id:'<%= result[0].payment_id%>',userId: '<%= result[0].user_id%>'}),
+            data: JSON.stringify({price:prices,size_id:sizes,quantity:quantities,name:names,code:codes,size:sizesIpt,payment_id:'<%= result[0].payment_id%>',userId: '<%= result[0].user_id%>'}),
             async: false,
             cache: false,
             contentType: 'application/json; charset=UTF-8',
