@@ -30,30 +30,28 @@
                     </div>
                     <% } }%>
 
-
-                <div style="position: relative;overflow-x: scroll;overflow-y:hidden;height: 150px" class = "scrollmenu">
+                <a class="prev" style="margin-top: 40%" onclick="plusSlides(-1)">❮</a>
+                <a class="next" style="margin-top: 40%" onclick="plusSlides(1)">❯</a>
+                <div style="position: relative;overflow-x: scroll;overflow-y:hidden" class = "scrollmenu">
+                    <%var index = 1;%>
                     <%for(i = 0;i < image.length;i++){%>
                     <% for(j = 0;j < image[i].url.split(";").length;j++){ %>
-                    <div style="; width: 25%;height: 150px">
-                        <img onclick="currentSlide(<%= j+1 %>)" class="img-responsive cursor item-product-detail"
-                             src="/assets/img/<%= image[i].url.split(";")[j] %>" alt="image">
-                    </div>
+                        <%if(i==0 && j ==0){%>
+                            <div style="; width: 25%;background-color: #d639d2">
+                                <img onclick="currentSlide(<%= index%>)" class="img-responsive cursor item-product-detail"
+                                     src="/assets/img/<%= image[i].url.split(";")[j] %>" alt="image">
+                            </div>
+                        <%} else {%>
+                            <div style="; width: 25%">
+                                <img onclick="currentSlide(<%= index %>)" class="img-responsive cursor item-product-detail"
+                                     src="/assets/img/<%= image[i].url.split(";")[j] %>" alt="image">
+                            </div>
+                        <%} index++;%>
+
                     <% }} %>
-                    <a class="prev" onclick="plusSlides(-1)">❮</a>
-                    <a class="next" onclick="plusSlides(1)">❯</a>
+
                 </div>
 
-                <!-- <div class="col-md-12 col-xs-12">
-                    <div class="carousel js-flickity">
-                        <%for(i = 0;i < image.length;i++){%>
-                            <% for(j = 0;j < image[i].url.split(";").length;j++){ %>
-                                <div class="carousel-cell">
-                                    <img class="center-block" src="/assets/img/<%= image[i].url.split(";")[j] %>" alt="...">
-                                </div>
-                            <% } %>
-                        <% } %>
-                    </div>
-                </div> -->
             </div>
             <div id="myModal" class="modal">
                 <span id="closeImg" class="close">&times;</span>
@@ -304,10 +302,12 @@
         }
         for (i = 0; i < dots.length; i++) {
             dots[i].className = dots[i].className.replace(" active", "");
+            dots[i].parentElement.style.backgroundColor = "white";
         }
         slides[slideIndex - 1].style.display = "block";
         listImg[slideIndex - 1].id = "myImg";
         dots[slideIndex - 1].className += " active";
+        dots[slideIndex - 1].parentElement.style.backgroundColor = "#d639d2";
     }
 
     function zoomImg() {
@@ -503,6 +503,7 @@
         background-color: white;
         overflow: auto;
         white-space: nowrap;
+        height: auto;
     }
 
     div.scrollmenu div {

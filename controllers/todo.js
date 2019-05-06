@@ -2162,10 +2162,10 @@ module.exports.delete_cat = function(req, res){
                 res.json(data);
             }else{
                 //delete product when delete category
-                /*var image = ''
+                var image = ''
                 for(var i = 0; i < rows.length ; i++){
-                    /!*var sql = 'delete from  image where  product_id = '+rows[i].product_id+';';
-                    con.query(sql);*!/
+                    var sql = 'delete from  image where  product_id = '+rows[i].product_id+';';
+                    con.query(sql);
                     var sql = 'delete from  thuoctinh where  product_id = '+rows[i].product_id+';';
                     con.query(sql);
                     sql = 'delete from product where product_id = '+rows[i].product_id+''
@@ -2199,7 +2199,7 @@ module.exports.delete_cat = function(req, res){
 
 
                     });
-                }*/
+                }
                 sql = 'select * from category where folder_id = (select folder_id from category where cat_name = \''+req.params.name+'\');\n'
                 con.query(sql, function (err, rowsTree) {
                     if(err){
