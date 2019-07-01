@@ -4,9 +4,9 @@
     <title>Liên Hoa Các - Nghệ thuật tâm linh</title>
     <meta charset="utf-8">
     <title>HOME</title>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/flickity.css" media="screen">
     <script src="/js/flickity.pkgd.min.js"></script>
@@ -97,7 +97,7 @@
                         <%} else if (treefolder[i].folder_name == 'Khuyến Mãi'){%>
                             <div class="col-xs-12">
                                 <div class="" style="border-bottom: 1px solid #000000;">
-                                    <a class="font-menu-mobile" ref="/promotions">Khuyến Mãi</a>
+                                    <a class="font-menu-mobile" href="/promotions">Khuyến Mãi</a>
                                 </div>
                             </div>
                         <%} else if (treefolder[i].folder_name == 'Xem Tuổi'){%>
@@ -107,11 +107,20 @@
                                 </div>
                             </div>
                          <%} else {%>
+                            <%if(treefolder[i].folder_name.trim() == treefolder[i].cat_names.trim()){%>
                             <div class="col-xs-12">
+                                <div class="" style="border-bottom: 1px solid #000000;">
+                                    <a class="font-menu-mobile" href="/maintenance-prd/<%=treefolder[i].cat_names.split(";")[0].trim().replace(/ /g,"-")%>" data-filter=".folder2" >
+                                        <%=treefolder[i].cat_names.split(";")[0]%>
+                                    </a>
+                                </div>
+                            </div>
+                            <%}else{%>
+                                <div class="col-xs-12">
                                     <div class="selected-menu" style="border-bottom: 1px solid #000000;">
                                         <a class="font-menu-mobile" data-filter=".folder2" onclick="display('<%=treefolder[i].folder_name%>')"><%=treefolder[i].folder_name%></a>
                                     </div>
-                                    
+
                                     <a class="font-menu-mobile display-menu" style="font-weight: bold; position: absolute; right: 50px; top: 0px;" onclick="display('<%=treefolder[i].folder_name%>')">+</a>
                                     <a class=" font-menu-mobile hide-menu" style="font-weight: bold; display: none; position: absolute; right: 0px; top: 0px;">-</a>
                                     <div class="small-menu" id="<%=treefolder[i].folder_name%>" style="display: none;">
@@ -120,8 +129,10 @@
                                             <%=treefolder[i].cat_names.split(";")[j]%>
                                         </a>
                                         <%}%>
-                                    </div>    
-                            </div>
+                                    </div>
+                                </div>
+                            <%}%>
+
                         <%}%>
 
                     <%}%>
@@ -241,23 +252,34 @@
                     </ul>
                 </div>
             <%} else {%>
-            <div class="dropdown">
-                <ul class="nav navbar-nav navbar-left sm">
 
-                    <li class="menu-hover"> <a data-filter=".folder2" ><h3><font color="black"><%=treefolder[i].folder_name%></font></h3></a>
-                        <ul class="dropdown-menu">
-                            <%for(var j = 0 ; j < treefolder[i].cat_names.split(";").length ; j++){%>
-                            <li> <a href="/maintenance-prd/<%=treefolder[i].cat_names.split(";")[j].trim().replace(/ /g,"-")%>"><h3><%=treefolder[i].cat_names.split(";")[j]%></h3></a></li>
-                            <%}%>
+                    <%if(treefolder[i].folder_name.trim() == treefolder[i].cat_names.trim()){%>
+                    <div class="dropdown">
+                        <ul class="nav navbar-nav navbar-left sm">
+                            <li class="menu-hover"> <a href="/maintenance-prd/<%=treefolder[i].cat_names.trim().replace(/ /g,"-")%>" data-filter=".folder2" ><h3><font color="black"><%=treefolder[i].cat_names%></font></h3></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <%}else{%>
+                    <div class="dropdown">
+                        <ul class="nav navbar-nav navbar-left sm">
+
+                            <li class="menu-hover"> <a data-filter=".folder2" ><h3><font color="black"><%=treefolder[i].folder_name%></font></h3></a>
+                                <ul class="dropdown-menu">
+                                    <%for(var j = 0 ; j < treefolder[i].cat_names.split(";").length ; j++){%>
+                                    <li> <a href="/maintenance-prd/<%=treefolder[i].cat_names.split(";")[j].trim().replace(/ /g,"-")%>"><h3><%=treefolder[i].cat_names.split(";")[j]%></h3></a></li>
+                                    <%}%>
+
+                                </ul>
+                            </li>
+
 
                         </ul>
-                    </li>
 
 
-                </ul>
+                    </div>
+                    <%}%>
 
-
-            </div>
             <%}%>
 
             <%}%>

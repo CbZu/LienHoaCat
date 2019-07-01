@@ -99,7 +99,7 @@ module.exports.add_category = function(req, res){
     form.parse(req);
 */
 
-   var sql = 'select folder_id from treefolder where folder_name = \''+input.newFolder+'\'';
+   var sql = 'select folder_id,(select max(`index`) from treefolder) as idx from treefolder where folder_name = \''+input.newFolder+'\'';
     var con = req.db.driver.db;
     con.query(sql, function (err, rows) {
         if(err){
@@ -122,25 +122,36 @@ module.exports.add_category = function(req, res){
                     }
                 });
             } else {
-                sql = 'insert into treefolder(folder_name) values (\''+input.newFolder+'\');';
+                sql = 'select max(`index`)+1 as idx from treefolder;';
                 con.query(sql, function (err, row1s) {
                     if(err){
                         var data = {status: 'error', code: '300',error: err};
                         res.json(data);
                     }else{
-                        var data={
-                            cat_name:input.newCat,
-                            /*image:req.files.upfile.path.split("\\")[ req.files.upfile.path.split("\\").length-1],*/
-                            folder_id: row1s.insertId
-                        };
-                        req.models.category.create(data,function(err,row1s) {
-                            if (err) {
-                                var data = {status: 'fail', code: '300', description : err.message};
+
+                        sql = 'insert into treefolder(folder_name,`index`) values (\''+input.newFolder+'\','+row1s[0].idx+');';
+                        con.query(sql, function (err, row2s) {
+                            if(err){
+                                var data = {status: 'error', code: '300',error: err};
                                 res.json(data);
-                            } else {
-                                res.json(200
-                                );
+                            }else{
+
+                                var data={
+                                    cat_name:input.newCat,
+                                    /*image:req.files.upfile.path.split("\\")[ req.files.upfile.path.split("\\").length-1],*/
+                                    folder_id: row2s.insertId
+                                };
+                                req.models.category.create(data,function(err,row3s) {
+                                    if (err) {
+                                        var data = {status: 'fail', code: '300', description : err.message};
+                                        res.json(data);
+                                    } else {
+                                        res.json(200
+                                        );
+                                    }
+                                });
                             }
+
                         });
                     }
 
