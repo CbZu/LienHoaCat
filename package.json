@@ -20,7 +20,7 @@
 		"formidable": "^1.2.1",
 		"just-mvc": "*",
 		"mysql": "^2.15.0",
-		"nodemailer": "^4.6.8",
+		"nodemailer": "^6.4.16",
 		"pad-start": "^1.0.2",
 		"request": "^2.88.0"
 	}
